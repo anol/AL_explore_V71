@@ -1,0 +1,71 @@
+{
+  "$schema": "https://gitlab.kitware.com/cmake/cmake/-/raw/master/Help/manual/presets/schema.json",
+  "version": 8,
+  "cmakeMinimumRequired": {
+    "major": 4,
+    "minor": 3,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "cacheVariables": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": true
+      }
+    },
+    {
+      "name": "Unit_test",
+      "inherits": "base",
+      "displayName": "Unit_test",
+      "description": "Unit_test",
+      "cacheVariables": {
+        "TARGET": "Unit_test",
+        "PLATFORM": "Mockup"
+      }
+    },
+    {
+      "name": "Win_ethernet_test",
+      "inherits": "base",
+      "displayName": "Win_ethernet_test",
+      "description": "Win_ethernet_test",
+      "cacheVariables": {
+        "TARGET": "Win_ethernet_test",
+        "PLATFORM": "Windows_platform"
+      },
+      "vendor": {
+        "jetbrains.com/clion": {
+          "toolchain": "MinGW 32"
+        }
+      }
+    },
+    {
+      "name": "Sam_ethernet_test",
+      "inherits": "base",
+      "displayName": "Sam_ethernet_test",
+      "description": "Sam_ethernet_test",
+      "cacheVariables": {
+        "TARGET": "Sam_ethernet_test",
+        "PLATFORM": "SamV71_platform",
+        "GNU_VERSION": "GNU_ANY"
+      }
+    }
+   ],
+  "buildPresets": [
+    {
+      "name": "Unit_test",
+      "configurePreset": "Unit_test"
+    },
+    {
+      "name": "Win_ethernet_test",
+      "configurePreset": "Win_ethernet_test"
+    },
+    {
+      "name": "Sam_ethernet_test",
+      "configurePreset": "Sam_ethernet_test"
+    }
+  ]
+}
+
