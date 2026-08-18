@@ -18,3 +18,4 @@ add_executable(${THE_TARGET_NAME}
 add_subdirectory(${SOURCE_ROOT_DIR}/Target/${TARGET} ${CMAKE_BINARY_DIR}/Target/${TARGET})
 add_subdirectory(${SOURCE_ROOT_DIR}/Abstract ${CMAKE_BINARY_DIR}/Abstract)
 add_subdirectory(${SOURCE_ROOT_DIR}/Platform/${PLATFORM}_platform ${CMAKE_BINARY_DIR}/Platform/${PLATFORM})
+add_subdirectory(${SOURCE_ROOT_DIR}/Utility ${CMAKE_BINARY_DIR}/Utility)

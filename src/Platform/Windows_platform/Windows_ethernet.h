@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Abstract/Abstract_ethernet.h"
+#include "Abstract_ethernet.h"
 
 #include <atomic>
 #include <deque>
