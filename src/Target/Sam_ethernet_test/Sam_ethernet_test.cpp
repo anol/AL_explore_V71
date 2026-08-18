@@ -1,5 +1,3 @@
-// Compile-only sanity check for Abstract_ethernet.h itself: a minimal stub
-// implementation exercising every pure virtual + the callback type.
 
 #include "stdio.h"
 
@@ -10,11 +8,14 @@ int main() {
 
     SamV71_platform::SamV71_ethernet eth{0, 50'000'000};
 
-    if (const auto status = eth.initialize(mac); status == Abstract::Ethernet_status::Already_initialized) {
+    if (const auto status = eth.initialize(mac);
+        status == Ethernet_status::Already_initialized) {
         printf("Already initialized\n");
-    } else if (status != Abstract::Ethernet_status::Ok) {
+    } else if (status != Ethernet_status::Ok) {
         printf("Initialize failed, diag=%d\n", static_cast<int>(status));
         return 1;
+    } else {
+        printf("Initialized successfully\n");
     }
 
     size_t received_count = 0;

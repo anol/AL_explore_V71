@@ -2,7 +2,6 @@ target_include_directories(${THE_TARGET_NAME} PUBLIC
         .
 )
 target_sources(${THE_TARGET_NAME} PUBLIC
-        Abstract_ethernet.h
-        UART_interface.h
-        IO_pin_interface.h
+        SamV71_pin_table.h
+        Target_configuration.h
 )
