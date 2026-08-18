@@ -3,7 +3,7 @@
 
 #include <cstdio>
 
-#include "Mockup/Mockup_ethernet.h"
+#include "Mockup_ethernet.h"
 
 int main()
 {

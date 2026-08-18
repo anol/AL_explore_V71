@@ -3,7 +3,7 @@
 
 #include <cstdio>
 
-#include "Windows_platform/Windows_ethernet.h"
+#include "Windows_ethernet.h"
 
 //#include "Mockup/Mockup_ethernet.h"
 

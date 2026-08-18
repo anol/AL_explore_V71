@@ -3,7 +3,7 @@
 
 #include <cstdio>
 
-#include "SamV71_platform/SamV71_ethernet.h"
+#include "SamV71_ethernet.h"
 
 int main()
 {

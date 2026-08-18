@@ -33,7 +33,7 @@
       "description": "Win_ethernet_test",
       "cacheVariables": {
         "TARGET": "Win_ethernet_test",
-        "PLATFORM": "Windows_platform"
+        "PLATFORM": "Windows"
       },
       "vendor": {
         "jetbrains.com/clion": {
@@ -48,7 +48,7 @@
       "description": "Sam_ethernet_test",
       "cacheVariables": {
         "TARGET": "Sam_ethernet_test",
-        "PLATFORM": "SamV71_platform",
+        "PLATFORM": "SamV71",
         "GNU_VERSION": "GNU_ANY"
       }
     }

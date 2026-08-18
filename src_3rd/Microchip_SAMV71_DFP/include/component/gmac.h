@@ -23,6 +23,7 @@
 #ifndef _SAMV71_GMAC_COMPONENT_H_
 #define _SAMV71_GMAC_COMPONENT_H_
 
+#include "sam.h"
 #include "core_cm7.h"
 
 /* ************************************************************************** */

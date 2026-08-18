@@ -8,14 +8,15 @@
 
 #include "SamV71_ethernet.h"
 
-#include "nvic_helpers.h"
 #include "core_cm7.h"
+#include "sam.h"
+#include "cachel1_armv7.h"
 
 namespace SamV71_platform {
     namespace {
         constexpr uint32_t Mdio_idle_timeout_iterations = 100000;
 
-        // GMAC's descriptor-ring registers/fields are 32-bit, matching the
+        // optional_GMAC's descriptor-ring registers/fields are 32-bit, matching the
         // SAMV71's 32-bit address space. Going through uintptr_t (rather
         // than casting a pointer straight to uint32_t) keeps this
         // portable/well-defined even on a 64-bit host, e.g. when
@@ -37,7 +38,7 @@ namespace SamV71_platform {
             return the_last_error;
         }
         if (Instance != nullptr) {
-            // Only one GMAC peripheral exists on this part; refuse to
+            // Only one optional_GMAC peripheral exists on this part; refuse to
             // hijack an already-active instance's interrupt binding.
             the_last_error = Ethernet_status::Already_initialized;
             return the_last_error;
@@ -45,43 +46,43 @@ namespace SamV71_platform {
 
         std::memcpy(the_mac_address, mac_address, 6);
 
-        // 1. Enable the GMAC peripheral clock.
-        PMC->PMC_PCER1 = (1u << (ID_GMAC - 32));
+        // 1. Enable the optional_GMAC peripheral clock.
+        optional_PMC->PMC_PCER1 = (1u << (ID_GMAC - 32));
 
         // 2. Disable everything while we configure it.
-        GMAC->GMAC_NCR = 0;
-        GMAC->GMAC_IDR = 0xFFFFFFFFu;  // disable all interrupt sources
-        (void) GMAC->GMAC_ISR;          // clear any pending/stale status
-        GMAC->GMAC_RSR = GMAC->GMAC_RSR;  // write-1-to-clear
-        GMAC->GMAC_TSR = GMAC->GMAC_TSR;  // write-1-to-clear
+        optional_GMAC->GMAC_NCR = 0;
+        optional_GMAC->GMAC_IDR = 0xFFFFFFFFu;  // disable all interrupt sources
+        (void) optional_GMAC->GMAC_ISR;          // clear any pending/stale status
+        optional_GMAC->GMAC_RSR = optional_GMAC->GMAC_RSR;  // write-1-to-clear
+        optional_GMAC->GMAC_TSR = optional_GMAC->GMAC_TSR;  // write-1-to-clear
 
         // 3. Network configuration: MDC divider, 100BASE-TX full duplex
         //    (see configure_link() to change after autonegotiation), and
         //    allow frames up to 1536 bytes.
-        GMAC->GMAC_NCFGR = (select_mdc_clock_divider(the_mck_hz) << Ncfgr_clk_field_pos)
-                          | GMAC_NCFGR_SPD
-                          | GMAC_NCFGR_FD
-                          | GMAC_NCFGR_MAXFS;
+        optional_GMAC->GMAC_NCFGR = (select_mdc_clock_divider(the_mck_hz) << Ncfgr_clk_field_pos)
+                          | GMAC_NCFGR_SPD(1)
+                          | GMAC_NCFGR_FD(1)
+                          | GMAC_NCFGR_MAXFS(1);
 
         // 4. DMA configuration: one full max-size frame per RX buffer
         //    (DRBS = 1536 / 64), full-size TX packet buffer, INCR4 AHB
         //    bursts.
-        GMAC->GMAC_DCFGR = ((Frame_buffer_size / 64u) << 16)  // DRBS field, Pos=16
-                          | GMAC_DCFGR_TXPBMS
+        optional_GMAC->GMAC_DCFGR = ((Frame_buffer_size / 64u) << 16)  // DRBS field, Pos=16
+                          | GMAC_DCFGR_TXPBMS(1)
                           | GMAC_DCFGR_RXBMS_FULL
                           | GMAC_DCFGR_FBLDO_INCR4;
 
         // 5. RMII mode (vs. MII) -- most SAMV71 boards wire the PHY over
         //    RMII.
-        GMAC->GMAC_UR &= ~GMAC_UR_RMII;
+        optional_GMAC->GMAC_UR &= ~GMAC_UR_RMII(1);
 
         // 6. MAC address (Specific Address register 1).
-        GMAC->GMAC_SA[0].GMAC_SAB =
+        optional_GMAC->GMAC_SA[0].GMAC_SAB =
                 static_cast<uint32_t>(the_mac_address[0]) |
                 (static_cast<uint32_t>(the_mac_address[1]) << 8) |
                 (static_cast<uint32_t>(the_mac_address[2]) << 16) |
                 (static_cast<uint32_t>(the_mac_address[3]) << 24);
-        GMAC->GMAC_SA[0].GMAC_SAT =
+        optional_GMAC->GMAC_SA[0].GMAC_SAT =
                 static_cast<uint32_t>(the_mac_address[4]) |
                 (static_cast<uint32_t>(the_mac_address[5]) << 8);
 
@@ -89,20 +90,20 @@ namespace SamV71_platform {
         init_descriptor_rings();
         clean_cache_for_write(the_rx_descriptors, sizeof(the_rx_descriptors));
         clean_cache_for_write(the_tx_descriptors, sizeof(the_tx_descriptors));
-        GMAC->GMAC_RBQB = to_reg_addr(&the_rx_descriptors[0]);
-        GMAC->GMAC_TBQB = to_reg_addr(&the_tx_descriptors[0]);
+        optional_GMAC->GMAC_RBQB = to_reg_addr(&the_rx_descriptors[0]);
+        optional_GMAC->GMAC_TBQB = to_reg_addr(&the_tx_descriptors[0]);
         the_rx_tail_index = 0;
         the_tx_head_index = 0;
 
         // 8. Enable the MDIO management port so we can talk to the PHY,
         //    then bring RX/TX up.
-        GMAC->GMAC_NCR |= GMAC_NCR_MPE;
-        GMAC->GMAC_NCR |= (GMAC_NCR_TXEN | GMAC_NCR_RXEN);
+        optional_GMAC->GMAC_NCR |= GMAC_NCR_MPE(1);
+        optional_GMAC->GMAC_NCR |= (GMAC_NCR_TXEN(1) | GMAC_NCR_RXEN(1));
 
         // 9. Interrupts: receive-complete/used-bit-read to drive poll(),
         //    plus a small set of error conditions we surface via
         //    get_last_error().
-        GMAC->GMAC_IER = GMAC_ISR_RCOMP | GMAC_ISR_RXUBR | GMAC_ISR_ROVR;
+        optional_GMAC->GMAC_IER = GMAC_ISR_RCOMP(1) | GMAC_ISR_RXUBR(1) | GMAC_ISR_ROVR(1);
 
         Instance = this;
         NVIC_ClearPendingIRQ(GMAC_IRQn);
@@ -118,8 +119,8 @@ namespace SamV71_platform {
             return Ethernet_status::Ok;
         }
         NVIC_DisableIRQ(GMAC_IRQn);
-        GMAC->GMAC_IDR = 0xFFFFFFFFu;
-        GMAC->GMAC_NCR = 0;
+        optional_GMAC->GMAC_IDR = 0xFFFFFFFFu;
+        optional_GMAC->GMAC_NCR = 0;
         if (Instance == this) {
             Instance = nullptr;
         }
@@ -136,7 +137,7 @@ namespace SamV71_platform {
             if (i == Num_rx_descriptors - 1) {
                 addr |= Rx_wrap_bit;
             }
-            // Ownership bit clear: descriptor is available for GMAC to fill.
+            // Ownership bit clear: descriptor is available for optional_GMAC to fill.
             the_rx_descriptors[i].address = addr;
             the_rx_descriptors[i].status = 0;
         }
@@ -153,7 +154,7 @@ namespace SamV71_platform {
     uint32_t SamV71_ethernet::select_mdc_clock_divider(uint32_t mck_hz) const {
         // MDC must stay at or below ~2.5 MHz per IEEE 802.3 Clause 22. The
         // thresholds below follow the pattern used across Microchip's SAM
-        // GMAC-family reference drivers (divide MCK down until it's under
+        // optional_GMAC-family reference drivers (divide MCK down until it's under
         // the limit); double-check against the exact datasheet revision
         // for your part before shipping, as some SAM parts document
         // slightly different cutoffs.
@@ -167,7 +168,7 @@ namespace SamV71_platform {
 
     bool SamV71_ethernet::wait_mdio_idle() const {
         for (uint32_t i = 0; i < Mdio_idle_timeout_iterations; ++i) {
-            if (GMAC->GMAC_NSR & GMAC_NSR_IDLE) {
+            if (optional_GMAC->GMAC_NSR & GMAC_NSR_IDLE(1)) {
                 return true;
             }
         }
@@ -176,17 +177,17 @@ namespace SamV71_platform {
     }
 
     uint16_t SamV71_ethernet::mdio_read(uint8_t phy_addr, uint8_t reg_addr) const {
-        GMAC->GMAC_MAN = Mdio_clause22_bit | Mdio_turnaround | Mdio_op_read
+        optional_GMAC->GMAC_MAN = Mdio_clause22_bit | Mdio_turnaround | Mdio_op_read
                         | (static_cast<uint32_t>(phy_addr & 0x1Fu) << Mdio_phy_addr_shift)
                         | (static_cast<uint32_t>(reg_addr & 0x1Fu) << Mdio_reg_addr_shift);
         if (!wait_mdio_idle()) {
             return 0;
         }
-        return static_cast<uint16_t>(GMAC->GMAC_MAN & Mdio_data_mask);
+        return static_cast<uint16_t>(optional_GMAC->GMAC_MAN & Mdio_data_mask);
     }
 
     void SamV71_ethernet::mdio_write(uint8_t phy_addr, uint8_t reg_addr, uint16_t value) {
-        GMAC->GMAC_MAN = Mdio_clause22_bit | Mdio_turnaround | Mdio_op_write
+        optional_GMAC->GMAC_MAN = Mdio_clause22_bit | Mdio_turnaround | Mdio_op_write
                         | (static_cast<uint32_t>(phy_addr & 0x1Fu) << Mdio_phy_addr_shift)
                         | (static_cast<uint32_t>(reg_addr & 0x1Fu) << Mdio_reg_addr_shift)
                         | (value & Mdio_data_mask);
@@ -213,10 +214,10 @@ namespace SamV71_platform {
     }
 
     void SamV71_ethernet::configure_link(bool speed_100mbit, bool full_duplex) {
-        uint32_t ncfgr = GMAC->GMAC_NCFGR;
-        ncfgr = speed_100mbit ? (ncfgr | GMAC_NCFGR_SPD) : (ncfgr & ~GMAC_NCFGR_SPD);
-        ncfgr = full_duplex ? (ncfgr | GMAC_NCFGR_FD) : (ncfgr & ~GMAC_NCFGR_FD);
-        GMAC->GMAC_NCFGR = ncfgr;
+        uint32_t ncfgr = optional_GMAC->GMAC_NCFGR;
+        ncfgr = speed_100mbit ? (ncfgr | GMAC_NCFGR_SPD(1)) : (ncfgr & ~GMAC_NCFGR_SPD(1));
+        ncfgr = full_duplex ? (ncfgr | GMAC_NCFGR_FD(1)) : (ncfgr & ~GMAC_NCFGR_FD(1));
+        optional_GMAC->GMAC_NCFGR = ncfgr;
     }
 
     Ethernet_status SamV71_ethernet::send_frame(const uint8_t *data, size_t length) {
@@ -225,7 +226,7 @@ namespace SamV71_platform {
             return the_last_error;
         }
         if (data == nullptr || length == 0 || length > (Frame_buffer_size - 4)) {
-            // -4: caller must not include the FCS; GMAC generates and
+            // -4: caller must not include the FCS; optional_GMAC generates and
             // appends it.
             the_last_error = Ethernet_status::Invalid_parameter;
             return the_last_error;
@@ -234,7 +235,7 @@ namespace SamV71_platform {
         Gmac_descriptor &desc = the_tx_descriptors[the_tx_head_index];
         invalidate_cache_for_read(&desc, sizeof(desc));
         if ((desc.status & Tx_used_bit) == 0) {
-            // Still owned by GMAC -- ring is full / GMAC hasn't caught up.
+            // Still owned by optional_GMAC -- ring is full / optional_GMAC hasn't caught up.
             the_last_error = Ethernet_status::Hardware_error;
             return the_last_error;
         }
@@ -249,12 +250,12 @@ namespace SamV71_platform {
         }
         // USED bit (Tx_used_bit) intentionally left clear: writing
         // status last, with USED=0, is what hands this descriptor to the
-        // GMAC DMA engine.
+        // optional_GMAC DMA engine.
         desc.status = status;
         clean_cache_for_write(&desc, sizeof(desc));
 
         __DSB();
-        GMAC->GMAC_NCR |= GMAC_NCR_TSTART;
+        optional_GMAC->GMAC_NCR |= GMAC_NCR_TSTART(1);
 
         the_tx_head_index = (the_tx_head_index + 1) % Num_tx_descriptors;
         the_last_error = Ethernet_status::Ok;
@@ -297,7 +298,7 @@ namespace SamV71_platform {
             // oversized status -- drop it silently rather than passing
             // bad data up.
 
-            // Release the descriptor back to GMAC.
+            // Release the descriptor back to optional_GMAC.
             desc.address &= ~Rx_ownership_bit;
             clean_cache_for_write(&desc, sizeof(desc));
 
@@ -308,20 +309,20 @@ namespace SamV71_platform {
     Ethernet_status SamV71_ethernet::get_last_error() const { return the_last_error; }
 
     void SamV71_ethernet::handle_interrupt() {
-        const uint32_t isr = GMAC->GMAC_ISR;  // read-to-clear
+        const uint32_t isr = optional_GMAC->GMAC_ISR;  // read-to-clear
 
-        if (isr & (GMAC_ISR_RCOMP | GMAC_ISR_RXUBR)) {
+        if (isr & (GMAC_ISR_RCOMP(1) | GMAC_ISR_RXUBR(1))) {
             the_rx_pending_flag.store(true, std::memory_order_relaxed);
         }
-        if (isr & GMAC_ISR_ROVR) {
+        if (isr & GMAC_ISR_ROVR(1)) {
             the_last_error = Ethernet_status::Hardware_error;
         }
 
         // RSR/TSR are separate, write-1-to-clear status registers.
-        const uint32_t rsr = GMAC->GMAC_RSR;
-        GMAC->GMAC_RSR = rsr;
-        const uint32_t tsr = GMAC->GMAC_TSR;
-        GMAC->GMAC_TSR = tsr;
+        const uint32_t rsr = optional_GMAC->GMAC_RSR;
+        optional_GMAC->GMAC_RSR = rsr;
+        const uint32_t tsr = optional_GMAC->GMAC_TSR;
+        optional_GMAC->GMAC_TSR = tsr;
     }
 
     void SamV71_ethernet::clean_cache_for_write(const void *addr, size_t length) {
@@ -346,7 +347,7 @@ namespace SamV71_platform {
 } // SamV71_platform
 
 // ---------------------------------------------------------------------
-// Interrupt vector. The SAMV71 has exactly one GMAC peripheral, so this
+// Interrupt vector. The SAMV71 has exactly one optional_GMAC peripheral, so this
 // free function forwards to whichever instance called initialize() last.
 extern "C" void GMAC_Handler(void) {
     if (SamV71_platform::SamV71_ethernet *instance = SamV71_platform::SamV71_ethernet::access_instance_for_isr()) {

@@ -8,7 +8,7 @@ target_sources(${THE_TARGET_NAME} PUBLIC
 
 # C o m p i l e r   a n d   l i n k e r   f l a g s
 
-set(NPCAP_SDK_DIR "/Users/aeols/CLionProjects/npcap-sdk-1.16")
+set(NPCAP_SDK_DIR "${SOURCE_ROOT_DIR}/../../npcap-sdk-1.16")
 
 target_include_directories(${THE_TARGET_NAME} PUBLIC
         ${NPCAP_SDK_DIR}/include

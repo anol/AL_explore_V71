@@ -6,13 +6,15 @@
 #include <cstddef>
 #include <cstdint>
 
+#include "component/gmac.h"
+#include "component/pmc.h"
+
 // Pulls in the SAMV71 CMSIS device header for your specific part (defines
 // the GMAC/PMC register structs, ID_GMAC, GMAC_IRQn, NVIC helpers, and the
 // SCB cache-maintenance intrinsics). Your project normally defines the
 // part macro (e.g. __SAMV71Q21B__) on the compiler command line and
 // provides this umbrella header via the CMSIS-SAMV71 device pack.
-#include "samv71q21b_symbols.h"
-#include "samv71q21b.h"
+#include "include/sam.h"
 
 using namespace Abstract;
 
@@ -70,7 +72,7 @@ namespace SamV71_platform {
     // give it static storage duration (a file-scope global, or a
     // function-local static), never allocate it on the stack or move/copy
     // it.
-    class SamV71_ethernet final : public Abstract::Abstract_ethernet {
+    class SamV71_ethernet final : public Abstract_ethernet {
         // ---- Ring sizes / buffer sizing ----
         static constexpr size_t Num_rx_descriptors = 16;
         static constexpr size_t Num_tx_descriptors = 8;
@@ -88,41 +90,46 @@ namespace SamV71_platform {
         // (SAMV71 datasheet, GMAC chapter: "Receive Buffer Descriptor
         // Entry" / "Transmit Buffer Descriptor Entry"; positions
         // cross-checked against Microchip's ASF gmac.h.)
-        static constexpr uint32_t Rx_ownership_bit  = (1u << 0);
-        static constexpr uint32_t Rx_wrap_bit       = (1u << 1);
-        static constexpr uint32_t Rx_address_mask   = 0xFFFFFFFCu;
-        static constexpr uint32_t Rx_status_len_mask = 0xFFFu;  // length incl. FCS
+        static constexpr uint32_t Rx_ownership_bit = (1u << 0);
+        static constexpr uint32_t Rx_wrap_bit = (1u << 1);
+        static constexpr uint32_t Rx_address_mask = 0xFFFFFFFCu;
+        static constexpr uint32_t Rx_status_len_mask = 0xFFFu; // length incl. FCS
         static constexpr uint32_t Rx_status_sof_bit = (1u << 14);
         static constexpr uint32_t Rx_status_eof_bit = (1u << 15);
 
-        static constexpr uint32_t Tx_used_bit        = (1u << 31);
-        static constexpr uint32_t Tx_wrap_bit        = (1u << 30);
-        static constexpr uint32_t Tx_error_bit       = (1u << 29);  // retry limit exceeded
-        static constexpr uint32_t Tx_underrun_bit    = (1u << 28);
+        static constexpr uint32_t Tx_used_bit = (1u << 31);
+        static constexpr uint32_t Tx_wrap_bit = (1u << 30);
+        static constexpr uint32_t Tx_error_bit = (1u << 29); // retry limit exceeded
+        static constexpr uint32_t Tx_underrun_bit = (1u << 28);
         static constexpr uint32_t Tx_last_buffer_bit = (1u << 15);
         static constexpr uint32_t Tx_status_len_mask = 0x1FFFu;
 
         // ---- MDIO (GMAC_MAN) frame fields, IEEE 802.3 Clause 22 ----
-        static constexpr uint32_t Mdio_clause22_bit  = (1u << 30);
-        static constexpr uint32_t Mdio_turnaround    = (0x2u << 16);
-        static constexpr uint32_t Mdio_op_write      = (0x1u << 28);
-        static constexpr uint32_t Mdio_op_read       = (0x2u << 28);
+        static constexpr uint32_t Mdio_clause22_bit = (1u << 30);
+        static constexpr uint32_t Mdio_turnaround = (0x2u << 16);
+        static constexpr uint32_t Mdio_op_write = (0x1u << 28);
+        static constexpr uint32_t Mdio_op_read = (0x2u << 28);
         static constexpr uint32_t Mdio_phy_addr_shift = 23;
         static constexpr uint32_t Mdio_reg_addr_shift = 18;
-        static constexpr uint32_t Mdio_data_mask     = 0xFFFFu;
+        static constexpr uint32_t Mdio_data_mask = 0xFFFFu;
 
-        static constexpr uint8_t  Phy_reg_bmsr       = 0x01;  // Basic Mode Status Register
+        static constexpr uint8_t Phy_reg_bmsr = 0x01; // Basic Mode Status Register
         static constexpr uint16_t Phy_bmsr_link_up_bit = (1u << 2);
 
-        static constexpr uint32_t Ncfgr_clk_field_pos = 18;  // 3-bit MDC divider field
+        static constexpr uint32_t Ncfgr_clk_field_pos = 18; // 3-bit MDC divider field
 
         void init_descriptor_rings();
+
         [[nodiscard]] uint32_t select_mdc_clock_divider(uint32_t mck_hz) const;
+
         [[nodiscard]] uint16_t mdio_read(uint8_t phy_addr, uint8_t reg_addr) const;
+
         void mdio_write(uint8_t phy_addr, uint8_t reg_addr, uint16_t value);
+
         [[nodiscard]] bool wait_mdio_idle() const;
 
         static void clean_cache_for_write(const void *addr, size_t length);
+
         static void invalidate_cache_for_read(const void *addr, size_t length);
 
         uint8_t the_phy_address;
@@ -149,8 +156,8 @@ namespace SamV71_platform {
         alignas(32) uint8_t the_rx_buffers[Num_rx_descriptors][Frame_buffer_size]{};
         alignas(32) uint8_t the_tx_buffers[Num_tx_descriptors][Frame_buffer_size]{};
 
-        size_t the_rx_tail_index{};  // next descriptor poll() will inspect
-        size_t the_tx_head_index{};  // next descriptor send_frame() will fill
+        size_t the_rx_tail_index{}; // next descriptor poll() will inspect
+        size_t the_tx_head_index{}; // next descriptor send_frame() will fill
 
         // Set by handle_interrupt() on RCOMP/RXUBR, consumed by poll().
         // This is purely an optimization so poll() can skip the ring
@@ -158,6 +165,9 @@ namespace SamV71_platform {
         // poll()'s ring scan is itself always correct regardless of this
         // flag's state.
         std::atomic<bool> the_rx_pending_flag{false};
+
+        pmc_registers_t *const optional_PMC{PMC_REGS};
+        gmac_registers_t *const optional_GMAC{GMAC_REGS};
 
         static SamV71_ethernet *Instance;
 
@@ -173,18 +183,23 @@ namespace SamV71_platform {
         ~SamV71_ethernet() override { shutdown(); }
 
         SamV71_ethernet(const SamV71_ethernet &) = delete;
+
         SamV71_ethernet &operator=(const SamV71_ethernet &) = delete;
 
         Ethernet_status initialize(const uint8_t mac_address[6]) override;
+
         Ethernet_status shutdown() override;
+
         [[nodiscard]] bool is_initialized() const override;
 
         [[nodiscard]] bool is_link_up() const override;
+
         void get_mac_address(uint8_t mac_address_out[6]) const override;
 
         [[nodiscard]] Ethernet_status send_frame(const uint8_t *data, size_t length) override;
 
         Ethernet_status set_receive_callback(Ethernet_frame_callback callback) override;
+
         void poll() override;
 
         [[nodiscard]] Ethernet_status get_last_error() const override;
