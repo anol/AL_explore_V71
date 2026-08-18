@@ -6,14 +6,20 @@ include(${SOURCE_ROOT_DIR}/Platform/${PLATFORM}_platform/${PLATFORM}_toolchain.c
 
 project(${TARGET})
 
-if (${PLATFORM} EQUAL "SAMV71")
+if (${PLATFORM} STREQUAL "SamV71")
     set(THE_TARGET_NAME "${PROJECT_NAME}.elf")
 else ()
     set(THE_TARGET_NAME ${PROJECT_NAME})
 endif ()
 
+message("++ Platform:   ${PLATFORM}")
+message("++ Target:     ${TARGET}")
+message("++ Executable: ${THE_TARGET_NAME}")
+
 add_executable(${THE_TARGET_NAME}
 )
+
+include(${SOURCE_ROOT_DIR}/Platform/${PLATFORM}_platform/${PLATFORM}_build_options.cmake)
 
 add_subdirectory(${SOURCE_ROOT_DIR}/Target/${TARGET} ${CMAKE_BINARY_DIR}/Target/${TARGET})
 add_subdirectory(${SOURCE_ROOT_DIR}/Abstract ${CMAKE_BINARY_DIR}/Abstract)
