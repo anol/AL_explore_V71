@@ -10,11 +10,11 @@
 
     namespace SamV71_pin_manager {
         using Pin = Interface::IO_pin_interface;
-        Configuration::NORM_EM_pin_table<SAMRH71::SAMRH71_IO_pin> the_pin_table;
+        Configuration::NORM_EM_pin_table<SamV71::SamV71_IO_pin> the_pin_table;
 
         RMU_error_codes::Error_code initialize(Pin::Pin_phase phase) {
             if ((phase == Interface::IO_pin_interface::Start_up) || (phase == Interface::IO_pin_interface::Host_up)) {
-                SAMRH71::SAMRH71_IO_pin::initialize_clocks();
+                SamV71::SamV71_IO_pin::initialize_clocks();
             }
             uint8_t id_counter{};
             for (auto &pin: the_pin_table.the_pins) {

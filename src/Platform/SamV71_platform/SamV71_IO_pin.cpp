@@ -20,13 +20,13 @@
 
 #include <stdio.h>
 
-#include "SAMRH71_IO_pin.h"
+#include "SamV71_IO_pin.h"
 #include "samrh71f20c.h"
 #include "core_cm7.h"
-#include "SAMRH71_clock.h"
+#include "SamV71_clock.h"
 #include "Dictionary/Generated_code/GRMU_error_codes.h"
 
-namespace SAMRH71 {
+namespace SamV71 {
 
     using If = Interface::IO_pin_interface;
 
@@ -35,7 +35,7 @@ namespace SAMRH71 {
         return &(pBlock->PIO_GROUP[port]);
     }
 
-    SAMRH71_IO_pin::SAMRH71_IO_pin(uint8_t id, const char *name, Pin_phase phase, Pin_port port, uint8_t pin,
+    SamV71_IO_pin::SamV71_IO_pin(uint8_t id, const char *name, Pin_phase phase, Pin_port port, uint8_t pin,
                                    Pin_mode mux, Pin_type type, uint8_t strength, bool default_state) :
             the_name(name),
             optional_base(register_base(port)),
@@ -49,7 +49,7 @@ namespace SAMRH71 {
             the_strength(strength),
             the_default_state(default_state) {}
 
-    RMU_error_codes::Error_code SAMRH71_IO_pin::initialize(uint8_t id, Pin_phase phase)
+    RMU_error_codes::Error_code SamV71_IO_pin::initialize(uint8_t id, Pin_phase phase)
     {
         if (optional_base != nullptr)
         {
@@ -85,14 +85,14 @@ namespace SAMRH71 {
         return {};
     }
 
-    void SAMRH71_IO_pin::neutralize() {
+    void SamV71_IO_pin::neutralize() {
         if (optional_base != nullptr) {
             auto neutral_config = get_new_config(If::Mode_GPIO, If::Input_pull_down, 0);
             configure_pin(neutral_config);
         }
     }
 
-    bool SAMRH71_IO_pin::get() const {
+    bool SamV71_IO_pin::get() const {
         if (optional_base != nullptr) {
             return ((optional_base->PIO_PDSR) & the_pin_mask) != 0;
         } else {
@@ -100,21 +100,21 @@ namespace SAMRH71 {
         }
     }
 
-    void SAMRH71_IO_pin::set() {
+    void SamV71_IO_pin::set() {
         if (optional_base != nullptr) {
             optional_base->PIO_SODR = the_pin_mask;
             __DSB();
         }
     }
 
-    void SAMRH71_IO_pin::clear() {
+    void SamV71_IO_pin::clear() {
         if (optional_base != nullptr) {
             optional_base->PIO_CODR = the_pin_mask;
             __DSB();
         }
     }
 
-    void SAMRH71_IO_pin::toggle() {
+    void SamV71_IO_pin::toggle() {
         if (optional_base != nullptr) {
             if (((optional_base->PIO_PDSR) & the_pin_mask) == 0) {
                 optional_base->PIO_SODR = the_pin_mask;
@@ -126,7 +126,7 @@ namespace SAMRH71 {
         }
     }
 
-    void SAMRH71_IO_pin::pulse() {
+    void SamV71_IO_pin::pulse() {
         if (optional_base != nullptr) {
             optional_base->PIO_SODR = the_pin_mask;
             __DSB();
@@ -135,7 +135,7 @@ namespace SAMRH71 {
         }
     }
 
-    void SAMRH71_IO_pin::pulse(uint32_t count) {
+    void SamV71_IO_pin::pulse(uint32_t count) {
         if (optional_base != nullptr) {
             for (; count > 0; count--) {
                 optional_base->PIO_SODR = the_pin_mask;
@@ -147,7 +147,7 @@ namespace SAMRH71 {
     }
 
 
-    void SAMRH71_IO_pin::reinitialize(Pin_mode mode)
+    void SamV71_IO_pin::reinitialize(Pin_mode mode)
     {
         auto old_config = get_current_config();
         auto new_config = get_new_config(mode, the_type, the_strength);
@@ -159,7 +159,7 @@ namespace SAMRH71 {
         }
     }
 
-    uint32_t SAMRH71_IO_pin::get_new_config(Pin_mode mux,
+    uint32_t SamV71_IO_pin::get_new_config(Pin_mode mux,
                                             Pin_type type,
                                             uint8_t strength) {
         uint32_t config{};
@@ -199,7 +199,7 @@ namespace SAMRH71 {
         return config;
     }
 
-    void SAMRH71_IO_pin::configure_pin(uint32_t config) const {
+    void SamV71_IO_pin::configure_pin(uint32_t config) const {
         // Write new configuration
         optional_base->PIO_MSKR = the_pin_mask;
         __DSB();
@@ -207,14 +207,14 @@ namespace SAMRH71 {
         __DSB();
     }
 
-    uint32_t SAMRH71_IO_pin::get_current_config() const {
+    uint32_t SamV71_IO_pin::get_current_config() const {
         // Read current configuration
         optional_base->PIO_MSKR = the_pin_mask;
         __DSB();
         return optional_base->PIO_CFGR;
     }
 
-    void SAMRH71_IO_pin::print_diagnostics() const {
+    void SamV71_IO_pin::print_diagnostics() const {
         if (optional_base) {
             printf("  %-20s P%c%02d: mode=%d, type=%d, mask=0x%08lX, CFGR=0x%08lX, PDSR=%s\r\n",
                    the_name, the_port + 'A', the_pin, the_mode, the_type, the_pin_mask,
@@ -223,7 +223,7 @@ namespace SAMRH71 {
     }
 
 
-    void SAMRH71_IO_pin::report(Service_report &report, RMU_interface::Keys as) const
+    void SamV71_IO_pin::report(Service_report &report, RMU_interface::Keys as) const
     {
         if (as != RMU_interface::No_key)
         {
@@ -260,19 +260,19 @@ namespace SAMRH71 {
     }
 
 
-    void SAMRH71_IO_pin::set_GPIO_mode()
+    void SamV71_IO_pin::set_GPIO_mode()
     {
         reinitialize(Mode_GPIO);
     }
 
 
-    void SAMRH71_IO_pin::restore_peripheral_function()
+    void SamV71_IO_pin::restore_peripheral_function()
     {
         reinitialize(the_mode);
     }
 
 
-    void SAMRH71_IO_pin::initialize_clocks() {
+    void SamV71_IO_pin::initialize_clocks() {
         Clock_interface::enable_peripheral_clock(ID_PIOA);
         Clock_interface::enable_peripheral_clock(ID_PIOB);
         Clock_interface::enable_peripheral_clock(ID_PIOC);
@@ -282,4 +282,4 @@ namespace SAMRH71 {
         Clock_interface::enable_peripheral_clock(ID_PIOG);
     }
 
-} // SAMRH71
+} // SamV71

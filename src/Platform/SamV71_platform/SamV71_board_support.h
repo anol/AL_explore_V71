@@ -4,7 +4,7 @@
 #include "component/flexcom/Flexcom_UART.h"
 #include "Filestore/File_repository.h"
 #include "GRMU_platform/GRMU_memory_manager.h"
-#include "component/mcan/SAMRH71_CAN_peripheral.h"
+#include "component/mcan/SamV71_CAN_peripheral.h"
 #include "Bus_manager/Bus_manager.h"
 #include "NORM_pin_manager.h"
 
