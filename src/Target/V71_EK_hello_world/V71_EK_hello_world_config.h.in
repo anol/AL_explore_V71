@@ -1,0 +1,31 @@
+/*
+ * Copyright (C) 2024 Integrated Detector Electronics AS
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained herein is, and remains
+ * the property of Integrated Detector Electronics AS and its suppliers,
+ * if any. The intellectual and technical concepts contained
+ * herein are proprietary to Integrated Detector Electronics AS
+ * and its suppliers and may be covered by Norwegian, EU. or U.S. patents,
+ * patents in process, and are protected by trade secret or copyright law.
+ * Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Integrated Detector Electronics AS.
+ */
+
+#ifndef Target_utility_EM_config_H
+#define Target_utility_EM_config_H
+
+#include "Configuration/Target_configuration.h"
+
+#define IDE_SW_TITLE "@IDE_SW_TITLE@"
+#define IDE_BUILD_INFORMATION  "@PROJECT_VERSION_MAJOR@.@PROJECT_VERSION_MINOR@.@PROJECT_VERSION_PATCH@ @CMAKE_BUILD_TYPE@"
+#define IDE_TARGET_NAME  "@NORM_TARGET@"
+#define IDE_BRANCH_NAME "@IDE_BRANCH_NAME@"
+#define IDE_GIT_HASH "@IDE_GIT_HASH@"
+
+enum {
+    XTAL_oscillator = NORM_Oscillator_EM,
+};
+
+#endif // Target_utility_EM_config_H

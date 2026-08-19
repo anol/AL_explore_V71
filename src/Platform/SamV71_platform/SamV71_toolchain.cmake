@@ -30,7 +30,7 @@ if (DEFINED GNU_VERSION)
     elseif (${GNU_VERSION} STREQUAL "13.2.rel1")
         set(GNU_TOOL_HOME "C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.2 rel1")
     elseif (${GNU_VERSION} STREQUAL "GNU_ANY")
-        set(GNU_TOOL_HOME "C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.2 rel1")
+        set(GNU_TOOL_HOME "C:/Program Files (x86)/Arm/GNU Toolchain mingw-w64-i686-arm-none-eabi")
     else ()
 
         message(FATAL_ERROR " <> Sorry, the GNU_VERSION='${GNU_VERSION}' is not supported <> ")

@@ -20,12 +20,12 @@
 #ifndef CONFIGURATION_NORM_PIN_TABLE_H
 #define CONFIGURATION_NORM_PIN_TABLE_H
 
-#include "Interface/IO_pin_interface.h"
+#include "Abstract_IO_pin.h"
 
 namespace Configuration {
     template<typename IO_pin>
-    class SamV71_pin_table {
-        using Pin = Interface::IO_pin_interface;
+    class V71_EK_pin_table {
+        using Pin = Abstract_IO_pin;
         using Type = Pin::Pin_type;
         using Phase = Pin::Pin_phase;
 

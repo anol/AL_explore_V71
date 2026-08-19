@@ -1,5 +1,10 @@
+target_include_directories(${THE_TARGET_NAME} PUBLIC
+        .
+)
+
 target_sources(${THE_TARGET_NAME} PUBLIC
-        Sam_ethernet_test.cpp
+        V71_EK_hello_world.cpp
+        V71_EK_hello_world.h
 )
 
 # C o m p i l e r   a n d   l i n k e r   f l a g s

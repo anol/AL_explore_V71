@@ -24,16 +24,19 @@
       "description": "Unit_test",
       "cacheVariables": {
         "TARGET": "Unit_test",
+        "BOARD": "Win11",
         "PLATFORM": "Mockup"
       }
     },
     {
-      "name": "Win_ethernet_test",
+      "name": "Win_hello_world",
       "inherits": "base",
-      "displayName": "Win_ethernet_test",
-      "description": "Win_ethernet_test",
+      "displayName": "Win_hello_world",
+      "description": "Win_hello_world",
       "cacheVariables": {
-        "TARGET": "Win_ethernet_test",
+        "APP": "Hello_world",
+        "TARGET": "Win_hello_world",
+        "BOARD": "Win11",
         "PLATFORM": "Windows"
       },
       "vendor": {
@@ -43,29 +46,68 @@
       }
     },
     {
-      "name": "Sam_ethernet_test",
+      "name": "Win_ethernet_test",
       "inherits": "base",
-      "displayName": "Sam_ethernet_test",
-      "description": "Sam_ethernet_test",
+      "displayName": "Win_ethernet_test",
+      "description": "Win_ethernet_test",
       "cacheVariables": {
-        "TARGET": "Sam_ethernet_test",
+        "TARGET": "Win_ethernet_test",
+        "BOARD": "Win11",
+        "PLATFORM": "Windows"
+      },
+      "vendor": {
+        "jetbrains.com/clion": {
+          "toolchain": "MinGW 32"
+        }
+      }
+    },
+    {
+      "name": "V71_hello_world",
+      "inherits": "base",
+      "displayName": "V71_hello_world",
+      "description": "V71_hello_world",
+      "cacheVariables": {
+        "APP": "Hello_world",
+        "TARGET": "V71_EK_hello_world",
+        "BOARD": "V71_EK",
         "PLATFORM": "SamV71",
         "GNU_VERSION": "GNU_ANY"
       }
     }
-   ],
+  ,
+    {
+      "name": "V71_ethernet_test",
+      "inherits": "base",
+      "displayName": "V71_ethernet_test",
+      "description": "V71_ethernet_test",
+      "cacheVariables": {
+        "TARGET": "V71_ethernet_test",
+        "BOARD": "V71_EK",
+        "PLATFORM": "SamV71",
+        "GNU_VERSION": "GNU_ANY"
+      }
+    }
+  ],
   "buildPresets": [
     {
       "name": "Unit_test",
       "configurePreset": "Unit_test"
     },
     {
+      "name": "Win_hello_world",
+      "configurePreset": "Win_ethernet_test"
+    },
+    {
       "name": "Win_ethernet_test",
       "configurePreset": "Win_ethernet_test"
     },
     {
-      "name": "Sam_ethernet_test",
-      "configurePreset": "Sam_ethernet_test"
+      "name": "V71_hello_world",
+      "configurePreset": "V71_ethernet_test"
+    },
+    {
+      "name": "V71_ethernet_test",
+      "configurePreset": "V71_ethernet_test"
     }
   ]
 }

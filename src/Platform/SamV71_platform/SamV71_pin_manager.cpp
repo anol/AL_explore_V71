@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 #include "SamV71_IO_pin.h"
-#include "Configuration/SamV71_pin_table.h"
+#include "../../Board/V71_EK/V71_EK_pin_table.h"
 
 #include "SamV71_pin_manager.h"
 
