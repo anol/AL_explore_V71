@@ -9,7 +9,7 @@ target_sources(${THE_TARGET_NAME} PUBLIC
 
 # C o m p i l e r   a n d   l i n k e r   f l a g s
 
-set(SAMV71_DIR "${CMAKE_SOURCE_DIR}/src_3rd/Microchip_SAMV71_DFP")
+set(SAMV71_DIR "${CMAKE_SOURCE_DIR}/src_3rd/Microchip")
 set(CMSIS_DIR "${CMAKE_SOURCE_DIR}/src_3rd/CMSIS/Core")
 
 target_sources(${THE_TARGET_NAME} PUBLIC

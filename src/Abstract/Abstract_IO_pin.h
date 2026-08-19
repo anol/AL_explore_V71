@@ -52,5 +52,3 @@ namespace Abstract {
     };
 
 } // Interface
-
-#endif //INTERFACE_IO_PIN_INTERFACE_H

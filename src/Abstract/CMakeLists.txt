@@ -8,5 +8,6 @@ target_sources(${THE_TARGET_NAME} PUBLIC
         Abstract_ethernet.h
         Abstract_IO_pin.h
         Abstract_target.h
+        Abstract_timer.h
         Abstract_UART.h
 )

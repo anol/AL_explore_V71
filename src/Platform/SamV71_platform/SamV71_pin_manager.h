@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Abstract_IO_pin.h"
 #include "IO_pins.h"
 #include "Dictionary/Error_codes.h"
 

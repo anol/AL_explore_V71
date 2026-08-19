@@ -10,17 +10,17 @@ namespace Board
 {
     class V71_EK_board : public Abstract::Abstract_board
     {
-        SamV71_pin_manager
+        SamV71_UART the_UART;
     public:
         void initialize() override;
 
-        Pin& get_pin(Pin::Pin_id id)
+        SamV71_pin_manager::Pin& get_pin(SamV71_pin_manager::Pin::Pin_id id)
         {
-            return Platform::NORM_pin_manager::get_pin(id);
+            return Platform::SamV71_pin_manager::get_pin(id);
         }
 
-        UART_interface& get_UART() { return the_UART; }
+        Abstract_UART& get_UART() { return the_UART; }
 
-        Pin* get_optional_pin(Pin::Pin_id) { return nullptr; };
+        SamV71_pin_manager::Pin* get_optional_pin(SamV71_pin_manager::Pin::Pin_id) { return nullptr; };
     };
 } // Board
