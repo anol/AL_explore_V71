@@ -3,11 +3,11 @@
 //
 #pragma once
 
-#include "UART_interface.h"
+#include "Abstract_UART.h"
 
 class Console_task;
 
 class SamV71_stdio {
 public:
-    static void construct(UART_interface &);
+    static void construct(Abstract_UART &);
 };

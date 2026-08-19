@@ -1,26 +1,27 @@
 #pragma once
 
-#include "Interface/IO_pin_interface.h"
-#include "component/gpio/pio.h"
+#include "Abstract_IO_pin.h"
+#include "component/pio.h"
 
-namespace SamV71 {
-
-    class SamV71_IO_pin : public Interface::IO_pin_interface {
+namespace SamV71
+{
+    class SamV71_IO_pin : public Abstract::Abstract_IO_pin
+    {
     public:
         SamV71_IO_pin() = delete;
 
-        SamV71_IO_pin(uint8_t id) : the_name("nu"), optional_base(nullptr), the_pin_mask(0), the_id(id) {}
+        SamV71_IO_pin(uint8_t id) : the_name("nu"), optional_base(nullptr), the_pin_mask(0), the_id(id)
+        {
+        }
 
-        SamV71_IO_pin(uint8_t id, const char *name, Pin_phase phase, Pin_port port, uint8_t pin,
-                       Pin_mode mux, Pin_type type, uint8_t strength = 0, bool default_state = false);
+        SamV71_IO_pin(uint8_t id, const char* name, Pin_phase phase, Pin_port port, uint8_t pin,
+                      Pin_mode mux, Pin_type type, uint8_t strength = 0, bool default_state = false);
 
-        [[nodiscard]] RMU_error_codes::Error_code initialize(uint8_t id, Pin_phase) override;
+        [[nodiscard]] Error_codes::Error_code initialize(uint8_t id, Pin_phase) override;
 
-        void neutralize() override;
+        [[nodiscard]] uint8_t get_id() const override { return the_id; }
 
-        uint8_t get_id() const override { return the_id; }
-
-        bool get() const override;
+        [[nodiscard]] bool get() const override;
 
         void set() override;
 
@@ -32,32 +33,18 @@ namespace SamV71 {
 
         void pulse(uint32_t count) override;
 
-        void print_diagnostics() const override;
-
-        bool is_used() const override { return optional_base != nullptr; }
-
-        void report(Service_report &report, RMU_interface::Keys as) const final;
-
-        void set_GPIO_mode() final;
-
-        void restore_peripheral_function() final;
+        [[nodiscard]] bool is_used() const override { return optional_base != nullptr; }
 
         static void initialize_clocks();
 
     private:
-        void reinitialize(Pin_mode mode);
+        static void pin_configure(Pin_port, uint8_t pin, Pin_mode, Pin_type);
 
-        uint32_t get_new_config(Pin_mode mux, Pin_type type, uint8_t strength);
-
-        uint32_t get_current_config() const;
-
-        void configure_pin(uint32_t config) const;
-
-        bool is_GPIO() const { return (the_mode == 0); };
+        [[nodiscard]] bool is_GPIO() const { return (the_mode == 0); };
 
     private:
-        const char *the_name;
-        pio_group_registers_t *const optional_base;
+        const char* the_name;
+        pio_registers_t* const optional_base;
         const uint32_t the_pin_mask;
         const uint8_t the_id;
         const Pin_phase the_phase{Never_up};
@@ -69,5 +56,4 @@ namespace SamV71 {
         const uint8_t the_strength{};
         const bool the_default_state{};
     };
-
 }

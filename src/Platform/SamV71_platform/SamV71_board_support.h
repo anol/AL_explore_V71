@@ -1,15 +1,9 @@
 #pragma once
 
-#include "Interface/Board_utility_interface.h"
-#include "component/flexcom/Flexcom_UART.h"
-#include "Filestore/File_repository.h"
-#include "GRMU_platform/GRMU_memory_manager.h"
-#include "component/mcan/SamV71_CAN_peripheral.h"
-#include "Bus_manager/Bus_manager.h"
-#include "NORM_pin_manager.h"
+
 
 class SamV71_board_support : public Abstract_board {
-    using Pin = Abstract::IO_pin_interface;
+    using Pin = Abstract::Abstract_IO_pin;
     Flexcom_UART the_UART;
 
 public:

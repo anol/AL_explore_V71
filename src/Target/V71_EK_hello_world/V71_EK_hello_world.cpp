@@ -4,8 +4,8 @@
 
 #include "V71_EK_hello_world.h"
 
-#include "Hello_world/Hello_world.h"
-#include "V71_EK/V71_EK_board.h"
+#include "Hello_world.h"
+#include "V71_EK_board.h"
 
 static Application::Hello_world the_application{};
 static Board::V71_EK_board the_board{};

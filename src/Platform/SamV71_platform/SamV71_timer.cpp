@@ -188,7 +188,7 @@ SamV71_timer::SamV71_timer(const Timer_definition &definition) : Timer_interface
 }
 
 void SamV71_timer::initialize() {
-    the_clock_frequency = Clock_interface::enable_peripheral_clock(the_definition.peripheral_id);
+    the_clock_frequency = Abstract_clock::enable_peripheral_clock(the_definition.peripheral_id);
     auto p_channel = the_definition.p_channel;
     p_channel->TC_CCR = TC_CCR_CLKDIS_Msk; // Disable clock
     p_channel->TC_IDR = 0xFFFFFFFF; // Disable interrupts
@@ -222,7 +222,7 @@ void SamV71_timer::initialize() {
 
 void SamV71_timer::reinitialize(Timer_interface::Timer_function function)
 {
-    the_clock_frequency = Clock_interface::enable_peripheral_clock(the_definition.peripheral_id);
+    the_clock_frequency = Abstract_clock::enable_peripheral_clock(the_definition.peripheral_id);
     auto p_channel = the_definition.p_channel;
     p_channel->TC_CCR = TC_CCR_CLKDIS_Msk; // Disable clock
     p_channel->TC_IDR = 0xFFFFFFFF; // Disable interrupts

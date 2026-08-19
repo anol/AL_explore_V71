@@ -1,16 +1,16 @@
 //
 // Created by anolsen on 23.08.2019.
 //
-#ifndef NORM_FW_UART_INTERFACE_H
-#define NORM_FW_UART_INTERFACE_H
+
+#pragma once
+
 
 #include <Utility/Utility_types.h>
 #include <Utility/Ringbuffer.h>
 
-/// Purpose: Hardware abstraction of the MCU UART peripheral.
-class UART_interface {
+class Abstract_UART {
 public:
-    UART_interface() = default;
+    Abstract_UART() = default;
 
     virtual void initialize(unsigned long bitrate) = 0;
 
@@ -29,5 +29,3 @@ public:
     virtual void disable() {}
 
 };
-
-#endif //NORM_FW_UART_INTERFACE_H

@@ -1,20 +1,18 @@
 #pragma once
 
-#include "IO_pin_interface.h"
-#include "Dictionary/RMU_error_codes.h"
+#include "IO_pins.h"
+#include "Dictionary/Error_codes.h"
 
 namespace SamV71_pin_manager {
-    using Pin = Interface::IO_pin_interface;
+    using namespace Application_configuration;
+    using Pin = Abstract::Abstract_IO_pin;
 
-    [[nodiscard]] RMU_error_codes::Error_code initialize(Pin::Pin_phase);
+    [[nodiscard]] Error_codes::Error_code initialize(Pin::Pin_phase);
 
-    Pin &get_pin(Pin::Pin_id);
+    Pin &get_pin(Pin_id);
 
-    Pin *get_optional_pin(Pin::Pin_id);
+    Pin *get_optional_pin(Pin_id);
 
     void print_diagnostics();
 
-    void report_all(Service_report & report);
-
-    void report(Service_report &report, uint8_t id);
 };

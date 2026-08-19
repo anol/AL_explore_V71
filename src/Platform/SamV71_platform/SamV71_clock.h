@@ -1,32 +1,8 @@
-/*
- * Copyright (C) 2024 Integrated Detector Electronics AS
- * All Rights Reserved.
- *
- * NOTICE: All information contained herein is, and remains
- * the property of Integrated Detector Electronics AS and its suppliers,
- * if any. The intellectual and technical concepts contained
- * herein are proprietary to Integrated Detector Electronics AS
- * and its suppliers and may be covered by Norwegian, EU. or U.S. patents,
- * patents in process, and are protected by trade secret or copyright law.
- * Dissemination of this information or reproduction of this material
- * is strictly forbidden unless prior written permission is obtained
- * from Integrated Detector Electronics AS.
- *
- */
+#pragma once
 
-/**
- * \date   IDEAS/31.01.2020/aeols
- * \brief
- */
+#include "Abstract_clock.h"
 
-#ifndef NORM_FW_SamV71_CLOCK_H
-#define NORM_FW_SamV71_CLOCK_H
-
-
-#include "Interface/Clock_interface.h"
-#include "Transaction/Service_report.h"
-
-namespace Clock_interface {
+namespace Abstract_clock {
     extern Frequency the_master_Hz;
     extern Frequency the_PLLA_Hz;
     extern Frequency the_PLLB_Hz;
@@ -56,6 +32,3 @@ namespace Clock_interface {
 
     extern Frequency initialize_master_clock(Frequency PLLA);
 }
-
-
-#endif //NORM_FW_SamV71_CLOCK_H

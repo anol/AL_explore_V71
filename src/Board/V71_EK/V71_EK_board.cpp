@@ -4,10 +4,10 @@
 
 #include "V71_EK_board.h"
 
-#include "Clock_interface.h"
+#include "Abstract_clock.h"
 
 namespace Board {
     void V71_EK_board::initialize() {
-        Clock_interface::initialize_timers();
+        Abstract_clock::initialize_timers();
     }
 } // Board

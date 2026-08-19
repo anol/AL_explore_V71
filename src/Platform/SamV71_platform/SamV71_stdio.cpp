@@ -30,7 +30,7 @@ int (*ptr_put)(void volatile *, char);
 void (*ptr_get)(void volatile *, char *);
 }
 
-static UART_interface *the_one_and_only_consol = nullptr;
+static Abstract_UART *the_one_and_only_consol = nullptr;
 
 extern "C" int stdio_serial_putchar(void volatile *, char c) {
     if (the_one_and_only_consol != nullptr) {
@@ -57,7 +57,7 @@ extern "C" int _read(int file, char *ptr, int len) {
     return -1;
 }
 
-void SamV71_stdio::construct(UART_interface &UART) {
+void SamV71_stdio::construct(Abstract_UART &UART) {
     stdio_base = nullptr;
     ptr_put = &stdio_serial_putchar;
     ptr_get = &stdio_serial_getchar;

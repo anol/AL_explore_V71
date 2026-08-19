@@ -2,10 +2,11 @@ target_include_directories(${THE_TARGET_NAME} PUBLIC
         .
 )
 target_sources(${THE_TARGET_NAME} PUBLIC
+        Abstract_application.h
+        Abstract_board.h
+        Abstract_clock.h
         Abstract_ethernet.h
-        Board_full_interface.h
-        Clock_interface.h
         Abstract_IO_pin.h
-        Timer_interface.h
-        UART_interface.h
+        Abstract_target.h
+        Abstract_UART.h
 )

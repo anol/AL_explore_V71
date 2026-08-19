@@ -5,7 +5,7 @@
 #include "Win_hello_world.h"
 
 //#include "Clock_thread.h"
-#include "Hello_world/Hello_world.h"
+#include "Hello_world.h"
 #include "Board/Win11/Win11.h"
 
 //static Windows::Clock_thread the_clock_thread{};

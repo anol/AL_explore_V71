@@ -3,17 +3,16 @@
 #include <stdio.h>
 
 #include "SamV71_IO_pin.h"
-#include "../../Board/V71_EK/V71_EK_pin_table.h"
-
+#include "V71_EK_pin_table.h"
 #include "SamV71_pin_manager.h"
 
 
     namespace SamV71_pin_manager {
-        using Pin = Interface::IO_pin_interface;
-        Configuration::NORM_EM_pin_table<SamV71::SamV71_IO_pin> the_pin_table;
+        using Pin = Abstract::Abstract_IO_pin;
+        static Configuration::V71_EK_pin_table<SamV71::SamV71_IO_pin> the_pin_table;
 
-        RMU_error_codes::Error_code initialize(Pin::Pin_phase phase) {
-            if ((phase == Interface::IO_pin_interface::Start_up) || (phase == Interface::IO_pin_interface::Host_up)) {
+        Error_codes::Error_code initialize(Pin::Pin_phase phase) {
+            if ((phase == Pin::Start_up) || (phase == Pin::Host_up)) {
                 SamV71::SamV71_IO_pin::initialize_clocks();
             }
             uint8_t id_counter{};
@@ -51,29 +50,5 @@
             }
         }
 
-
-        void report_all(Service_report &report)
-        {
-            for (auto &pin: the_pin_table.the_pins)
-            {
-                if (pin.is_used())
-                {
-                    pin.report(report, RMU_interface::No_key);
-                }
-            }
-        }
-
-
-        void report(Service_report &report, uint8_t id)
-        {
-            for (auto &pin: the_pin_table.the_pins)
-            {
-                if (pin.get_id() == id)
-                {
-                    pin.report(report, RMU_interface::Key_info);
-                    break;
-                }
-            }
-        }
 
     } // NORM_pin_manager
