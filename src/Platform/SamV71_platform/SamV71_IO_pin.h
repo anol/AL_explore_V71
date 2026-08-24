@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Abstract_IO_pin.h"
+#include "sam.h"
 #include "component/pio.h"
 
 namespace SamV71

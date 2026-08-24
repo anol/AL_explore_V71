@@ -27,7 +27,7 @@ namespace SamV71
     {
     }
 
-    Error_codes::Error_code SamV71_IO_pin::initialize(uint8_t id, Pin_phase phase)
+    Error_codes::Error_code SamV71_IO_pin::initialize(const uint8_t id, const Pin_phase phase)
     {
         if (optional_base != nullptr)
         {
@@ -54,7 +54,7 @@ namespace SamV71
                         clear();
                     }
                 }
-                configure_pin(new_config);
+                pin_configure(the_port, the_pin, the_mode, the_type);
             }
         }
         return {};

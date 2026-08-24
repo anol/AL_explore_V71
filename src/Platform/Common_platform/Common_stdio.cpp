@@ -19,7 +19,7 @@
 
 #include <stdio.h>
 
-#include "SamV71_stdio.h"
+#include "Common_stdio.h"
 
 extern "C" {
 //! Pointer to the base of the USART module instance to use for stdio.
@@ -57,7 +57,7 @@ extern "C" int _read(int file, char *ptr, int len) {
     return -1;
 }
 
-void SamV71_stdio::construct(Abstract_UART &UART) {
+void Common_stdio::construct(Abstract_UART &UART) {
     stdio_base = nullptr;
     ptr_put = &stdio_serial_putchar;
     ptr_get = &stdio_serial_getchar;

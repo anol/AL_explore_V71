@@ -2,7 +2,7 @@
 
 #include "Abstract_clock.h"
 
-namespace Abstract_clock {
+namespace SamV71_clock {
     extern Frequency the_master_Hz;
     extern Frequency the_PLLA_Hz;
     extern Frequency the_PLLB_Hz;

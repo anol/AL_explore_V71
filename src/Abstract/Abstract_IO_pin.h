@@ -9,6 +9,7 @@ namespace Abstract {
     /// Purpose: The Abstract_IO_pin is a hardware abstraction of the MCU peripheral IOs.
     class Abstract_IO_pin {
     public:
+        virtual ~Abstract_IO_pin() = default;
 
         /// Purpose: The Pin_phase is used indicate when a pin is initialized
         enum Pin_phase : uint8_t {

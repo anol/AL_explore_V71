@@ -7,7 +7,7 @@
 
 class Console_task;
 
-class SamV71_stdio {
+class Common_stdio {
 public:
     static void construct(Abstract_UART &);
 };

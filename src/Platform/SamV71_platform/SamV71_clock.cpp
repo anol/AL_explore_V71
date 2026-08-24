@@ -51,13 +51,15 @@ namespace Interrupt_service_routines
     __attribute__ ((section(".ISR"))) void ISR_timer0_ch0()
     {
         Abstract_clock::channel_status = TC0_REGS->TC_CHANNEL[0].TC_SR;
-        Abstract_clock::milliseconds_allmost_since_start++;
+        Abstract_clock::milliseconds_allmost_since_start =
+            Abstract_clock::milliseconds_allmost_since_start +1;
     }
 
     __attribute__ ((section(".ISR"))) void ISR_timer0_ch1()
     {
         Abstract_clock::channel_status = TC0_REGS->TC_CHANNEL[1].TC_SR;
-        Abstract_clock::hundredthseconds_timestamp++;
+        Abstract_clock::hundredthseconds_timestamp =
+            Abstract_clock::hundredthseconds_timestamp +1;
     }
 }
 

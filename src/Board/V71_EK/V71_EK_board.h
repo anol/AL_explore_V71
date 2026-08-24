@@ -5,22 +5,27 @@
 #pragma once
 #include "Abstract_board.h"
 #include "SamV71_pin_manager.h"
+#include "SamV71_UART.h"
 
 namespace Board
 {
     class V71_EK_board : public Abstract::Abstract_board
     {
-        SamV71_UART the_UART;
+        SamV71::SamV71_UART the_UART;
+
     public:
         void initialize() override;
 
-        SamV71_pin_manager::Pin& get_pin(SamV71_pin_manager::Pin::Pin_id id)
-        {
-            return Platform::SamV71_pin_manager::get_pin(id);
-        }
-
         Abstract_UART& get_UART() { return the_UART; }
 
-        SamV71_pin_manager::Pin* get_optional_pin(SamV71_pin_manager::Pin::Pin_id) { return nullptr; };
+        Abstract::Abstract_IO_pin& get_pin(const Application_configuration::Pin_id id)
+        {
+            return SamV71_pin_manager::get_pin(id);
+        }
+
+        Abstract::Abstract_IO_pin* get_optional_pin(Application_configuration::Pin_id)
+        {
+            return nullptr;
+        };
     };
 } // Board
