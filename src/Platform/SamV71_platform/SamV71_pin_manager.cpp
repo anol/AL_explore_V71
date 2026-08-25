@@ -5,12 +5,12 @@
 #include "SamV71_pin_manager.h"
 
 
-namespace SamV71_pin_manager {
+namespace SamV71  {
     using namespace Application_configuration;
     using Pin = Abstract::Abstract_IO_pin;
     static Configuration::V71_EK_pin_table<SamV71::SamV71_IO_pin> the_pin_table;
 
-    bool initialize(Pin::Pin_phase phase) {
+    bool SamV71_pin_manager::initialize(Pin::Pin_phase phase) {
         if ((phase == Pin::Start_up) || (phase == Pin::Host_up)) {
             SamV71::SamV71_IO_pin::initialize_clocks();
         }
@@ -22,21 +22,21 @@ namespace SamV71_pin_manager {
         return false;
     }
 
-    Pin &get_pin(const Pin_id id) {
+    Pin &SamV71_pin_manager::get_pin(const Pin_id id) {
         if (id < Number_of_pins) {
             return the_pin_table.the_pins[id];
         }
         return the_pin_table.the_pins[Pin_not_used];
     }
 
-    Pin *get_optional_pin(const Pin_id id) {
+    Pin *SamV71_pin_manager::get_optional_pin(const Pin_id id) {
         if (id < Number_of_pins) {
             return &the_pin_table.the_pins[id];
         }
         return {};
     }
 
-    void print_diagnostics() {
+    void SamV71_pin_manager::print_diagnostics() {
         printf("NORM_pin_manager\r\n");
         // for (auto& pin : the_pin_table.the_pins)
         // {

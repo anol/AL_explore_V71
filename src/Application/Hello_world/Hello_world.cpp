@@ -11,6 +11,7 @@ namespace Application {
     }
 
     void Hello_world::run() {
-         printf("Hello_world::run\r\n");
-   }
+        printf("Hello_world::run\r\n");
+        while (true);
+    }
 } // Application

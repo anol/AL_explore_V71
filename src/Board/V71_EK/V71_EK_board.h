@@ -4,6 +4,7 @@
 
 #pragma once
 #include "Abstract_board.h"
+#include "Common_stdio.h"
 #include "SamV71_clock.h"
 #include "SamV71_pin_manager.h"
 #include "SamV71_UART.h"
@@ -12,10 +13,10 @@ namespace Board {
     using namespace SamV71;
 
     class V71_EK_board : public Abstract::Abstract_board {
-        SamV71_clock the_clock;
-        SamV71_pin_manager the_pin_manager;
-        SamV71_UART the_UART;
-
+        SamV71_clock the_clock{};
+        SamV71_pin_manager the_pin_manager{};
+        SamV71_UART the_UART{};
+        Platform::Common_stdio the_console{&the_UART};
 
     public:
         void initialize() override;

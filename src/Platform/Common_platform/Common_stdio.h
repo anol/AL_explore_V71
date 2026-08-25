@@ -5,9 +5,14 @@
 
 #include "Abstract_UART.h"
 
-class Console_task;
+namespace Platform {
+    class Common_stdio {
+        Abstract_UART *optional_UART;
 
-class Common_stdio {
-public:
-    static void construct(Abstract_UART &);
-};
+    public:
+        explicit Common_stdio(Abstract_UART *UART) : optional_UART(UART) {
+        }
+
+        void initialize() const;
+    };
+}

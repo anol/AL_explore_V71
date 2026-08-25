@@ -30,23 +30,21 @@ int (*ptr_put)(void volatile *, char);
 void (*ptr_get)(void volatile *, char *);
 }
 
-static Abstract_UART *the_one_and_only_consol = nullptr;
+static Abstract_UART *optional_one_and_only_console = nullptr;
 
 extern "C" int stdio_serial_putchar(void volatile *, char c) {
-    if (the_one_and_only_consol != nullptr) {
-        the_one_and_only_consol->put(c);
+    if (optional_one_and_only_console != nullptr) {
+        optional_one_and_only_console->put(c);
         return 1;
-    } else {
-        return -1;
     }
+    return -1;
 }
 
 extern "C" int _write(int file, const char *ptr, int len) {
-    if (the_one_and_only_consol != nullptr) {
-        return the_one_and_only_consol->print(ptr, len);
-    } else {
-        return -1;
+    if (optional_one_and_only_console != nullptr) {
+        return optional_one_and_only_console->print(ptr, len);
     }
+    return -1;
 }
 
 extern "C" void stdio_serial_getchar(void volatile *, char *data) {
@@ -57,11 +55,11 @@ extern "C" int _read(int file, char *ptr, int len) {
     return -1;
 }
 
-void Common_stdio::construct(Abstract_UART &UART) {
+void Platform::Common_stdio::initialize() const {
     stdio_base = nullptr;
     ptr_put = &stdio_serial_putchar;
     ptr_get = &stdio_serial_getchar;
     setbuf(stdin, nullptr);
     setbuf(stdout, nullptr);
-    the_one_and_only_consol = &UART;
+    optional_one_and_only_console = optional_UART;
 }
