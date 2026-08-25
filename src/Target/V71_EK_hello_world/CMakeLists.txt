@@ -1,7 +1,3 @@
-target_include_directories(${THE_TARGET_NAME} PUBLIC
-        .
-)
-
 target_sources(${THE_TARGET_NAME} PUBLIC
         V71_EK_hello_world.cpp
         V71_EK_hello_world.h

@@ -12,6 +12,7 @@ namespace Application {
 
     void Hello_world::run() {
         printf("Hello_world::run\r\n");
+        use_board.print_diagnostics();
         while (true);
     }
 } // Application

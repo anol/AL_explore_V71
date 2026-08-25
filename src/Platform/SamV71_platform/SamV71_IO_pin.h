@@ -36,6 +36,8 @@ namespace SamV71
 
         [[nodiscard]] bool is_used() const override { return optional_base != nullptr; }
 
+        void print_diagnostics();
+
         static void initialize_clocks();
 
     private:

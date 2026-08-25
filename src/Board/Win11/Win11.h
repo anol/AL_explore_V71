@@ -9,5 +9,7 @@ namespace Board {
     class Win11 : public Abstract::Abstract_board {
     public:
         void initialize() override;
+
+        void print_diagnostics() override;
     };
 } // Board

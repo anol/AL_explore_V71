@@ -12,5 +12,7 @@ namespace Abstract {
         virtual ~Abstract_board() = default;
 
         virtual void initialize() = 0;
+
+        virtual void print_diagnostics() = 0;
     };
 } // Abstract

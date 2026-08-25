@@ -7,8 +7,8 @@
 #include "Hello_world.h"
 #include "V71_EK_board.h"
 
-static Application::Hello_world the_application{};
 static Board::V71_EK_board the_board{};
+static Application::Hello_world the_application{the_board};
 static Target::V71_EK_hello_world the_target{the_application, the_board};
 
 int main() {

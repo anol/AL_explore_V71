@@ -9,8 +9,12 @@
 namespace Board {
     void V71_EK_board::initialize() {
         the_clock.initialize();
-        the_pin_manager.initialize(Abstract::Abstract_IO_pin::Start_up);
+        the_pin_manager.initialize();
         the_UART.initialize();
         the_console.initialize();
+    }
+
+    void V71_EK_board::print_diagnostics() {
+        the_pin_manager.print_diagnostics();
     }
 } // Board

@@ -7,4 +7,7 @@
 namespace Board {
     void Win11::initialize() {
     }
+
+    void Win11::print_diagnostics() {
+    }
 } // Board

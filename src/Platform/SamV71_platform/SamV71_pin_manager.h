@@ -1,21 +1,23 @@
 #pragma once
 
 #include "Abstract_IO_pin.h"
-#include "IO_pins.h"
-#include "Dictionary/Error_codes.h"
+#include "SamV71_IO_pin.h"
+#include "V71_EK_pin_table.h"
 
 namespace SamV71 {
-    using namespace Application_configuration;
-
     class SamV71_pin_manager {
+        V71_EK_pin_table<SamV71_IO_pin> the_pin_table;
+
     public:
         using Pin = Abstract::Abstract_IO_pin;
 
-        bool initialize(Pin::Pin_phase);
+        bool initialize();
 
-        Pin &get_pin(Pin_id);
+        bool set_phase(Pin::Pin_phase);
 
-        Pin *get_optional_pin(Pin_id);
+        Pin &get_pin(Dictionary::Pin_id);
+
+        Pin *get_optional_pin(Dictionary::Pin_id);
 
         void print_diagnostics();
     };
