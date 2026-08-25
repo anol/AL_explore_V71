@@ -24,7 +24,7 @@
 #include "sam.h"
 
 namespace SamV71 {
-    uint32_t the_clock_frequency{12'000'000};
+    uint32_t the_clock_frequency{150'000'000};
 
     void SamV71_clock::initialize() {
         initialize_PLLA();

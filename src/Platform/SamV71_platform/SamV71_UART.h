@@ -27,9 +27,9 @@ namespace SamV71 {
 
         int print(const char *data, int len) override;
 
-        void ISR_on_receive();
+        void on_receiver_interrupt();
 
-        void ISR_on_transmit();
+        void on_transmitter_interrupt();
 
     private:
         static void enable_receiver_interrupt();
