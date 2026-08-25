@@ -22,9 +22,9 @@ public:
 
     virtual bool is_ready() = 0;
 
-    virtual int print(const char *ptr, int len) = 0;
+    virtual int print(const char *data, int len) = 0;
 
-    virtual int put(uint8_t c) = 0;
+    virtual bool put(uint8_t data) = 0;
 
-    virtual bool get(uint8_t *p_data) = 0;
+    virtual bool get(uint8_t *data) = 0;
 };

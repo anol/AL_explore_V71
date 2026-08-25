@@ -7,32 +7,37 @@
 
 namespace SamV71 {
     class SamV71_UART : public Abstract_UART {
+        enum { RX_buffer_size = 128, TX_buffer_size = 1024 };
+
+        Ringbuffer<uint8_t, RX_buffer_size> the_RX_queue{};
+        Ringbuffer<uint8_t, TX_buffer_size> the_TX_queue{};
+
     public:
         void initialize() override;
 
-        bool has_input() override;
+        bool is_ready() override { return true; }
 
-        bool for_each_input(Optional_user, Optional_func) override;
+        bool has_input() override { return the_RX_queue.get_fill() > 0; }
 
-        bool is_ready() override;
+        bool put(const uint8_t data) override { return the_TX_queue.put(data); }
 
-        int print(const char *ptr, int len) override;
+        bool get(uint8_t *data) override { return the_RX_queue.get(data); }
 
-        int put(uint8_t c) override;
+        bool for_each_input(Optional_user user, Optional_func func) override { return the_RX_queue.for_each(user, func); }
 
-        bool get(uint8_t *p_data) override;
+        int print(const char *data, int len) override;
 
-        static void USART1_ISR_RX_Handler();
+        void ISR_on_receive();
 
-        static void USART1_ISR_TX_Handler();
+        void ISR_on_transmit();
 
     private:
-        static void USART1_RX_INT_ENABLE();
+        static void enable_receiver_interrupt();
 
-        static void USART1_RX_INT_DISABLE();
+        static void disable_receiver_interrupt();
 
-        static void USART1_TX_INT_ENABLE();
+        static void enable_transmitter_interrupt();
 
-        static void USART1_TX_INT_DISABLE();
+        static void disable_transmitter_interrupt();
     };
 } // SamV71
