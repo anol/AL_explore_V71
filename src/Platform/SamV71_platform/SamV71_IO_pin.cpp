@@ -212,10 +212,10 @@ namespace SamV71
 
     void SamV71_IO_pin::initialize_clocks()
     {
-        Abstract_clock::enable_peripheral_clock(ID_PIOA);
-        Abstract_clock::enable_peripheral_clock(ID_PIOB);
-        Abstract_clock::enable_peripheral_clock(ID_PIOC);
-        Abstract_clock::enable_peripheral_clock(ID_PIOD);
-        Abstract_clock::enable_peripheral_clock(ID_PIOE);
+        SamV71_clock::enable_peripheral_clock(ID_PIOA);
+        SamV71_clock::enable_peripheral_clock(ID_PIOB);
+        SamV71_clock::enable_peripheral_clock(ID_PIOC);
+        SamV71_clock::enable_peripheral_clock(ID_PIOD);
+        SamV71_clock::enable_peripheral_clock(ID_PIOE);
     }
 } // SamV71

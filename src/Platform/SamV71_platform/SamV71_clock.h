@@ -2,33 +2,24 @@
 
 #include "Abstract_clock.h"
 
-namespace SamV71_clock {
-    extern Frequency the_master_Hz;
-    extern Frequency the_PLLA_Hz;
-    extern Frequency the_PLLB_Hz;
-    extern volatile uint32_t channel_status;
-    extern volatile uint32_t milliseconds_allmost_since_start;
-    extern volatile uint32_t hundredthseconds_timestamp;
+namespace SamV71 {
+    class SamV71_clock : public Abstract::Abstract_clock {
+        volatile uint32_t milliseconds_allmost_since_start{};
 
-    extern uint32_t enable_peripheral_clock(uint32_t peripheral_id);
+    public:
+        SamV71_clock() = default;
 
-    extern uint32_t get_channel_status();
+        void initialize() override;
 
-    extern uint32_t get_microsecond_clock();
+        uint32_t get_milliseconds() override { return milliseconds_allmost_since_start; }
 
-    extern void setup_millisecond_timer();
+        static uint32_t get_frequency();
 
-    extern void setup_microsecond_timer();
+        static void enable_peripheral_clock(uint32_t peripheral_id);
 
-    extern void setup_hundredthsecond_timer();
+    private:
+        static void initialize_PLLA();
 
-    extern void disable_PLLs();
-
-    extern void initialize_main_clock();
-
-    extern Frequency initialize_PLLA(Frequency oscillator);
-
-    extern Frequency initialize_PLLB(Frequency oscillator);
-
-    extern Frequency initialize_master_clock(Frequency PLLA);
+        static void initialize_master_clock();
+    };
 }

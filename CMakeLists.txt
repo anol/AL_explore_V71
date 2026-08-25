@@ -19,8 +19,6 @@ message("++ Target:      ${TARGET}")
 message("++ Executable:  ${THE_TARGET_NAME}")
 
 add_executable(${THE_TARGET_NAME}
-        src/Platform/SamV71_platform/SamV71_UART.cpp
-        src/Platform/SamV71_platform/SamV71_UART.h
 )
 
 include(${SOURCE_ROOT_DIR}/Platform/${PLATFORM}_platform/${PLATFORM}_build_options.cmake)

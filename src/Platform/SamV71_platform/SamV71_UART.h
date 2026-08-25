@@ -5,17 +5,21 @@
 #pragma once
 #include "Abstract_UART.h"
 
-namespace SamV71
-{
-    class SamV71_UART : public Abstract_UART
-    {
+namespace SamV71 {
+    class SamV71_UART : public Abstract_UART {
     public:
-        void initialize(unsigned long bitrate) override;
+        void initialize() override;
+
         bool has_input() override;
+
         bool for_each_input(Optional_user, Optional_func) override;
+
         bool is_ready() override;
-        int print(const char* ptr, int len) override;
+
+        int print(const char *ptr, int len) override;
+
         int put(uint8_t c) override;
-        bool get(uint8_t* p_data) override;
+
+        bool get(uint8_t *p_data) override;
     };
 } // SamV71

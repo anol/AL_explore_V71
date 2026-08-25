@@ -4,6 +4,7 @@
 #include "SamV71_timer.h"
 
 using namespace Unit_converter;
+using namespace SamV71;
 
 constexpr uint32_t Software_only_channel_mode =
     TC_CMR_WAVE_Msk // Waveform mode
@@ -173,7 +174,7 @@ SamV71_timer::SamV71_timer(const Timer_definition& definition)
 
 void SamV71_timer::initialize()
 {
-    the_clock_frequency = Abstract_clock::enable_peripheral_clock(the_definition.peripheral_id);
+    SamV71::SamV71_clock::enable_peripheral_clock(the_definition.peripheral_id);
     auto p_channel = the_definition.p_channel;
     p_channel->TC_CCR = TC_CCR_CLKDIS_Msk; // Disable clock
     p_channel->TC_IDR = 0xFFFFFFFF; // Disable interrupts
@@ -208,7 +209,7 @@ void SamV71_timer::initialize()
 
 void SamV71_timer::reinitialize(Timer_function function)
 {
-    the_clock_frequency = Abstract_clock::enable_peripheral_clock(the_definition.peripheral_id);
+    SamV71::SamV71_clock::enable_peripheral_clock(the_definition.peripheral_id);
     auto p_channel = the_definition.p_channel;
     p_channel->TC_CCR = TC_CCR_CLKDIS_Msk; // Disable clock
     p_channel->TC_IDR = 0xFFFFFFFF; // Disable interrupts
@@ -233,7 +234,7 @@ bool SamV71_timer::trigger()
 bool SamV71_timer::enable_one_shot(Nanoseconds pulse_width_ns)
 {
     auto p_channel = the_definition.p_channel;
-    p_channel->TC_RC = (pulse_width_ns / 1000) * (the_clock_frequency / 1000000);
+    p_channel->TC_RC = (pulse_width_ns / 1000) * (SamV71_clock::get_frequency() / 1000000);
     p_channel->TC_CCR = TC_CCR_CLKEN_Msk;
     return true;
 }
@@ -265,7 +266,7 @@ SamV71_timer::enable_external_trigger(Nanoseconds pulse_delay_ns, Optional_user 
             p_channel->TC_CMR = 0;
             return false;
         }
-        p_channel->TC_RC = nanoseconds_to_count(the_clock_frequency, pulse_delay_ns);
+        p_channel->TC_RC = nanoseconds_to_count(SamV71_clock::get_frequency(), pulse_delay_ns);
         p_channel->TC_CCR = TC_CCR_CLKEN_Msk; // Enable counter clock
         p_channel->TC_IER = TC_IER_CPCS_Msk | TC_IER_ETRGS_Msk; // Enable RC compare and external
     }
@@ -285,7 +286,7 @@ bool SamV71_timer::delayed_action(Nanoseconds pulse_delay_ns, Optional_user user
     auto* p_channel = the_definition.p_channel;
     if (p_channel != nullptr)
     {
-        p_channel->TC_RC = nanoseconds_to_count(the_clock_frequency, pulse_delay_ns);
+        p_channel->TC_RC = nanoseconds_to_count(SamV71_clock::get_frequency(), pulse_delay_ns);
         p_channel->TC_CCR = TC_CCR_CLKEN_Msk;
         p_channel->TC_IER = TC_IER_CPCS_Msk; // Enable RC compare
         p_channel->TC_CCR = TC_CCR_SWTRG_Msk;
@@ -328,7 +329,7 @@ bool SamV71_timer::start()
     bool success = the_frequency > 0;
     if (success)
     {
-        uint32_t count = the_clock_frequency / the_frequency;
+        uint32_t count = SamV71_clock::get_frequency() / the_frequency;
         p_channel->TC_RA = count / 2;
         p_channel->TC_RC = count;
         p_channel->TC_CCR = TC_CCR_CLKEN_Msk;

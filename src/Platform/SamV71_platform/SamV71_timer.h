@@ -21,7 +21,6 @@ public:
 
 private:
     Timer_definition the_definition;
-    uint32_t the_clock_frequency{};
 
 public:
     explicit SamV71_timer(const Timer_definition& definition);

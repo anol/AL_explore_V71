@@ -1,38 +1,84 @@
 /*
- * Copyright (C) 2024 Integrated Detector Electronics AS
- * All Rights Reserved.
+ * GCC linker script (flash) for ATSAMV71Q21B
  *
- * NOTICE: All information contained herein is, and remains
- * the property of Integrated Detector Electronics AS and its suppliers,
- * if any. The intellectual and technical concepts contained
- * herein are proprietary to Integrated Detector Electronics AS
- * and its suppliers and may be covered by Norwegian, EU. or U.S. patents,
- * patents in process, and are protected by trade secret or copyright law.
- * Dissemination of this information or reproduction of this material
- * is strictly forbidden unless prior written permission is obtained
- * from Integrated Detector Electronics AS.
+ * Copyright (c) 2026 Microchip Technology Inc. and its subsidiaries
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
  */
 
-/**
- * \date   IDEAS/15.01.2021/aeols
- * \brief  Linker script for DHU EM
+/*------------------------------------------------------------------------------
+ *      Linker script for running in internal FLASH on the ATSAMV71Q21B
+ *----------------------------------------------------------------------------*/
+
+OUTPUT_FORMAT("elf32-littlearm", "elf32-littlearm", "elf32-littlearm")
+OUTPUT_ARCH(arm)
+SEARCH_DIR(.)
+
+/*************************************************************************
+ * Memory-Region Definitions
+ * You may define these as options to the linker when calling
+ * the linker via the arm-gcc shell.
+ * ie. '-Wl,--defsym=<memory_type>_ORIGIN=<address>'
+ * and/or '-Wl,--defsym=<memory_type>_LENGTH=<size>'
+ *************************************************************************/
+
+/*---------------------- ROM Configuration ----------------------------------
+  <h> ROM Configuration
+    <o0> ROM Base Address <0x0-0xFFFFFFFF:8>
+    <o1> ROM Size (in Bytes) <0x0-0xFFFFFFFF:8>
+  </h>
+  -----------------------------------------------------------------------------*/
+ROM_ORIGIN = DEFINED(ROM_ORIGIN) ? ROM_ORIGIN : 0x00400000;
+ROM_LENGTH = DEFINED(ROM_LENGTH) ? ROM_LENGTH : 0x200000; /* rom, 2097152K */
+/*---------------------- RAM Configuration ----------------------------------
+  <h> RAM Configuration
+    <o0> RAM Base Address <0x0-0xFFFFFFFF:8>
+    <o1> RAM Size (in Bytes) <0x0-0xFFFFFFFF:8>
+  </h>
+  -----------------------------------------------------------------------------*/
+RAM_ORIGIN = DEFINED(RAM_ORIGIN) ? RAM_ORIGIN : 0x00000000;
+RAM_LENGTH = DEFINED(RAM_LENGTH) ? RAM_LENGTH : 0x20000; /* ram, 131072K */
+
+/* The stack and heap size used by the application. NOTE: you need to adjust according to your application. */
+/*--------------------- Stack / Heap Configuration ----------------------------
+  <h> Stack / Heap Configuration
+    <o0> Stack Size (in Bytes) <0x0-0xFFFFFFFF:8>
+    <o1> Heap Size (in Bytes) <0x0-0xFFFFFFFF:8>
+  </h>
+  -----------------------------------------------------------------------------*/
+STACK_SIZE = DEFINED(STACK_SIZE) ? STACK_SIZE : DEFINED(__stack_size__) ? __stack_size__ : 0x0400;
+HEAP_SIZE = DEFINED(HEAP_SIZE) ? HEAP_SIZE : DEFINED(__heap_size__) ? __heap_size__ : 0x0200;
+
+/* ARMv8-M stack sealing:
+   to use ARMv8-M stack sealing set __STACKSEAL_SIZE to 8 otherwise keep 0
  */
+__STACKSEAL_SIZE = DEFINED(__STACKSEAL_SIZE) ? __STACKSEAL_SIZE : 0;
 
-INCLUDE ../Common/Common_RMU/Memory_layout.ld
-
+/*************************************************************************
+ * Memory-Region Definitions
+ * The MEMORY command describes the location and size of blocks of memory
+ * on the target device. The command below uses the macros defined above.
+ *************************************************************************/
 MEMORY
 {
-    image_area (rw)     : ORIGIN = ORIGIN(app_load_area), LENGTH = LENGTH(app_load_area)
-    data_sram_area (rw) : ORIGIN = ORIGIN(app_data_area), LENGTH = LENGTH(app_data_area)
+    rom (rx)    : ORIGIN = ROM_ORIGIN, LENGTH = ROM_LENGTH
+    ram (rwx)   : ORIGIN = RAM_ORIGIN, LENGTH = RAM_LENGTH
 }
 
-
-STACK_SIZE = DEFINED(STACK_SIZE) ? STACK_SIZE : DEFINED(__stack_size__) ? __stack_size__ : 0x3000;
-HEAP_SIZE = DEFINED(HEAP_SIZE) ? HEAP_SIZE : DEFINED(__heap_size__) ? __heap_size__ : 0x1000;
-
-ENTRY(ISR_reset);
-ENTRY(interrupt_vectors);
+ENTRY(Reset_Handler)
 
 /* Section Definitions */
 SECTIONS
@@ -42,7 +88,6 @@ SECTIONS
         . = ALIGN(4);
         _sfixed = .;
         KEEP(*(.vectors .vectors.*))
-        KEEP(*(.ISR .ISR.*))
         *(.text .text.* .gnu.linkonce.t.*)
         *(.glue_7t) *(.glue_7)
         *(.rodata .rodata* .gnu.linkonce.r.*)
@@ -85,40 +130,68 @@ SECTIONS
 
         . = ALIGN(4);
         _efixed = .;            /* End of text section */
-    } > utility_load_area
+    } > rom
 
     /* .ARM.exidx is sorted, so has to go in its own output section.  */
     PROVIDE_HIDDEN (__exidx_start = .);
     .ARM.exidx :
     {
       *(.ARM.exidx* .gnu.linkonce.armexidx.*)
-    } > utility_load_area
+    } > rom
     PROVIDE_HIDDEN (__exidx_end = .);
+
+    .copy.table :
+    {
+        . = ALIGN(4);
+        __copy_table_start__ = .;
+
+        LONG (LOADADDR(.relocate))
+        LONG (ADDR(.relocate))
+        LONG (SIZEOF(.relocate) / 4)
+
+        /* Add each additional data section here */
+        /*
+            LONG (LOADADDR(.data2))
+            LONG (ADDR(.data2))
+            LONG (SIZEOF(.data2) / 4)
+        */
+        __copy_table_end__ = .;
+    } > rom
+
+    .zero.table :
+    {
+        . = ALIGN(4);
+        __zero_table_start__ = .;
+
+        /*  .bss initialization to zero is already done during C Run-Time Startup.
+        LONG (ADDR(.bss))
+        LONG (SIZEOF(.bss) / 4)
+        */
+
+        /* Add each additional bss section here */
+        /*
+            LONG (ADDR(.bss2))
+            LONG (SIZEOF(.bss2) / 4)
+        */
+        __zero_table_end__ = .;
+    } > rom
 
     . = ALIGN(4);
     _etext = .;
+    __etext = .;
 
     .relocate : AT (_etext)
     {
         . = ALIGN(4);
         _srelocate = .;
+        __data_start__ = .;
+        *(vtable);
         *(.ramfunc .ramfunc.*);
         *(.data .data.*);
         . = ALIGN(4);
         _erelocate = .;
-        _fill_grade_ = ((SIZEOF(.text)+SIZEOF(.ARM.exidx)+SIZEOF(.relocate)) * 1000) / LENGTH(utility_load_area);
-        ASSERT((_fill_grade_ < 1000), "<> Error: the internal flash is full <>" );
-    } > app_data_area
-
-    /* section used for the global application object data */
-    .application_data (NOLOAD) :
-    {
-        . = ALIGN(4);
-        _sappl = . ;
-        *(.application_data)
-        . = ALIGN(4);
-        _eappl = . ;
-    } > data_tcm_area
+        __data_end__ = .;
+    } > ram
 
     /* .bss section which is used for uninitialized data */
     .bss (NOLOAD) :
@@ -126,155 +199,48 @@ SECTIONS
         . = ALIGN(4);
         _sbss = . ;
         _szero = .;
+        __bss_start__ = .;
         *(.bss .bss.*)
         *(COMMON)
         . = ALIGN(4);
         _ebss = . ;
         _ezero = .;
-    } > app_data_area
+        __bss_end__ = .;
+    } > ram
 
     /* heap section */
     .heap (NOLOAD):
     {
         . = ALIGN(8);
-         _sheap = .;
+        _sheap = .;
+        __end__ = .;
+        PROVIDE(end = .);
         . = . + HEAP_SIZE;
         . = ALIGN(8);
         _eheap = .;
-    } > app_data_area
+        __HeapLimit = .;
+    } > ram
 
     /* stack section */
     .stack (NOLOAD):
     {
         . = ALIGN(8);
         _sstack = .;
+        __StackLimit = .;
         . = . + STACK_SIZE;
         . = ALIGN(8);
         _estack = .;
-    } > app_data_area
+        __StackTop = .;
+    } > ram
+
+      PROVIDE(__stack = __StackTop);
 
     . = ALIGN(4);
     _end = . ;
+    _ram_end_ = ORIGIN(ram) + LENGTH(ram) - 1 ;
 
-    /* .management_repos section is used for the persistent Management Repository */
-    .management_repos (NOLOAD) :
-    {
-        . = ALIGN(4);
-        *(.management_repos)
-    } > management_repos
+    __ram_end__ = ORIGIN(ram) + LENGTH(ram) - 1 ;
 
-    /* .bookkeeping_area section is used for the persistent Bookkeeping */
-    .bookkeeping_area (NOLOAD) :
-    {
-        . = ALIGN(4);
-        *(.bookkeeping_area)
-    } > bookkeeping_area
-
-    /* .volatile_file section is used for the volatile file */
-    .volatile_file (NOLOAD) :
-    {
-        . = ALIGN(4);
-        *(.volatile_file)
-    } > volatile_file
-
-
-/* NOTE THESE ARE PLACEHOLDERS IF MOVING TM/TC QUEUES SHOULD BE NEEDED */
-    /* .volatile_tc_queue section is used for the Volatile TCs */
-    .volatile_tc_queue (NOLOAD) :
-    {
-        . = ALIGN(8);
-        *(.volatile_tc_queue)
-    } > volatile_tc_queue
-
-    /* .volatile_tm_queue section is used for the Volatile TMs */
-    .volatile_tm_queue (NOLOAD) :
-    {
-        . = ALIGN(8);
-        *(.volatile_tm_queue)
-    } > volatile_tm_queue
-
-    /* .filestore_repos section is used for the persistent Filestore Repository */
-    .filestore_repos (NOLOAD) :
-    {
-        . = ALIGN(4);
-        *(.filestore_repos)
-    } > filestore_repos
-
-    /* .tm_queue_repos section is used for the persistent telemetry queue */
-    .tm_queue_repos (NOLOAD) :
-    {
-        . = ALIGN(4);
-        *(.tm_queue_repos)
-    } > tm_queue_repos
-
-    __bss_start__ = _sbss;
-    __bss_end__ = _ebss;
-
-    __ram_end__ = ORIGIN(app_data_area) + LENGTH(app_data_area) - 4;
-
-    ld_text_size    = SIZEOF(.text);
-    ld_exidx_size   = SIZEOF(.ARM.exidx);
-    ld_vector_start = _sfixed;
-    ld_data_source  = _etext;
-    ld_data_start   = _srelocate;
-    ld_data_size    = SIZEOF(.relocate);
-    ld_appl_start   = _sappl;
-    ld_appl_size    = SIZEOF(.application_data);
-    ld_bss_start    = _sbss;
-    ld_bss_size     = SIZEOF(.bss);
-    ld_heap_start   = _sheap;
-    ld_heap_end     = _eheap;
-    ld_heap_size    = SIZEOF(.heap);
-    ld_stack_start  = _sstack;
-    ld_stack_end    = _estack;
-    ld_stack_size   = SIZEOF(.stack);
-    ld_text_size    = SIZEOF(.text);
-    ld_exidx_size   = SIZEOF(.ARM.exidx);
-
-/*  deprecated script section ?
-    ld_script_start = _ld_script_start_;
-    ld_script_end   = _ld_script_end_;
-*/
-    ld_instr_tcm_addr = ORIGIN(instr_tcm_area);
-    ld_instr_tcm_size = LENGTH(instr_tcm_area);
-
-    ld_flash_addr = ORIGIN(utility_load_area);
-    ld_flash_size = LENGTH(utility_load_area);
-
-    ld_data_tcm_addr = ORIGIN(data_tcm_area);
-    ld_data_tcm_size = LENGTH(data_tcm_area);
-
-/*  Must be defined at target level given the image built (bootloader_area, app_load_area, utility_load_area) */
-    ld_image_load_area_addr = ORIGIN(utility_load_area);
-    ld_image_load_area_size = LENGTH(utility_load_area);
-
-    ld_data_load_area_addr = ORIGIN(app_data_area);
-    ld_data_load_area_size = LENGTH(app_data_area);
-
-    ld_bootloader_addr = ORIGIN(bootloader_area);
-    ld_bootloader_size = LENGTH(bootloader_area);
-
-    ld_management_repos_addr = ORIGIN(management_repos);
-    ld_management_repos_size = LENGTH(management_repos);
-
-    ld_bookkeeping_area_addr = ORIGIN(bookkeeping_area);
-    ld_bookkeeping_area_size = LENGTH(bookkeeping_area);
-
-    ld_tm_queue_repos_addr = ORIGIN(tm_queue_repos);
-    ld_tm_queue_repos_size = LENGTH(tm_queue_repos);
-
-    ld_filestore_volatile_addr = ORIGIN(volatile_file);
-    ld_filestore_volatile_size = LENGTH(volatile_file);
-
-    ld_filestore_repos_addr = ORIGIN(filestore_repos);
-    ld_filestore_repos_size = LENGTH(filestore_repos);
-
-    ld_ext_mram1_start = ORIGIN(bootloader_area);
-    ld_ext_mram1_end = ORIGIN(mram1_reserved);
-
-    ld_ext_mram2_start = ORIGIN(filestore_repos);
-    ld_ext_mram2_end = ORIGIN(mram2_reserved);
-
-    ld_ext_sram_start = ORIGIN(volatile_file);
-    ld_ext_sram_end = ORIGIN(sram_reserved);
+  /* Check if data + heap + stack exceeds RAM limit */
+  ASSERT(__StackLimit >= __HeapLimit, "region RAM overflowed with stack")
 }

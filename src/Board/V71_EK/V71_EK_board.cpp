@@ -8,6 +8,7 @@
 
 namespace Board {
     void V71_EK_board::initialize() {
-        Abstract_clock::initialize_timers();
+        the_clock.initialize();
+        the_UART.initialize();
     }
 } // Board

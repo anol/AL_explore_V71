@@ -4,16 +4,19 @@
 #include "IO_pins.h"
 #include "Dictionary/Error_codes.h"
 
-namespace SamV71_pin_manager {
+namespace SamV71 {
     using namespace Application_configuration;
-    using Pin = Abstract::Abstract_IO_pin;
 
-    [[nodiscard]] Error_codes::Error_code initialize(Pin::Pin_phase);
+    class SamV71_pin_manager {
+    public:
+        using Pin = Abstract::Abstract_IO_pin;
 
-    Pin &get_pin(Pin_id);
+        bool initialize(Pin::Pin_phase);
 
-    Pin *get_optional_pin(Pin_id);
+        Pin &get_pin(Pin_id);
 
-    void print_diagnostics();
+        Pin *get_optional_pin(Pin_id);
 
-};
+        void print_diagnostics();
+    };
+}

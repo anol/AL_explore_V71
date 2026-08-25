@@ -4,18 +4,15 @@
 
 #include <Utility/Utility_types.h>
 
-namespace Abstract_clock {
-    extern void initialize_clocks(Frequency oscillator);
+namespace Abstract {
+    class Abstract_clock {
+    public:
+        Abstract_clock() = default;
 
-    extern void initialize_timers();
+        virtual ~Abstract_clock() = default;
 
-    extern uint32_t get_milliseconds();
+        virtual void initialize() = 0;
 
-    extern uint32_t get_master_clock();
-
-    extern uint32_t get_millisecond_timestamp();
-
-    extern uint64_t get_microsecond_timestamp();
-
-    extern uint32_t get_hundredthsecond_timestamp();
+        virtual uint32_t get_milliseconds() = 0;
+    };
 }
