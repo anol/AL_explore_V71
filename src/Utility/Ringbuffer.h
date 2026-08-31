@@ -2,8 +2,7 @@
 // Created by anolsen on 12.09.2019.
 //
 
-#ifndef NORM_FW_RINGBUFFER_H
-#define NORM_FW_RINGBUFFER_H
+#pragma once
 
 #include "Utility_types.h"
 #include <cstring>
@@ -286,5 +285,3 @@ private:
     volatile uint32_t write_index;
     T buf[Buffer_size];
 };
-
-#endif //NORM_FW_RINGBUFFER_H

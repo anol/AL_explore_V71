@@ -71,7 +71,8 @@
         "TARGET": "V71_EK_hello_world",
         "BOARD": "V71_EK",
         "PLATFORM": "SamV71",
-        "GNU_VERSION": "13.2.rel1"
+        "GNU_VERSION": "GNU_ANY",
+        "CMAKE_BUILD_TYPE": "Debug"
       }
     }
   ,

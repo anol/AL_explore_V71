@@ -9,7 +9,6 @@ set(SAMV71_DIR "${CMAKE_SOURCE_DIR}/src_3rd/Microchip")
 set(CMSIS_DIR "${CMAKE_SOURCE_DIR}/src_3rd/CMSIS/Core")
 
 target_sources(${THE_TARGET_NAME} PUBLIC
-        ${SAMV71_DIR}/gcc/gcc/startup_samv71q21b.c
 )
 
 target_include_directories(${THE_TARGET_NAME} PUBLIC
