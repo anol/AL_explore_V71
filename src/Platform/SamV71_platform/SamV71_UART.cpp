@@ -4,6 +4,7 @@
 
 #include "SamV71_UART.h"
 #include "sam.h"
+#include "SamV71_clock.h"
 
 SamV71::SamV71_UART *optional_one_and_only_UART{};
 
@@ -33,6 +34,7 @@ extern "C" void USART1_InterruptHandler(void) {
 
 namespace SamV71 {
     void SamV71_UART::initialize() {
+        SamV71_clock::enable_peripheral_clock(USART1_INSTANCE_ID);
         optional_one_and_only_UART = this;
         USART1_REGS->US_CR         = (US_CR_USART_RSTRX_Msk | US_CR_USART_RSTTX_Msk | US_CR_USART_RSTSTA_Msk); // Reset UART
         USART1_REGS->US_CR         = (US_CR_USART_TXEN_Msk | US_CR_USART_RXEN_Msk);                            // Enable UART
