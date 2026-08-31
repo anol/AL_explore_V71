@@ -30,9 +30,8 @@ namespace SamV71
     void SamV71_clock::initialize()
     {
         initialize_PLLA();
-        /* Initialize Master Clock */
         initialize_master_clock();
-     }
+    }
 
     void SamV71_clock::initialize_PLLA()
     {
@@ -63,6 +62,13 @@ namespace SamV71
 
     void SamV71_clock::enable_peripheral_clock(const uint32_t peripheral_id)
     {
-         PMC_REGS->PMC_PCER0 |= 1 << peripheral_id;
+        if (peripheral_id < 32)
+        {
+            PMC_REGS->PMC_PCER0 = 1 << peripheral_id;
+        }
+        else
+        {
+            PMC_REGS->PMC_PCER1 = 1 << (peripheral_id - 32);
+        }
     }
 }

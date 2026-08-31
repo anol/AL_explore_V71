@@ -8,7 +8,7 @@
 
 SamV71::SamV71_UART *optional_one_and_only_UART{};
 
-extern "C" void USART1_InterruptHandler(void) {
+extern "C" void USART1_Handler(void) {
     /* Error status */
     uint32_t errorStatus = (USART1_REGS->US_CSR & (US_CSR_USART_OVRE_Msk | US_CSR_USART_FRAME_Msk | US_CSR_USART_PARE_Msk));
     if (errorStatus != 0) {

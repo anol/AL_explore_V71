@@ -60,79 +60,79 @@ void SVCall_Handler       ( void ) __attribute__ ((weak, alias("Dummy_Handler"))
 void DebugMonitor_Handler ( void ) __attribute__ ((weak, alias("Dummy_Handler")));
 void PendSV_Handler       ( void ) __attribute__ ((weak, alias("Dummy_Handler")));
 */
-void SysTick_Handler() __attribute__ ((weak, alias("Dummy_SysTick_Handler")));
+extern "C" void SysTick_Handler() __attribute__ ((weak, alias("Dummy_SysTick_Handler")));
 
 /* Peripherals handlers */
-void SUPC_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void RSTC_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void RTC_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void RTT_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void WDT_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void PMC_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void EFC_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void UART0_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void UART1_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void PIOA_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void PIOB_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void PIOC_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void USART0_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void USART1_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void USART2_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void PIOD_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void PIOE_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void HSMCI_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void TWIHS0_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void TWIHS1_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void SPI0_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void SSC_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void TC0_CH0_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void TC0_CH1_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void TC0_CH2_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void TC1_CH0_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void TC1_CH1_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void TC1_CH2_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void AFEC0_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void DACC_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void PWM0_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void ICM_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void ACC_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void USBHS_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void MCAN0_INT0_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void MCAN0_INT1_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void MCAN1_INT0_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void MCAN1_INT1_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void GMAC_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void AFEC1_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void TWIHS2_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void SPI1_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void QSPI_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void UART2_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void UART3_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void UART4_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void TC2_CH0_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void TC2_CH1_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void TC2_CH2_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void TC3_CH0_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void TC3_CH1_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void TC3_CH2_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void MLB_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void AES_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void TRNG_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void XDMAC_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void ISI_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void PWM1_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void FPU_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void RSWDT_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void CCW_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void CCF_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void GMAC_Q1_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void GMAC_Q2_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void IXC_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void I2SC0_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void I2SC1_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void GMAC_Q3_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void GMAC_Q4_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
-void GMAC_Q5_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void SUPC_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void RSTC_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void RTC_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void RTT_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void WDT_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void PMC_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void EFC_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void UART0_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void UART1_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void PIOA_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void PIOB_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void PIOC_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void USART0_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void USART1_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void USART2_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void PIOD_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void PIOE_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void HSMCI_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void TWIHS0_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void TWIHS1_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void SPI0_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void SSC_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void TC0_CH0_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void TC0_CH1_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void TC0_CH2_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void TC1_CH0_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void TC1_CH1_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void TC1_CH2_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void AFEC0_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void DACC_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void PWM0_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void ICM_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void ACC_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void USBHS_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void MCAN0_INT0_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void MCAN0_INT1_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void MCAN1_INT0_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void MCAN1_INT1_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void GMAC_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void AFEC1_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void TWIHS2_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void SPI1_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void QSPI_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void UART2_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void UART3_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void UART4_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void TC2_CH0_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void TC2_CH1_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void TC2_CH2_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void TC3_CH0_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void TC3_CH1_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void TC3_CH2_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void MLB_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void AES_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void TRNG_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void XDMAC_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void ISI_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void PWM1_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void FPU_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void RSWDT_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void CCW_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void CCF_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void GMAC_Q1_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void GMAC_Q2_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void IXC_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void I2SC0_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void I2SC1_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void GMAC_Q3_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void GMAC_Q4_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void GMAC_Q5_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
 
 /* Exception Table */
 __attribute__ ((section(".vectors")))
@@ -148,13 +148,13 @@ const DeviceVectors exception_table = {
     .pfnMemoryManagement_Handler = (void*)MemoryManagement_Handler,
     .pfnBusFault_Handler = (void*)BusFault_Handler,
     .pfnUsageFault_Handler = (void*)UsageFault_Handler,
-    .pvReservedC9 = (void*)(0UL), /* Reserved */
-    .pvReservedC8 = (void*)(0UL), /* Reserved */
-    .pvReservedC7 = (void*)(0UL), /* Reserved */
-    .pvReservedC6 = (void*)(0UL), /* Reserved */
+    .pvReservedC9 = static_cast<void*>(nullptr), /* Reserved */
+    .pvReservedC8 = static_cast<void*>(nullptr), /* Reserved */
+    .pvReservedC7 = static_cast<void*>(nullptr), /* Reserved */
+    .pvReservedC6 = static_cast<void*>(nullptr), /* Reserved */
     .pfnSVCall_Handler = (void*)SVCall_Handler,
     .pfnDebugMonitor_Handler = (void*)DebugMonitor_Handler,
-    .pvReservedC3 = (void*)(0UL), /* Reserved */
+    .pvReservedC3 = static_cast<void*>(nullptr), /* Reserved */
     .pfnPendSV_Handler = (void*)PendSV_Handler,
     .pfnSysTick_Handler = (void*)SysTick_Handler,
 
@@ -168,7 +168,7 @@ const DeviceVectors exception_table = {
     .pfnEFC_Handler = (void*)EFC_Handler, /* 6  Embedded Flash Controller */
     .pfnUART0_Handler = (void*)UART0_Handler, /* 7  Universal Asynchronous Receiver Transmitter */
     .pfnUART1_Handler = (void*)UART1_Handler, /* 8  Universal Asynchronous Receiver Transmitter */
-    .pvReserved9 = (void*)(0UL), /* 9  Reserved */
+    .pvReserved9 = static_cast<void*>(nullptr), /* 9  Reserved */
     .pfnPIOA_Handler = (void*)PIOA_Handler, /* 10 Parallel Input/Output Controller */
     .pfnPIOB_Handler = (void*)PIOB_Handler, /* 11 Parallel Input/Output Controller */
     .pfnPIOC_Handler = (void*)PIOC_Handler, /* 12 Parallel Input/Output Controller */
@@ -213,15 +213,15 @@ const DeviceVectors exception_table = {
     .pfnTC3_CH1_Handler = (void*)TC3_CH1_Handler, /* 51 Timer/Counter 3 Channel 1 */
     .pfnTC3_CH2_Handler = (void*)TC3_CH2_Handler, /* 52 Timer/Counter 3 Channel 2 */
     .pfnMLB_Handler = (void*)MLB_Handler, /* 53 MediaLB */
-    .pvReserved54 = (void*)(0UL), /* 54 Reserved */
-    .pvReserved55 = (void*)(0UL), /* 55 Reserved */
+    .pvReserved54 = static_cast<void*>(nullptr), /* 54 Reserved */
+    .pvReserved55 = static_cast<void*>(nullptr), /* 55 Reserved */
     .pfnAES_Handler = (void*)AES_Handler, /* 56 Advanced Encryption Standard */
     .pfnTRNG_Handler = (void*)TRNG_Handler, /* 57 True Random Number Generator */
     .pfnXDMAC_Handler = (void*)XDMAC_Handler, /* 58 Extensible DMA Controller */
     .pfnISI_Handler = (void*)ISI_Handler, /* 59 Image Sensor Interface */
     .pfnPWM1_Handler = (void*)PWM1_Handler, /* 60 Pulse Width Modulation Controller */
     .pfnFPU_Handler = (void*)FPU_Handler, /* 61 Floating Point Unit */
-    .pvReserved62 = (void*)(0UL), /* 62 Reserved */
+    .pvReserved62 = static_cast<void*>(nullptr), /* 62 Reserved */
     .pfnRSWDT_Handler = (void*)RSWDT_Handler, /* 63 Reinforced Safety Watchdog Timer */
     .pfnCCW_Handler = (void*)CCW_Handler, /* 64 System Control Block */
     .pfnCCF_Handler = (void*)CCF_Handler, /* 65 System Control Block */

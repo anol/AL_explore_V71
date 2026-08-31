@@ -10,9 +10,8 @@ target_sources(${THE_TARGET_NAME} PUBLIC
         SamV71_IO_pin.h
         SamV71_pin_manager.cpp
         SamV71_pin_manager.h
-        SamV71_timer.cpp
-        SamV71_timer.h
-        SamV71_toolchain.cmake
+#        SamV71_timer.cpp
+#        SamV71_timer.h
         SamV71_UART.cpp
         SamV71_UART.h
 #        SamV71_watchdog.cpp
