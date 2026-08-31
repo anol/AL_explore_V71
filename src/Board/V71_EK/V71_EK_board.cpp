@@ -8,13 +8,34 @@
 
 namespace Board
 {
+    static void NVIC_Initialize( )
+    {
+        /* Priority 0 to 7 and no sub-priority. 0 is the highest priority */
+        NVIC_SetPriorityGrouping( 0x00 );
+        /* Enable NVIC Controller */
+        __DMB();
+        __enable_irq();
+        /* Enable the interrupt sources and configure the priorities as configured
+         * from within the "Interrupt Manager" of MHC. */
+        /* Enable Usage fault */
+        SCB->SHCSR |= (SCB_SHCSR_USGFAULTENA_Msk);
+        /* Trap divide by zero */
+        SCB->CCR   |= SCB_CCR_DIV_0_TRP_Msk;
+        /* Enable Bus fault */
+        SCB->SHCSR |= (SCB_SHCSR_BUSFAULTENA_Msk);
+        /* Enable memory management fault */
+        SCB->SHCSR |= (SCB_SHCSR_MEMFAULTENA_Msk);
+    }
+
     void V71_EK_board::initialize()
     {
+        WDT_REGS->WDT_MR = WDT_MR_WDDIS_Msk; // Disable the watchdog
+        RSWDT_REGS->RSWDT_MR = RSWDT_MR_WDDIS_Msk;	// Disable RSWDT
         the_clock.initialize();
         the_pin_manager.initialize();
         the_UART.initialize();
         the_console.initialize();
-        WDT_REGS->WDT_MR = WDT_MR_WDDIS_Msk; // Disable the watchdog
+        NVIC_Initialize();
     }
 
     void V71_EK_board::print_diagnostics()
