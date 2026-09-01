@@ -52,8 +52,8 @@ namespace SamV71 {
     }
 
     void SamV71_clock::initialize_PLLA() {
-        uint32_t input_multiplier  = 15u; // 25 - 1
-        uint32_t front_end_divider = 3u;  // 1
+        uint32_t input_multiplier  = 24; // 15u; // 25 - 1
+        uint32_t front_end_divider = 1; // 3u;  // 1
         PMC_REGS->CKGR_PLLAR       = CKGR_PLLAR_ONE_Msk | CKGR_PLLAR_MULA(0u);
         PMC_REGS->CKGR_PLLAR       = CKGR_PLLAR_ONE_Msk | CKGR_PLLAR_MULA(input_multiplier) | CKGR_PLLAR_DIVA(front_end_divider) | CKGR_PLLAR_PLLACOUNT(0x3Fu);
         while ((PMC_REGS->PMC_SR & PMC_SR_LOCKA_Msk) != PMC_SR_LOCKA_Msk) {
