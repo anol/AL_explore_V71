@@ -22,3 +22,15 @@ target_link_options(${THE_TARGET_NAME} PUBLIC
         -T ${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.ld
 )
 
+### Alternative image format: srec, binary, ihex ###
+add_custom_target(${PROJECT_NAME}.hex ALL)
+
+add_dependencies(${PROJECT_NAME}.hex ${THE_TARGET_NAME})
+
+add_custom_command(TARGET ${PROJECT_NAME}.hex POST_BUILD
+        COMMAND ${OBJCOPY}
+        -O ihex
+        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${THE_TARGET_NAME}
+        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME}.hex
+)
+
