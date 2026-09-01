@@ -367,22 +367,61 @@ extern "C" void Reset_Handler() {
  * \brief Default interrupt handler for unused IRQs.
  */
 
-static volatile uint32_t cfsr;
-static volatile uint32_t hfsr;
-static volatile uint32_t abfsr;
-static volatile uint32_t mmfar;
-static volatile uint32_t bfar;
+static volatile uint32_t cfsr = 0;
+static volatile uint32_t hfsr = 0;
+static volatile uint32_t abfsr = 0;
+static volatile uint32_t mmfar = 0;
+static volatile uint32_t bfar = 0;
+static volatile uint32_t frame_r0  = 0;
+static volatile uint32_t frame_r1  = 0;
+static volatile uint32_t frame_r2  = 0;
+static volatile uint32_t frame_r3  = 0;
+static volatile uint32_t frame_r12 = 0;
+static volatile uint32_t frame_lr  = 0;
+static volatile uint32_t frame_pc  = 0;
+static volatile uint32_t frame_psr = 0;
 
-void HardFault_Handler() {
-    cfsr  = SCB->CFSR;
-    hfsr  = SCB->HFSR;
-    abfsr = SCB->ABFSR;
-    mmfar = SCB->MMFAR;
-    bfar  = SCB->BFAR;
+extern "C" void capture_stack_frame(uint32_t *frame) {
+    cfsr      = SCB->CFSR;
+    hfsr      = SCB->HFSR;
+    abfsr     = SCB->ABFSR;
+    mmfar     = SCB->MMFAR;
+    bfar      = SCB->BFAR;
+    frame_r0  = frame[0];
+    frame_r1  = frame[1];
+    frame_r2  = frame[2];
+    frame_r3  = frame[3];
+    frame_r12 = frame[4];
+    frame_lr  = frame[5];
+    frame_pc  = frame[6];
+    frame_psr = frame[7];
     __asm volatile ("bkpt #0");
     while (true) {
         __NOP();
     }
+}
+
+__attribute__((naked))
+void HardFault_Handler() {
+    __asm volatile
+    (
+        "tst lr, #4    \n"
+        "ite eq        \n"
+        "mrseq r0, msp \n"
+        "mrsne r0, psp \n"
+        "b capture_stack_frame \n"
+    );
+}
+__attribute__((naked))
+void BusFault_Handler() {
+    __asm volatile
+    (
+        "tst lr, #4    \n"
+        "ite eq        \n"
+        "mrseq r0, msp \n"
+        "mrsne r0, psp \n"
+        "b capture_stack_frame \n"
+    );
 }
 
 void Dummy_SysTick_Handler() {
@@ -423,47 +462,6 @@ void MemoryManagement_Handler() {
     while (true) {
         __NOP();
     }
-}
-
-static volatile uint32_t frame_r0  = 0;
-static volatile uint32_t frame_r1  = 0;
-static volatile uint32_t frame_r2  = 0;
-static volatile uint32_t frame_r3  = 0;
-static volatile uint32_t frame_r12 = 0;
-static volatile uint32_t frame_lr  = 0;
-static volatile uint32_t frame_pc  = 0;
-static volatile uint32_t frame_psr = 0;
-
-extern "C" void capture_stack_frame(uint32_t *frame) {
-    cfsr      = SCB->CFSR;
-    hfsr      = SCB->HFSR;
-    abfsr     = SCB->ABFSR;
-    mmfar     = SCB->MMFAR;
-    bfar      = SCB->BFAR;
-    frame_r0  = frame[0];
-    frame_r1  = frame[1];
-    frame_r2  = frame[2];
-    frame_r3  = frame[3];
-    frame_r12 = frame[4];
-    frame_lr  = frame[5];
-    frame_pc  = frame[6];
-    frame_psr = frame[7];
-    __asm volatile ("bkpt #0");
-    while (true) {
-        __NOP();
-    }
-}
-
-__attribute__((naked))
-void BusFault_Handler() {
-    __asm volatile
-    (
-        "tst lr, #4    \n"
-        "ite eq        \n"
-        "mrseq r0, msp \n"
-        "mrsne r0, psp \n"
-        "b capture_stack_frame \n"
-    );
 }
 
 void UsageFault_Handler() {
