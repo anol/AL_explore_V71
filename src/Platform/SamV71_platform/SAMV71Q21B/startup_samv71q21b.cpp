@@ -305,6 +305,7 @@ extern "C" void Reset_Handler()
 
 static volatile uint32_t cfsr;
 static volatile uint32_t hfsr;
+static volatile uint32_t abfsr;
 static volatile uint32_t mmfar;
 static volatile uint32_t bfar;
 
@@ -312,6 +313,7 @@ void HardFault_Handler()
 {
     cfsr = SCB->CFSR;
     hfsr = SCB->HFSR;
+    abfsr = SCB->ABFSR;
     mmfar = SCB->MMFAR;
     bfar = SCB->BFAR;
     __asm volatile ("bkpt #0");
@@ -330,6 +332,7 @@ void Dummy_Handler()
 {
     cfsr = SCB->CFSR;
     hfsr = SCB->HFSR;
+    abfsr = SCB->ABFSR;
     mmfar = SCB->MMFAR;
     bfar = SCB->BFAR;
     __asm volatile ("bkpt #0");
@@ -343,6 +346,7 @@ void NonMaskableInt_Handler()
 {
     cfsr = SCB->CFSR;
     hfsr = SCB->HFSR;
+    abfsr = SCB->ABFSR;
     mmfar = SCB->MMFAR;
     bfar = SCB->BFAR;
     __asm volatile ("bkpt #0");
@@ -356,6 +360,7 @@ void MemoryManagement_Handler()
 {
     cfsr = SCB->CFSR;
     hfsr = SCB->HFSR;
+    abfsr = SCB->ABFSR;
     mmfar = SCB->MMFAR;
     bfar = SCB->BFAR;
     __asm volatile ("bkpt #0");
@@ -369,6 +374,7 @@ void BusFault_Handler()
 {
     cfsr = SCB->CFSR;
     hfsr = SCB->HFSR;
+    abfsr = SCB->ABFSR;
     mmfar = SCB->MMFAR;
     bfar = SCB->BFAR;
     __asm volatile ("bkpt #0");
