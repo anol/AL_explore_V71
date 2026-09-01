@@ -3,11 +3,14 @@
 //
 
 #include <cstdint>
-
-#include "samv71q21b_symbols.h"
-#include "component/uart/USART_interrupt.h"
-#include "component/clock/SAMV71_clock.h"
-#include "SAMV71_UART.h"
+#include <status_code.h>
+#include <Assert_utility.h>
+#include <isr_serial.h>
+#include <component/pmc.h>
+#include <clock/sysclk.h>
+#include <cortex_m4_definitions.h>
+#include <nvic_helpers.h>
+#include "USART_proxy.h"
 
 #define CONSOLE_BITRATE (115200UL)
 /* The receiver sampling divide of baudrate clock. */
@@ -17,84 +20,102 @@
 #define MIN_CD_VALUE                  0x01
 #define MAX_CD_VALUE                  US_BRGR_CD_Msk
 
-SAMV71_UART::SAMV71_UART(const Usart_definition &definition) :
+USART_proxy::USART_proxy(const Usart_definition &definition) :
         m_definition(definition),
-        rx_pin(definition.rx_port, definition.rx_pin, false, definition.rx_mode),
-        tx_pin(definition.tx_port, definition.tx_pin, false, definition.tx_mode) {}
+        rx_pin(definition.rx_pin, false, definition.rx_mode),
+        tx_pin(definition.tx_pin, false, definition.tx_mode) {}
 
-void SAMV71_UART::initialize(uint32_t bitrate) {
-    setup_UART(CONSOLE_BITRATE);
-    setup_interrupts();
+void USART_proxy::initialize() {
+    pmc_enable_periph_clk(m_definition.USART_number);
+    init_rs232();
+    init_interrupts();
 }
 
-bool SAMV71_UART::has_input() {
-    return 0 < m_rx_buffer.get_fill();
+bool USART_proxy::has_input() {
+    return 0 < m_rx_buffer.num();
 }
 
-bool SAMV71_UART::get(uint8_t *p_data) {
-    return m_rx_buffer.get(p_data);
+int USART_proxy::for_each_input(void *p_user, receiver_t p_receiver) {
+    return m_rx_buffer.for_each(p_user, p_receiver);
 }
 
-int SAMV71_UART::print(const char *ptr, int len) {
+int USART_proxy::print(const char *ptr, int len) {
     int nChars = 0;
     for (; len != 0; --len) {
-        if (put(*ptr++) < 0) {
-            return nChars;
+        if (put(*ptr++, false) < 0) {
+            return -1;
         }
         ++nChars;
     }
     return nChars;
 }
 
-int SAMV71_UART::put(uint8_t c) {
-    if (m_tx_buffer.is_getting_filled()) {
-        m_overflow_count++;
-        return 0;
+/*
+static uint32_t my_write(Usart *p_USART, uint32_t data) {
+    if (!(p_USART->US_CSR & US_CSR_TXRDY)) {
+        return 1;
+    }
+    p_USART->US_THR = US_THR_TXCHR(data);
+    return 0;
+}
+*/
+
+int USART_proxy::put(char c, bool non_blocking) {
+    special_assert(0 != m_definition.p_USART);
+    if (non_blocking) {
+        if (m_tx_buffer.is_getting_filled()) {
+            return ERR_OVERFLOW;
+        }
+    } else {
+        while (m_tx_buffer.is_getting_filled());
     }
     bool success = m_tx_buffer.put(c);
     m_definition.p_USART->US_IER = (US_IER_TXRDY | US_IER_TXEMPTY);
-    return success ? 0 : -1;
+    return success ? STATUS_OK : ERR_IO_ERROR;
 }
 
 static void isr_rx(void *p_user, uint8_t data) {
     if (p_user) {
-        ((SAMV71_UART *) p_user)->rx(data);
+        ((USART_proxy *) p_user)->rx(data);
     }
 }
 
-void SAMV71_UART::rx(uint8_t data) {
+void USART_proxy::rx(uint8_t data) {
     m_rx_buffer.put(data);
 }
 
 static bool isr_tx(void *p_user, uint8_t *p_data) {
     if (p_user && p_data) {
-        return ((SAMV71_UART *) p_user)->tx(p_data);
+        return ((USART_proxy *) p_user)->tx(p_data);
     } else {
         return false;
     }
 }
 
-bool SAMV71_UART::tx(uint8_t *p_data) {
+bool USART_proxy::tx(uint8_t *p_data) {
     return m_tx_buffer.get(p_data);
 }
 
 static void isr_error(void *p_user, uint32_t diag) {
     if (p_user) {
-        ((SAMV71_UART *) p_user)->error(diag);
+        ((USART_proxy *) p_user)->error(diag);
     }
 }
 
-void SAMV71_UART::error(uint32_t diag) {
+void USART_proxy::error(uint32_t diag) {
     // TODO: The very first read will cause an OVRE
 //    while (true);
 }
 
-void SAMV71_UART::setup_interrupts() {
+void USART_proxy::init_interrupts() {
     isr_serial_callbacks callbacks = {m_definition.irq_number, isr_rx, isr_tx, isr_error, (void *) this};
-    register_USART_interrupt_handler(callbacks);
+    NVIC_DisableIRQ(m_definition.irq_number);
+    NVIC_ClearPendingIRQ(m_definition.irq_number);
+    register_ISR_serial_handler(callbacks);
+    NVIC_EnableIRQ(m_definition.irq_number);
 }
 
-void SAMV71_UART::reset() const {
+void USART_proxy::reset() {
     m_definition.p_USART->US_WPMR = US_WPMR_WPKEY_PASSWD;
     m_definition.p_USART->US_MR = 0;
     m_definition.p_USART->US_RTOR = 0;
@@ -105,12 +126,9 @@ void SAMV71_UART::reset() const {
     m_definition.p_USART->US_CR = US_CR_RTSDIS;
 }
 
-uint32_t SAMV71_UART::setup_UART(uint32_t bitrate) {
-    Clock_interface::enable_peripheral_clock(m_definition.USART_number);
-    rx_pin.initialize();
-    tx_pin.initialize();
+uint32_t USART_proxy::init_rs232() {
     reset();
-    if (set_bitrate(bitrate)) {
+    if (set_bitrate(CONSOLE_BITRATE)) {
         return 1;
     }
     m_definition.p_USART->US_MR |=
@@ -120,20 +138,20 @@ uint32_t SAMV71_UART::setup_UART(uint32_t bitrate) {
     return 0;
 }
 
-uint32_t SAMV71_UART::set_bitrate(uint32_t bitrate) const {
-    uint32_t peripheral_clock = Clock_interface::get_peripheral_hz();
+uint32_t USART_proxy::set_bitrate(uint32_t bitrate) {
+    uint32_t ul_mck = sysclk_get_peripheral_hz();
     uint32_t over;
     uint32_t cd_fp;
     uint32_t cd;
     uint32_t fp;
     /* Calculate the receiver sampling divide of baudrate clock. */
-    if (peripheral_clock >= HIGH_FRQ_SAMPLE_DIV * bitrate) {
+    if (ul_mck >= HIGH_FRQ_SAMPLE_DIV * bitrate) {
         over = HIGH_FRQ_SAMPLE_DIV;
     } else {
         over = LOW_FRQ_SAMPLE_DIV;
     }
     /* Calculate clock divider according to the fraction calculated formula. */
-    cd_fp = (8 * peripheral_clock + (over * bitrate) / 2) / (over * bitrate);
+    cd_fp = (8 * ul_mck + (over * bitrate) / 2) / (over * bitrate);
     cd = cd_fp >> 3u;
     fp = cd_fp & 0x07u;
     if (cd < MIN_CD_VALUE || cd > MAX_CD_VALUE) {
@@ -146,8 +164,4 @@ uint32_t SAMV71_UART::set_bitrate(uint32_t bitrate) const {
     /* Configure the baudrate generate register. */
     m_definition.p_USART->US_BRGR = (cd << US_BRGR_CD_Pos) | (fp << US_BRGR_FP_Pos);
     return 0;
-}
-
-bool SAMV71_UART::is_ready() {
-    return (m_rx_buffer.is_empty() && m_tx_buffer.is_empty());
 }

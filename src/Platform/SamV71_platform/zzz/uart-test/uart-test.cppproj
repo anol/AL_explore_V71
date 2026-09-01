@@ -1,0 +1,713 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="14.0">
+  <PropertyGroup>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>7.0</ProjectVersion>
+    <ToolchainName>com.Atmel.ARMGCC.CPP</ToolchainName>
+    <ProjectGuid>dce6c7e3-ee26-4d79-826b-08594b9adaaa</ProjectGuid>
+    <avrdevice>ATSAMV71Q21B</avrdevice>
+    <avrdeviceseries>samv71</avrdeviceseries>
+    <OutputType>Executable</OutputType>
+    <Language>CPP</Language>
+    <OutputFileName>$(MSBuildProjectName)</OutputFileName>
+    <OutputFileExtension>.elf</OutputFileExtension>
+    <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
+    <AssemblyName>uart-test</AssemblyName>
+    <Name>uart-test</Name>
+    <RootNamespace>uart-test</RootNamespace>
+    <ToolchainFlavour>Native</ToolchainFlavour>
+    <KeepTimersRunning>true</KeepTimersRunning>
+    <OverrideVtor>false</OverrideVtor>
+    <CacheFlash>true</CacheFlash>
+    <ProgFlashFromRam>true</ProgFlashFromRam>
+    <RamSnippetAddress>0x20000000</RamSnippetAddress>
+    <UncachedRange />
+    <preserveEEPROM>true</preserveEEPROM>
+    <OverrideVtorValue>exception_table</OverrideVtorValue>
+    <BootSegment>2</BootSegment>
+    <ResetRule>0</ResetRule>
+    <eraseonlaunchrule>0</eraseonlaunchrule>
+    <EraseKey />
+    <AsfFrameworkConfig>
+      <framework-data>
+        <options>
+          <option id="common.boards" value="Add" config="" content-id="Atmel.ASF" />
+          <option id="common.services.basic.clock" value="Add" config="" content-id="Atmel.ASF" />
+          <option id="common.services.basic.gpio" value="Add" config="" content-id="Atmel.ASF" />
+          <option id="common.services.ioport" value="Add" config="" content-id="Atmel.ASF" />
+          <option id="common.utils.stdio.stdio_serial" value="Add" config="" content-id="Atmel.ASF" />
+          <option id="sam.components.ethernet_phy.ksz8061rnb" value="Add" config="" content-id="Atmel.ASF" />
+          <option id="sam.drivers.mpu" value="Add" config="" content-id="Atmel.ASF" />
+          <option id="sam.drivers.pio" value="Add" config="" content-id="Atmel.ASF" />
+          <option id="sam.drivers.uart" value="Add" config="" content-id="Atmel.ASF" />
+          <option id="sam.utils.cmsis.samv71.source.template" value="Add" config="" content-id="Atmel.ASF" />
+          <option id="thirdparty.lwip.raw_basic_http_example" value="Add" config="" content-id="Atmel.ASF" />
+          <option id="thirdparty.lwip.version" value="Add" config="1.4.1" content-id="Atmel.ASF" />
+        </options>
+        <configurations>
+          <configuration key="config.compiler.armgcc.create_aux" value="no" default="no" content-id="Atmel.ASF" />
+          <configuration key="config.compiler.iarewarm.create_aux" value="no" default="no" content-id="Atmel.ASF" />
+          <configuration key="config.compiler.iarewarm.debugger.driver" value="cmsisdap" default="cmsisdap" content-id="Atmel.ASF" />
+          <configuration key="config.thirdparty.lwip-port.141" value="standalone_samv71" default="standalone_samv71" content-id="Atmel.ASF" />
+          <configuration key="config.compiler.armgcc.stack_size" value="0x400" default="0x400" content-id="Atmel.ASF" />
+          <configuration key="config.compiler.iarewarm.heap_size" value="0" default="0" content-id="Atmel.ASF" />
+          <configuration key="config.compiler.iarewarm.sys_stack_size" value="0x400" default="0x400" content-id="Atmel.ASF" />
+          <configuration key="config.compiler.as5_arm.create_aux" value="no" default="no" content-id="Atmel.ASF" />
+          <configuration key="config.thirdparty.lwip.version" value="1.4.1" default="1.4.1" content-id="Atmel.ASF" />
+        </configurations>
+        <files>
+        </files>
+        <documentation help="" />
+        <offline-documentation help="" />
+        <dependencies>
+          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.40.0" />
+        </dependencies>
+        <project id="" value="Add" config="" content-id="Atmel.ASF" />
+        <board id="board.samv71_xplained_ultra" value="Add" config="" content-id="Atmel.ASF" />
+      </framework-data>
+    </AsfFrameworkConfig>
+    <avrtool>com.atmel.avrdbg.tool.edbg</avrtool>
+    <avrtoolserialnumber>ATML2407121800002005</avrtoolserialnumber>
+    <avrdeviceexpectedsignature>0xA1220E00</avrdeviceexpectedsignature>
+    <custom>
+      <ToolOptions>
+        <InterfaceProperties>
+        </InterfaceProperties>
+        <InterfaceName>
+        </InterfaceName>
+      </ToolOptions>
+      <ToolType>custom</ToolType>
+      <ToolNumber>
+      </ToolNumber>
+      <ToolName>Custom Programming Tool</ToolName>
+    </custom>
+    <avrtoolinterface>SWD</avrtoolinterface>
+    <com_atmel_avrdbg_tool_edbg>
+      <ToolOptions>
+        <InterfaceProperties>
+          <SwdClock>2000000</SwdClock>
+        </InterfaceProperties>
+        <InterfaceName>SWD</InterfaceName>
+      </ToolOptions>
+      <ToolType>com.atmel.avrdbg.tool.edbg</ToolType>
+      <ToolNumber>ATML2407121800002005</ToolNumber>
+      <ToolName>EDBG</ToolName>
+    </com_atmel_avrdbg_tool_edbg>
+    <avrtoolinterfaceclock>2000000</avrtoolinterfaceclock>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <ToolchainSettings>
+      <ArmGccCpp>
+        <armgcc.common.outputfiles.hex>True</armgcc.common.outputfiles.hex>
+        <armgcc.common.outputfiles.lss>True</armgcc.common.outputfiles.lss>
+        <armgcc.common.outputfiles.eep>True</armgcc.common.outputfiles.eep>
+        <armgcc.common.outputfiles.bin>True</armgcc.common.outputfiles.bin>
+        <armgcc.common.outputfiles.srec>True</armgcc.common.outputfiles.srec>
+        <armgcc.compiler.symbols.DefSymbols>
+          <ListValues>
+            <Value>NDEBUG</Value>
+          </ListValues>
+        </armgcc.compiler.symbols.DefSymbols>
+        <armgcc.compiler.directories.IncludePaths>
+          <ListValues>
+            <Value>%24(PackRepoDir)\arm\cmsis\5.4.0\CMSIS\Core\Include\</Value>
+            <Value>%24(PackRepoDir)\atmel\SAMV71_DFP\2.4.182\samv71b\include</Value>
+          </ListValues>
+        </armgcc.compiler.directories.IncludePaths>
+        <armgcc.compiler.optimization.level>Optimize for size (-Os)</armgcc.compiler.optimization.level>
+        <armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>True
+                </armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>
+        <armgcc.compiler.warnings.AllWarnings>True</armgcc.compiler.warnings.AllWarnings>
+        <armgcccpp.compiler.symbols.DefSymbols>
+          <ListValues>
+            <Value>NDEBUG</Value>
+          </ListValues>
+        </armgcccpp.compiler.symbols.DefSymbols>
+        <armgcccpp.compiler.directories.IncludePaths>
+          <ListValues>
+            <Value>%24(PackRepoDir)\arm\cmsis\5.4.0\CMSIS\Core\Include\</Value>
+            <Value>%24(PackRepoDir)\atmel\SAMV71_DFP\2.4.182\samv71b\include</Value>
+          </ListValues>
+        </armgcccpp.compiler.directories.IncludePaths>
+        <armgcccpp.compiler.optimization.level>Optimize for size (-Os)</armgcccpp.compiler.optimization.level>
+        <armgcccpp.compiler.optimization.PrepareFunctionsForGarbageCollection>True
+                </armgcccpp.compiler.optimization.PrepareFunctionsForGarbageCollection>
+        <armgcccpp.compiler.warnings.AllWarnings>True</armgcccpp.compiler.warnings.AllWarnings>
+        <armgcccpp.linker.libraries.Libraries>
+          <ListValues>
+            <Value>libm</Value>
+          </ListValues>
+        </armgcccpp.linker.libraries.Libraries>
+        <armgcccpp.linker.libraries.LibrarySearchPaths>
+          <ListValues>
+            <Value>%24(ProjectDir)\src\Board\SAMV71_XLTRA\Startup</Value>
+          </ListValues>
+        </armgcccpp.linker.libraries.LibrarySearchPaths>
+        <armgcccpp.linker.optimization.GarbageCollectUnusedSections>True
+                </armgcccpp.linker.optimization.GarbageCollectUnusedSections>
+        <armgcccpp.linker.miscellaneous.LinkerFlags>-Tsamv71q21b_flash.ld</armgcccpp.linker.miscellaneous.LinkerFlags>
+        <armgcccpp.assembler.general.IncludePaths>
+          <ListValues>
+            <Value>%24(PackRepoDir)\arm\cmsis\5.4.0\CMSIS\Core\Include\</Value>
+            <Value>%24(PackRepoDir)\atmel\SAMV71_DFP\2.4.182\samv71b\include</Value>
+          </ListValues>
+        </armgcccpp.assembler.general.IncludePaths>
+        <armgcccpp.preprocessingassembler.general.IncludePaths>
+          <ListValues>
+            <Value>%24(PackRepoDir)\arm\cmsis\5.4.0\CMSIS\Core\Include\</Value>
+            <Value>%24(PackRepoDir)\atmel\SAMV71_DFP\2.4.182\samv71b\include</Value>
+          </ListValues>
+        </armgcccpp.preprocessingassembler.general.IncludePaths>
+      </ArmGccCpp>
+    </ToolchainSettings>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <ToolchainSettings>
+      <ArmGccCpp>
+        <armgcc.common.outputfiles.hex>True</armgcc.common.outputfiles.hex>
+        <armgcc.common.outputfiles.lss>True</armgcc.common.outputfiles.lss>
+        <armgcc.common.outputfiles.eep>True</armgcc.common.outputfiles.eep>
+        <armgcc.common.outputfiles.bin>True</armgcc.common.outputfiles.bin>
+        <armgcc.common.outputfiles.srec>True</armgcc.common.outputfiles.srec>
+        <armgcc.compiler.symbols.DefSymbols>
+          <ListValues>
+            <Value>DEBUG</Value>
+            <Value>__SAMV71Q21B__</Value>
+            <Value>scanf=iscanf</Value>
+            <Value>ARM_MATH_CM7=true</Value>
+            <Value>printf=iprintf</Value>
+            <Value>BOARD=SAMV71_XPLAINED_ULTRA</Value>
+          </ListValues>
+        </armgcc.compiler.symbols.DefSymbols>
+        <armgcc.compiler.directories.IncludePaths>
+          <ListValues>
+            <Value>../src/App</Value>
+            <Value>../src/Board/SAMV71_XLTRA</Value>
+            <Value>../src/Board/SAMV71Q21B/include</Value>
+            <Value>../src/Board/SAMV71Q21B/peripherals/clock</Value>
+            <Value>../src/Board/SAMV71Q21B/peripherals/gpio</Value>
+            <Value>../src/Board/SAMV71Q21B/peripherals/pmc</Value>
+            <Value>../src/Board/SAMV71Q21B/peripherals/uart</Value>
+            <Value>../src/Labio</Value>
+            <Value>../src/Utility</Value>
+          </ListValues>
+        </armgcc.compiler.directories.IncludePaths>
+        <armgcc.compiler.optimization.level>Optimize (-O1)</armgcc.compiler.optimization.level>
+        <armgcc.compiler.optimization.OtherFlags>-fdata-sections</armgcc.compiler.optimization.OtherFlags>
+        <armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>True</armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>
+        <armgcc.compiler.optimization.DebugLevel>Maximum (-g3)</armgcc.compiler.optimization.DebugLevel>
+        <armgcc.compiler.warnings.AllWarnings>True</armgcc.compiler.warnings.AllWarnings>
+        <armgcc.compiler.miscellaneous.OtherFlags>-pipe -fno-strict-aliasing -Wall -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -std=gnu99 -ffunction-sections -fdata-sections -Wchar-subscripts -Wcomment -Wformat=2 -Wimplicit-int -Wmain -Wparentheses -Wsequence-point -Wreturn-type -Wswitch -Wtrigraphs -Wunused -Wuninitialized -Wunknown-pragmas -Wfloat-equal -Wundef -Wshadow -Wbad-function-cast -Wwrite-strings -Wsign-compare -Waggregate-return -Wmissing-declarations -Wformat -Wmissing-format-attribute -Wno-deprecated-declarations -Wpacked -Wredundant-decls -Wnested-externs -Wlong-long -Wunreachable-code -Wcast-align --param max-inline-insns-single=500 -mfloat-abi=softfp -mfpu=fpv5-sp-d16</armgcc.compiler.miscellaneous.OtherFlags>
+        <armgcccpp.compiler.symbols.DefSymbols>
+          <ListValues>
+            <Value>DEBUG</Value>
+            <Value>__SAMV71Q21B__</Value>
+            <Value>scanf=iscanf</Value>
+            <Value>ARM_MATH_CM7=true</Value>
+            <Value>printf=iprintf</Value>
+            <Value>BOARD=SAMV71_XPLAINED_ULTRA</Value>
+          </ListValues>
+        </armgcccpp.compiler.symbols.DefSymbols>
+        <armgcccpp.compiler.directories.IncludePaths>
+          <ListValues>
+            <Value>../src/App</Value>
+            <Value>../src/Board/SAMV71_XLTRA</Value>
+            <Value>../src/Board/SAMV71Q21B/include</Value>
+            <Value>../src/Board/SAMV71Q21B/peripherals/clock</Value>
+            <Value>../src/Board/SAMV71Q21B/peripherals/gpio</Value>
+            <Value>../src/Board/SAMV71Q21B/peripherals/pmc</Value>
+            <Value>../src/Board/SAMV71Q21B/peripherals/uart</Value>
+            <Value>../src/Labio</Value>
+            <Value>../src/Utility</Value>
+          </ListValues>
+        </armgcccpp.compiler.directories.IncludePaths>
+        <armgcccpp.compiler.optimization.level>Optimize (-O1)</armgcccpp.compiler.optimization.level>
+        <armgcccpp.compiler.optimization.PrepareFunctionsForGarbageCollection>True</armgcccpp.compiler.optimization.PrepareFunctionsForGarbageCollection>
+        <armgcccpp.compiler.optimization.DebugLevel>Maximum (-g3)</armgcccpp.compiler.optimization.DebugLevel>
+        <armgcccpp.compiler.warnings.AllWarnings>True</armgcccpp.compiler.warnings.AllWarnings>
+        <armgcccpp.linker.libraries.Libraries>
+          <ListValues>
+            <!--            <Value>libm</Value>-->
+            <!--            <Value>arm_cortexM7lfsp_math_softfp</Value>-->
+          </ListValues>
+        </armgcccpp.linker.libraries.Libraries>
+        <armgcccpp.linker.libraries.LibrarySearchPaths>
+          <ListValues>
+            <!--            <Value>%24(ProjectDir)\src\Thirdparty\CMSIS\Lib\GCC</Value>-->
+          </ListValues>
+        </armgcccpp.linker.libraries.LibrarySearchPaths>
+        <armgcccpp.linker.optimization.GarbageCollectUnusedSections>True</armgcccpp.linker.optimization.GarbageCollectUnusedSections>
+        <armgcccpp.linker.memorysettings.ExternalRAM />
+        <armgcccpp.linker.miscellaneous.LinkerFlags>-Xlinker --defsym=STACK_SIZE=0x400 -T../src/Board/SAMV71_XLTRA/linker_script_flash.ld</armgcccpp.linker.miscellaneous.LinkerFlags>
+        <armgcccpp.assembler.general.IncludePaths>
+          <ListValues>
+            <Value>../src/App</Value>
+            <Value>../src/Board/SAMV71_XLTRA</Value>
+            <Value>../src/Board/SAMV71Q21B/include</Value>
+            <Value>../src/Board/SAMV71Q21B/peripherals/clock</Value>
+            <Value>../src/Board/SAMV71Q21B/peripherals/gpio</Value>
+            <Value>../src/Board/SAMV71Q21B/peripherals/pmc</Value>
+            <Value>../src/Board/SAMV71Q21B/peripherals/uart</Value>
+            <Value>../src/Labio</Value>
+            <Value>../src/Utility</Value>
+          </ListValues>
+        </armgcccpp.assembler.general.IncludePaths>
+        <armgcccpp.assembler.debugging.DebugLevel>Default (-Wa,-g)</armgcccpp.assembler.debugging.DebugLevel>
+        <armgcccpp.preprocessingassembler.general.IncludePaths>
+          <ListValues>
+            <Value>../src/App</Value>
+            <Value>../src/Board/SAMV71_XLTRA</Value>
+            <Value>../src/Board/SAMV71Q21B/include</Value>
+            <Value>../src/Board/SAMV71Q21B/peripherals/clock</Value>
+            <Value>../src/Board/SAMV71Q21B/peripherals/gpio</Value>
+            <Value>../src/Board/SAMV71Q21B/peripherals/pmc</Value>
+            <Value>../src/Board/SAMV71Q21B/peripherals/uart</Value>
+            <Value>../src/Labio</Value>
+            <Value>../src/Utility</Value>
+          </ListValues>
+        </armgcccpp.preprocessingassembler.general.IncludePaths>
+        <armgcccpp.preprocessingassembler.debugging.DebugLevel>Default (-Wa,-g)</armgcccpp.preprocessingassembler.debugging.DebugLevel>
+      </ArmGccCpp>
+    </ToolchainSettings>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="src\" />
+    <Folder Include="src\App\" />
+    <Folder Include="src\Board\" />
+    <Folder Include="src\Board\SAMV71Q21B\" />
+    <Folder Include="src\Board\SAMV71Q21B\peripherals\" />
+    <Folder Include="src\Board\SAMV71_XLTRA\" />
+    <Folder Include="src\Board\SAMV71Q21B\include\" />
+    <Folder Include="src\Board\SAMV71Q21B\include\component" />
+    <Folder Include="src\Board\SAMV71Q21B\include\instance" />
+    <Folder Include="src\Board\SAMV71Q21B\peripherals\clock\" />
+    <Folder Include="src\Board\SAMV71Q21B\peripherals\gpio\" />
+    <Folder Include="src\Board\SAMV71Q21B\peripherals\pmc\" />
+    <Folder Include="src\Board\SAMV71Q21B\peripherals\uart\" />
+    <Folder Include="src\Labio\" />
+    <Folder Include="src\Utility\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="src/App/App.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/App/App.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71_XLTRA/board_definitions.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71_XLTRA/board_initialization.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71_XLTRA/board_initialization.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71_XLTRA/cortex_m4_definitions.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71_XLTRA/interrupt_vectors.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/component/acc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/component/aes.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/component/afec.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/component/chipid.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/component/dacc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/component/efc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/component/gmac.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/component/gpbr.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/component/hsmci.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/component/i2sc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/component/icm.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/component/isi.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/component/matrix.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/component/mcan.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/component/mlb.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/component/pio.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/component/pmc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/component/pwm.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/component/qspi.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/component/rstc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/component/rswdt.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/component/rtc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/component/rtt.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/component/sdramc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/component/smc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/component/spi.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/component/ssc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/component/supc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/component/tc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/component/trng.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/component/twihs.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/component/uart.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/component/usart.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/component/usbhs.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/component/utmi.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/component/wdt.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/component/xdmac.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/acc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/aes.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/afec0.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/afec1.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/chipid.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/dacc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/efc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/gmac.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/gpbr.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/hsmci.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/i2sc0.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/i2sc1.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/icm.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/isi.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/matrix.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/mcan0.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/mcan1.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/mlb.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/pioa.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/piob.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/pioc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/piod.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/pioe.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/pmc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/pwm0.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/pwm1.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/qspi.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/rstc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/rswdt.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/rtc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/rtt.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/sdramc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/smc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/spi0.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/spi1.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/ssc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/supc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/tc0.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/tc1.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/tc2.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/tc3.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/trng.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/twihs0.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/twihs1.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/twihs2.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/uart0.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/uart1.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/uart2.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/uart3.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/uart4.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/usart0.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/usart1.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/usart2.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/usbhs.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/utmi.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/wdt.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/instance/xdmac.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/nvic_helpers.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/samv71q21b.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/include/samv71q21b_pio.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/peripherals/clock/conf_clock.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/peripherals/clock/genclk.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/peripherals/clock/osc_driver.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/peripherals/clock/osc_driver.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/peripherals/clock/pll.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/peripherals/clock/sysclk.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/peripherals/clock/sysclk.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/peripherals/gpio/ioport.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/Board/SAMV71Q21B/peripherals/gpio/ioport.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src/main.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\App\Consol.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\App\Consol.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\App\Labio.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\App\Labio.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\Board\SAMV71Q21B\peripherals\pmc\pmc_driver.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\Board\SAMV71Q21B\peripherals\pmc\pmc_driver.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\Board\SAMV71Q21B\peripherals\uart\USART_proxy.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\Board\SAMV71Q21B\peripherals\uart\USART_proxy.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\Board\SAMV71_XLTRA\gcc_syscalls.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\Board\SAMV71_XLTRA\isr_reset.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\Board\SAMV71_XLTRA\isr_reset.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\Board\SAMV71_XLTRA\isr_serial.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\Board\SAMV71_XLTRA\isr_serial.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\Labio\commands.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\Labio\commands.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\Labio\command_parser.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\Labio\command_parser.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\Labio\IDE3466_defines.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\Labio\other_pins.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\Labio\temporary_mock.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\Labio\temporary_mock.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\Utility\Assert_utility.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\Utility\Assert_utility.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\Utility\Ringbuffer.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\Utility\Ringbuffer.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\Utility\status_code.h">
+      <SubType>compile</SubType>
+    </Compile>
+  </ItemGroup>
+  <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
+</Project>
