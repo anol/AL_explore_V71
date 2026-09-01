@@ -18,6 +18,8 @@ namespace SamV71 {
         static void enable_peripheral_clock(uint32_t peripheral_id);
 
     private:
+        static void initialize_main_clock();
+
         static void initialize_PLLA();
 
         static void initialize_master_clock();
