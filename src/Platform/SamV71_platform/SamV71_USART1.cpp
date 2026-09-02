@@ -8,10 +8,17 @@
 
 SamV71::SamV71_USART1* optional_one_and_only_UART{};
 
-extern "C" void USART1_Handler(void)
+volatile static uint32_t the_USART1_IRQ_count{};
+volatile static uint32_t the_USART1_IRQ_status{};
+volatile static uint32_t the_USART1_TX_count{};
+volatile static uint32_t the_USART1_RX_count{};
+
+extern "C" void USART1_ISR(void)
 {
+    the_USART1_IRQ_count = the_USART1_IRQ_count + 1;
+    the_USART1_IRQ_status = USART1_REGS->US_CSR;
     /* Error status */
-    uint32_t errorStatus = (USART1_REGS->US_CSR & (US_CSR_USART_OVRE_Msk | US_CSR_USART_FRAME_Msk |
+    uint32_t errorStatus = (the_USART1_IRQ_status & (US_CSR_USART_OVRE_Msk | US_CSR_USART_FRAME_Msk |
         US_CSR_USART_PARE_Msk));
     if (errorStatus != 0)
     {
@@ -24,15 +31,15 @@ extern "C" void USART1_Handler(void)
         //     usart1Obj.rdCallback(USART_EVENT_READ_ERROR, usart1Obj.rdContext);
         // }
     }
-    if (optional_one_and_only_UART != nullptr)
+    if (optional_one_and_only_UART)
     {
         /* Receiver status */
-        if (US_CSR_USART_RXRDY_Msk == (USART1_REGS->US_CSR & US_CSR_USART_RXRDY_Msk))
+        if (the_USART1_IRQ_status & US_CSR_USART_RXRDY_Msk)
         {
             optional_one_and_only_UART->on_receiver_interrupt();
         }
         /* Transmitter status */
-        if (US_CSR_USART_TXRDY_Msk == (USART1_REGS->US_CSR & US_CSR_USART_TXRDY_Msk))
+        if (the_USART1_IRQ_status & US_CSR_USART_TXRDY_Msk)
         {
             optional_one_and_only_UART->on_transmitter_interrupt();
         }
@@ -51,6 +58,9 @@ namespace SamV71
             US_MR_USART_USCLKS_MCK | US_MR_USART_CHRL_8_BIT | US_MR_USART_PAR_NO | US_MR_USART_NBSTOP_1_BIT | (0 <<
                 US_MR_USART_OVER_Pos);
         USART1_REGS->US_BRGR = US_BRGR_CD(81); // Set bitrate
+        NVIC_DisableIRQ(USART1_IRQn);
+        NVIC_ClearPendingIRQ(USART1_IRQn);
+        NVIC_EnableIRQ(USART1_IRQn);
         enable_receiver_interrupt();
     }
 
@@ -78,9 +88,11 @@ namespace SamV71
 
     void SamV71_USART1::on_receiver_interrupt()
     {
-        while (US_CSR_USART_RXRDY_Msk == (USART1_REGS->US_CSR & US_CSR_USART_RXRDY_Msk))
+        while (USART1_REGS->US_CSR & US_CSR_USART_RXRDY_Msk)
         {
-            the_RX_queue.put((uint8_t)(USART1_REGS->US_RHR & US_RHR_RXCHR_Msk));
+            const auto data = USART1_REGS->US_RHR;
+            the_RX_queue.put(static_cast<uint8_t>(data & 0xFF));
+            the_USART1_RX_count = the_USART1_RX_count + 1;
         }
     }
 
@@ -91,7 +103,8 @@ namespace SamV71
         {
             if (the_TX_queue.get(&data))
             {
-                USART1_REGS->US_THR |= data;
+                USART1_REGS->US_THR = data;
+                the_USART1_TX_count = the_USART1_TX_count + 1;
             }
             else
             {

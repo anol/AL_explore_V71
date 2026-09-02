@@ -43,7 +43,7 @@ namespace SamV71 {
             {Tag::Pin_SPI_SCK, "SPI_SCK", Pin::Start_up, Pin::Port_D, 22, Pin::Mode_B, Pin::Input_normal},             // 60
             {Tag::Pin_EOUT_MON, "EOUT_MON", Pin::Start_up, Pin::Port_D, 30, Pin::Mode_GPIO, Pin::Input_normal},        // 34
             {Tag::Pin_UART_RXD1, "UART_RXD1", Pin::Start_up, Pin::Port_A, 21, Pin::Mode_A, Pin::Input_normal},         // 32
-            {Tag::Pin_UART_TXD1, "UART_TXD1", Pin::Start_up, Pin::Port_B, 4, Pin::Mode_D, Pin::Input_normal},          // 105
+            {Tag::Pin_UART_TXD1, "UART_TXD1", Pin::Start_up, Pin::Port_B, 4, Pin::Mode_D, Pin::Out_normal},          // 105
             {Tag::Pin_LED0, "LED0", Pin::Start_up, Pin::Port_A, 23, Pin::Mode_GPIO, Pin::Out_normal},                  // 46
             {Tag::Pin_LED1, "LED1", Pin::Start_up, Pin::Port_C, 9, Pin::Mode_GPIO, Pin::Out_normal},                   // 86
             {Tag::Pin_ALT_WKUP6, "ALT_WKUP6", Pin::Start_up, Pin::Port_A, 9, Pin::Mode_GPIO, Pin::Input_normal},       // 75

@@ -3,6 +3,15 @@
 //
 
 #pragma once
+#include <cstdint>
+
+#include "Abstract_IO_pin.h"
+#include "Abstract_UART.h"
+
+namespace Dictionary
+{
+    enum Pin_id : std::uint8_t;
+}
 
 namespace Abstract
 {
@@ -14,6 +23,10 @@ namespace Abstract
         virtual ~Abstract_board() = default;
 
         virtual void initialize() = 0;
+
+        virtual Abstract_UART& get_UART() = 0;
+
+        virtual Abstract_IO_pin& get_pin(const Dictionary::Pin_id id) = 0;
 
         virtual void print_diagnostics() = 0;
 

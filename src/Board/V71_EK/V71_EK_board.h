@@ -23,9 +23,9 @@ namespace Board {
 
         void print_diagnostics() override;
 
-        Abstract_UART &get_UART() { return the_UART; }
+        Abstract_UART &get_UART() override { return the_UART; }
 
-        Abstract::Abstract_IO_pin &get_pin(const Dictionary::Pin_id id) {
+        Abstract::Abstract_IO_pin &get_pin(const Dictionary::Pin_id id) override {
             return the_pin_manager.get_pin(id);
         }
 

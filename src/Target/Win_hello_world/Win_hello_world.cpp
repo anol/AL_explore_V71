@@ -6,9 +6,9 @@
 
 //#include "Clock_thread.h"
 #include "Hello_world.h"
-#include "Board/Win11/Win11.h"
+#include "Win11_board.h"
 
-static Board::Win11 the_board{};
+static Board::Win11_board the_board{};
 static Application::Hello_world the_application{the_board};
 static Target::Windows_hello_world the_target{the_application, the_board};
 

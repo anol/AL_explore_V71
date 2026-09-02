@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include "Hello_world.h"
 
+#include "IO_pins.h"
+
 namespace Application
 {
     void Hello_world::initialize()
@@ -22,12 +24,23 @@ namespace Application
 
     void Hello_world::run()
     {
+        auto toggle{false};
         printf("Hello_world::run\r\n");
         use_board.print_diagnostics();
         while (true)
         {
-            delay(1000000);
+            delay(10'000'000);
             printf(".");
+            toggle = !toggle;
+            if (toggle)
+            {
+                use_board.get_pin(Dictionary::Pin_LED0).set();
+                use_board.get_pin(Dictionary::Pin_LED1).clear();
+            }else
+            {
+                use_board.get_pin(Dictionary::Pin_LED0).clear();
+                use_board.get_pin(Dictionary::Pin_LED1).set();
+            }
         }
     }
 } // Application

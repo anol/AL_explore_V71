@@ -291,7 +291,7 @@ void PIOA_Handler                  ( void );
 void PIOB_Handler                  ( void );
 void PIOC_Handler                  ( void );
 void USART0_Handler                ( void );
-void USART1_Handler                ( void );
+void USART1_ISR                ( void );
 void USART2_Handler                ( void );
 void PIOD_Handler                  ( void );
 void PIOE_Handler                  ( void );
