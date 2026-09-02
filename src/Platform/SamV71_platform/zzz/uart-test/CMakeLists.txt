@@ -1,4 +1,13 @@
 cmake_minimum_required(VERSION 3.14)
+
+SET(CMAKE_SYSTEM_NAME Generic)
+SET(CMAKE_SYSTEM_PROCESSOR arm)
+SET(CMAKE_CROSSCOMPILING TRUE)
+SET(CMAKE_C_COMPILER_WORKS TRUE)
+SET(CMAKE_C++_COMPILER_WORKS TRUE)
+set(CMAKE_c++_STANDARD 14)
+set(CMAKE_EXE_LINKER_FLAGS --specs=nosys.specs)
+
 project(uart_test)
 
 set(CMAKE_CXX_STANDARD 14)
@@ -164,8 +173,33 @@ add_executable(uart_test
     src/main.cpp src/Labio/Labio_commands.cpp src/Labio/Labio_commands.h src/Utility/Assert_utility.h src/Utility/Assert_utility.cpp)
 
 
-#target_compile_options(uart_test PUBLIC -mtune=cortex-m7)
-#target_compile_options(uart_test PUBLIC -march=armv7-m)
+target_compile_options(uart_test PUBLIC
+        # Enable all warnings
+        -Wall
+        # Kernel development mode (-mkernel)
+        -fno-exceptions
+        $<$<COMPILE_LANGUAGE:CXX>:-fno-rtti>
+        # Override the automatic link-time optimization (lto)
+        -fno-lto
+        # No dead code elimination (dce) or dead store elimination (dse)
+        #        -fno-dce
+        #        -fno-dse
+        #        -fno-tree-dce
+        #        -fno-tree-dse
+        # To reduce image size
+        -ffunction-sections
+        -fdata-sections
+        # Target architecture
+        #        -mabi=aapcs
+        -mthumb
+        -march=armv7-m
+        #        -march=armv7e-m+fp.dp
+        #        -mfloat-abi=hard
+        --specs=nano.specs
+        # When target outside 64-megabyte addr range
+        #        -mlong-calls
+)
+
 target_compile_definitions(uart_test PUBLIC -Dscanf=iscanf)
 target_compile_definitions(uart_test PUBLIC -Dprintf=iprintf)
 target_compile_definitions(uart_test PUBLIC -D__SAMV71Q21B__)

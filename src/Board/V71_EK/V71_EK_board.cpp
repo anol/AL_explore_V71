@@ -30,8 +30,6 @@ namespace Board
     void V71_EK_board::initialize()
     {
         the_clock.initialize();
-        WDT_REGS->WDT_MR = WDT_MR_WDDIS_Msk; // Disable the watchdog
-        RSWDT_REGS->RSWDT_MR = RSWDT_MR_WDDIS_Msk; // Disable RSWDT
         __asm volatile ("bkpt #0");
         while (true)
         {

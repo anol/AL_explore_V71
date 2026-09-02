@@ -2,8 +2,10 @@
 
 #include "Abstract_clock.h"
 
-namespace SamV71 {
-    class SamV71_clock : public Abstract::Abstract_clock {
+namespace SamV71
+{
+    class SamV71_clock : public Abstract::Abstract_clock
+    {
         volatile uint32_t milliseconds_allmost_since_start{};
 
     public:
@@ -23,5 +25,7 @@ namespace SamV71 {
         static void initialize_PLLA();
 
         static void initialize_master_clock();
+
+        static void disable_watchdog();
     };
 }

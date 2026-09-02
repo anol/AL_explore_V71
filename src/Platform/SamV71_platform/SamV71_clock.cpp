@@ -1,25 +1,3 @@
-/*
-* Copyright (C) 2026 Integrated Detector Electronics AS
-* All Rights Reserved.
-*
-* NOTICE: All information contained herein is, and remains
-* the property of Integrated Detector Electronics AS and its suppliers,
-* if any. The intellectual and technical concepts contained
-* herein are proprietary to Integrated Detector Electronics AS
-* and its suppliers and may be covered by Norwegian, EU. or U.S. patents,
-* patents in process, and are protected by trade secret or copyright law.
-* Dissemination of this information or reproduction of this material
-* is strictly forbidden unless prior written permission is obtained
-* from Integrated Detector Electronics AS.
-*/
-
-/**
-* @file   SamV71_clock.cpp
-* @author AndersEmilOlsen, IDEAS
-* @date   25.08.2026
-* @brief  
-*/
-
 #include "SamV71_clock.h"
 #include "sam.h"
 
@@ -28,6 +6,7 @@ namespace SamV71
     constexpr uint32_t Slow_clock_frequency{32'768};
     constexpr uint32_t Frequency_measure_slow_clock_periods{16};
     constexpr uint32_t Crystal_oscillator_frequency{12'000'000};
+    constexpr uint32_t Crystal_oscillator_startup_time{32};
     constexpr uint32_t PLLA_front_end_divider{1};
     constexpr uint32_t PLLA_input_multiplier{25};
     constexpr uint32_t PLLA_frequency{Crystal_oscillator_frequency * PLLA_input_multiplier / PLLA_front_end_divider};
@@ -42,12 +21,14 @@ namespace SamV71
         initialize_main_clock();
         initialize_PLLA();
         initialize_master_clock();
+        disable_watchdog();
     }
 
     void SamV71_clock::initialize_main_clock()
     {
         // Enable Main Crystal Oscillator and define the startup time
-        PMC_REGS->CKGR_MOR = CKGR_MOR_KEY_PASSWD | CKGR_MOR_MOSCXTEN_Msk | CKGR_MOR_MOSCXTST(CHIP_FREQ_SLCK_RC);
+        PMC_REGS->CKGR_MOR = CKGR_MOR_KEY_PASSWD | CKGR_MOR_MOSCXTEN_Msk
+            | CKGR_MOR_MOSCXTST(Crystal_oscillator_startup_time);
         while (!(PMC_REGS->PMC_SR & PMC_SR_MOSCXTS_Msk))
         {
             __NOP();
@@ -79,6 +60,8 @@ namespace SamV71
 
     void SamV71_clock::initialize_master_clock()
     {
+        // Increasing flash wait states before switching master clock to PLLA
+        EFC_REGS->EEFC_FMR = (EFC_REGS->EEFC_FMR & ~EEFC_FMR_FWS_Msk) | EEFC_FMR_FWS(5);
         // Select the master clock prescaler divider -> Processor Clock (HCLK) = 300MHz
         PMC_REGS->PMC_MCKR = (PMC_REGS->PMC_MCKR & ~PMC_MCKR_PRES_Msk) | PMC_MCKR_PRES_CLK_1;
         while (!(PMC_REGS->PMC_SR & PMC_SR_MCKRDY_Msk))
@@ -97,6 +80,12 @@ namespace SamV71
         {
             __NOP();
         }
+    }
+
+    void SamV71_clock::disable_watchdog()
+    {
+        WDT_REGS->WDT_MR = WDT_MR_WDDIS_Msk; // Disable the watchdog
+        RSWDT_REGS->RSWDT_MR = RSWDT_MR_WDDIS_Msk; // Disable RSWDT
     }
 
     uint32_t SamV71_clock::get_frequency()
