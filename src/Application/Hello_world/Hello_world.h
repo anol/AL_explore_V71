@@ -15,6 +15,7 @@ namespace Application {
         }
 
         void initialize() override;
+        void delay(int number_of_loops) const;
 
         void run() override;
     };

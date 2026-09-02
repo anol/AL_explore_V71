@@ -6,7 +6,7 @@
 #include "Abstract_UART.h"
 
 namespace SamV71 {
-    class SamV71_UART : public Abstract_UART {
+    class SamV71_USART1 : public Abstract_UART {
         enum { RX_buffer_size = 128, TX_buffer_size = 1024 };
 
         Ringbuffer<uint8_t, RX_buffer_size> the_RX_queue{};

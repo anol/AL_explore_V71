@@ -12,8 +12,8 @@ target_sources(${THE_TARGET_NAME} PUBLIC
         SamV71_pin_manager.h
 #        SamV71_timer.cpp
 #        SamV71_timer.h
-        SamV71_UART.cpp
-        SamV71_UART.h
+        SamV71_USART1.cpp
+        SamV71_USART1.h
 #        SamV71_watchdog.cpp
 #        SamV71_watchdog.h
 )
