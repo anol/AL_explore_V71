@@ -32,9 +32,9 @@ namespace Board
         the_clock.initialize();
         SCB_EnableICache();
         SCB_EnableDCache();
-        // the_pin_manager.initialize();
-        // the_UART.initialize();
-        // the_console.initialize();
+        the_pin_manager.initialize();
+        the_UART.initialize();
+        the_console.initialize();
         // NVIC_Initialize();
     }
 

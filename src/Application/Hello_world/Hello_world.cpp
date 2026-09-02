@@ -7,12 +7,12 @@
 
 namespace Application {
     void Hello_world::initialize() {
-        // printf("Hello_world::initialize\r\n");
+        printf("Hello_world::initialize\r\n");
     }
 
     void Hello_world::run() {
-        // printf("Hello_world::run\r\n");
-        // use_board.print_diagnostics();
+        printf("Hello_world::run\r\n");
+        use_board.print_diagnostics();
         while (true)
         {
             use_board.NOP();

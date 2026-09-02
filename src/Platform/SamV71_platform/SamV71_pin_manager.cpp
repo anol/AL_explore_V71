@@ -5,41 +5,53 @@
 #include "SamV71_pin_manager.h"
 
 
-namespace SamV71 {
+namespace SamV71
+{
     using namespace Dictionary;
     using Pin = Abstract::Abstract_IO_pin;
 
-    bool SamV71_pin_manager::initialize() {
+    bool SamV71_pin_manager::initialize()
+    {
         return set_phase(Abstract::Abstract_IO_pin::Start_up);
     }
 
-    bool SamV71_pin_manager::set_phase(Pin::Pin_phase phase) {
-        if ((phase == Pin::Start_up) || (phase == Pin::Host_up)) {
-            SamV71::SamV71_IO_pin::initialize_clocks();
+    bool SamV71_pin_manager::set_phase(Pin::Pin_phase phase)
+    {
+        if ((phase == Pin::Start_up) || (phase == Pin::Host_up))
+        {
+            SamV71_IO_pin::initialize_clocks();
         }
         uint8_t id_counter{};
-        for (auto &pin: the_pin_table.the_pins) {
-            auto result = pin.initialize(id_counter++, phase);
-            return result.success();
+        for (auto& pin : the_pin_table.the_pins)
+        {
+            if (pin.initialize(id_counter++, phase).failed())
+            {
+                return false;
+            }
         }
-        return false;
+        return true;
     }
 
-    Pin &SamV71_pin_manager::get_pin(const Pin_id id) {
-        if (id < Number_of_pins) {
+    Pin& SamV71_pin_manager::get_pin(const Pin_id id)
+    {
+        if (id < Number_of_pins)
+        {
             return the_pin_table.the_pins[id];
         }
         return the_pin_table.the_pins[Pin_not_used];
     }
 
-    Pin *SamV71_pin_manager::get_optional_pin(const Pin_id id) {
-        if (id < Number_of_pins) {
+    Pin* SamV71_pin_manager::get_optional_pin(const Pin_id id)
+    {
+        if (id < Number_of_pins)
+        {
             return &the_pin_table.the_pins[id];
         }
         return {};
     }
 
-    void SamV71_pin_manager::print_diagnostics() {
+    void SamV71_pin_manager::print_diagnostics()
+    {
         printf("NORM_pin_manager\r\n");
         for (auto& pin : the_pin_table.the_pins)
         {
