@@ -5,11 +5,17 @@
 #pragma once
 #include "Abstract_board.h"
 
-namespace Board {
-    class Win11 : public Abstract::Abstract_board {
+namespace Board
+{
+    class Win11 : public Abstract::Abstract_board
+    {
     public:
         void initialize() override;
 
         void print_diagnostics() override;
+
+        void NOP() override
+        {
+        }
     };
 } // Board

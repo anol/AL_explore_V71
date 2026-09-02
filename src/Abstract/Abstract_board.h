@@ -4,8 +4,10 @@
 
 #pragma once
 
-namespace Abstract {
-    class Abstract_board {
+namespace Abstract
+{
+    class Abstract_board
+    {
     public:
         Abstract_board() = default;
 
@@ -14,5 +16,7 @@ namespace Abstract {
         virtual void initialize() = 0;
 
         virtual void print_diagnostics() = 0;
+
+        virtual void NOP() =0;
     };
 } // Abstract

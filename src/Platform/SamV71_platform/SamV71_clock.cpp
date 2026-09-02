@@ -8,20 +8,20 @@ namespace SamV71
     constexpr uint32_t Crystal_oscillator_frequency{12'000'000};
     constexpr uint32_t Crystal_oscillator_startup_time{64};
     constexpr uint32_t PLLA_front_end_divider{1};
-    constexpr uint32_t PLLA_input_multiplier{25};
+    constexpr uint32_t PLLA_input_multiplier{15};
     constexpr uint32_t PLLA_frequency{Crystal_oscillator_frequency * PLLA_input_multiplier / PLLA_front_end_divider};
     constexpr uint32_t Master_clock_frequency{PLLA_frequency / 2};
-    static_assert(Master_clock_frequency == 150'000'000);
+    static_assert(Master_clock_frequency == 90'000'000);
 
     volatile static uint32_t the_cycle_count{0u};
     volatile static uint32_t the_measured_frequency{0u};
 
     void SamV71_clock::initialize()
     {
+        disable_watchdog();
         initialize_main_clock();
         initialize_PLLA();
         initialize_master_clock();
-        disable_watchdog();
     }
 
     void SamV71_clock::initialize_main_clock()
@@ -66,13 +66,13 @@ namespace SamV71
         {
             __NOP();
         }
-        // Select the master clock prescaler divider -> Processor Clock (HCLK) = 300MHz
+        // Select the master clock prescaler divider -> Processor Clock (HCLK)
         PMC_REGS->PMC_MCKR = (PMC_REGS->PMC_MCKR & ~PMC_MCKR_PRES_Msk) | PMC_MCKR_PRES_CLK_1;
         while (!(PMC_REGS->PMC_SR & PMC_SR_MCKRDY_Msk))
         {
             __NOP();
         }
-        // Select the master clock output divider -> Host CLock (MCK) and Peripheral Clock Controller (PMC_PCR) = 150MHz
+        // Select the master clock output divider -> Host CLock (MCK) and Peripheral Clock Controller (PMC_PCR)
         PMC_REGS->PMC_MCKR = (PMC_REGS->PMC_MCKR & ~PMC_MCKR_MDIV_Msk) | PMC_MCKR_MDIV_PCK_DIV2;
         while (!(PMC_REGS->PMC_SR & PMC_SR_MCKRDY_Msk))
         {

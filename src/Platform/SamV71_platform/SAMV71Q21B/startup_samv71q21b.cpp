@@ -308,12 +308,28 @@ const DeviceVectors exception_table = {
     .pfnGMAC_Q5_Handler    = (void *) GMAC_Q5_Handler      /* 73 Gigabit Ethernet MAC */
 };
 
+
+static inline void tcm_disable() {
+    __asm volatile ("dsb"); // Data Synchronization Barrier
+    __asm volatile ("isb"); // Instruction Synchronization Barrier
+    SCB->ITCMCR &= ~(uint32_t)(1UL);
+    SCB->DTCMCR &= ~(uint32_t) SCB_DTCMCR_EN_Msk;
+    __asm volatile ("dsb"); // Data Synchronization Barrier
+    __asm volatile ("isb"); // Instruction Synchronization Barrier
+}
+
 /**
  * \brief This is the code that gets called on processor reset.
  * To initialize the device, and call the main() routine.
  */
 extern "C" void Reset_Handler() {
     uint32_t *pSrc, *pDest;
+
+    WDT_REGS->WDT_MR = WDT_MR_WDDIS_Msk; // Disable the watchdog
+    RSWDT_REGS->RSWDT_MR = RSWDT_MR_WDDIS_Msk; // Disable RSWDT
+
+    SCB_DisableICache();
+    SCB_DisableDCache();
 
     /* Initialize the relocate segment */
     pSrc  = &_etext;
@@ -329,6 +345,13 @@ extern "C" void Reset_Handler() {
     for (pDest = &_szero; pDest < &_ezero;) {
         *pDest++ = 0;
     }
+
+    /* TCM Configuration */
+    EFC_REGS->EEFC_FCR = (EEFC_FCR_FKEY_PASSWD | EEFC_FCR_FCMD_CGPB
+                     | EEFC_FCR_FARG(8));
+    EFC_REGS->EEFC_FCR = (EEFC_FCR_FKEY_PASSWD | EEFC_FCR_FCMD_CGPB
+                     | EEFC_FCR_FARG(7));
+    tcm_disable();
 
     /* Set the vector table base address */
     pSrc      = (uint32_t *) &_sfixed;
