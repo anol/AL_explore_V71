@@ -32,10 +32,6 @@ namespace Board
         the_clock.initialize();
         SCB_EnableICache();
         SCB_EnableDCache();
-        while (true)
-        {
-            NOP();
-        }
         // the_pin_manager.initialize();
         // the_UART.initialize();
         // the_console.initialize();
