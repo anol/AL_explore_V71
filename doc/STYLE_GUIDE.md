@@ -8,7 +8,7 @@ Sources for this guide, in order of authority:
 2. Explicit corrections given after v1 (compile-time constants, `static`
    data members, and enum values are capitalized with no prefix).
 3. The project's own refactor of the generated code — `Ethernet_unit_test`
-   (`src/Abstract`, `src/Platform/*_platform`, `src/Unit_test`, and the
+   (`../src/Abstract`, `src/Platform/*_platform`, `src/Unit_test`, and the
    accompanying CMake files) — which introduced the module/directory
    structure, the `Abstract_`/`<Platform>_` class-naming split, the
    namespace-per-module convention, and all CMake conventions below.
@@ -27,11 +27,11 @@ Each rule below is tagged with which source it came from:
 
 > **Migration note (updated):** `Unit_test.cpp` and `Windows_platform` are
 > now fully migrated and internally consistent -- both are the reference
-> for the rules below. `src/Platform/SamV71_platform` (`SamV71_ethernet.h`/`.cpp`)
-> and the root `CMakeLists.txt` are **still unmigrated**: the SAMV71 files
+> for the rules below. `../src/Platform/SamV71_platform` (`SamV71_ethernet.h`/`.cpp`)
+> and the root `../CMakeLists.txt` are **still unmigrated**: the SAMV71 files
 > still reference the pre-refactor names (`Ethernet_device.h`,
 > `Ethernet::Ethernet_samv71_mac`) instead of `Abstract_ethernet.h`/
-> `SamV71_ethernet`, and the root `CMakeLists.txt` still only
+> `SamV71_ethernet`, and the root `../CMakeLists.txt` still only
 > `add_subdirectory()`s `Windows_platform`, not `SamV71_platform`. Treat
 > those two as not yet caught up, not as evidence of an alternate
 > convention.
@@ -42,7 +42,7 @@ Each rule below is tagged with which source it came from:
 |---|---|---|---|
 | Abstract/interface class | `Abstract_<domain>` | `Abstract_ethernet` | Observed (project) — directly reuses the `Abstract_` prefix from the reference file's own class name, rather than repeating an enclosing namespace name |
 | Concrete/platform class | `<Platform>_<domain>` | `SamV71_ethernet`, `Windows_target` | Observed (project) — prefixed with the platform name instead of `Abstract_` or the shared namespace name, so the class name alone tells you whether it's the cross-platform contract or one platform's implementation |
-| Namespace (shared/common layer) | Domain word, independent of directory name | `namespace Ethernet` (in `src/Abstract/`) | Observed (project) |
+| Namespace (shared/common layer) | Domain word, independent of directory name | `namespace Ethernet` (in `../src/Abstract`) | Observed (project) |
 | Namespace (per-platform layer) | Matches its platform directory exactly | `namespace SamV71_platform`, `namespace Windows_platform` | Observed (project) |
 | Method name | `snake_case`, verb-first for actions, `is_`/`get_` prefix for queries | `initialize()`, `get_mac_address()`, `is_link_up()` | Observed (reference file) |
 | Reference member (injected collaborator) | `use_<name>` | `use_application`, `use_board` | Observed (reference file) |
@@ -91,15 +91,15 @@ Rules:
   every platform module, not owned by any one of them.
 - Each concrete platform gets its own subdirectory under `Platform/`,
   named `<Platform>_platform`, containing exactly the files for that
-  platform's `<Platform>_ethernet` class plus its own `CMakeLists.txt`.
+  platform's `<Platform>_ethernet` class plus its own `../CMakeLists.txt`.
 - Cross-module `#include`s reference the target header path-relative to
-  `src/`, as `<ModuleDir>/<Header>.h` -- e.g.
+  `../src`, as `<ModuleDir>/<Header>.h` -- e.g.
   `#include "Abstract/Abstract_ethernet.h"` -- resolved through the
-  accumulated include path rather than an explicit `../..` relative path
+  accumulated include path rather than an explicit `../../..` relative path
   from the including file's own location. This works because each
-  library-style module's `CMakeLists.txt` puts its own parent directory
+  library-style module's `../CMakeLists.txt` puts its own parent directory
   on the shared target's include path (`Abstract/CMakeLists.txt` adds
-  `src/`, so `Abstract/Abstract_ethernet.h` resolves from anywhere in the
+  `../src`, so `Abstract/Abstract_ethernet.h` resolves from anywhere in the
   build -- see "CMake conventions" below). Settled by `Windows_ethernet.h`
   and `Unit_test.cpp`, both of which now use this form; apply it to
   `SamV71_platform` once that module is brought up to date.
@@ -120,7 +120,7 @@ Rules:
 *(All Observed (project) — this is new territory the reference file
 couldn't cover.)*
 
-- Root `CMakeLists.txt`:
+- Root `../CMakeLists.txt`:
   ```cmake
   cmake_minimum_required(VERSION 4.3)
   set(CMAKE_CXX_STANDARD 20)
@@ -144,9 +144,9 @@ couldn't cover.)*
   the project's own singleton values (`THE_TARGET_NAME`) -- the CMake
   analogue of the C++ `the_` member prefix -- and no prefix on plain
   path/config variables (`SOURCE_ROOT_DIR`).
-- Every module directory has its own `CMakeLists.txt`, all targeting the
+- Every module directory has its own `../CMakeLists.txt`, all targeting the
   same shared `${THE_TARGET_NAME}` executable (there's only one target in
-  the whole build; every module's `CMakeLists.txt` just adds to it).
+  the whole build; every module's `../CMakeLists.txt` just adds to it).
   `target_include_directories` differs by the module's role:
   - A **library-style module** (something other modules include from --
     `Abstract`, `SamV71_platform`, `Windows_platform`) exposes its own
@@ -154,7 +154,7 @@ couldn't cover.)*
     `<ThisModuleDir>/<Header>.h`:
     ```cmake
     target_include_directories(${THE_TARGET_NAME} PUBLIC
-            ..
+            ../..
     )
     target_sources(${THE_TARGET_NAME} PUBLIC
             Windows_ethernet.cpp
@@ -166,7 +166,7 @@ couldn't cover.)*
     private support directories (`mock_include`):
     ```cmake
     target_include_directories(${THE_TARGET_NAME} PUBLIC
-            .
+            ..
             mock_include
     )
     target_sources(${THE_TARGET_NAME} PUBLIC
@@ -180,7 +180,7 @@ couldn't cover.)*
   8-space continuation indent under both calls in every case; list the
   module's own `.cpp` before its `.h`, then any remaining files
   alphabetized.
-- `CMakePresets.json`: one `hidden` `base` preset (Ninja generator,
+- `../CMakePresets.json`: one `hidden` `base` preset (Ninja generator,
   `binaryDir` under `build/${presetName}`, `CMAKE_EXPORT_COMPILE_COMMANDS`
   on), then one preset per platform target inheriting it. Each preset is
   named identically to the concrete class it builds (`Windows_target`,
@@ -256,14 +256,14 @@ files since fabricating an author/date would be inaccurate.
 ## Applying this guide
 
 When writing new C++ or CMake for this project (or asking Claude to),
-point at this file. It supersedes v1's flatter `include/`/`src/` layout
+point at this file. It supersedes v1's flatter `include/`/`../src` layout
 and `Ethernet_`-prefixed class names -- new code should follow the
 module/directory structure, `Abstract_`/`<Platform>_` class naming, and
 CMake conventions above. v3 adds the `using namespace Ethernet;` header
 convention, the CMake include-directory pattern, and settles cross-module
-`#include`s on the path-relative-to-`src/` form, now that
+`#include`s on the path-relative-to-`../src` form, now that
 `Windows_platform`/`Unit_test` are fully migrated. The unmigrated
-`SamV71_platform`/root `CMakeLists.txt` are called out above rather than
+`SamV71_platform`/root `../CMakeLists.txt` are called out above rather than
 folded in as settled rules -- once that module is brought up to date
 (including switching its own `#include "Ethernet_device.h"` to
 `#include "Abstract/Abstract_ethernet.h"`), this guide should be
