@@ -327,9 +327,9 @@ extern "C" void Reset_Handler() {
 
     WDT_REGS->WDT_MR = WDT_MR_WDDIS_Msk; // Disable the watchdog
     RSWDT_REGS->RSWDT_MR = RSWDT_MR_WDDIS_Msk; // Disable RSWDT
-
-    SCB_DisableICache();
-    SCB_DisableDCache();
+    //
+    // SCB_DisableICache();
+    // SCB_DisableDCache();
 
     /* Initialize the relocate segment */
     pSrc  = &_etext;
@@ -346,12 +346,12 @@ extern "C" void Reset_Handler() {
         *pDest++ = 0;
     }
 
-    /* TCM Configuration */
-    EFC_REGS->EEFC_FCR = (EEFC_FCR_FKEY_PASSWD | EEFC_FCR_FCMD_CGPB
-                     | EEFC_FCR_FARG(8));
-    EFC_REGS->EEFC_FCR = (EEFC_FCR_FKEY_PASSWD | EEFC_FCR_FCMD_CGPB
-                     | EEFC_FCR_FARG(7));
-    tcm_disable();
+    // /* TCM Configuration */
+    // EFC_REGS->EEFC_FCR = (EEFC_FCR_FKEY_PASSWD | EEFC_FCR_FCMD_CGPB
+    //                  | EEFC_FCR_FARG(8));
+    // EFC_REGS->EEFC_FCR = (EEFC_FCR_FKEY_PASSWD | EEFC_FCR_FCMD_CGPB
+    //                  | EEFC_FCR_FARG(7));
+    // tcm_disable();
 
     /* Set the vector table base address */
     pSrc      = (uint32_t *) &_sfixed;

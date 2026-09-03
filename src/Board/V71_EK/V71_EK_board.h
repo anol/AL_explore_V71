@@ -19,6 +19,9 @@ namespace Board {
         Platform::Common_stdio the_console{&the_UART};
 
     public:
+        V71_EK_board() = default;
+
+        void enable_cache();
         void initialize() override;
 
         void print_diagnostics() override;

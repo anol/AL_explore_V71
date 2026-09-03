@@ -30,12 +30,17 @@ namespace Board
     void V71_EK_board::initialize()
     {
         the_clock.initialize();
-        SCB_EnableICache();
-        SCB_EnableDCache();
+        enable_cache();
         the_pin_manager.initialize();
         the_UART.initialize();
         the_console.initialize();
         // NVIC_Initialize();
+    }
+
+    void V71_EK_board::enable_cache()
+    {
+        SCB_EnableICache();
+        SCB_EnableDCache();
     }
 
     void V71_EK_board::print_diagnostics()

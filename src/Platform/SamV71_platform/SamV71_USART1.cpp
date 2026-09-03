@@ -6,19 +6,22 @@
 #include "sam.h"
 #include "SamV71_clock.h"
 
-SamV71::SamV71_USART1* optional_one_and_only_UART{};
-
-volatile static uint32_t the_USART1_IRQ_count{};
-volatile static uint32_t the_USART1_IRQ_status{};
-volatile static uint32_t the_USART1_TX_count{};
-volatile static uint32_t the_USART1_RX_count{};
+namespace SamV71
+{
+    SamV71_USART1* SamV71_USART1::optional_one_and_only_UART{};
+    uint32_t SamV71_USART1::the_USART1_IRQ_count{};
+    uint32_t SamV71_USART1::the_USART1_IRQ_status{};
+    uint32_t SamV71_USART1::the_USART1_TX_count{};
+    uint32_t SamV71_USART1::the_USART1_RX_count{};
+}
 
 extern "C" void USART1_ISR(void)
 {
-    the_USART1_IRQ_count = the_USART1_IRQ_count + 1;
-    the_USART1_IRQ_status = USART1_REGS->US_CSR;
+    using namespace SamV71;
+    SamV71_USART1::the_USART1_IRQ_count =  SamV71_USART1::the_USART1_IRQ_count + 1;
+    SamV71_USART1::the_USART1_IRQ_status = USART1_REGS->US_CSR;
     /* Error status */
-    uint32_t errorStatus = (the_USART1_IRQ_status & (US_CSR_USART_OVRE_Msk | US_CSR_USART_FRAME_Msk |
+    uint32_t errorStatus = (SamV71_USART1::the_USART1_IRQ_status & (US_CSR_USART_OVRE_Msk | US_CSR_USART_FRAME_Msk |
         US_CSR_USART_PARE_Msk));
     if (errorStatus != 0)
     {
@@ -31,17 +34,17 @@ extern "C" void USART1_ISR(void)
         //     usart1Obj.rdCallback(USART_EVENT_READ_ERROR, usart1Obj.rdContext);
         // }
     }
-    if (optional_one_and_only_UART)
+    if (SamV71_USART1::optional_one_and_only_UART)
     {
         /* Receiver status */
-        if (the_USART1_IRQ_status & US_CSR_USART_RXRDY_Msk)
+        if (SamV71_USART1::the_USART1_IRQ_status & US_CSR_USART_RXRDY_Msk)
         {
-            optional_one_and_only_UART->on_receiver_interrupt();
+            SamV71_USART1::optional_one_and_only_UART->on_receiver_interrupt();
         }
         /* Transmitter status */
-        if (the_USART1_IRQ_status & US_CSR_USART_TXRDY_Msk)
+        if (SamV71_USART1::the_USART1_IRQ_status & (US_CSR_USART_TXRDY_Msk | US_CSR_USART_TXEMPTY_Msk))
         {
-            optional_one_and_only_UART->on_transmitter_interrupt();
+            SamV71_USART1::optional_one_and_only_UART->on_transmitter_interrupt();
         }
     }
 }
@@ -50,6 +53,8 @@ namespace SamV71
 {
     void SamV71_USART1::initialize()
     {
+        the_RX_queue.initialize();
+        the_TX_queue.initialize();
         SamV71_clock::enable_peripheral_clock(USART1_INSTANCE_ID);
         optional_one_and_only_UART = this;
         USART1_REGS->US_CR = (US_CR_USART_RSTRX_Msk | US_CR_USART_RSTTX_Msk | US_CR_USART_RSTSTA_Msk); // Reset UART
@@ -78,12 +83,12 @@ namespace SamV71
 
     void SamV71_USART1::enable_transmitter_interrupt()
     {
-        USART1_REGS->US_IER = US_IER_USART_TXEMPTY_Msk;
+        USART1_REGS->US_IER = US_IER_USART_TXEMPTY_Msk | US_IER_USART_TXRDY_Msk;
     }
 
     void SamV71_USART1::disable_transmitter_interrupt()
     {
-        USART1_REGS->US_IDR = US_IDR_USART_TXEMPTY_Msk;
+        USART1_REGS->US_IDR = US_IDR_USART_TXEMPTY_Msk | US_IDR_USART_TXRDY_Msk;
     }
 
     void SamV71_USART1::on_receiver_interrupt()
@@ -99,7 +104,7 @@ namespace SamV71
     void SamV71_USART1::on_transmitter_interrupt()
     {
         uint8_t data;
-        while (USART1_REGS->US_CSR & US_CSR_USART_TXEMPTY_Msk)
+        while (USART1_REGS->US_CSR & (US_CSR_USART_TXRDY_Msk | US_CSR_USART_TXEMPTY_Msk))
         {
             if (the_TX_queue.get(&data))
             {
