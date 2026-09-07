@@ -123,7 +123,7 @@ namespace SamV71
     {
         int written = 0;
         disable_transmitter_interrupt();
-        while (len > 0)
+        while (len-- > 0)
         {
             if (the_TX_queue.put(*data++))
             {
