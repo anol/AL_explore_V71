@@ -3,7 +3,7 @@
 #include "SamV71_IO_pin.h"
 #include "V71_EK_pin_table.h"
 #include "SamV71_pin_manager.h"
-
+#include "component/matrix.h"
 
 namespace SamV71
 {
@@ -12,7 +12,16 @@ namespace SamV71
 
     bool SamV71_pin_manager::initialize()
     {
+        initialize_matrix();
         return set_phase(Abstract::Abstract_IO_pin::Start_up);
+    }
+
+    void SamV71_pin_manager::initialize_matrix()
+    {
+        // Release the JTAG TDI pin
+        MATRIX_REGS->CCFG_SYSIO |= CCFG_SYSIO_SYSIO4_Msk;
+        // Release the JTAG ERASE pin
+        MATRIX_REGS->CCFG_SYSIO |= CCFG_SYSIO_SYSIO12_Msk;
     }
 
     bool SamV71_pin_manager::set_phase(Pin::Pin_phase phase)
@@ -61,4 +70,5 @@ namespace SamV71
             }
         }
     }
+
 } // NORM_pin_manager

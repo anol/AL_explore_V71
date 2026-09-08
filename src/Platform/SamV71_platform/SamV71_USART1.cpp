@@ -64,6 +64,7 @@ namespace SamV71
                 US_MR_USART_OVER_Pos);
         USART1_REGS->US_BRGR = US_BRGR_CD(81); // Set bitrate
         NVIC_DisableIRQ(USART1_IRQn);
+        NVIC_SetPriority(USART1_IRQn, 7);
         NVIC_ClearPendingIRQ(USART1_IRQn);
         NVIC_EnableIRQ(USART1_IRQn);
         enable_receiver_interrupt();
@@ -71,14 +72,14 @@ namespace SamV71
 
     void SamV71_USART1::enable_receiver_interrupt()
     {
-        USART1_REGS->US_IER = (US_IER_USART_RXRDY_Msk | US_IER_USART_FRAME_Msk | US_IER_USART_PARE_Msk |
-            US_IER_USART_OVRE_Msk);
+        USART1_REGS->US_IER = US_IER_USART_RXRDY_Msk;
+        //  | US_IER_USART_FRAME_Msk | US_IER_USART_PARE_Msk | US_IER_USART_OVRE_Msk;
     }
 
     void SamV71_USART1::disable_receiver_interrupt()
     {
-        USART1_REGS->US_IDR = (US_IDR_USART_RXRDY_Msk | US_IDR_USART_FRAME_Msk | US_IDR_USART_PARE_Msk |
-            US_IDR_USART_OVRE_Msk);
+        USART1_REGS->US_IDR = US_IDR_USART_RXRDY_Msk;
+        //  | US_IDR_USART_FRAME_Msk | US_IDR_USART_PARE_Msk | US_IDR_USART_OVRE_Msk;
     }
 
     void SamV71_USART1::enable_transmitter_interrupt()
