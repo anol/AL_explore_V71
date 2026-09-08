@@ -5,32 +5,41 @@ namespace SamV71
 {
     constexpr uint32_t Slow_clock_frequency{32'768};
     constexpr uint32_t Frequency_measure_slow_clock_periods{16};
-    constexpr uint32_t Crystal_oscillator_frequency{12'000'000};
-    constexpr uint32_t Crystal_oscillator_startup_time{64};
+    constexpr uint32_t RC_oscillator_frequency{12'000'000};
+    constexpr uint32_t XTAL_oscillator_frequency{12'000'000};
+    constexpr uint32_t XTAL_oscillator_startup_time{64};
     constexpr uint32_t PLLA_front_end_divider{1};
     constexpr uint32_t PLLA_input_multiplier{25};
-    constexpr uint32_t PLLA_frequency{Crystal_oscillator_frequency * PLLA_input_multiplier / PLLA_front_end_divider};
+    constexpr uint32_t PLLA_frequency{XTAL_oscillator_frequency * PLLA_input_multiplier / PLLA_front_end_divider};
     constexpr uint32_t Master_clock_frequency{PLLA_frequency / 2};
     static_assert(Master_clock_frequency == 150'000'000);
 
     volatile static uint32_t the_cycle_count{0u};
     volatile static uint32_t the_measured_frequency{0u};
+}
 
+extern "C" {
+uint32_t SystemCoreClock{SamV71::RC_oscillator_frequency};
+}
+
+namespace SamV71
+{
     void SamV71_clock::initialize()
     {
         disable_watchdog();
         // initialize_main_clock();
         initialize_PLLA();
         initialize_master_clock();
+        SystemCoreClock = SamV71::Master_clock_frequency;
         // Enable Peripheral Clock
-        PMC_REGS->PMC_PCER0=0x35c00U;
+        PMC_REGS->PMC_PCER0 = 0x35c00U;
     }
 
     void SamV71_clock::initialize_main_clock()
     {
         // Enable Main Crystal Oscillator and define the startup time
         PMC_REGS->CKGR_MOR = CKGR_MOR_KEY_PASSWD | CKGR_MOR_MOSCXTEN_Msk
-            | CKGR_MOR_MOSCXTST(Crystal_oscillator_startup_time);
+            | CKGR_MOR_MOSCXTST(XTAL_oscillator_startup_time);
         while (!(PMC_REGS->PMC_SR & PMC_SR_MOSCXTS_Msk))
         {
             __NOP();

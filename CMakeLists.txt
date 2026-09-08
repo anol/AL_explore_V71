@@ -31,3 +31,5 @@ add_subdirectory(${SOURCE_ROOT_DIR}/Platform/${PLATFORM}_platform ${CMAKE_BINARY
 add_subdirectory(${SOURCE_ROOT_DIR}/Abstract ${CMAKE_BINARY_DIR}/Abstract)
 add_subdirectory(${SOURCE_ROOT_DIR}/Dictionary ${CMAKE_BINARY_DIR}/Dictionary)
 add_subdirectory(${SOURCE_ROOT_DIR}/Utility ${CMAKE_BINARY_DIR}/Utility)
+
+add_subdirectory(${CMAKE_SOURCE_DIR}/src_3rd/FreeRTOS ${CMAKE_BINARY_DIR}/FreeRTOS)

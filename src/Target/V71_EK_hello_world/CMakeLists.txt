@@ -1,6 +1,8 @@
 target_sources(${THE_TARGET_NAME} PUBLIC
         V71_EK_hello_world.cpp
         V71_EK_hello_world.h
+        FreeRTOS_hooks.cpp
+        FreeRTOSConfig.h
 )
 
 # C o m p i l e r   a n d   l i n k e r   f l a g s

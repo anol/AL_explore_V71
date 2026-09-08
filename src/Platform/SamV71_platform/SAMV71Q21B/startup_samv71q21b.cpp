@@ -52,8 +52,6 @@ void Reset_Handler();
 /* Default empty handler */
 extern "C" void Dummy_Handler();
 
-extern "C" void Dummy_SysTick_Handler();
-
 /*
 void NonMaskableInt_Handler ( void ) __attribute__ ((weak, alias("Dummy_Handler")));
 void HardFault_Handler    ( void ) __attribute__ ((weak, alias("Dummy_Handler")));
@@ -63,8 +61,8 @@ void UsageFault_Handler   ( void ) __attribute__ ((weak, alias("Dummy_Handler"))
 void SVCall_Handler       ( void ) __attribute__ ((weak, alias("Dummy_Handler")));
 void DebugMonitor_Handler ( void ) __attribute__ ((weak, alias("Dummy_Handler")));
 void PendSV_Handler       ( void ) __attribute__ ((weak, alias("Dummy_Handler")));
-*/
 extern "C" void SysTick_Handler() __attribute__ ((weak, alias("Dummy_SysTick_Handler")));
+*/
 
 /* Peripherals handlers */
 extern "C" void SUPC_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
@@ -447,10 +445,6 @@ void BusFault_Handler() {
     );
 }
 
-void Dummy_SysTick_Handler() {
-    __NOP();
-}
-
 void Dummy_Handler() {
     cfsr  = SCB->CFSR;
     hfsr  = SCB->HFSR;
@@ -498,17 +492,6 @@ void UsageFault_Handler() {
     }
 }
 
-void SVCall_Handler() {
-    cfsr  = SCB->CFSR;
-    hfsr  = SCB->HFSR;
-    mmfar = SCB->MMFAR;
-    bfar  = SCB->BFAR;
-    __asm volatile ("bkpt #0");
-    while (true) {
-        __NOP();
-    }
-}
-
 void DebugMonitor_Handler() {
     cfsr  = SCB->CFSR;
     hfsr  = SCB->HFSR;
@@ -519,14 +502,29 @@ void DebugMonitor_Handler() {
         __NOP();
     }
 }
+//
+// void Dummy_SysTick_Handler() {
+//     __NOP();
+// }
 
-void PendSV_Handler() {
-    cfsr  = SCB->CFSR;
-    hfsr  = SCB->HFSR;
-    mmfar = SCB->MMFAR;
-    bfar  = SCB->BFAR;
-    __asm volatile ("bkpt #0");
-    while (true) {
-        __NOP();
-    }
-}
+// void SVCall_Handler() {
+//     cfsr  = SCB->CFSR;
+//     hfsr  = SCB->HFSR;
+//     mmfar = SCB->MMFAR;
+//     bfar  = SCB->BFAR;
+//     __asm volatile ("bkpt #0");
+//     while (true) {
+//         __NOP();
+//     }
+// }
+
+// void PendSV_Handler() {
+//     cfsr  = SCB->CFSR;
+//     hfsr  = SCB->HFSR;
+//     mmfar = SCB->MMFAR;
+//     bfar  = SCB->BFAR;
+//     __asm volatile ("bkpt #0");
+//     while (true) {
+//         __NOP();
+//     }
+// }

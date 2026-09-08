@@ -17,9 +17,9 @@ target_compile_options(${THE_TARGET_NAME} PUBLIC
         # Target architecture
         #        -mabi=aapcs
         -mthumb
-        -march=armv7-m
-        #        -march=armv7e-m+fp.dp
-        #        -mfloat-abi=hard
+        #-march=armv7-m
+        -mcpu=cortex-m7 -mfpu=fpv5-d16 -mfloat-abi=hard
+        # -march=armv7e-m+fp.dp -mfloat-abi=hard
         --specs=nano.specs
         # When target outside 64-megabyte addr range
         #        -mlong-calls
@@ -38,7 +38,8 @@ target_compile_definitions(${THE_TARGET_NAME} PUBLIC
 
 target_link_options(${THE_TARGET_NAME} PUBLIC
         -mthumb
-        -march=armv7-m
+        #-march=armv7-m
+        -mcpu=cortex-m7 -mfpu=fpv5-d16 -mfloat-abi=hard
         #-march=armv7e-m+fp.dp
         #        -mfloat-abi=hard
         #        -Wl,--library-path=${CMAKE_BINARY_DIR}
