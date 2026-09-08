@@ -91,10 +91,12 @@ extern uint32_t SystemCoreClock;   /* Updated in SamV71_clock.cpp */
  * (NVIC_SetPriorityGrouping(0)) — verify this explicitly at startup,
  * don't assume the CMSIS default is already right for your part/SDK.
  * ------------------------------------------------------------------- */
-#define configPRIO_BITS                         4
+// #define configPRIO_BITS                         4
+#define configPRIO_BITS                         3
 
 /* Lowest priority = numerically largest value the hardware supports. */
-#define configLIBRARY_LOWEST_INTERRUPT_PRIORITY  15
+//#define configLIBRARY_LOWEST_INTERRUPT_PRIORITY  15
+#define configLIBRARY_LOWEST_INTERRUPT_PRIORITY  7
 
 /* Highest priority from which FreeRTOS API calls are allowed
  * (xxxFromISR functions). Any ISR at a NUMERICALLY LOWER priority than

@@ -11,32 +11,38 @@ namespace Application
 {
     void Hello_world::initialize()
     {
-        printf("Hello_world::initialize\r\n");
-    }
-
-    void Hello_world::delay(const int number_of_loops) const
-    {
-        for (int loop_counter = 0; loop_counter < number_of_loops; loop_counter++)
-        {
-            use_board.NOP();
-        }
+        constexpr UBaseType_t priority = tskIDLE_PRIORITY + 1;
+        constexpr StackType_t stack_size = configMINIMAL_STACK_SIZE * 2;
+        xTaskCreate(task_entry, "HelloWorld", stack_size, this, priority, &the_task);
     }
 
     void Hello_world::run()
     {
-        auto toggle{false};
-        printf("Hello_world::run\r\n");
+        vTaskStartScheduler();
+    }
+
+    void Hello_world::task_entry(void* object)
+    {
+        static_cast<Hello_world *>(object)->task_loop();
+    }
+
+    void Hello_world::task_loop()
+    {
+        TickType_t last_wake_time = xTaskGetTickCount();
+        constexpr TickType_t period = pdMS_TO_TICKS(500);
+        printf("Hello_world::task_loop\r\n");
         use_board.print_diagnostics();
         while (true)
         {
-            delay(10'000'000);
+            vTaskDelayUntil(&last_wake_time, period);
             printf(".");
-            toggle = !toggle;
-            if (toggle)
+            the_toggle_flag = !the_toggle_flag;
+            if (the_toggle_flag)
             {
                 use_board.get_pin(Dictionary::Pin_LED0).set();
                 use_board.get_pin(Dictionary::Pin_LED1).clear();
-            }else
+            }
+            else
             {
                 use_board.get_pin(Dictionary::Pin_LED0).clear();
                 use_board.get_pin(Dictionary::Pin_LED1).set();

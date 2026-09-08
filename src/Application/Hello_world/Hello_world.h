@@ -6,17 +6,32 @@
 #include "Abstract_application.h"
 #include "Abstract_board.h"
 
-namespace Application {
-    class Hello_world : public Abstract::Abstract_application {
-        Abstract::Abstract_board &use_board;
+extern "C" {
+#include "FreeRTOS.h"
+#include "portmacro.h"
+#include "task.h"
+}
+
+namespace Application
+{
+    class Hello_world : public Abstract::Abstract_application
+    {
+        Abstract::Abstract_board& use_board;
+        TaskHandle_t the_task{};
+        bool the_toggle_flag{};
 
     public:
-        explicit Hello_world(Abstract::Abstract_board &board) : use_board(board) {
+        explicit Hello_world(Abstract::Abstract_board& board) : use_board(board)
+        {
         }
 
         void initialize() override;
-        void delay(int number_of_loops) const;
 
         void run() override;
+
+    private:
+        void task_loop();
+
+        static void task_entry(void* object);
     };
 } // Application
