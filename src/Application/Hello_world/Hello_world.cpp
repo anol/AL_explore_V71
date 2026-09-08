@@ -23,29 +23,48 @@ namespace Application
 
     void Hello_world::task_entry(void* object)
     {
-        static_cast<Hello_world *>(object)->task_loop();
+        static_cast<Hello_world*>(object)->task_loop();
+    }
+
+    void Hello_world::toggle_LED()
+    {
+        the_toggle_flag = !the_toggle_flag;
+        if (the_toggle_flag)
+        {
+            use_board.get_pin(Dictionary::Pin_LED0).set();
+            use_board.get_pin(Dictionary::Pin_LED1).clear();
+        }
+        else
+        {
+            use_board.get_pin(Dictionary::Pin_LED0).clear();
+            use_board.get_pin(Dictionary::Pin_LED1).set();
+        }
     }
 
     void Hello_world::task_loop()
     {
         TickType_t last_wake_time = xTaskGetTickCount();
-        constexpr TickType_t period = pdMS_TO_TICKS(500);
         printf("Hello_world::task_loop\r\n");
         use_board.print_diagnostics();
+        auto& console = use_board.get_UART();
         while (true)
         {
-            vTaskDelayUntil(&last_wake_time, period);
-            printf(".");
-            the_toggle_flag = !the_toggle_flag;
-            if (the_toggle_flag)
+            if (console.has_input())
             {
-                use_board.get_pin(Dictionary::Pin_LED0).set();
-                use_board.get_pin(Dictionary::Pin_LED1).clear();
+                console.for_each_input(this, [](void* user, const uint32_t data)
+                {
+                    printf("%c", static_cast<char>(data));
+                    return true;
+                });
+                constexpr TickType_t period = pdMS_TO_TICKS(500);
+                vTaskDelayUntil(&last_wake_time, period);
             }
             else
             {
-                use_board.get_pin(Dictionary::Pin_LED0).clear();
-                use_board.get_pin(Dictionary::Pin_LED1).set();
+                constexpr TickType_t period = pdMS_TO_TICKS(1000);
+                vTaskDelayUntil(&last_wake_time, period);
+                printf(".");
+                toggle_LED();
             }
         }
     }

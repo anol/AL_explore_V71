@@ -12,59 +12,72 @@ namespace SamV71
     uint32_t SamV71_USART1::the_USART1_IRQ_count{};
     uint32_t SamV71_USART1::the_USART1_IRQ_status{};
     uint32_t SamV71_USART1::the_USART1_TX_count{};
+    uint32_t SamV71_USART1::the_USART1_TX_overflow_count{};
     uint32_t SamV71_USART1::the_USART1_RX_count{};
+    uint32_t SamV71_USART1::the_USART1_RX_overflow_count{};
 }
 
 extern "C" void USART1_ISR(void)
 {
     using namespace SamV71;
-    SamV71_USART1::the_USART1_IRQ_count =  SamV71_USART1::the_USART1_IRQ_count + 1;
+    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+    SamV71_USART1::the_USART1_IRQ_count = SamV71_USART1::the_USART1_IRQ_count + 1;
     SamV71_USART1::the_USART1_IRQ_status = USART1_REGS->US_CSR;
     /* Error status */
     uint32_t errorStatus = (SamV71_USART1::the_USART1_IRQ_status & (US_CSR_USART_OVRE_Msk | US_CSR_USART_FRAME_Msk |
         US_CSR_USART_PARE_Msk));
     if (errorStatus != 0)
     {
-        /* Client must call USARTx_ErrorGet() function to clear the errors */
-        /* Disable Read, Overrun, Parity and Framing error interrupts */
+        // Disable Read, Overrun, Parity and Framing error interrupts
         USART1_REGS->US_IDR = (US_IDR_USART_RXRDY_Msk | US_IDR_USART_FRAME_Msk | US_IDR_USART_PARE_Msk |
             US_IDR_USART_OVRE_Msk);
-        /* USART errors are normally associated with the receiver, hence calling receiver callback */
-        // if (usart1Obj.rdCallback != NULL) {
-        //     usart1Obj.rdCallback(USART_EVENT_READ_ERROR, usart1Obj.rdContext);
-        // }
     }
     if (SamV71_USART1::optional_one_and_only_UART)
     {
-        /* Receiver status */
         if (SamV71_USART1::the_USART1_IRQ_status & US_CSR_USART_RXRDY_Msk)
         {
-            SamV71_USART1::optional_one_and_only_UART->on_receiver_interrupt();
+            SamV71_USART1::optional_one_and_only_UART->on_receiver_interrupt(&xHigherPriorityTaskWoken);
         }
-        /* Transmitter status */
         if (SamV71_USART1::the_USART1_IRQ_status & (US_CSR_USART_TXRDY_Msk | US_CSR_USART_TXEMPTY_Msk))
         {
-            SamV71_USART1::optional_one_and_only_UART->on_transmitter_interrupt();
+            SamV71_USART1::optional_one_and_only_UART->on_transmitter_interrupt(&xHigherPriorityTaskWoken);
         }
     }
+    portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
 }
 
 namespace SamV71
 {
+    SamV71_USART1::SamV71_USART1()
+    {
+        the_RX_queue = xQueueCreate(RX_buffer_size, sizeof(uint8_t));
+        the_TX_queue = xQueueCreate(TX_buffer_size, sizeof(uint8_t));
+        configASSERT(the_RX_queue != nullptr);
+        configASSERT(the_TX_queue != nullptr);
+    }
+
     void SamV71_USART1::initialize()
     {
-        the_RX_queue.initialize();
-        the_TX_queue.initialize();
+        init_USART1();
+        init_interrupt();
+    }
+
+    void SamV71_USART1::init_USART1()
+    {
         SamV71_clock::enable_peripheral_clock(USART1_INSTANCE_ID);
-        optional_one_and_only_UART = this;
         USART1_REGS->US_CR = (US_CR_USART_RSTRX_Msk | US_CR_USART_RSTTX_Msk | US_CR_USART_RSTSTA_Msk); // Reset UART
         USART1_REGS->US_CR = (US_CR_USART_TXEN_Msk | US_CR_USART_RXEN_Msk); // Enable UART
         USART1_REGS->US_MR = // Set UART mode
             US_MR_USART_USCLKS_MCK | US_MR_USART_CHRL_8_BIT | US_MR_USART_PAR_NO | US_MR_USART_NBSTOP_1_BIT | (0 <<
                 US_MR_USART_OVER_Pos);
         USART1_REGS->US_BRGR = US_BRGR_CD(81); // Set bitrate
+        optional_one_and_only_UART = this;
+    }
+
+    void SamV71_USART1::init_interrupt()
+    {
         NVIC_DisableIRQ(USART1_IRQn);
-        NVIC_SetPriority(USART1_IRQn, 7);
+        NVIC_SetPriority(USART1_IRQn, configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY);
         NVIC_ClearPendingIRQ(USART1_IRQn);
         NVIC_EnableIRQ(USART1_IRQn);
         enable_receiver_interrupt();
@@ -92,22 +105,28 @@ namespace SamV71
         USART1_REGS->US_IDR = US_IDR_USART_TXEMPTY_Msk | US_IDR_USART_TXRDY_Msk;
     }
 
-    void SamV71_USART1::on_receiver_interrupt()
+    void SamV71_USART1::on_receiver_interrupt(BaseType_t* pxHigherPriorityTaskWoken)
     {
         while (USART1_REGS->US_CSR & US_CSR_USART_RXRDY_Msk)
         {
-            const auto data = USART1_REGS->US_RHR;
-            the_RX_queue.put(static_cast<uint8_t>(data & 0xFF));
-            the_USART1_RX_count = the_USART1_RX_count + 1;
+            const auto data = static_cast<uint8_t>(USART1_REGS->US_RHR & 0xFF);
+            if (xQueueSendFromISR(the_RX_queue, &data, pxHigherPriorityTaskWoken) == pdPASS)
+            {
+                the_USART1_RX_count = the_USART1_RX_count + 1;
+            }
+            else
+            {
+                the_USART1_RX_overflow_count = the_USART1_RX_overflow_count + 1;
+            }
         }
     }
 
-    void SamV71_USART1::on_transmitter_interrupt()
+    void SamV71_USART1::on_transmitter_interrupt(BaseType_t* pxHigherPriorityTaskWoken)
     {
         uint8_t data;
         while (USART1_REGS->US_CSR & (US_CSR_USART_TXRDY_Msk | US_CSR_USART_TXEMPTY_Msk))
         {
-            if (the_TX_queue.get(&data))
+            if (xQueueReceiveFromISR(the_TX_queue, &data, pxHigherPriorityTaskWoken) == pdPASS)
             {
                 USART1_REGS->US_THR = data;
                 the_USART1_TX_count = the_USART1_TX_count + 1;
@@ -120,22 +139,35 @@ namespace SamV71
         }
     }
 
+    bool SamV71_USART1::for_each_input(Optional_user user, Optional_func func)
+    {
+        uint8_t data;
+        while (xQueueReceive(the_RX_queue, &data, 0) == pdPASS)
+        {
+            if (func)
+            {
+                func(user, data);
+            }
+        }
+        return true;
+    }
+
     int SamV71_USART1::print(const char* data, int len)
     {
         int written = 0;
-        disable_transmitter_interrupt();
         while (len-- > 0)
         {
-            if (the_TX_queue.put(*data++))
+            if (xQueueSend(the_TX_queue, data, 0) == pdPASS)
             {
-                written++;
+                ++data;
+                ++written;
             }
             else
             {
+                the_USART1_TX_overflow_count = the_USART1_TX_overflow_count + 1;
                 break;
             }
         }
-        on_transmitter_interrupt();
         enable_transmitter_interrupt();
         return written;
     }

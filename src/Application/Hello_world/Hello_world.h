@@ -33,5 +33,6 @@ namespace Application
         void task_loop();
 
         static void task_entry(void* object);
+        void toggle_LED();
     };
 } // Application
