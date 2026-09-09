@@ -1,5 +1,5 @@
 target_include_directories(${THE_TARGET_NAME} PUBLIC
-        ..
+        .
 )
 target_sources(${THE_TARGET_NAME} PUBLIC
 #        Chunk_queue_unit_test.cpp
@@ -33,5 +33,4 @@ target_sources(${THE_TARGET_NAME} PUBLIC
         Json_printer.cpp
         Size_adapter.h
 #        Simple_math_unit_test.cpp
-        List.h
 )

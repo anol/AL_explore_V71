@@ -23,7 +23,7 @@
 
 #pragma once
 #include "Generated_code/SpectraNode_provider_indication.h"
-#include "IDE3380/IDE3380_interface.h"
+#include "IDE3380_interface.h"
 
 namespace Repository {
     class Configuration_repository;

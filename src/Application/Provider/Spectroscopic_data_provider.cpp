@@ -24,8 +24,8 @@
 #include "Spectroscopic_data_provider.h"
 
 #include "../Support/Histogram_storage.h"
-#include "Print_support.h"
-#include "Repository/Configuration_repository.h"
+#include "stdio.h"
+#include "Configuration_repository.h"
 
 
 void Spectroscopic_data_provider::v_FORMAT_R6(Instruction_major &instruction) {
@@ -56,7 +56,7 @@ void Spectroscopic_data_provider::v_FORMAT_N42(Instruction_major &instruction) {
 }
 
 void Spectroscopic_data_provider::v_TIME_date_time(Instruction_major &, const int date_1, const int time_2) {
-    PRINTF("%s %s=%d, %s=%d\r\n", "Spectroscopic_data_provider::v_TIME_date_time:",
+    printf("%s %s=%d, %s=%d\r\n", "Spectroscopic_data_provider::v_TIME_date_time:",
            "date_1=", date_1, "time_2=", time_2);
 }
 
@@ -64,7 +64,7 @@ void Spectroscopic_data_provider::v_GET(Instruction_major &instruction) {
     if (use_histogram.send_data(the_format, the_channel)) {
         instruction.print_ack();
     } else {
-        PRINTF("Failed to send data: format=%d, channel=%d\r\n", the_format, the_channel);
+        printf("Failed to send data: format=%d, channel=%d\r\n", the_format, the_channel);
         instruction.print_nack(99);
     }
 }
@@ -74,7 +74,7 @@ void Spectroscopic_data_provider::v_GET_RESET(Instruction_major &instruction) {
         use_histogram.clear_histogram_buffer();
         instruction.print_ack();
     } else {
-        PRINTF("Failed to send data: format=%d, channel=%d\r\n", the_format, the_channel);
+        printf("Failed to send data: format=%d, channel=%d\r\n", the_format, the_channel);
         instruction.print_nack(99);
     }
 }
@@ -83,7 +83,7 @@ void Spectroscopic_data_provider::send_science_data(const uint32_t cadence) cons
     if (use_histogram.send_data(the_format, the_channel, cadence)) {
         use_histogram.clear_histogram_buffer();
     } else {
-        PRINTF("!");
+        printf("!");
     }
 }
 
@@ -101,16 +101,16 @@ const char *Spectroscopic_data_provider::format_to_text(const Application::Data_
 void Spectroscopic_data_provider::print_status() const {
     switch (the_channel) {
         case 0:
-            PRINTF(", channel=%d (inhibit), format=%s", the_channel, format_to_text(the_format));
+            printf(", channel=%d (inhibit), format=%s", the_channel, format_to_text(the_format));
             break;
         case 17:
-            PRINTF(", channel=%d (ana sum), format=%s", the_channel, format_to_text(the_format));
+            printf(", channel=%d (ana sum), format=%s", the_channel, format_to_text(the_format));
             break;
         case 18:
-            PRINTF(", channel=%d (dig sum), format=%s", the_channel, format_to_text(the_format));
+            printf(", channel=%d (dig sum), format=%s", the_channel, format_to_text(the_format));
             break;
         default:
-            PRINTF(", channel=%d (input), format=%s", the_channel, format_to_text(the_format));
+            printf(", channel=%d (input), format=%s", the_channel, format_to_text(the_format));
             break;
     }
 }

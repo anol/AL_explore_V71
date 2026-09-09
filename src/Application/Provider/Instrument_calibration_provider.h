@@ -23,8 +23,8 @@
 
 #pragma once
 #include "Generated_code/SpectraNode_provider_indication.h"
-#include "Calibration/IDE3380_test_pedestal.h"
-#include "Calibration/IDE3380_test_noise_floor.h"
+#include "IDE3380_test_pedestal.h"
+#include "IDE3380_test_noise_floor.h"
 
 namespace Repository {
     class Configuration_repository;

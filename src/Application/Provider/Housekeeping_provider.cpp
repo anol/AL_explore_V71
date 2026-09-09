@@ -23,23 +23,23 @@
 
 #include "Housekeeping_provider.h"
 
-#include <Target_config.h>
+#include "Target_config.h"
 
 #include "../Support/Histogram_storage.h"
 #include "Mode_control_provider.h"
-#include "Print_support.h"
+#include "stdio.h"
 #include "Spectroscopic_data_provider.h"
-#include "stm32u5xx_hal.h"
-#include "Calibration/Bias_calibration.h"
+// #include "stm32u5xx_hal.h"
+#include "Bias_calibration.h"
 
 void Housekeeping_provider::print_version() {
-    PRINTF("Product: " IDEAS_PRODUCT_ID "\r\n");
-    PRINTF("Version: " BUILD_INFORMATION "\r\n");
-    PRINTF("Branch: " GIT_BRANCH "\r\n");
-    PRINTF("Date: " __DATE__ " " __TIME__ "\r\n");
+    printf("Product: " IDEAS_PRODUCT_ID "\r\n");
+    printf("Version: " BUILD_INFORMATION "\r\n");
+    printf("Branch: " GIT_BRANCH "\r\n");
+    printf("Date: " __DATE__ " " __TIME__ "\r\n");
     int32_t serial{};
     if (use_repository.get(Serial_number, serial)) {
-        PRINTF("S/N 8063-2-%d.\r\n", serial);
+        printf("S/N 8063-2-%d.\r\n", (int) serial);
     }
 }
 
@@ -49,16 +49,16 @@ void Housekeeping_provider::v_VERSION(Instruction_major &instruction) {
 }
 
 void Housekeeping_provider::v_STATUS(Instruction_major &instruction) {
-    PRINTF("Status:");
+    printf("Status:");
     use_mode_control.print_status();
     use_data_provider.print_status();
     use_bias.print_status();
-    PRINTF(", tick=%d\r\n", HAL_GetTick());
+    // printf(", tick=%d\r\n", HAL_GetTick());
     instruction.print_ack();
 }
 
 void Housekeeping_provider::v_DIAG(Instruction_major &instruction) {
-    PRINTF("Diagnostic info\r\n");
+    printf("Diagnostic info\r\n");
     use_histogram.print_diag();
     use_bias.print_diag();
     use_IDE3380.print_diag();
@@ -67,7 +67,7 @@ void Housekeeping_provider::v_DIAG(Instruction_major &instruction) {
 }
 
 void Housekeeping_provider::v_TEST(Instruction_major &) {
-    PRINTF("Test_utility_provider::v_TEST:\r\n");
+    printf("Test_utility_provider::v_TEST:\r\n");
 }
 
 void Housekeeping_provider::v_HELP(Instruction_major &instruction) {

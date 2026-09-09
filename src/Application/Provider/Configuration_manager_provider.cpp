@@ -24,7 +24,7 @@
 #include "Configuration_manager_provider.h"
 
 #include "Persistent_parameter_id.h"
-#include "Repository/Configuration_repository.h"
+#include "Configuration_repository.h"
 
 
 void Configuration_manager_provider::v_CONFIG_CLEAN(Instruction_major &instruction) {

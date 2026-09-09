@@ -24,7 +24,7 @@
 #pragma once
 #include "Persistent_parameter_id.h"
 #include "Generated_code/SpectraNode_provider_indication.h"
-#include "Repository/Configuration_repository.h"
+#include "Configuration_repository.h"
 
 
 class Spectroscopic_data_provider;

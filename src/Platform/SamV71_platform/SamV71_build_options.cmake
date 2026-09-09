@@ -1,6 +1,7 @@
 target_compile_options(${THE_TARGET_NAME} PUBLIC
         # Enable all warnings
         -Wall
+        -Wno-format
         # Kernel development mode (-mkernel)
         -fno-exceptions
         $<$<COMPILE_LANGUAGE:CXX>:-fno-rtti>

@@ -24,7 +24,7 @@
 #include "Mode_control_provider.h"
 
 #include "../Support/Cadence_control.h"
-#include "Print_support.h"
+#include "stdio.h"
 #include "Spectroscopic_data_provider.h"
 
 
@@ -38,7 +38,7 @@ const char *Mode_control_provider::Operation_mode_to_text(const Operation_mode m
 }
 
 void Mode_control_provider::print_status() const {
-    PRINTF(" mode=%s, cadence=%d", Operation_mode_to_text(the_mode), use_cadence.get_cadence());
+    printf(" mode=%s, cadence=%d", Operation_mode_to_text(the_mode), use_cadence.get_cadence());
 }
 
 bool Mode_control_provider::set_mode(const Operation_mode mode, const Parameter_id channel,
@@ -108,7 +108,7 @@ void Mode_control_provider::v_DEMO_CHANNEL_channel(Instruction_major &instructio
 }
 
 void Mode_control_provider::v_NOMINAL_ALARM_micro_sievert(Instruction_major &, int micro_sievert_2) {
-    PRINTF("%s %s=%d\r\n", "Mode_control_provider::v_NOMINAL_ALARM_micro_sievert:",
+    printf("%s %s=%d\r\n", "Mode_control_provider::v_NOMINAL_ALARM_micro_sievert:",
            "micro_sievert_2=", micro_sievert_2);
 }
 

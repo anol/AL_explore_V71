@@ -24,8 +24,8 @@
 #pragma once
 #include "Persistent_parameter_id.h"
 #include "Generated_code/SpectraNode_provider_indication.h"
-#include "IDE3380/IDE3380_interface.h"
-#include "IDE3380/IDE3380_readout_control.h"
+#include "IDE3380_interface.h"
+#include "IDE3380_readout_control.h"
 
 namespace Repository {
     class Configuration_repository;

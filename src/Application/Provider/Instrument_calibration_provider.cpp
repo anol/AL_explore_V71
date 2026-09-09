@@ -23,9 +23,9 @@
 
 #include "Instrument_calibration_provider.h"
 
-#include "Print_support.h"
-#include "Calibration/Bias_calibration.h"
-#include "Repository/Configuration_repository.h"
+#include "stdio.h"
+#include "Bias_calibration.h"
+#include "Configuration_repository.h"
 
 void Instrument_calibration_provider::v_CAL_ADC_V35_cal_35V(Instruction_major &instruction, const int cal_35V_3) {
     use_bias.get_ADC().set_cal_35V(cal_35V_3);
@@ -121,5 +121,5 @@ void Instrument_calibration_provider::v_CAL_DIAG(Instruction_major &instruction)
 
 void Instrument_calibration_provider::v_CAL_TRACE(Instruction_major &) {
     the_trace_flag = !the_trace_flag;
-    PRINTF("The trace is %s\r\n", the_trace_flag ? "ON" : "OFF");
+    printf("The trace is %s\r\n", the_trace_flag ? "ON" : "OFF");
 }

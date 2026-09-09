@@ -5,6 +5,9 @@ target_sources(${THE_TARGET_NAME} PUBLIC
         FreeRTOSConfig.h
 )
 
+
+configure_file(Target_config.h.i ${PROJECT_BINARY_DIR}/Target_config.h)
+
 # C o m p i l e r   a n d   l i n k e r   f l a g s
 
 set(SAMV71_DIR "${CMAKE_SOURCE_DIR}/src_3rd/Microchip")

@@ -19,7 +19,7 @@
 
 #include <stdio.h>
 
-#include "Dictionary/Dictionary.h"
+#include "Dictionary.h"
 
 #include "Instruction_utility.h"
 

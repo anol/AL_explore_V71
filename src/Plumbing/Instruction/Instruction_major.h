@@ -6,7 +6,7 @@
 #define TARGET_WINDOWS_INSTRUCTION_MAJOR_H
 
 #include <cstring>
-#include "Dictionary/Dictionary.h"
+#include "Dictionary.h"
 
 using namespace Instruction;
 
