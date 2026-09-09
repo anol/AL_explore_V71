@@ -1,0 +1,949 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ Copyright (C) 2026 Integrated Detector Electronics AS
+ All Rights Reserved.
+
+ NOTICE: All information contained herein is, and remains
+ the property of Integrated Detector Electronics AS and its suppliers,
+ if any. The intellectual and technical concepts contained
+ herein are proprietary to Integrated Detector Electronics AS
+ and its suppliers and may be covered by Norwegian, EU. or U.S. patents,
+ patents in process, and are protected by trade secret or copyright law.
+ Dissemination of this information or reproduction of this material
+ is strictly forbidden unless prior written permission is obtained
+ from Integrated Detector Electronics AS.
+ -->
+
+<?xml-stylesheet type="text/xsl" href="Script/Structure_to_html.xsl"?>
+<structure product_id="FW1038" name="SpectraNode_structure_definition" version="1" keywords="SpectraNode" interface="SpectraNode">
+<!--    <primary key="analog">-->
+<!--        <secondary key="trigger">-->
+<!--            <tertiary>-->
+<!--                <quaternary>-->
+<!--                    <value type="high|low" default="Key_high" nature="config" brief="Select high gain or low gain for trigger"/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--        </secondary>-->
+<!--    </primary>-->
+<!--    <primary key="bus">-->
+<!--        <secondary key="active">-->
+<!--            <tertiary>-->
+<!--                <quaternary>-->
+<!--                    <value type="nobus|canbus|milbus" default="Key_nobus" nature="config" brief="The active bus."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--        </secondary>-->
+<!--        <secondary key="canbus">-->
+<!--            <tertiary key="primary">-->
+<!--                <quaternary>-->
+<!--                    <value type="addr" default="84" nature="config" brief="CAN-bus: Node ID."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="secondary">-->
+<!--                <quaternary>-->
+<!--                    <value type="addr" default="85" nature="config" brief="CAN-bus: Extended Node ID."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--        </secondary>-->
+<!--        <secondary key="milbus">-->
+<!--            <tertiary>-->
+<!--                <quaternary>-->
+<!--                    <value type="addr" default="15" nature="config" brief="MIL-bus: Terminal address."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--        </secondary>-->
+<!--    </primary>-->
+<!--    <primary key="charge">-->
+<!--        <secondary key="capacitor">-->
+<!--            <tertiary>-->
+<!--                <quaternary>-->
+<!--                    <value type="CCAL" default="0" nature="config"-->
+<!--                           brief="Capacitor selection, 0=off, 1-4=cap, 5=bypass."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--        </secondary>-->
+<!--        <secondary key="level">-->
+<!--            <tertiary>-->
+<!--                <quaternary>-->
+<!--                    <value type="CALV" default="42" nature="config" brief="Charge injector DAC setting."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--        </secondary>-->
+<!--        <secondary key="width">-->
+<!--            <tertiary>-->
+<!--                <quaternary>-->
+<!--                    <value type="micros" default="20" nature="config" brief="DCAL puls width."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--        </secondary>-->
+<!--        <secondary key="input">-->
+<!--            <tertiary key="channel">-->
+<!--                <quaternary min="1" max="4">-->
+<!--                    <value type="channel" range="0,1-36" default="0" nature="config"-->
+<!--                           brief="Test enables on channel, 0=not in use, 1-36=input channel."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--        </secondary>-->
+<!--    </primary>-->
+<!--    &lt;!&ndash;-->
+<!--    <primary key="digital">-->
+<!--        <secondary key="interval">-->
+<!--            <tertiary>-->
+<!--                <quaternary>-->
+<!--                    <value type="millis" default="0" nature="config"-->
+<!--                           brief="Milliseconds between each digital readout."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--        </secondary>-->
+<!--    </primary>-->
+<!--    &ndash;&gt;-->
+<!--    <primary key="global">-->
+<!--        <secondary key="delay">-->
+<!--            <tertiary>-->
+<!--                <quaternary>-->
+<!--                    <value type="nanos" default="990" nature="config"-->
+<!--                           brief="Delay from THGVO until SS_HOLD is applied."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--        </secondary>-->
+<!--        <secondary key="bias">-->
+<!--            <tertiary key="frequency">-->
+<!--                <quaternary>-->
+<!--                    <value type="Hz" default="50000" nature="config" brief="Frequency of the bias generator."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="enable">-->
+<!--                <quaternary>-->
+<!--                    <value type="enable|disable" default="Key_enable" nature="config"-->
+<!--                           brief="Switch bias generator On/Off."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--        </secondary>-->
+<!--        <secondary key="power">-->
+<!--            <tertiary key="enable">-->
+<!--                <quaternary>-->
+<!--                    <value type="enable|disable" default="Key_enable" nature="config"-->
+<!--                           brief="Switch DGU power On/Off."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--        </secondary>-->
+<!--        <secondary key="dac">-->
+<!--            <tertiary>-->
+<!--                <quaternary>-->
+<!--                    <value type="DAC" default="540" nature="config" brief="Global DAC setting."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--        </secondary>-->
+<!--        <secondary key="adc">-->
+<!--            <tertiary>-->
+<!--                <quaternary>-->
+<!--                    <value type="ADC" default="3300" nature="config" brief="Global ADC AVDD setting."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--        </secondary>-->
+<!--        <secondary key="mct">-->
+<!--            <tertiary>-->
+<!--                <quaternary>-->
+<!--                    <value type="MCT" default="50" nature="config"-->
+<!--                           brief="Global monostable coincidence timer setting."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--        </secondary>-->
+<!--    </primary>-->
+<!--    <primary key="input">-->
+<!--        <secondary min="1" max="12">-->
+<!--            <tertiary key="active">-->
+<!--                <quaternary>-->
+<!--                    <value type="channel" range="0,1-36" default="0"-->
+<!--                           nature="config"-->
+<!--                           brief="Active channel, 0=not in use.">-->
+<!--                        <item index="1" default="5"/>-->
+<!--                        <item index="2" default="7"/>-->
+<!--                        <item index="3" default="9"/>-->
+<!--                        <item index="4" default="11"/>-->
+<!--                        <item index="5" default="13"/>-->
+<!--                        <item index="6" default="15"/>-->
+<!--                        <item index="7" default="17"/>-->
+<!--                        <item index="8" default="19"/>-->
+<!--                        <item index="9" default="20"/>-->
+<!--                        <item index="10" default="12"/>-->
+<!--                        <item index="11" default="14"/>-->
+<!--                    </value>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="low">-->
+<!--                <quaternary key="threshold">-->
+<!--                    <value type="DAC" nature="config" default="1023" brief="Low threshold DAC setting.">-->
+<!--                        <item index="1" default="77"/>-->
+<!--                        <item index="2" default="68"/>-->
+<!--                        <item index="3" default="63"/>-->
+<!--                        <item index="4" default="69"/>-->
+<!--                        <item index="5" default="70"/>-->
+<!--                        <item index="6" default="66"/>-->
+<!--                        <item index="7" default="63"/>-->
+<!--                        <item index="8" default="62"/>-->
+<!--                        <item index="9" default="59"/>-->
+<!--                        <item index="10" default="1023"/>-->
+<!--                        <item index="11" default="1023"/>-->
+<!--                    </value>-->
+<!--                </quaternary>-->
+<!--                <quaternary key="enable">-->
+<!--                    <value type="enable|disable" default="Key_disable" nature="config"-->
+<!--                           brief="Enable low threshold trigger.">-->
+<!--                        <item index="1" default="Key_enable"/>-->
+<!--                        <item index="2" default="Key_enable"/>-->
+<!--                        <item index="3" default="Key_enable"/>-->
+<!--                        <item index="4" default="Key_enable"/>-->
+<!--                        <item index="5" default="Key_enable"/>-->
+<!--                        <item index="6" default="Key_enable"/>-->
+<!--                        <item index="7" default="Key_enable"/>-->
+<!--                        <item index="8" default="Key_enable"/>-->
+<!--                        <item index="9" default="Key_enable"/>-->
+<!--                        <item index="10" default="Key_disable"/>-->
+<!--                        <item index="11" default="Key_disable"/>-->
+<!--                    </value>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="high">-->
+<!--                <quaternary key="threshold">-->
+<!--                    <value type="DAC" nature="config" default="1023" brief="High threshold DAC setting.">-->
+<!--                        <item index="1" default="84"/>-->
+<!--                        <item index="2" default="78"/>-->
+<!--                        <item index="3" default="77"/>-->
+<!--                        <item index="4" default="78"/>-->
+<!--                        <item index="5" default="80"/>-->
+<!--                        <item index="6" default="71"/>-->
+<!--                        <item index="7" default="14"/>-->
+<!--                        <item index="8" default="17"/>-->
+<!--                        <item index="9" default="14"/>-->
+<!--                        <item index="10" default="1023"/>-->
+<!--                        <item index="11" default="1023"/>-->
+<!--                    </value>-->
+<!--                </quaternary>-->
+<!--                <quaternary key="enable">-->
+<!--                    <value type="enable|disable" default="Key_disable" nature="config"-->
+<!--                           brief="Enable high threshold trigger.">-->
+<!--                        <item index="1" default="Key_enable"/>-->
+<!--                        <item index="2" default="Key_enable"/>-->
+<!--                        <item index="3" default="Key_enable"/>-->
+<!--                        <item index="4" default="Key_enable"/>-->
+<!--                        <item index="5" default="Key_enable"/>-->
+<!--                        <item index="6" default="Key_enable"/>-->
+<!--                        <item index="7" default="Key_enable"/>-->
+<!--                        <item index="8" default="Key_enable"/>-->
+<!--                        <item index="9" default="Key_enable"/>-->
+<!--                        <item index="10" default="Key_disable"/>-->
+<!--                        <item index="11" default="Key_disable"/>-->
+<!--                    </value>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--        </secondary>-->
+<!--    </primary>-->
+<!--    <primary key="jobs">-->
+<!--        <secondary key="analog_pedestal_test">-->
+<!--            &lt;!&ndash;            <tertiary key="interval">&ndash;&gt;-->
+<!--            &lt;!&ndash;                <quaternary>&ndash;&gt;-->
+<!--            &lt;!&ndash;                    <value type="millis" default="0" nature="config" brief="Millis between readouts."/>&ndash;&gt;-->
+<!--            &lt;!&ndash;                </quaternary>&ndash;&gt;-->
+<!--            &lt;!&ndash;            </tertiary>&ndash;&gt;-->
+<!--            <tertiary key="samples">-->
+<!--                <quaternary>-->
+<!--                    <value type="number" default="1000" nature="config" brief="Number of readouts."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--        </secondary>-->
+<!--        <secondary key="analog_readout_test">-->
+<!--            <tertiary key="interval">-->
+<!--                <quaternary>-->
+<!--                    <value type="millis" default="50" nature="config" brief="Interval between charge injections."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="samples">-->
+<!--                <quaternary>-->
+<!--                    <value type="number" default="50" nature="config" brief="Number of samples per charge."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="capacitor" brief="Table of CCAL test values.">-->
+<!--                <quaternary min="1" max="32">-->
+<!--                    <value type="CCAL" default="0" nature="config"-->
+<!--                           brief="Capacitor selection, 0=off, 1-4=cap, 5=bypass.">-->
+<!--                        <item index="1" default="1"/>-->
+<!--                        <item index="2" default="1"/>-->
+<!--                        <item index="3" default="1"/>-->
+<!--                        <item index="4" default="1"/>-->
+<!--                        <item index="5" default="1"/>-->
+<!--                        <item index="6" default="1"/>-->
+<!--                        <item index="7" default="1"/>-->
+<!--                        <item index="8" default="1"/>-->
+<!--                        <item index="9" default="1"/>-->
+<!--                        <item index="10" default="1"/>-->
+<!--                        <item index="11" default="2"/>-->
+<!--                        <item index="12" default="2"/>-->
+<!--                        <item index="13" default="2"/>-->
+<!--                        <item index="14" default="2"/>-->
+<!--                        <item index="15" default="2"/>-->
+<!--                        <item index="16" default="2"/>-->
+<!--                        <item index="17" default="2"/>-->
+<!--                        <item index="18" default="2"/>-->
+<!--                        <item index="19" default="2"/>-->
+<!--                        <item index="20" default="2"/>-->
+<!--                        <item index="21" default="3"/>-->
+<!--                        <item index="22" default="3"/>-->
+<!--                        <item index="23" default="3"/>-->
+<!--                        <item index="24" default="3"/>-->
+<!--                        <item index="25" default="3"/>-->
+<!--                        <item index="26" default="3"/>-->
+<!--                        <item index="27" default="3"/>-->
+<!--                        <item index="28" default="3"/>-->
+<!--                        <item index="29" default="3"/>-->
+<!--                    </value>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="level" brief="Table of CALV test values.">-->
+<!--                <quaternary min="1" max="32">-->
+<!--                    <value type="CALV" default="0" nature="config" brief="Table of test charges, 0=ignore.">-->
+<!--                        <item index="1" default="1"/>-->
+<!--                        <item index="2" default="71"/>-->
+<!--                        <item index="3" default="102"/>-->
+<!--                        <item index="4" default="204"/>-->
+<!--                        <item index="5" default="307"/>-->
+<!--                        <item index="6" default="409"/>-->
+<!--                        <item index="7" default="512"/>-->
+<!--                        <item index="8" default="614"/>-->
+<!--                        <item index="9" default="819"/>-->
+<!--                        <item index="10" default="1023"/>-->
+<!--                        <item index="11" default="102"/>-->
+<!--                        <item index="12" default="204"/>-->
+<!--                        <item index="13" default="307"/>-->
+<!--                        <item index="14" default="409"/>-->
+<!--                        <item index="15" default="512"/>-->
+<!--                        <item index="16" default="614"/>-->
+<!--                        <item index="17" default="716"/>-->
+<!--                        <item index="18" default="819"/>-->
+<!--                        <item index="19" default="921"/>-->
+<!--                        <item index="20" default="1023"/>-->
+<!--                        <item index="21" default="393"/>-->
+<!--                        <item index="22" default="433"/>-->
+<!--                        <item index="23" default="512"/>-->
+<!--                        <item index="24" default="590"/>-->
+<!--                        <item index="25" default="669"/>-->
+<!--                        <item index="26" default="748"/>-->
+<!--                        <item index="27" default="827"/>-->
+<!--                        <item index="28" default="905"/>-->
+<!--                        <item index="29" default="984"/>-->
+<!--                    </value>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--        </secondary>-->
+<!--        <secondary key="analog_waveform_test">-->
+<!--            <tertiary key="interval">-->
+<!--                <quaternary>-->
+<!--                    <value type="millis" default="50" nature="config" brief="Interval between charges."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="lower">-->
+<!--                <quaternary>-->
+<!--                    <value type="nanos" default="500" nature="config" brief="Shortest delay."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="samples">-->
+<!--                <quaternary>-->
+<!--                    <value type="number" default="50" nature="config" brief="Number of samples per charge."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="step">-->
+<!--                <quaternary>-->
+<!--                    <value type="nanos" default="50" nature="config" brief="Delta-delay."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="upper">-->
+<!--                <quaternary>-->
+<!--                    <value type="nanos" default="1500" nature="config" brief="Longest delay."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="capacitor" brief="Table of CCAL test values.">-->
+<!--                <quaternary min="1" max="16">-->
+<!--                    <value type="CCAL" default="0" nature="config"-->
+<!--                           brief="Capacitor selection, 0=off, 1-4=cap, 5=bypass.">-->
+<!--                        <item index="1" default="2"/>-->
+<!--                        <item index="2" default="2"/>-->
+<!--                        <item index="3" default="2"/>-->
+<!--                        <item index="4" default="2"/>-->
+<!--                        <item index="5" default="2"/>-->
+<!--                        <item index="6" default="2"/>-->
+<!--                    </value>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="level" brief="Table of CALV test values.">-->
+<!--                <quaternary min="1" max="16">-->
+<!--                    <value type="CALV" default="0" nature="config" brief="Table of test charges, 0=ignore.">-->
+<!--                        <item index="1" default="50"/>-->
+<!--                        <item index="2" default="100"/>-->
+<!--                        <item index="3" default="300"/>-->
+<!--                        <item index="4" default="600"/>-->
+<!--                        <item index="5" default="800"/>-->
+<!--                        <item index="6" default="1000"/>-->
+<!--                    </value>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--        </secondary>-->
+<!--        <secondary key="charge_monitor_test">-->
+<!--            <tertiary key="interval">-->
+<!--                <quaternary>-->
+<!--                    <value type="millis" default="20" nature="config" brief="Charge injection interval."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="samples">-->
+<!--                <quaternary>-->
+<!--                    <value type="number" default="100" nature="config" brief="Max number of samples, 0=unlimited."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="capacitor" brief="Table of CCAL test values.">-->
+<!--                <quaternary min="1" max="16">-->
+<!--                    <value type="CCAL" default="0" nature="config"-->
+<!--                           brief="Capacitor selection, 0=off, 1-4=cap, 5=bypass.">-->
+<!--                        <item index="1" default="1"/>-->
+<!--                        <item index="2" default="1"/>-->
+<!--                        <item index="3" default="1"/>-->
+<!--                        <item index="4" default="1"/>-->
+<!--                        <item index="5" default="1"/>-->
+<!--                        <item index="6" default="1"/>-->
+<!--                        <item index="7" default="1"/>-->
+<!--                        <item index="8" default="1"/>-->
+<!--                        <item index="9" default="1"/>-->
+<!--                        <item index="10" default="1"/>-->
+<!--                    </value>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="level" brief="Table of CALV test values.">-->
+<!--                <quaternary min="1" max="16">-->
+<!--                    <value type="CALV" default="0" nature="config" brief="Table of test charges, 0=ignore.">-->
+<!--                        <item index="1" default="50"/>-->
+<!--                        <item index="2" default="100"/>-->
+<!--                        <item index="3" default="150"/>-->
+<!--                        <item index="4" default="200"/>-->
+<!--                        <item index="5" default="250"/>-->
+<!--                        <item index="6" default="300"/>-->
+<!--                        <item index="7" default="500"/>-->
+<!--                        <item index="8" default="700"/>-->
+<!--                        <item index="9" default="900"/>-->
+<!--                        <item index="10" default="1000"/>-->
+<!--                    </value>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--        </secondary>-->
+<!--        <secondary key="counter_readout">-->
+<!--            <tertiary key="duration">-->
+<!--                <quaternary>-->
+<!--                    <value type="millis" default="0" nature="config" brief="Max duration, 0=unlimited."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="interval">-->
+<!--                <quaternary>-->
+<!--                    <value type="millis" default="60000" nature="config" brief="Interval between each telemetry."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="samples">-->
+<!--                <quaternary>-->
+<!--                    <value type="number" default="0" nature="config" brief="Max number of samples, 0=unlimited."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--        </secondary>-->
+<!--        <secondary key="digital_noise_test">-->
+<!--            <tertiary key="interval">-->
+<!--                <quaternary>-->
+<!--                    <value type="millis" default="1000" nature="config" brief="Sample interval (ms)."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="samples">-->
+<!--                <quaternary>-->
+<!--                    <value type="number" default="10" nature="config" brief="Number of samples per threshold."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="upper">-->
+<!--                <quaternary key="threshold">-->
+<!--                    <value type="DAC" default="100" nature="config" brief="Max search threshold."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--        </secondary>-->
+<!--        <secondary key="digital_readout_test">-->
+<!--            <tertiary key="samples">-->
+<!--                <quaternary>-->
+<!--                    <value type="number" default="100" nature="config" brief="Number of injected charges per level."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="discriminator">-->
+<!--                <quaternary min="1" max="32">-->
+<!--                    <value type="number" default="0" nature="config" brief="Discriminator, 0=off, 1=low, 2=high.">-->
+<!--                        <item index="1" default="1"/>-->
+<!--                        <item index="2" default="1"/>-->
+<!--                        <item index="3" default="1"/>-->
+<!--                        <item index="4" default="1"/>-->
+<!--                        <item index="5" default="1"/>-->
+<!--                        <item index="6" default="1"/>-->
+<!--                        <item index="7" default="1"/>-->
+<!--                        <item index="8" default="1"/>-->
+<!--                        <item index="9" default="2"/>-->
+<!--                        <item index="10" default="2"/>-->
+<!--                        <item index="11" default="2"/>-->
+<!--                        <item index="12" default="2"/>-->
+<!--                        <item index="13" default="2"/>-->
+<!--                        <item index="14" default="2"/>-->
+<!--                        <item index="15" default="2"/>-->
+<!--                        <item index="16" default="2"/>-->
+<!--                    </value>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="threshold">-->
+<!--                <quaternary min="1" max="32">-->
+<!--                    <value type="DAC" default="1023" nature="config" brief="Threshold setting, range 0..1023.">-->
+<!--                        <item index="1" default="10"/>-->
+<!--                        <item index="2" default="50"/>-->
+<!--                        <item index="3" default="100"/>-->
+<!--                        <item index="4" default="200"/>-->
+<!--                        <item index="5" default="400"/>-->
+<!--                        <item index="6" default="600"/>-->
+<!--                        <item index="7" default="800"/>-->
+<!--                        <item index="8" default="1000"/>-->
+<!--                        <item index="9" default="10"/>-->
+<!--                        <item index="10" default="50"/>-->
+<!--                        <item index="11" default="100"/>-->
+<!--                        <item index="12" default="200"/>-->
+<!--                        <item index="13" default="400"/>-->
+<!--                        <item index="14" default="600"/>-->
+<!--                        <item index="15" default="800"/>-->
+<!--                        <item index="16" default="1000"/>-->
+<!--                    </value>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="capacitor">-->
+<!--                <quaternary min="1" max="32">-->
+<!--                    <value type="CCAL" default="0" nature="config" brief="Capacitor select, 0=off, 1-4=cap, 5=bypass.">-->
+<!--                        <item index="1" default="1"/>-->
+<!--                        <item index="2" default="1"/>-->
+<!--                        <item index="3" default="1"/>-->
+<!--                        <item index="4" default="1"/>-->
+<!--                        <item index="5" default="1"/>-->
+<!--                        <item index="6" default="1"/>-->
+<!--                        <item index="7" default="1"/>-->
+<!--                        <item index="8" default="1"/>-->
+<!--                        <item index="9" default="2"/>-->
+<!--                        <item index="10" default="2"/>-->
+<!--                        <item index="11" default="2"/>-->
+<!--                        <item index="12" default="2"/>-->
+<!--                        <item index="13" default="2"/>-->
+<!--                        <item index="14" default="2"/>-->
+<!--                        <item index="15" default="2"/>-->
+<!--                        <item index="16" default="2"/>-->
+<!--                    </value>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--        </secondary>-->
+<!--        <secondary key="histogram">-->
+<!--            <tertiary key="duration">-->
+<!--                <quaternary>-->
+<!--                    <value type="millis" default="600000" nature="config"-->
+<!--                           brief="Max duration, 0=unlimited."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="interval">-->
+<!--                <quaternary>-->
+<!--                    <value type="millis" default="0" nature="config" brief="No used."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="size">-->
+<!--                <quaternary>-->
+<!--                    <value type="number" default="5" nature="config"-->
+<!--                           brief="LSBs per bin."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="start">-->
+<!--                <quaternary>-->
+<!--                    <value type="number" default="300" nature="config"-->
+<!--                           brief="Lowermost bin (catch all)."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="bins">-->
+<!--                <quaternary>-->
+<!--                    <value type="number" default="64" nature="config"-->
+<!--                           brief="Number of bins (max 64)."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="samples">-->
+<!--                <quaternary>-->
+<!--                    <value type="number" default="10000" nature="config"-->
+<!--                           brief="Max number of samples, 0=unlimited."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--        </secondary>-->
+<!--        <secondary key="housekeeping">-->
+<!--            <tertiary key="interval">-->
+<!--                <quaternary>-->
+<!--                    <value type="millis" default="600000" nature="config"-->
+<!--                           brief="Housekeeping transmission interval (ms), 0=disable."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="enable">-->
+<!--                <quaternary>-->
+<!--                    <value type="enable|disable" default="Key_enable" nature="config"-->
+<!--                           brief="Housekeeping run state."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--        </secondary>-->
+<!--        <secondary key="dosimeter">-->
+<!--            <tertiary key="interval">-->
+<!--                <quaternary>-->
+<!--                    <value type="millis" default="3600000" nature="config"-->
+<!--                           brief="Dosimeter transmission interval (ms), 0=disable."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--        </secondary>-->
+<!--        <secondary key="injector">-->
+<!--            <tertiary key="interval">-->
+<!--                <quaternary>-->
+<!--                    <value type="millis" default="10" nature="config" brief="Charge injection interval (ms)."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="duration">-->
+<!--                <quaternary>-->
+<!--                    <value type="millis" default="10000" nature="config"-->
+<!--                           brief="Max duration, 0=unlimited."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="samples">-->
+<!--                <quaternary>-->
+<!--                    <value type="number" default="1000" nature="config"-->
+<!--                           brief="Max number of samples, 0=unlimited."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--        </secondary>-->
+<!--        <secondary key="primary">-->
+<!--            <tertiary key="duration">-->
+<!--                <quaternary>-->
+<!--                    <value type="millis" default="0" nature="config" brief="Max job duration (ms), 0=unlimited."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="interval">-->
+<!--                <quaternary>-->
+<!--                    <value type="millis" default="60000" nature="config" brief="Size of sampling window (ms)."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="samples">-->
+<!--                <quaternary>-->
+<!--                    <value type="number" default="0" nature="config" brief="Max number of cycles, 0=unlimited."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            &lt;!&ndash;-->
+<!--            <tertiary key="input" brief="Table of spectroscopic inputs.">-->
+<!--                <quaternary min="1" max="16">-->
+<!--                    <value type="input" default="0" nature="config"-->
+<!--                           brief="Logical input, 1-16=input, 0=not used.">-->
+<!--                        <item index="1" default="1"/>-->
+<!--                        <item index="2" default="2"/>-->
+<!--                        <item index="3" default="6"/>-->
+<!--                        <item index="4" default="7"/>-->
+<!--                        <item index="5" default="8"/>-->
+<!--                        <item index="6" default="9"/>-->
+<!--                    </value>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            &ndash;&gt;-->
+<!--        </secondary>-->
+<!--        <secondary key="spectroscopic">-->
+<!--            <tertiary key="duration">-->
+<!--                <quaternary>-->
+<!--                    <value type="millis" default="600000" nature="config"-->
+<!--                           brief="Max duration, 0=unlimited."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="interval">-->
+<!--                <quaternary>-->
+<!--                    <value type="millis" default="0" nature="config" brief="Not used."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="samples">-->
+<!--                <quaternary>-->
+<!--                    <value type="number" default="10000" nature="config"-->
+<!--                           brief="Max number of samples, 0=unlimited."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--        </secondary>-->
+<!--        <secondary key="system">-->
+<!--            <tertiary key="idle">-->
+<!--                <quaternary>-->
+<!--                    <value type="counter_readout|primary|spectroscopic" default="Key_primary"-->
+<!--                           brief="Select default job"/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="test">-->
+<!--                <quaternary key="interval">-->
+<!--                    <value type="millis" default="1800000" nature="config"-->
+<!--                           brief="Set interval between verification of data integrity"/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--        </secondary>-->
+<!--    </primary>-->
+<!--    <primary key="management">-->
+<!--        <secondary key="opmode">-->
+<!--            <tertiary>-->
+<!--                <quaternary>-->
+<!--                    <value type="data8" default="1" nature="config"-->
+<!--                           brief="Operational Mode 1=Nominal, 2=Self-test, 4=Idle, 8=Safe"/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--        </secondary>-->
+<!--    </primary>-->
+<!--    <primary key="pattern">-->
+<!--        <secondary min="1" max="36">-->
+<!--            <tertiary key="low">-->
+<!--                <quaternary key="mask">-->
+<!--                    <value type="bitmask" default="0" nature="config" brief="Inputs, low thr., Mask and Veto pairs.">-->
+<!--                        <item index="1"  default="0x0003'FFFD"/>-->
+<!--                        <item index="2"  default="0x0003'FFF5"/>-->
+<!--                        <item index="3"  default="0x0003'FFD5"/>-->
+<!--                        <item index="4"  default="0x0003'FF55"/>-->
+<!--                        <item index="5"  default="0x0003'FD55"/>-->
+<!--                        <item index="6"  default="0x0003'F555"/>-->
+<!--                        <item index="7"  default="0x0003'D555"/>-->
+<!--                        <item index="8"  default="0x0003'5555"/>-->
+<!--                        <item index="9"  default="0x0001'5555"/>-->
+<!--                        <item index="10" default="0x0003'FFFD"/>-->
+<!--                        <item index="11" default="0x0003'FFF5"/>-->
+<!--                        <item index="12" default="0x0003'FFD5"/>-->
+<!--                        <item index="13" default="0x0003'FF55"/>-->
+<!--                        <item index="14" default="0x0003'FD55"/>-->
+<!--                        <item index="15" default="0x0003'F555"/>-->
+<!--                        <item index="16" default="0x0003'D555"/>-->
+<!--                        <item index="17" default="0x0003'5555"/>-->
+<!--                        <item index="18" default="0x0001'5555"/>-->
+<!--                        <item index="19" default="0x0000'0001"/>-->
+<!--                        <item index="20" default="0x0000'0004"/>-->
+<!--                        <item index="21" default="0x0000'0010"/>-->
+<!--                        <item index="22" default="0x0000'0040"/>-->
+<!--                        <item index="23" default="0x0000'0100"/>-->
+<!--                        <item index="24" default="0x0000'0400"/>-->
+<!--                        <item index="25" default="0x0000'1000"/>-->
+<!--                        <item index="26" default="0x0000'4000"/>-->
+<!--                        <item index="27" default="0x0001'0000"/>-->
+<!--                        <item index="28" default="0x0000'0001"/>-->
+<!--                        <item index="29" default="0x0000'0004"/>-->
+<!--                        <item index="30" default="0x0000'0010"/>-->
+<!--                        <item index="31" default="0x0000'0040"/>-->
+<!--                        <item index="32" default="0x0000'0100"/>-->
+<!--                        <item index="33" default="0x0000'0400"/>-->
+<!--                        <item index="34" default="0x0000'1000"/>-->
+<!--                        <item index="35" default="0x0000'4000"/>-->
+<!--                        <item index="36" default="0x0001'0000"/>-->
+<!--                    </value>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="high">-->
+<!--                <quaternary key="mask">-->
+<!--                    <value type="bitmask" default="0" nature="config" brief="Inputs, high thr., Mask and Veto pairs.">-->
+<!--                        <item index="1"  default="0x0003'FFFD"/>-->
+<!--                        <item index="2"  default="0x0003'FFF5"/>-->
+<!--                        <item index="3"  default="0x0003'FFD5"/>-->
+<!--                        <item index="4"  default="0x0003'FF55"/>-->
+<!--                        <item index="5"  default="0x0003'FD55"/>-->
+<!--                        <item index="6"  default="0x0003'F555"/>-->
+<!--                        <item index="7"  default="0x0003'D000"/>-->
+<!--                        <item index="8"  default="0x0003'5000"/>-->
+<!--                        <item index="9"  default="0x0001'5000"/>-->
+<!--                        <item index="10" default="0x0003'FFFF"/>-->
+<!--                        <item index="11" default="0x0003'FFFF"/>-->
+<!--                        <item index="12" default="0x0003'FFFF"/>-->
+<!--                        <item index="13" default="0x0003'FFFF"/>-->
+<!--                        <item index="14" default="0x0003'FFFF"/>-->
+<!--                        <item index="15" default="0x0003'FFFF"/>-->
+<!--                        <item index="16" default="0x0003'FFFF"/>-->
+<!--                        <item index="17" default="0x0003'FFFF"/>-->
+<!--                        <item index="18" default="0x0003'FFFF"/>-->
+<!--                        <item index="19" default="0x0000'0000"/>-->
+<!--                        <item index="20" default="0x0000'0000"/>-->
+<!--                        <item index="21" default="0x0000'0000"/>-->
+<!--                        <item index="22" default="0x0000'0000"/>-->
+<!--                        <item index="23" default="0x0000'0000"/>-->
+<!--                        <item index="24" default="0x0000'0000"/>-->
+<!--                        <item index="25" default="0x0000'0000"/>-->
+<!--                        <item index="26" default="0x0000'0000"/>-->
+<!--                        <item index="27" default="0x0000'0000"/>-->
+<!--                        <item index="28" default="0x0000'0001"/>-->
+<!--                        <item index="29" default="0x0000'0004"/>-->
+<!--                        <item index="30" default="0x0000'0010"/>-->
+<!--                        <item index="31" default="0x0000'0040"/>-->
+<!--                        <item index="32" default="0x0000'0100"/>-->
+<!--                        <item index="33" default="0x0000'0400"/>-->
+<!--                        <item index="34" default="0x0000'1000"/>-->
+<!--                        <item index="35" default="0x0000'4000"/>-->
+<!--                        <item index="36" default="0x0001'0000"/>-->
+<!--                    </value>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="enable">-->
+<!--                <quaternary>-->
+<!--                    <value type="enable|disable" default="Key_enable" nature="config" brief="Counter enable."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--        </secondary>-->
+<!--    </primary>-->
+<!--    &lt;!&ndash;-->
+<!--    <primary key="system">-->
+<!--        <secondary key="boot">-->
+<!--            <tertiary key="count">-->
+<!--                <quaternary>-->
+<!--                    <value type="data32" default="0" nature="state"-->
+<!--                           brief="Boot counter, incremented at startup."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--        </secondary>-->
+<!--        <secondary key="epoch">-->
+<!--            <tertiary>-->
+<!--                <quaternary>-->
+<!--                    <value type="data32" default="0" nature="state"-->
+<!--                           brief="Most recent time update."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--        </secondary>-->
+<!--        <secondary key="opmode">-->
+<!--            <tertiary key="noxmit">-->
+<!--                <quaternary>-->
+<!--                    <value type="data32" default="0" nature="state"-->
+<!--                           brief="Science data telemetry, 0=transmit, 1=inhibit."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="idle">-->
+<!--                <quaternary>-->
+<!--                    <value type="data32" default="0" nature="state"-->
+<!--                           brief="Science data acquisition, 0=nominal, 1=idle."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--        </secondary>-->
+<!--    </primary>-->
+<!--&ndash;&gt;-->
+<!--    <primary key="system">-->
+<!--        <secondary key="alarm">-->
+<!--            <tertiary key="bin">-->
+<!--                <quaternary min="1" max="16">-->
+<!--                    <value type="data32" default="0" nature="config" brief="High energy particle flux alarm settings, 0=off">-->
+<!--                        <item index="1"  default="0"/>-->
+<!--                        <item index="2"  default="0"/>-->
+<!--                        <item index="3"  default="0"/>-->
+<!--                        <item index="4"  default="0"/>-->
+<!--                        <item index="5"  default="0"/>-->
+<!--                        <item index="6"  default="0"/>-->
+<!--                        <item index="7"  default="0"/>-->
+<!--                        <item index="8"  default="0"/>-->
+<!--                        <item index="9"  default="0"/>-->
+<!--                        <item index="10" default="0"/>-->
+<!--                        <item index="11" default="0"/>-->
+<!--                        <item index="12" default="0"/>-->
+<!--                        <item index="13" default="0"/>-->
+<!--                        <item index="14" default="0"/>-->
+<!--                        <item index="15" default="0"/>-->
+<!--                        <item index="16" default="0"/>-->
+<!--                    </value>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--            <tertiary key="enable">-->
+<!--                <quaternary>-->
+<!--                    <value type="enable|disable" default="Key_enable" nature="config"-->
+<!--                           brief="Switch high-energy particle flux alarm On/Off."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--        </secondary>-->
+<!--    </primary>-->
+<!--    <primary key="timetable">-->
+<!--        &lt;!&ndash;-->
+<!--                <secondary key="orbit">-->
+<!--                    <tertiary key="count">-->
+<!--                        <quaternary>-->
+<!--                            <value type="data32" default="0" nature="state"-->
+<!--                                   brief="Orbit counter, incremented every apogee."/>-->
+<!--                        </quaternary>-->
+<!--                    </tertiary>-->
+<!--                    <tertiary key="apogee">-->
+<!--                        <quaternary key="epoch">-->
+<!--                            <value type="data32" default="0" nature="state"-->
+<!--                                   brief="Epoch seconds of most recent apogee."/>-->
+<!--                        </quaternary>-->
+<!--                    </tertiary>-->
+<!--                    <tertiary key="timer">-->
+<!--                        <quaternary>-->
+<!--                            <value type="data32" default="0" nature="state"-->
+<!--                                   brief="Seconds since apogee."/>-->
+<!--                        </quaternary>-->
+<!--                    </tertiary>-->
+<!--                </secondary>-->
+<!--        &ndash;&gt;-->
+<!--        <secondary key="interval">-->
+<!--            <tertiary>-->
+<!--                <quaternary>-->
+<!--                    <value type="millis" default="1000" nature="config"-->
+<!--                           brief="Timetable lookup interval, 0=disable."/>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--        </secondary>-->
+<!--        <secondary key="schedule"> &lt;!&ndash; COMMENTS KEPT AS EXAMPLES OF HOW TIMETABLE ENTRIES ARE WRITEN &ndash;&gt;-->
+<!--            <tertiary min="1" max="32">-->
+<!--                <quaternary key="timer">-->
+<!--                    <value type="seconds" default="0" nature="config"-->
+<!--                           brief="Start time in seconds after apogee.">-->
+<!--                        &lt;!&ndash;-->
+<!--                        <item index="1" default="60"/>-->
+<!--                        <item index="2" default="20"/>-->
+<!--                        <item index="3" default="30"/>-->
+<!--                        &ndash;&gt;-->
+<!--                    </value>-->
+<!--                </quaternary>-->
+<!--                <quaternary key="type">-->
+<!--                    <value type="data32" default="0" nature="config"-->
+<!--                           brief="0=disable, 1=orbit, 2=ordinal_orbit, 3=orbit_repeated...">-->
+<!--                        &lt;!&ndash;-->
+<!--                        <item index="1" default="0xA000'0002" brief="Orbit repeat"/>-->
+<!--                        <item index="2" default="2" brief="Orbit"/>-->
+<!--                        <item index="3" default="2" brief="Orbit"/>-->
+<!--                        &ndash;&gt;-->
+<!--                    </value>-->
+<!--                </quaternary>-->
+<!--                <quaternary key="instruction">-->
+<!--                    <value type="data32" default="0" nature="config"-->
+<!--                           brief="Packed command keywords.">-->
+<!--                        &lt;!&ndash;-->
+<!--                        <item index="1" default="0x0000460E" brief="system busy"/>-->
+<!--                        <item index="2" default="0x00007E11" brief="timetable print"/>-->
+<!--                        <item index="3" default="0x00CD8F04" brief="file run filename"/>-->
+<!--                        &ndash;&gt;-->
+<!--                    </value>-->
+<!--                </quaternary>-->
+<!--                <quaternary key="argument">-->
+<!--                    <value type="data32" default="0" nature="config"-->
+<!--                           brief="Packed command argument.">-->
+<!--                        &lt;!&ndash;-->
+<!--                        <item index="3" default="0x74736574" brief="filename 'test'"/>-->
+<!--                        &ndash;&gt;-->
+<!--                    </value>-->
+<!--                </quaternary>-->
+<!--                <quaternary key="delay">-->
+<!--                    <value type="seconds" default="0" nature="config"-->
+<!--                           brief="Repetition start-to-start delay (seconds).">-->
+<!--                        &lt;!&ndash;-->
+<!--                        <item index="1" default="60" brief="60 seconds between runs."/>-->
+<!--                        &ndash;&gt;-->
+<!--                    </value>-->
+<!--                </quaternary>-->
+<!--                <quaternary key="runtime">-->
+<!--                    <value type="seconds" default="0" nature="config"-->
+<!--                           brief="Limit repetition duration (seconds), 0 = unlimited."/>-->
+<!--                </quaternary>-->
+<!--                <quaternary key="repeat">-->
+<!--                    <value type="number" default="0" nature="config"-->
+<!--                           brief="Limit number of repetitions, 0 = unlimited">-->
+<!--                        &lt;!&ndash;-->
+<!--                        <item index="1" default="3" brief="Repeat 3 times"/>-->
+<!--                        &ndash;&gt;-->
+<!--                    </value>-->
+<!--                </quaternary>-->
+<!--            </tertiary>-->
+<!--        </secondary>-->
+<!--    </primary>-->
+</structure>

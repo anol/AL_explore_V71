@@ -5,4 +5,5 @@ target_sources(${THE_TARGET_NAME} PUBLIC
         GCC_syscalls.cpp
         Common_stdio.cpp
         Common_stdio.h
+        Diagnostic.h
 )

@@ -1,0 +1,43 @@
+/*
+* Copyright (C) 2021 Integrated Detector Electronics AS
+* All Rights Reserved.
+*
+* NOTICE: All information contained herein is, and remains
+* the property of Integrated Detector Electronics AS and its suppliers,
+* if any. The intellectual and technical concepts contained
+* herein are proprietary to Integrated Detector Electronics AS
+* and its suppliers and may be covered by Norwegian, EU. or U.S. patents,
+* patents in process, and are protected by trade secret or copyright law.
+* Dissemination of this information or reproduction of this material
+* is strictly forbidden unless prior written permission is obtained
+* from Integrated Detector Electronics AS.
+*
+*/
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+th, td {
+    padding: 5px;
+    text-align: left;
+}
+
+th {
+    background-color: #dddddd;
+}
+
+description {
+    display: block;
+    background-color: #f2f2f2;
+    white-space: pre-line;
+}
+
+subservice {
+    display: block;
+}

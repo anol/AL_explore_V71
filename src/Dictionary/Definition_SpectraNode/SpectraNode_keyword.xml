@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+Copyright (C) 2023 Integrated Detector Electronics AS
+ All Rights Reserved.
+
+ NOTICE: All information contained herein is, and remains
+ the property of Integrated Detector Electronics AS and its suppliers,
+ if any. The intellectual and technical concepts contained
+ herein are proprietary to Integrated Detector Electronics AS
+ and its suppliers and may be covered by Norwegian, EU. or U.S. patents,
+ patents in process, and are protected by trade secret or copyright law.
+ Dissemination of this information or reproduction of this material
+ is strictly forbidden unless prior written permission is obtained
+ from Integrated Detector Electronics AS.
+ -->
+
+<?xml-stylesheet type="text/xsl" href="commands_to_html.xsl"?>
+<keyword_definition product_id="FW1038" name="SpectraNode" version="1" interface="SpectraNode_interface">
+    <keywords>
+        <key name="ADC"/>
+        <key name="APPLY"/>
+        <key name="ALARM"/>
+        <key name="ASIC"/>
+        <key name="BIAS"/>
+        <key name="CADENCE"/>
+        <key name="CAL"/>
+        <key name="CHANNEL"/>
+        <key name="CLEAN"/>
+        <key name="CONFIG"/>
+        <key name="CPS"/>
+        <key name="CSV"/>
+        <key name="DAC"/>
+        <key name="DEMO"/>
+        <key name="DIAG"/>
+        <key name="DUMP"/>
+        <key name="FORMAT"/>
+        <key name="GET"/>
+        <key name="HELP"/>
+        <key name="IDLE"/>
+        <key name="INPUT"/>
+        <key name="LOAD"/>
+        <key name="MODE"/>
+        <key name="N42"/>
+        <key name="NOMINAL"/>
+        <key name="NOISE"/>
+        <key name="OFFSET"/>
+        <key name="PEDESTAL"/>
+        <key name="R6"/>
+        <key name="REG"/>
+        <key name="RESET"/>
+        <key name="SAVE"/>
+        <key name="STATUS"/>
+        <key name="TEST"/>
+        <key name="TRACE"/>
+        <key name="TIME"/>
+        <key name="V35"/>
+        <key name="V40"/>
+        <key name="VBIAS"/>
+        <key name="VERSION"/>
+
+        <key name="cal_35V"/>
+        <key name="cal_40V"/>
+        <key name="channel"/>
+        <key name="data8"/>
+        <key name="data16"/>
+        <key name="data32"/>
+        <key name="date"/>
+        <key name="gain"/>
+        <key name="micro_sievert"/>
+        <key name="millis"/>
+        <key name="offset"/>
+        <key name="reg_addr"/>
+        <key name="seconds"/>
+        <key name="time"/>
+
+        <key name="Mode_control"/>
+        <key name="Spectroscopic_data"/>
+        <key name="Instrument_calibration"/>
+        <key name="Configuration_manager"/>
+        <key name="Housekeeping"/>
+
+    </keywords>
+</keyword_definition>

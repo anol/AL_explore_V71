@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-#include "Error_codes.h"
+#include "Error_code.h"
 
 namespace Abstract {
 
@@ -33,7 +33,7 @@ namespace Abstract {
         };
 
     public:
-        [[nodiscard]] virtual Error_codes::Error_code initialize(uint8_t id, Pin_phase) = 0;
+        [[nodiscard]] virtual Dictionary::Error_code initialize(uint8_t id, Pin_phase) = 0;
 
         [[nodiscard]] virtual uint8_t get_id() const = 0;
 

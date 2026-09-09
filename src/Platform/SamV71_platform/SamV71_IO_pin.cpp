@@ -24,7 +24,7 @@ namespace SamV71 {
                                                                                                       the_default_state(default_state) {
     }
 
-    Error_codes::Error_code SamV71_IO_pin::initialize(const uint8_t id, const Pin_phase phase) {
+    Error_code SamV71_IO_pin::initialize(const uint8_t id, const Pin_phase phase) {
         if (optional_base != nullptr) {
             if (id != the_id) {
                 // Assert failed: the pin id does not match

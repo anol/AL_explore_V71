@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+Copyright (C) 2026 Integrated Detector Electronics AS
+ All Rights Reserved.
+
+ NOTICE: All information contained herein is, and remains
+ the property of Integrated Detector Electronics AS and its suppliers,
+ if any. The intellectual and technical concepts contained
+ herein are proprietary to Integrated Detector Electronics AS
+ and its suppliers and may be covered by Norwegian, EU. or U.S. patents,
+ patents in process, and are protected by trade secret or copyright law.
+ Dissemination of this information or reproduction of this material
+ is strictly forbidden unless prior written permission is obtained
+ from Integrated Detector Electronics AS.
+ -->
+
+<?xml-stylesheet type="text/xsl" href="commands_to_html.xsl"?>
+<command_definition product_id="FW1038" name="SpectraNode" version="3" keywords="SpectraNode" interface="SpectraNode_interface">
+    <integers>
+        <integer key="cal_35V" min="-100000" max="-1"/>
+        <integer key="cal_40V" min="-100000" max="-1"/>
+        <integer key="channel" min="0" max="18" brief="0=inhibit readout, 1..16=input, 17=summing, 18=digital summing."/>
+        <integer key="data8" min="0" max="0xFF"/>
+        <integer key="data16" min="0" max="0xFFFF"/>
+        <integer key="data32" min="0" max="0x7FFFFFFF"/>
+        <integer key="date" min="0" max="0x7FFFFFFF"/>
+        <integer key="gain" min="-100000" max="100000"/>
+        <integer key="micro_sievert" min="0" max="1000000"/>
+        <integer key="millis" min="0" max="1000000"/>
+        <integer key="offset" min="0" max="4095"/>
+        <integer key="reg_addr" min="0" max="32"/>
+        <integer key="seconds" min="0" max="1000000"/>
+        <integer key="time" min="0" max="1000000"/>
+    </integers>
+    <strings>
+        <str key="pattern" max_length="16"/>
+    </strings>
+    <commands>
+        <provider key="Mode_control">
+            <arg key="MODE">
+                <arg key="IDLE" brief="Set idle mode."/>
+                <arg key="NOMINAL" brief="Set nominal mode."/>
+                <arg key="DEMO" brief="Set demonstration mode."/>
+            </arg>
+            <arg key="IDLE">
+                <arg key="CADENCE">
+                    <arg integer="seconds" brief="Set telemetry interval (s) in Idle Mode."/>
+                </arg>
+            </arg>
+            <arg key="DEMO">
+                <arg key="CHANNEL">
+                    <arg integer="channel" brief="Set channel to be used in live view demo. 0=inhibit readout, 1..16=input channel, 17=analog summing, 18=digital summing."/>
+                </arg>
+                <arg key="CADENCE">
+                    <arg integer="seconds" brief="Set telemetry interval (s) in Demonstration Mode."/>
+                </arg>
+            </arg>
+            <arg key="NOMINAL">
+                <arg key="ALARM">
+                    <arg integer="micro_sievert" brief="Set alarm threshold (uSv/h)."/>
+                </arg>
+                <arg key="CADENCE">
+                    <arg integer="seconds" brief="Set telemetry interval (s) in Nominal Mode."/>
+                </arg>
+            </arg>
+        </provider>
+        <provider key="Spectroscopic_data">
+            <arg key="GET" brief="Send the histogram.">
+                <arg key="RESET" brief="Send the histogram and clear the buffers."/>
+            </arg>
+            <arg key="FORMAT">
+                <arg key="CPS" brief="Send event counters."/>
+                <arg key="R6" brief="Use simple histogram format (R6)."/>
+                <arg key="N42" brief="Use complex histogram format (N42)."/>
+            </arg>
+            <arg key="TIME">
+                <arg integer="date">
+                    <arg integer="time" brief="Set date and time."/>
+                </arg>
+            </arg>
+        </provider>
+        <provider key="Instrument_calibration">
+            <arg key="CAL">
+                <arg key="ADC">
+                    <arg key="V35">
+                        <arg integer="cal_35V" brief="Set bias ADC calibration 35V setpoint."/>
+                    </arg>
+                    <arg key="V40">
+                        <arg integer="cal_40V" brief="Set bias ADC calibration 40V setpoint."/>
+                    </arg>
+                </arg>
+                <arg key="DAC">
+                    <arg key="V35">
+                        <arg integer="cal_35V" brief="Set bias DAC calibration 35V setpoint."/>
+                    </arg>
+                    <arg key="V40">
+                        <arg integer="cal_40V" brief="Set bias DAC calibration 40V setpoint."/>
+                    </arg>
+                </arg>
+                <arg key="TEST">
+                    <arg key="PEDESTAL" brief="Find channel pedestal using forced readout."/>
+                    <arg key="NOISE" brief="Find channel noise floor using threshold scan."/>
+                    <arg key="OFFSET" brief="Find channel offset voltage using fixed source."/>
+                    <arg key="BIAS" brief="Find common bias voltage using dark count rate."/>
+                </arg>
+                <arg key="DIAG" brief="Misc. diagnostic information wrt. calibration."/>
+                <arg key="TRACE" brief="Toggle diagnostic trace on/off."/>
+            </arg>
+        </provider>
+        <provider key="Configuration_manager">
+            <arg key="CONFIG">
+                <arg key="APPLY" brief="Apply the current configuration."/>
+                <arg key="CLEAN" brief="Clean the persistent storage and set the default configuration."/>
+                <arg key="LOAD" brief="Load the current configuration from the persistent storage."/>
+                <arg key="SAVE" brief="Save the current configuration to the persistent storage."/>
+                <arg key="DUMP" brief="Dump the current configuration."/>
+                <arg integer="offset" brief="Get configuration attribute value.">
+                    <arg integer="data32" brief="Set configuration attribute value."/>
+                </arg>
+            </arg>
+            <arg key="ASIC">
+                <arg key="REG">
+                    <arg integer="reg_addr" brief="Read the ASIC register.">
+                        <arg integer="data32" brief="Write the ASIC register."/>
+                    </arg>
+                </arg>
+                <arg key="DUMP" brief="Dump all the ASIC registers."/>
+                <arg key="LOAD" brief="Update all ASIC registers from current configuration."/>
+            </arg>
+        </provider>
+        <provider key="Housekeeping">
+            <arg key="VERSION" brief="Send version and other build information."/>
+            <arg key="STATUS" brief="Send mode and other system data."/>
+            <arg key="DIAG" brief="Send miscellaneous diagnostic information."/>
+            <arg key="TEST" brief="Initiate a self-test sequence."/>
+            <arg key="HELP" brief="Show commands."/>
+        </provider>
+    </commands>
+</command_definition>

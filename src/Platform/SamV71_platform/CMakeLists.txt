@@ -2,6 +2,7 @@ target_include_directories(${THE_TARGET_NAME} PUBLIC
         .
 )
 target_sources(${THE_TARGET_NAME} PUBLIC
+        Diagnostic.cpp
         SamV71_clock.cpp
         SamV71_clock.h
 #        SamV71_ethernet.cpp
