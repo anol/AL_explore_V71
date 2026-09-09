@@ -27,6 +27,16 @@
 
 namespace Error_handling
 {
+    static void error_prolog()
+    {
+        printf( "<< ERROR: ");
+    }
+
+    static void error_epilog()
+    {
+        printf(". >>\r\n");
+    }
+
     void information(const char* message)
     {
         printf("%s\r\n", message);
@@ -113,44 +123,44 @@ namespace Error_handling
 
     void error_message(const char* message)
     {
-        printf("ERROR=");
+        error_prolog();
         printf(message);
-        printf(".\r\n");
+        error_epilog();
     }
 
     void error_message(const char* message, uint32_t diag1)
     {
-        printf("ERROR=");
+        error_prolog();
         printf(message, diag1);
-        printf(".\r\n");
+        error_epilog();
     }
 
     void error_message(const char* message, const char* diag1)
     {
-        printf("ERROR=");
+        error_prolog();
         printf(message, diag1);
-        printf(".\r\n");
+        error_epilog();
     }
 
     void error_message(const char* message, uint32_t diag1, uint32_t diag2)
     {
-        printf("ERROR=");
+        error_prolog();
         printf(message, diag1, diag2);
-        printf(".\r\n");
+        error_epilog();
     }
 
     void error_message(const char* message, uint32_t diag1, const char* diag2)
     {
-        printf("ERROR=");
+        error_prolog();
         printf(message, diag1, diag2);
-        printf(".\r\n");
+        error_epilog();
     }
 
     void error_message(const char* message, const char* diag1, const char* diag2, const char* diag3)
     {
-        printf("ERROR=");
+        error_prolog();
         printf(message, diag1, diag2, diag3);
-        printf(".\r\n");
+        error_epilog();
     }
 
     void error_code(const Error_code& code)
@@ -160,33 +170,33 @@ namespace Error_handling
 
     void error_code(const Error_code& code, const char* diag)
     {
-        printf("ERROR=");
+        error_prolog();
         printf("%s", diag);
-        printf(".\r\n");
+        error_epilog();
         error_code(code);
     }
 
     void error_code(const Error_code& code, const char* diag, uint32_t diag1)
     {
-        printf("ERROR=");
+        error_prolog();
         printf(diag, diag1);
-        printf(".\r\n");
+        error_epilog();
         error_code(code);
     }
 
     void error_code(const Error_code& code, const char* diag, uint32_t diag1, uint32_t diag2)
     {
-        printf("ERROR=");
+        error_prolog();
         printf(diag, diag1, diag2);
-        printf(".\r\n");
+        error_epilog();
         error_code(code);
     }
 
     void error_code(const Error_code& code, const char* diag, const char* diag1)
     {
-        printf("ERROR=");
+        error_prolog();
         printf(diag, diag1);
-        printf(".\r\n");
+        error_epilog();
         error_code(code);
     }
 
@@ -197,25 +207,25 @@ namespace Error_handling
 
     void error_code(uint32_t code, const char* diag)
     {
-        printf("ERROR=");
+        error_prolog();
         printf("%s", diag);
-        printf(".\r\n");
+        error_epilog();
         error_code(code);
     }
 
     void error_code(uint32_t code, const char* diag, uint32_t diag1)
     {
-        printf("ERROR=");
+        error_prolog();
         printf(diag, diag1);
-        printf(".\r\n");
+        error_epilog();
         error_code(code);
     }
 
     void error_code(uint32_t code, const char* diag, const char* diag1)
     {
-        printf("ERROR=");
+        error_prolog();
         printf(diag, diag1);
-        printf(".\r\n");
+        error_epilog();
         error_code(code);
     }
 } // Diagnostic

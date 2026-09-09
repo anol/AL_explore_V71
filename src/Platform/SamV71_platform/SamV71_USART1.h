@@ -24,7 +24,7 @@ namespace SamV71
         static uint32_t the_USART1_RX_overflow_count;
 
     private:
-        enum { RX_buffer_size = 128, TX_buffer_size = 128 };
+        enum { RX_buffer_size = 128, TX_buffer_size = 4096 };
 
         QueueHandle_t the_RX_queue{};
         QueueHandle_t the_TX_queue{};

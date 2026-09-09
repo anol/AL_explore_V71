@@ -13,12 +13,15 @@ using namespace SpectraNode_interface;
 
 namespace Application
 {
+    class Request_router;
+
     class Console_task : public Abstract::Abstract_task
     {
         enum { Queue_size = 16, Command_buffer_size = 100 };
 
         using Command_queue = Ringbuffer<Instruction_major, Queue_size>;
         Abstract_UART& use_console;
+        Request_router& use_router;
         CLI_parser the_parser;
         Command_queue the_queue{};
         int escape_received{};
@@ -29,7 +32,8 @@ namespace Application
         bool the_echo_flag{};
 
     public:
-        explicit Console_task(Abstract_UART& UART) : use_console(UART), the_parser(get_commands())
+        Console_task(Abstract_UART& UART, Request_router& router)
+            : use_console(UART), use_router(router), the_parser(get_commands())
         {
         }
 

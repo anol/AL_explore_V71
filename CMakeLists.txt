@@ -4,7 +4,17 @@ set(SOURCE_ROOT_DIR ${CMAKE_SOURCE_DIR}/src)
 
 include(${SOURCE_ROOT_DIR}/Platform/${PLATFORM}_platform/${PLATFORM}_toolchain.cmake)
 
-project(${TARGET})
+# Get the current working branch
+execute_process(
+        COMMAND git rev-parse --abbrev-ref HEAD
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        OUTPUT_VARIABLE GIT_BRANCH
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+set(IDE_SW_VERSION "1.0.0")
+
+project(${TARGET} VERSION ${IDE_SW_VERSION})
 
 if (${PLATFORM} STREQUAL "SamV71")
     set(THE_TARGET_NAME "${PROJECT_NAME}.elf")

@@ -7,7 +7,7 @@
 #include "Abstract_board.h"
 
 #include "Cadence_control.h"
-#include "Command_handler.h"
+#include "Request_router.h"
 #include "Console_task.h"
 #include "Default_configuration.h"
 // #include "Device/MCU/STM32U575RG/U575xG_embedded_flash.h"
@@ -41,10 +41,10 @@ namespace Application
         Configuration_repository the_repository{the_attribute_types, the_storage};
         Event_counter the_event_counter{};
         Histogram_storage the_histogram{the_event_counter, the_IDE3380};
-        Console_task the_command_parser{use_board.get_UART()};
-        Command_handler the_command_handler{
+        Request_router the_command_handler{
             the_histogram, the_event_counter, the_IDE3380, the_bias, the_repository, the_cadence_control
         };
+        Console_task the_command_parser{use_board.get_UART(), the_command_handler};
         uint32_t the_background_count{};
 
     public:

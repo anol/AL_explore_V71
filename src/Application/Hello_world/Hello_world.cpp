@@ -12,7 +12,7 @@ namespace Application
     void Hello_world::initialize()
     {
         constexpr UBaseType_t priority = tskIDLE_PRIORITY + 1;
-        constexpr StackType_t stack_size = configMINIMAL_STACK_SIZE * 2;
+        constexpr StackType_t stack_size =1024 * 2;
         xTaskCreate(task_entry, "HelloWorld", stack_size, this, priority, &the_task);
 
         the_cadence_control.initialize();

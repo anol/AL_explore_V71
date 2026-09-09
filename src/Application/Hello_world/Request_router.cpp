@@ -21,55 +21,65 @@
 */
 
 
-#include "Command_handler.h"
+#include "Request_router.h"
 #include "Histogram_storage.h"
 #include <cstdio>
 #include "IDE3380_interface.h"
 
 
-namespace Application {
-    void Command_handler::initialize() {
+namespace Application
+{
+    void Request_router::initialize()
+    {
         use_IDE3380.initialize(
             this,
-            [](void *user) {
-                if (user) {
-                    static_cast<Command_handler *>(user)->wakeup_from_sleep();
+            [](void* user)
+            {
+                if (user)
+                {
+                    static_cast<Request_router*>(user)->wakeup_from_sleep();
                 }
             },
-            [](void *user, const TXD_data_t &data) {
-                if (user) {
-                    static_cast<Command_handler *>(user)->update_histogram(data);
+            [](void* user, const TXD_data_t& data)
+            {
+                if (user)
+                {
+                    static_cast<Request_router*>(user)->update_histogram(data);
                 }
             });
     }
 
-    void Command_handler::on_indication(Instruction_major &instruction) {
+    void Request_router::on_indication(Instruction_major& instruction)
+    {
         bool executed = the_mode_control.on_indication(instruction);
         if (!executed) { executed = the_data_provider.on_indication(instruction); }
         if (!executed) { executed = the_instrument_calibration.on_indication(instruction); }
         if (!executed) { executed = the_configuration_manager.on_indication(instruction); }
         if (!executed) { executed = the_housekeeper.on_indication(instruction); }
-        if (!executed) {
+        if (!executed)
+        {
             printf("ERROR: NO_SUCH COMMAND, DIAG=%d.\r\n", (int)instruction.get_command_id());
         }
     }
 
-    bool Command_handler::update_mode() {
+    bool Request_router::update_mode()
+    {
         int32_t value;
         auto success{use_repository.get(Active_mode, value)};
         auto mode = static_cast<Operation_mode>(value);
-        switch (mode) {
-            default:
-                mode = Mode_idle;
-            case Mode_idle:
-                the_mode_control.set_mode(mode, Channel_idle, Format_idle, Cadence_idle);
-                break;
-            case Mode_nominal:
-                the_mode_control.set_mode(mode, Channel_nominal, Format_nominal, Cadence_nominal);
-                break;
-            case Mode_demo:
-                the_mode_control.set_mode(mode, Channel_demo, Format_demo, Cadence_demo);
-                break;
+        switch (mode)
+        {
+        default:
+            mode = Mode_idle;
+        case Mode_idle:
+            the_mode_control.set_mode(mode, Channel_idle, Format_idle, Cadence_idle);
+            break;
+        case Mode_nominal:
+            the_mode_control.set_mode(mode, Channel_nominal, Format_nominal, Cadence_nominal);
+            break;
+        case Mode_demo:
+            the_mode_control.set_mode(mode, Channel_demo, Format_demo, Cadence_demo);
+            break;
         }
         return success;
     }

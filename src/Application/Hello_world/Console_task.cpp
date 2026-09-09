@@ -9,6 +9,7 @@
 #include "Dictionary.h"
 #include "CLI_parser.h"
 #include "Instruction_major.h"
+#include "Request_router.h"
 
 using namespace SpectraNode_interface;
 
@@ -17,7 +18,7 @@ namespace Application
     void Console_task::initialize()
     {
         constexpr UBaseType_t priority = tskIDLE_PRIORITY + 1;
-        constexpr StackType_t stack_size = configMINIMAL_STACK_SIZE * 2;
+        constexpr StackType_t stack_size =4096 * 2;
         xTaskCreate(task_entry, "Console_task", stack_size, this, priority, &optional_task);
     }
 
@@ -28,12 +29,17 @@ namespace Application
 
     void Console_task::task_loop()
     {
+        uint8_t data;
+        Instruction_major instruction;
         while (true)
         {
-            uint8_t data;
             if (use_console.get(&data))
             {
                 on_data(data);
+            }
+            if (get_command(instruction))
+            {
+                use_router.on_indication(instruction);
             }
         }
     }
