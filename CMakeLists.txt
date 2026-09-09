@@ -19,6 +19,7 @@ message("++ Target:      ${TARGET}")
 message("++ Executable:  ${THE_TARGET_NAME}")
 
 add_executable(${THE_TARGET_NAME}
+        src/Abstract/Abstract_task.h
 )
 
 target_include_directories(${THE_TARGET_NAME} PRIVATE

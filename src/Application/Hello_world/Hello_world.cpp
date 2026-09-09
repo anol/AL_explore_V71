@@ -24,7 +24,6 @@ namespace Application
         the_command_handler.initialize();
         // the_histogram.disable_trigger_flag(true);
         // the_cadence_control.set_cadence_callback(nullptr, nullptr);
-
     }
 
     void Hello_world::run()
@@ -54,29 +53,13 @@ namespace Application
 
     void Hello_world::task_loop()
     {
+        constexpr TickType_t period = pdMS_TO_TICKS(1000);
         TickType_t last_wake_time = xTaskGetTickCount();
         printf("Hello_world::task_loop\r\n");
-        use_board.print_diagnostics();
-        auto& console = use_board.get_UART();
         while (true)
         {
-            if (console.has_input())
-            {
-                console.for_each_input(this, [](void* user, const uint32_t data)
-                {
-                    printf("%c", static_cast<char>(data));
-                    return true;
-                });
-                constexpr TickType_t period = pdMS_TO_TICKS(500);
-                vTaskDelayUntil(&last_wake_time, period);
-            }
-            else
-            {
-                constexpr TickType_t period = pdMS_TO_TICKS(1000);
-                vTaskDelayUntil(&last_wake_time, period);
-                printf(".");
-                toggle_LED();
-            }
+            vTaskDelayUntil(&last_wake_time, period);
+            toggle_LED();
         }
     }
-} // Application
+}

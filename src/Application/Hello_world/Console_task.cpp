@@ -20,109 +20,152 @@
 * @brief  
 */
 
-
-#include "Command_parser.h"
-
-#include <cstdlib>
 #include <cstring>
+#include <stdio.h>
+#include <cctype>
 
-#include <Diagnostic.h>
+#include "Console_task.h"
 
+#include "Abstract_UART.h"
+#include "Diagnostic.h"
 #include "Dictionary.h"
 #include "CLI_help.h"
 #include "CLI_parser.h"
 #include "Instruction_major.h"
 
-#include <stdio.h>
-// #include "Device/MCU/STM32U575RG/U575xx_USB_serial.h"
-
-#include <cctype>
-
 using namespace SpectraNode_interface;
 
-namespace Application {
-    void Command_parser::initialize() {
-        // STM32U575RG::U575xx_USB_serial::initialize(this, [](void *user, uint8_t data) {
-        //     if (user) {
-        //         static_cast<Command_parser *>(user)->ISR_on_rx(data);
-        //     }
-        // });
+namespace Application
+{
+    void Console_task::initialize()
+    {
+        constexpr UBaseType_t priority = tskIDLE_PRIORITY + 1;
+        constexpr StackType_t stack_size = configMINIMAL_STACK_SIZE * 2;
+        xTaskCreate(task_entry, "Console_task", stack_size, this, priority, &optional_task);
     }
 
-    bool Command_parser::get_command(Instruction_major &instruction) {
-        // STM32U575RG::U575xx_USB_serial::get_state();
+    void Console_task::task_entry(void* object)
+    {
+        static_cast<Console_task*>(object)->task_loop();
+    }
+
+    void Console_task::task_loop()
+    {
+        while (true)
+        {
+            uint8_t data;
+            if (use_console.get(&data))
+            {
+                printf("%c", static_cast<char>(data));
+            }
+        }
+    }
+
+    bool Console_task::get_command(Instruction_major& instruction)
+    {
         return the_queue.get(&instruction);
     }
 
-    void Command_parser::ISR_on_rx(uint8_t data) {
+    void Console_task::ISR_on_rx(const uint8_t data)
+    {
         constexpr char AT_prefix[] = "AT+";
         enum { Prefix_size = sizeof(AT_prefix) - 1 };
-        bool complete{is_command_completed(data)};
-        if (complete) {
+        if (is_command_completed(data))
+        {
             the_buffer_pointer = 0;
             memcpy(the_previous_command, the_command_buffer, Command_buffer_size);
             Instruction_major instruction;
-            bool AT_mode{0 == strncmp(the_command_buffer, AT_prefix, Prefix_size)};
+            const bool AT_mode{0 == strncmp(the_command_buffer, AT_prefix, Prefix_size)};
             the_parser.set_mode(AT_mode);
-            if (AT_mode) {
+            if (AT_mode)
+            {
                 the_parser.parse(the_command_buffer + Prefix_size, instruction);
-            } else {
-                auto *string = the_command_buffer;
-                for (; *string; ++string) {
+            }
+            else
+            {
+                for (auto* string = the_command_buffer; *string; ++string)
+                {
                     *string = static_cast<char>(std::toupper(static_cast<unsigned char>(*string)));
                 }
                 the_parser.parse(the_command_buffer, instruction);
             }
-            if (instruction.is_valid()) {
+            if (instruction.is_valid())
+            {
                 instruction.set_AT_mode(AT_mode);
                 the_queue.put(instruction);
             }
         }
     }
 
-    bool Command_parser::is_command_completed(uint8_t data) {
+    bool Console_task::is_command_completed(uint8_t data)
+    {
         bool complete = false;
-        if (the_buffer_pointer < Command_buffer_size) {
-            if (0 < escape_received) {
+        if (the_buffer_pointer < Command_buffer_size)
+        {
+            if (0 < escape_received)
+            {
                 escape_received--;
-            } else if (0 == the_buffer_pointer) {
+            }
+            else if (0 == the_buffer_pointer)
+            {
                 // Initial character.
-                if ((' ' <= data) && ('~' >= data)) {
+                if ((' ' <= data) && ('~' >= data))
+                {
                     // Space, numbers, letters, or symbols.
-                    if (is_echo()) printf("\r%c", data);
+                    if (is_echo())
+                        printf("\r%c", data);
                     the_command_buffer[the_buffer_pointer] = static_cast<char>(data);
                     the_buffer_pointer = the_buffer_pointer + 1;
-                } else if (0x1Bu == data) {
+                }
+                else if (0x1Bu == data)
+                {
                     // Escape
                     escape_received = 2;
                     memcpy(the_command_buffer, the_previous_command, Command_buffer_size);
                     the_buffer_pointer = strlen(the_command_buffer);
-                    if (is_echo()) printf("\r");
-                    if (is_echo()) printf(the_command_buffer);
-                } else if (0x7Fu != data) {
-                    // Delete.
-                    if (is_echo()) printf("\r \r\n");
+                    if (is_echo())
+                        printf("\r");
+                    if (is_echo())
+                        printf(the_command_buffer);
                 }
-            } else {
+                else if (0x7Fu != data)
+                {
+                    // Delete.
+                    if (is_echo())
+                        printf("\r \r\n");
+                }
+            }
+            else
+            {
                 // Following characters
-                if ((' ' <= data) && ('~' >= data) && (';' != data)) {
+                if ((' ' <= data) && ('~' >= data) && (';' != data))
+                {
                     // Space, numbers, letters, or symbols, except command terminator.
-                    if (is_echo()) printf("%c", data);
+                    if (is_echo())
+                        printf("%c", data);
                     the_command_buffer[the_buffer_pointer] = static_cast<char>(data);
                     the_buffer_pointer = the_buffer_pointer + 1;
-                } else if (0x8u == data || 0x7Fu == data) {
+                }
+                else if (0x8u == data || 0x7Fu == data)
+                {
                     // Backspace or delete.
-                    if (is_echo()) printf("\b \b");
+                    if (is_echo())
+                        printf("\b \b");
                     the_buffer_pointer = the_buffer_pointer - 1;
-                } else if ((0xAu == data) || (0xDu == data) || (';' == data)) {
+                }
+                else if ((0xAu == data) || (0xDu == data) || (';' == data))
+                {
                     // LF, CR, or command terminator.
-                    if (is_echo()) printf("\r\n");
+                    if (is_echo())
+                        printf("\r\n");
                     the_command_buffer[the_buffer_pointer] = 0x0u;
                     the_buffer_pointer = 0;
                     complete = true;
                 }
             }
-        } else {
+        }
+        else
+        {
             // error_code(Too_long_command, "To long command");
             the_buffer_pointer = 0;
             complete = true;
