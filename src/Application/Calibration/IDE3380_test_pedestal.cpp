@@ -23,7 +23,7 @@
 
 #include "IDE3380_test_pedestal.h"
 
-#include <stdio.h>
+#include <cstdio>
 #include "Configuration_repository.h"
 #include "Instruction_major.h"
 

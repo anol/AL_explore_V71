@@ -19,7 +19,7 @@
  * \brief
  */
 
-#include <stdio.h>
+#include <cstdio>
 
 #include "Diagnostic.h"
 

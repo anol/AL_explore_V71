@@ -17,7 +17,7 @@
  * \brief
  */
 
-#include <stdio.h>
+#include <cstdio>
 
 #include <cstdint>
 

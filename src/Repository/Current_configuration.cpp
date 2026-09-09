@@ -20,7 +20,7 @@
 * @brief  
 */
 
-#include <stdio.h>
+#include <cstdio>
 
 
 #include "Current_configuration.h"

@@ -1,27 +1,5 @@
-/*
-* Copyright (C) 2020-2026 Integrated Detector Electronics AS
-* All Rights Reserved.
-*
-* NOTICE: All information contained herein is, and remains
-* the property of Integrated Detector Electronics AS and its suppliers,
-* if any. The intellectual and technical concepts contained
-* herein are proprietary to Integrated Detector Electronics AS
-* and its suppliers and may be covered by Norwegian, EU. or U.S. patents,
-* patents in process, and are protected by trade secret or copyright law.
-* Dissemination of this information or reproduction of this material
-* is strictly forbidden unless prior written permission is obtained
-* from Integrated Detector Electronics AS.
-*/
-
-/**
-* @file   Command_parser.cpp
-* @author AndersEmilOlsen, IDEAS
-* @date   14.04.2026
-* @brief  
-*/
-
 #include <cstring>
-#include <stdio.h>
+#include <cstdio>
 #include <cctype>
 
 #include "Console_task.h"
@@ -29,7 +7,6 @@
 #include "Abstract_UART.h"
 #include "Diagnostic.h"
 #include "Dictionary.h"
-#include "CLI_help.h"
 #include "CLI_parser.h"
 #include "Instruction_major.h"
 
@@ -56,7 +33,7 @@ namespace Application
             uint8_t data;
             if (use_console.get(&data))
             {
-                printf("%c", static_cast<char>(data));
+                on_data(data);
             }
         }
     }
@@ -66,7 +43,7 @@ namespace Application
         return the_queue.get(&instruction);
     }
 
-    void Console_task::ISR_on_rx(const uint8_t data)
+    void Console_task::on_data(const uint8_t data)
     {
         constexpr char AT_prefix[] = "AT+";
         enum { Prefix_size = sizeof(AT_prefix) - 1 };
@@ -109,11 +86,13 @@ namespace Application
             else if (0 == the_buffer_pointer)
             {
                 // Initial character.
-                if ((' ' <= data) && ('~' >= data))
+                if (' ' <= data && '~' >= data)
                 {
                     // Space, numbers, letters, or symbols.
                     if (is_echo())
+                    {
                         printf("\r%c", data);
+                    }
                     the_command_buffer[the_buffer_pointer] = static_cast<char>(data);
                     the_buffer_pointer = the_buffer_pointer + 1;
                 }
@@ -124,15 +103,18 @@ namespace Application
                     memcpy(the_command_buffer, the_previous_command, Command_buffer_size);
                     the_buffer_pointer = strlen(the_command_buffer);
                     if (is_echo())
+                    {
                         printf("\r");
-                    if (is_echo())
                         printf(the_command_buffer);
+                    }
                 }
                 else if (0x7Fu != data)
                 {
                     // Delete.
                     if (is_echo())
+                    {
                         printf("\r \r\n");
+                    }
                 }
             }
             else
@@ -142,7 +124,9 @@ namespace Application
                 {
                     // Space, numbers, letters, or symbols, except command terminator.
                     if (is_echo())
+                    {
                         printf("%c", data);
+                    }
                     the_command_buffer[the_buffer_pointer] = static_cast<char>(data);
                     the_buffer_pointer = the_buffer_pointer + 1;
                 }
@@ -150,14 +134,18 @@ namespace Application
                 {
                     // Backspace or delete.
                     if (is_echo())
+                    {
                         printf("\b \b");
+                    }
                     the_buffer_pointer = the_buffer_pointer - 1;
                 }
-                else if ((0xAu == data) || (0xDu == data) || (';' == data))
+                else if (0xAu == data || 0xDu == data || ';' == data)
                 {
                     // LF, CR, or command terminator.
                     if (is_echo())
+                    {
                         printf("\r\n");
+                    }
                     the_command_buffer[the_buffer_pointer] = 0x0u;
                     the_buffer_pointer = 0;
                     complete = true;

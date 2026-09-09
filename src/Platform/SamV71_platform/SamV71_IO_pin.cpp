@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <cstdio>
 
 #include "SamV71_IO_pin.h"
 #include "core_cm7.h"

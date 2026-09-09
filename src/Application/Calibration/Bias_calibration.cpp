@@ -4,7 +4,7 @@
  *  Created on: Feb 18, 2025
  *      Author: Daniel
  */
-#include <stdio.h>
+#include <cstdio>
 
 #include "Bias_calibration.h"
 

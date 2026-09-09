@@ -20,7 +20,7 @@
 * @brief  
 */
 
-#include <stdio.h>
+#include <cstdio>
 
 #include "Configuration_repository.h"
 

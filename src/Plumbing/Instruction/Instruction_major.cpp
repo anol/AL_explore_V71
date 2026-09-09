@@ -1,11 +1,11 @@
 //
 // Created by Drift on 29.09.2020.
 //
-#include <stdio.h>
+#include <cstdio>
 
 #include <cstdint>
 
-#include <stdio.h>
+#include <cstdio>
 #include "Diagnostic.h"
 
 namespace SpectraNode_interface {

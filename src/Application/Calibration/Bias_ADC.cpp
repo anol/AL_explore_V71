@@ -26,7 +26,7 @@
 #include <cstdint>
 
 // #include "adc.h"
-#include <stdio.h>
+#include <cstdio>
 
 // Define ADC and calibration parameters
 #define ADC_FULL_SCALE   16383.0f  // 14-bit ADC max count

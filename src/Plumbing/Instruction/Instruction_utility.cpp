@@ -17,7 +17,7 @@
 // Created by anolsen on 08.06.2020.
 //
 
-#include <stdio.h>
+#include <cstdio>
 
 #include "Dictionary.h"
 

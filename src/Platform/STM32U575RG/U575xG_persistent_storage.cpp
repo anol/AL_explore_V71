@@ -23,7 +23,7 @@
 
 #include "U575xG_persistent_storage.h"
 
-#include <stdio.h>
+#include <cstdio>
 #include "U575xG_embedded_flash.h"
 // #include "stm32u575xx.h"
 #include "U575xG_page_cache.h"

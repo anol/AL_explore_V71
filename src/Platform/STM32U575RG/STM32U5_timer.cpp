@@ -23,7 +23,7 @@
 
 #include "STM32U5_timer.h"
 #include "main.h"
-#include <stdio.h>
+#include <cstdio>
 #include "stm32u5xx_hal_rtc.h"
 #include "System_clock.h"
 #include "ux_api.h"

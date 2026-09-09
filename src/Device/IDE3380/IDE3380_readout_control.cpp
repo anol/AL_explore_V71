@@ -20,7 +20,7 @@
 * @brief  
 */
 
-#include <stdio.h>
+#include <cstdio>
 
 
 #include "IDE3380_readout_control.h"

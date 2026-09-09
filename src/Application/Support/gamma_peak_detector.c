@@ -1,7 +1,7 @@
 #include "gamma_peak_detector.h"
 #include "Isotope_table.h"
 
-#include <stdio.h>
+// #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>

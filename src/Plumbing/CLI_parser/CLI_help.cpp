@@ -28,7 +28,7 @@
 
 #include "Dictionary.h"
 #include "SpectraNode_error_code.h"
-#include <stdio.h>
+#include <cstdio>
 
 using namespace Instruction;
 using namespace Dictionary;

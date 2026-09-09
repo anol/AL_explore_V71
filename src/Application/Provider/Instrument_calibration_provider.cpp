@@ -23,7 +23,7 @@
 
 #include "Instrument_calibration_provider.h"
 
-#include <stdio.h>
+#include <cstdio>
 #include "Bias_calibration.h"
 #include "Configuration_repository.h"
 

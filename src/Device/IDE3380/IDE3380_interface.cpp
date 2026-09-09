@@ -5,7 +5,7 @@
  *      Author: Daniel
  */
 
-#include <stdio.h>
+#include <cstdio>
 
 #include "IDE3380_interface.h"
 // #include "main.h"

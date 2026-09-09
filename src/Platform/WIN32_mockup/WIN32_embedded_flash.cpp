@@ -24,7 +24,7 @@
 
 #include <cstring>
 
-#include <stdio.h>
+#include <cstdio>
 #include "WIN32_binary_file.h"
 
 extern uint32_t ld_repository_addr;

@@ -37,7 +37,7 @@ namespace Application
 
         bool get_command(Instruction_major& instruction);
 
-        void ISR_on_rx(uint8_t data);
+        void on_data(uint8_t data);
 
         bool is_command_completed(uint8_t data);
 

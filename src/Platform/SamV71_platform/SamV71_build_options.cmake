@@ -28,10 +28,9 @@ target_compile_options(${THE_TARGET_NAME} PUBLIC
 
 target_compile_definitions(${THE_TARGET_NAME} PUBLIC
         #        -DARM_MATH_CM7=true
-        -Dscanf=iscanf
-        -Dprintf=iprintf
+#        -Dscanf=iscanf
+#        -Dprintf=iprintf
         -D__SAMV71Q21B__
-
         -DBOARD=SAMV71_XPLAINED_ULTRA
 
         #        -D__FPU_PRESENT

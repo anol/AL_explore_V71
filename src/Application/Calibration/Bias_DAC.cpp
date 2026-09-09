@@ -23,7 +23,7 @@
 
 #include "Bias_DAC.h"
 // #include "dac.h"
-#include <stdio.h>
+#include <cstdio>
 
 namespace Calibration {
     uint32_t cnt_out_of_range{};

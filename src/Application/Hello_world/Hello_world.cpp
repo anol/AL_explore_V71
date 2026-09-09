@@ -2,7 +2,7 @@
 // Created by aeols on 12.08.2026.
 //
 
-#include <stdio.h>
+#include <cstdio>
 #include "Hello_world.h"
 
 #include "IO_pins.h"

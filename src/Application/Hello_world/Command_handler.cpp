@@ -23,7 +23,7 @@
 
 #include "Command_handler.h"
 #include "Histogram_storage.h"
-#include <stdio.h>
+#include <cstdio>
 #include "IDE3380_interface.h"
 
 

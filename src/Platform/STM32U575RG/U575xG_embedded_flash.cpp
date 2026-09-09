@@ -24,7 +24,7 @@
 
 #include <cstring>
 
-#include <stdio.h>
+#include <cstdio>
 #include "stm32u575xx.h"
 #include "stm32u5xx_hal.h"
 
