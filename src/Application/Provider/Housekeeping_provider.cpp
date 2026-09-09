@@ -27,7 +27,7 @@
 
 #include "../Support/Histogram_storage.h"
 #include "Mode_control_provider.h"
-#include "stdio.h"
+#include <stdio.h>
 #include "Spectroscopic_data_provider.h"
 // #include "stm32u5xx_hal.h"
 #include "Bias_calibration.h"

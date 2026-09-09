@@ -23,8 +23,8 @@
 
 #include "IDE3380_test_pedestal.h"
 
-#include "Print_support.h"
-#include "Repository/Configuration_repository.h"
+#include <stdio.h>
+#include "Configuration_repository.h"
 #include "Instruction_major.h"
 
 namespace Calibration {
@@ -62,15 +62,15 @@ namespace Calibration {
     }
 
     void IDE3380_test_pedestal::test_result() {
-        PRINTF("Chn.: ");
+        printf("Chn.: ");
         for (int channel = 0; channel < IDE3380_input_count; channel++) {
-            PRINTF("%3d ", channel);
+            printf("%3d ", channel);
             the_pedestals[channel] = weighted_mean_index(use_histogram.get_channel_buffer(channel), IDE3380_ADC_range);
         }
-        PRINTF("\r\n");
-        PRINTF("Mean: ");
+        printf("\r\n");
+        printf("Mean: ");
         for (auto pedestal: the_pedestals) {
-            PRINTF("%3d ", pedestal);
+            printf("%3d ", pedestal);
         }
         if (optional_instruction) {
             optional_instruction->print_ack();
@@ -87,7 +87,7 @@ namespace Calibration {
     }
 
     void IDE3380_test_pedestal::print_diag() const {
-        PRINTF("CAL_TEST_PEDESTAL: countdown=%d, iterator=%d\r\n",
+        printf("CAL_TEST_PEDESTAL: countdown=%d, iterator=%d\r\n",
                the_readout_countdown, use_readout_control.get_TXD_iteration());
     }
 

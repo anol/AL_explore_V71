@@ -5,7 +5,7 @@
 
 #include <cstdint>
 
-#include "stdio.h"
+#include <stdio.h>
 #include "Diagnostic.h"
 
 namespace SpectraNode_interface {

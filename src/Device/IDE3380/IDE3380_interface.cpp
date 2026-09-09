@@ -5,43 +5,44 @@
  *      Author: Daniel
  */
 
+#include <stdio.h>
+
 #include "IDE3380_interface.h"
-#include "main.h"
-#include "spi.h"
-#include "tim.h"
-#include "rtc.h"
-#include "app_usbx_device.h"
+// #include "main.h"
+// #include "spi.h"
+// #include "tim.h"
+// #include "rtc.h"
+// #include "app_usbx_device.h"
 #include "IDE3380_register_decoder.h"
-#include "Print_support.h"
-#include "System_clock.h"
-#include "Device/MCU/STM32U575RG/U575xx_USB_serial.h"
-#include "Repository/Configuration_repository.h"
+// #include "System_clock.h"
+// #include "Device/MCU/STM32U575RG/U575xx_USB_serial.h"
+#include "Configuration_repository.h"
 
 
 volatile uint8_t software_reset = 0;
 
 
-extern "C" void HAL_GPIO_EXTI_Rising_Callback(const uint16_t GPIO_Pin) {
-    using namespace IDE3380;
-    if (IDE3380_interface::optional_readout_controller) {
-        IDE3380_interface::optional_readout_controller->on_GPIO_interrupt(GPIO_Pin);
-    }
-    if (GPIO_Pin == BOOT0_Pin || GPIO_Pin == EXT_WAKEUP_Pin) //GPIO_Pin == EXT_WAKEUP_Pin ||
-    {
-        //external interrupt from user to exit deep sleep mode and resume normal operation mode to update registers
-        //tell super-loop to not enter deep sleep mode again
-        HAL_PWR_DisableSleepOnExit();
-        SystemClock_Config();
-        HAL_ResumeTick();
-        if (IDE3380_interface::optional_user_wakeup_func) {
-            IDE3380_interface::optional_user_wakeup_func(IDE3380_interface::optional_IDE3380_user);
-        }
-        HAL_RTCEx_DeactivateWakeUpTimer(&hrtc);
-        //When entering STOP2 mode the UART is clocked off so after the Wake-up you need to re-clock the UART, then will work well
-        STM32U575RG::U575xx_USB_serial::open_rx();
-        software_reset = 1;
-    }
-}
+// extern "C" void HAL_GPIO_EXTI_Rising_Callback(const uint16_t GPIO_Pin) {
+//     using namespace IDE3380;
+//     if (IDE3380_interface::optional_readout_controller) {
+//         IDE3380_interface::optional_readout_controller->on_GPIO_interrupt(GPIO_Pin);
+//     }
+//     if (GPIO_Pin == BOOT0_Pin || GPIO_Pin == EXT_WAKEUP_Pin) //GPIO_Pin == EXT_WAKEUP_Pin ||
+//     {
+//         //external interrupt from user to exit deep sleep mode and resume normal operation mode to update registers
+//         //tell super-loop to not enter deep sleep mode again
+//         HAL_PWR_DisableSleepOnExit();
+//         SystemClock_Config();
+//         HAL_ResumeTick();
+//         if (IDE3380_interface::optional_user_wakeup_func) {
+//             IDE3380_interface::optional_user_wakeup_func(IDE3380_interface::optional_IDE3380_user);
+//         }
+//         HAL_RTCEx_DeactivateWakeUpTimer(&hrtc);
+//         //When entering STOP2 mode the UART is clocked off so after the Wake-up you need to re-clock the UART, then will work well
+//         STM32U575RG::U575xx_USB_serial::open_rx();
+//         software_reset = 1;
+//     }
+// }
 
 namespace IDE3380 {
     void *IDE3380_interface::optional_IDE3380_user{};
@@ -57,12 +58,12 @@ namespace IDE3380 {
     }
 
     void IDE3380_interface::dump(const char *title) {
-        PRINTF("%s\r\n", title);
+        printf("%s\r\n", title);
         the_register_access.dump();
     }
 
     void IDE3380_interface::print_diag() {
-        PRINTF("ASIC: get_err=%d, load_err=%d\r\n", the_get_error, the_load_error);
+        printf("ASIC: get_err=%d, load_err=%d\r\n", the_get_error, the_load_error);
         the_readout_control.print_diag();
         the_register_access.print_diag();
     }
@@ -78,12 +79,12 @@ namespace IDE3380 {
     }
 
     void IDE3380_interface::raise_external_hold() {
-        HAL_GPIO_WritePin(IDE3380_HOLD_GPIO_Port, IDE3380_HOLD_Pin, GPIO_PIN_SET);
+        // HAL_GPIO_WritePin(IDE3380_HOLD_GPIO_Port, IDE3380_HOLD_Pin, GPIO_PIN_SET);
         the_raise_external_hold = true;
     }
 
     void IDE3380_interface::cease_external_hold() {
-        HAL_GPIO_WritePin(IDE3380_HOLD_GPIO_Port, IDE3380_HOLD_Pin, GPIO_PIN_RESET);
+        // HAL_GPIO_WritePin(IDE3380_HOLD_GPIO_Port, IDE3380_HOLD_Pin, GPIO_PIN_RESET);
         the_raise_external_hold = false;
     }
 

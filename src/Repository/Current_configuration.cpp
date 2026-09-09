@@ -20,12 +20,13 @@
 * @brief  
 */
 
+#include <stdio.h>
+
 
 #include "Current_configuration.h"
 
 #include <cstring>
 
-#include "Platform/Print_support.h"
 
 namespace Repository {
     void Current_configuration::clean() {
@@ -116,7 +117,7 @@ namespace Repository {
     void Current_configuration::dump() const {
         for (const auto &attribute: the_attributes) {
             if (attribute.is_valid()) {
-                PRINTF("%2d: %12s = %8d (0x%08X) %s\r\n",
+                printf("%2d: %12s = %8d (0x%08X) %s\r\n",
                        attribute.get_id(),
                        attribute.get_state_string(),
                        attribute.get_value(), attribute.get_value(),

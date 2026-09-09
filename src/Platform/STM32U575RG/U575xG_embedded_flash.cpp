@@ -24,7 +24,7 @@
 
 #include <cstring>
 
-#include "Print_support.h"
+#include <stdio.h>
 #include "stm32u575xx.h"
 #include "stm32u5xx_hal.h"
 
@@ -83,7 +83,7 @@ namespace STM32U575RG {
 
     bool U575xG_embedded_flash::assert_address(const uint32_t *address) const {
         if (address < Left_page_address || address > reinterpret_cast<uint32_t *>(End_of_flash)) {
-            PRINTF("Illegal u-page address: 0x%08X\r\n", reinterpret_cast<uint32_t>(address));
+            printf("Illegal u-page address: 0x%08X\r\n", reinterpret_cast<uint32_t>(address));
             return false;
         }
         return true;
@@ -95,7 +95,7 @@ namespace STM32U575RG {
 
     bool U575xG_embedded_flash::read_quad(const uint32_t *address, uint32_t *quadword) {
         if (0xF & reinterpret_cast<uint32_t>(address)) {
-            PRINTF("Update: Illegal address 0x%08X\r\n", address);
+            printf("Update: Illegal address 0x%08X\r\n", address);
             return false;
         }
         clear_error_status();
@@ -137,11 +137,11 @@ namespace STM32U575RG {
             return false;
         }
         if ((Flash_bank1 != bank) && (Flash_bank2 != bank)) {
-            PRINTF("U575xG_embedded_flash: illegal bank=%d\r\n", static_cast<int>(bank));
+            printf("U575xG_embedded_flash: illegal bank=%d\r\n", static_cast<int>(bank));
             return false;
         }
         if (Pages_per_bank <= page) {
-            PRINTF("U575xG_embedded_flash: illegal page=%d\r\n", static_cast<int>(page));
+            printf("U575xG_embedded_flash: illegal page=%d\r\n", static_cast<int>(page));
             return false;
         }
         /* Wait for last operation to be completed */
@@ -489,16 +489,16 @@ namespace STM32U575RG {
     }
 
     void U575xG_embedded_flash::print_diag() {
-        PRINTF("Flash: mode=%s\r\n", is_open_for_write() ? "write" : "read");
-        PRINTF("Count: program=%d, eop=%d, erase=%d, errors=%d, CR=%d, SRup=%d SRdown=%d\r\n",
+        printf("Flash: mode=%s\r\n", is_open_for_write() ? "write" : "read");
+        printf("Count: program=%d, eop=%d, erase=%d, errors=%d, CR=%d, SRup=%d SRdown=%d\r\n",
                cnt_quad_ok, cnt_end_of_operation, cnt_erase, cnt_clear_errors,
                cnt_wait_CR, cnt_wait_raised, cnt_wait_ceased);
-        PRINTF("Error: program=%d, unlock=%d, timeout=%d, old=%d, status=%d, erase=%d, param=%d\r\n",
+        printf("Error: program=%d, unlock=%d, timeout=%d, old=%d, status=%d, erase=%d, param=%d\r\n",
                cnt_quad_failed, cnt_unlock_error, cnt_timeout_error, cnt_old_error, cnt_status_error,
                cnt_page_erase_error, cnt_param_error);
-        PRINTF("Timeout: flags=%d, wCR=%d, SRup=%d, SRdown=%d\r\n",
+        printf("Timeout: flags=%d, wCR=%d, SRup=%d, SRdown=%d\r\n",
                cnt_wait_flags, cnt_wait_CR_failed, cnt_wait_raised_failed, cnt_wait_ceased_failed);
-        PRINTF("Flags: OPERR=%d, PROGERR=%d, WRPERR=%d, PGAERR=%d, SIZERR=%d, PGSERR=%d, OPTWERR=%d\r\n",
+        printf("Flags: OPERR=%d, PROGERR=%d, WRPERR=%d, PGAERR=%d, SIZERR=%d, PGSERR=%d, OPTWERR=%d\r\n",
                cnt_operation_error,
                cnt_programming_error,
                cnt_write_protection_error,
@@ -506,9 +506,9 @@ namespace STM32U575RG {
                cnt_size_error,
                cnt_sequence_error,
                cnt_write_option_error);
-        PRINTF("Registers: ACR=0x%08X, NSCR = 0x%08X, NSSR = 0x%08X\r\n",
+        printf("Registers: ACR=0x%08X, NSCR = 0x%08X, NSSR = 0x%08X\r\n",
                FLASH_NS->NSSR, FLASH_NS->ACR, FLASH_NS->NSCR);
-        PRINTF("... OPSR = 0x%08X, ECCR = 0x%08X, PRIVCFGR = 0x%08X\r\n",
+        printf("... OPSR = 0x%08X, ECCR = 0x%08X, PRIVCFGR = 0x%08X\r\n",
                FLASH_NS->OPSR, FLASH_NS->ECCR, FLASH_NS->PRIVCFGR);
     }
 } // STM32U575RG

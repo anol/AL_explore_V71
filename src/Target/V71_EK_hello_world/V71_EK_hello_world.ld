@@ -50,7 +50,7 @@ ROM_LENGTH = DEFINED(ROM_LENGTH) ? ROM_LENGTH : 0x200000; /* rom, 2097152K */
   </h>
   -----------------------------------------------------------------------------*/
 RAM_ORIGIN = DEFINED(RAM_ORIGIN) ? RAM_ORIGIN : 0x20400000;
-RAM_LENGTH = DEFINED(RAM_LENGTH) ? RAM_LENGTH : 0x20000; /* ram, 131072K */
+RAM_LENGTH = DEFINED(RAM_LENGTH) ? RAM_LENGTH : 0x60000; /* ram, 131072K */
 
 /* The stack and heap size used by the application. NOTE: you need to adjust according to your application. */
 /*--------------------- Stack / Heap Configuration ----------------------------
@@ -59,8 +59,8 @@ RAM_LENGTH = DEFINED(RAM_LENGTH) ? RAM_LENGTH : 0x20000; /* ram, 131072K */
     <o1> Heap Size (in Bytes) <0x0-0xFFFFFFFF:8>
   </h>
   -----------------------------------------------------------------------------*/
-STACK_SIZE = DEFINED(STACK_SIZE) ? STACK_SIZE : DEFINED(__stack_size__) ? __stack_size__ : 0x4000;
-HEAP_SIZE = DEFINED(HEAP_SIZE) ? HEAP_SIZE : DEFINED(__heap_size__) ? __heap_size__ : 0x4000;
+STACK_SIZE = DEFINED(STACK_SIZE) ? STACK_SIZE : DEFINED(__stack_size__) ? __stack_size__ : 0x2000;
+HEAP_SIZE = DEFINED(HEAP_SIZE) ? HEAP_SIZE : DEFINED(__heap_size__) ? __heap_size__ : 0x2000;
 
 /* ARMv8-M stack sealing:
    to use ARMv8-M stack sealing set __STACKSEAL_SIZE to 8 otherwise keep 0

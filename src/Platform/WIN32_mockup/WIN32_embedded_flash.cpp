@@ -24,7 +24,7 @@
 
 #include <cstring>
 
-#include "Print_support.h"
+#include <stdio.h>
 #include "WIN32_binary_file.h"
 
 extern uint32_t ld_repository_addr;
@@ -139,7 +139,7 @@ namespace WIN32_mockup {
 
     void WIN32_embedded_flash::print_diag()
     {
-        PRINTF(" Flash: mode=%s\r\n", is_open_for_write() ? "write" : "read");
-        PRINTF("  Count: program=%d, erase=%d \r\n", cnt_programmed, cnt_erase);
+        printf(" Flash: mode=%s\r\n", is_open_for_write() ? "write" : "read");
+        printf("  Count: program=%d, erase=%d \r\n", cnt_programmed, cnt_erase);
     }
 } // STM32U575RG

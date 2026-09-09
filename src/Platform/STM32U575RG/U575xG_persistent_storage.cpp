@@ -23,7 +23,7 @@
 
 #include "U575xG_persistent_storage.h"
 
-#include "Print_support.h"
+#include <stdio.h>
 #include "U575xG_embedded_flash.h"
 // #include "stm32u575xx.h"
 #include "U575xG_page_cache.h"
@@ -102,7 +102,7 @@ namespace STM32U575RG {
 
     bool U575xG_persistent_storage::read(const uint32_t id, int32_t &value) {
         if (use_flash.is_open_for_write()) {
-            PRINTF("Not open for reading\r\n");
+            printf("Not open for reading\r\n");
             return false;
         }
         const auto *page = current_page_address();
@@ -128,7 +128,7 @@ namespace STM32U575RG {
 
     bool U575xG_persistent_storage::write_cache(const uint32_t id, const int32_t value) {
         if (!use_flash.is_open_for_write()) {
-            PRINTF("Not open for writing\r\n");
+            printf("Not open for writing\r\n");
             return false;
         }
         const auto success = write_to_cache(id, value);
@@ -196,7 +196,7 @@ namespace STM32U575RG {
                         address += U575xG_page_cache::Quadword_width_32;
                     }
                 } else {
-                    PRINTF("Update: Illegal sentinel in quadword %d\r\n", gpc);
+                    printf("Update: Illegal sentinel in quadword %d\r\n", gpc);
                     result = Error_result;
                 }
             } else if (Free_to_use == cursor) {
@@ -273,7 +273,7 @@ namespace STM32U575RG {
                 }
                 quad_word[Index_of_sentinel] = Sentinel_value;
                 if (source_addr[Index_of_sentinel] != Sentinel_value) {
-                    PRINTF("Copy: Illegal sentinel at 0x%08X\r\n", source_addr);
+                    printf("Copy: Illegal sentinel at 0x%08X\r\n", source_addr);
                     return false;
                 }
                 quad_word[Index_of_size] = source_addr[Index_of_size];
@@ -301,7 +301,7 @@ namespace STM32U575RG {
                         value = static_cast<int32_t>(read_quad[Index_of_value]);
                         result = Success_result;
                     } else {
-                        PRINTF("Search: Illegal sentinel at 0x%08X\r\n", address);
+                        printf("Search: Illegal sentinel at 0x%08X\r\n", address);
                         result = Error_result;
                     }
                 } else {
@@ -317,7 +317,7 @@ namespace STM32U575RG {
     void U575xG_persistent_storage::assert_id(const uint32_t id, uint8_t &result) {
         if (!Repository::Attribute_type::is_valid_id(id)) {
             cnt_param_error++;
-            PRINTF("Illegal u-item id: 0x%08X\r\n", id);
+            printf("Illegal u-item id: 0x%08X\r\n", id);
             result = Error_result;
         }
     }
@@ -326,15 +326,15 @@ namespace STM32U575RG {
     }
 
     void U575xG_persistent_storage::print_diag() const {
-        PRINTF("Store: page=%s, addr=0x%08X, diag=0x%X, left=%d, right=%d, swap=%d\r\n",
+        printf("Store: page=%s, addr=0x%08X, diag=0x%X, left=%d, right=%d, swap=%d\r\n",
                is_left_current ? "left" : "right", current_page_address(), get_diag_code(),
                cnt_left_pages, cnt_right_pages, cnt_swap_pages);
-        PRINTF("Cache: void=%d, used=%d, free=%d, fail=%d --> same=%d, clear=%d, write=%d\r\n",
+        printf("Cache: void=%d, used=%d, free=%d, fail=%d --> same=%d, clear=%d, write=%d\r\n",
                the_cache.get_void_cnt(), the_cache.get_used_cnt(), the_cache.get_free_cnt(), the_cache.get_fail_cnt(),
                the_cache.get_same_cnt(), the_cache.get_clear_cnt(), the_cache.get_write_cnt());
-        PRINTF("Count: copy=%d, update=%d, void=%d, same=%d, write=%d, lookup=%d\r\n",
+        printf("Count: copy=%d, update=%d, void=%d, same=%d, write=%d, lookup=%d\r\n",
                cnt_copy, cnt_update, cnt_void, cnt_same, cnt_write, cnt_lookup);
-        PRINTF("Error: param=%d, update=%d, void=%d, write=%d, page=%d, copy=%d, erase=%d\r\n",
+        printf("Error: param=%d, update=%d, void=%d, write=%d, page=%d, copy=%d, erase=%d\r\n",
                cnt_param_error, cnt_update_error, cnt_void_error, cnt_write_error,
                cnt_page_error, cnt_copy_error, cnt_erase_error);
         use_flash.print_diag();

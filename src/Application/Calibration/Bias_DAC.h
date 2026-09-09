@@ -20,6 +20,7 @@
 * @brief  
 */
 #pragma once
+#include <cstdint>
 
 namespace Calibration {
     class Bias_DAC {

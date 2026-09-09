@@ -23,7 +23,7 @@
 
 #include "STM32U5_timer.h"
 #include "main.h"
-#include "Print_support.h"
+#include <stdio.h>
 #include "stm32u5xx_hal_rtc.h"
 #include "System_clock.h"
 #include "ux_api.h"
@@ -64,7 +64,7 @@ namespace STM32U575RG {
     }
 
     void STM32U5_timer::print_diag() const {
-        PRINTF("timer: func=%d, state=0x%X\r\n", the_timer_function, the_state_mask);
+        printf("timer: func=%d, state=0x%X\r\n", the_timer_function, the_state_mask);
     }
 
     void STM32U5_timer::initialize_handle() {

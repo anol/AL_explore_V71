@@ -23,7 +23,7 @@
 
 #include "IDE3380_register_decoder.h"
 
-#include "stdio.h"
+#include <stdio.h>
 
 namespace IDE3380 {
     void IDE3380_register_decoder::dump(uint32_t address, uint32_t value) {

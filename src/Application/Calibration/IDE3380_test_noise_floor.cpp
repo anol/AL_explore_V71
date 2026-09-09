@@ -20,6 +20,7 @@
 * @brief  
 */
 
+#include <stdio.h>
 
 #include "IDE3380_test_noise_floor.h"
 
@@ -27,9 +28,8 @@
 
 #include "Instruction_major.h"
 #include "Calibration_analyzer.h"
-#include "Print_support.h"
 #include "Instruction_major.h"
-#include "Repository/Configuration_repository.h"
+#include "Configuration_repository.h"
 #include "Persistent_parameter_id.h"
 
 void HAL_Delay(int milliseconds);
@@ -126,7 +126,7 @@ namespace Calibration {
 
     void IDE3380_test_noise_floor::print_diag() const {
         print_attributes();
-        PRINTF("CAL_TEST_NOISE: iteration=%d, channel=%d, threshold=%d\r\n",
+        printf("CAL_TEST_NOISE: iteration=%d, channel=%d, threshold=%d\r\n",
                the_iteration, the_channel_index, the_threshold);
     }
 
@@ -138,12 +138,12 @@ namespace Calibration {
     }
 
     void IDE3380_test_noise_floor::print_attributes() const {
-        PRINTF("Noise floor calibration test: integration_time=%d, start_threshold=%d, stop_count=%d",
+        printf("Noise floor calibration test: integration_time=%d, start_threshold=%d, stop_count=%d",
                the_integration_time, the_start_threshold, the_stop_count);
         if (is_trace()) {
-            PRINTF("\r\n");
+            printf("\r\n");
         } else {
-            PRINTF(", ");
+            printf(", ");
         }
     }
 
@@ -172,22 +172,22 @@ namespace Calibration {
     }
 
     void IDE3380_test_noise_floor::print_results() {
-        PRINTF("\r\n");
-        PRINTF("Channel:     ");
+        printf("\r\n");
+        printf("Channel:     ");
         for (uint8_t index = 0; index < Number_of_channels; index++) {
-            PRINTF(" %3d", index + 1);
+            printf(" %3d", index + 1);
         }
-        PRINTF("\r\n");
-        PRINTF("Noise floor: ");
+        printf("\r\n");
+        printf("Noise floor: ");
         for (unsigned char value: the_noise_floor) {
-            PRINTF(" %3d", value);
+            printf(" %3d", value);
         }
-        PRINTF("\r\n");
+        printf("\r\n");
     }
 
     void IDE3380_test_noise_floor::channel_prolog(const uint8_t index) {
-        if (is_trace()) PRINTF("Ch %d:", index + 1);
-        else PRINTF(".");
+        if (is_trace()) printf("Ch %d:", index + 1);
+        else printf(".");
         memset(the_integration_count, 0, sizeof(the_integration_count));
         use_IDE3380.enable_channel(index);
     }
@@ -195,24 +195,24 @@ namespace Calibration {
     void IDE3380_test_noise_floor::channel_epilog(const uint8_t index) {
         use_IDE3380.disable_channel(index);
         the_noise_floor[index] = Calibration_analyzer::find_noise_floor_A(the_integration_count);
-        if (is_trace()) PRINTF("(%d)\r\n\r\n", the_noise_floor[index]);
+        if (is_trace()) printf("(%d)\r\n\r\n", the_noise_floor[index]);
     }
 
     void IDE3380_test_noise_floor::threshold_prolog(const uint8_t index, const uint8_t threshold) {
         use_IDE3380.set_channel_threshold(index, threshold);
-        if (is_trace()) PRINTF(" %d=", threshold);
+        if (is_trace()) printf(" %d=", threshold);
         use_event_counter.reset_event_count();
     }
 
     int32_t IDE3380_test_noise_floor::threshold_epilog(const uint8_t threshold) {
         const auto count = static_cast<int32_t>(use_event_counter.reset_event_count());
-        if (is_trace()) PRINTF("%d,", count);
+        if (is_trace()) printf("%d,", count);
         the_integration_count[threshold] = count;
         return count;
     }
 
     uint32_t IDE3380_test_noise_floor::get_timestamp() {
-        return HAL_GetTick();
+        return 0; // HAL_GetTick();
     }
 } // IDE3380
 

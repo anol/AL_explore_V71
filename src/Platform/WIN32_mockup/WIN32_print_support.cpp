@@ -36,7 +36,7 @@ void vprint(const char *fmt, va_list argp) {
     }
 }
 
-extern "C" void PRINTF(const char *fmt, ...) {
+extern "C" void print(const char *fmt, ...) {
     va_list argp;
     va_start(argp, fmt);
     vprint(fmt, argp);

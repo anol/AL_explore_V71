@@ -96,7 +96,7 @@ void vprint(const char *fmt, va_list argp) {
     }
 }
 
-extern "C" void PRINTF(const char *fmt, ...) {
+extern "C" void print(const char *fmt, ...) {
     if (cdc_acm == nullptr)return;
     if (cdc_acm->ux_slave_class_cdc_acm_data_rts_state != UX_TRUE) {
         the_count_busy_tx++;

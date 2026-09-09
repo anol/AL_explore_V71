@@ -22,9 +22,9 @@
 
 #pragma once
 
-#include "Repository/Abstract_configuration.h"
+#include "Abstract_configuration.h"
 #include "Persistent_parameter_id.h"
-#include "IDE3380/IDE3380_register_decoder.h"
+#include "IDE3380_register_decoder.h"
 
 namespace Application {
     using namespace Repository ;

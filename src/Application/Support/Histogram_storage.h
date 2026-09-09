@@ -54,7 +54,7 @@ namespace Application {
     private:
         Event_counter &use_event_counter;
         IDE3380_interface &use_IDE3380;
-        volatile uint32_t the_histogram_buffer[Number_of_channels][Histogram_width]{};
+        volatile uint32_t the_histogram_buffer[Number_of_specters][Histogram_width]{};
         uint32_t the_transit_buffer[Histogram_width]{};
         uint32_t cnt_channel_hits[Number_of_channels]{};
         uint32_t the_channel_pedestal[Number_of_inputs]{Default_channel_offset};

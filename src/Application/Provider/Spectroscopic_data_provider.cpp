@@ -24,7 +24,7 @@
 #include "Spectroscopic_data_provider.h"
 
 #include "../Support/Histogram_storage.h"
-#include "stdio.h"
+#include <stdio.h>
 #include "Configuration_repository.h"
 
 

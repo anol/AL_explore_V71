@@ -45,6 +45,8 @@ namespace Application {
         Digital_summing_ch = 18,
         Number_of_inputs = 16,
         Number_of_channels = 18,
+        Number_of_ASICs = 5,
+        Number_of_specters = 8,
     };
 
     enum Parameter_id: unsigned char {

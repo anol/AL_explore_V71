@@ -22,8 +22,8 @@
 
 
 #include "Bias_DAC.h"
-#include "dac.h"
-#include "Print_support.h"
+// #include "dac.h"
+#include <stdio.h>
 
 namespace Calibration {
     uint32_t cnt_out_of_range{};
@@ -34,13 +34,13 @@ namespace Calibration {
 
     void Bias_DAC::initialize() {
         enum { Initial_DAC_setting = 0, };
-        HAL_DAC_Start(&hdac1,DAC_CHANNEL_1);
-        HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, Initial_DAC_setting);
+        // HAL_DAC_Start(&hdac1,DAC_CHANNEL_1);
+        // HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, Initial_DAC_setting);
         is_initialized_flag = true;
     }
 
     void Bias_DAC::print_diag() {
-        PRINTF("DAC: out-of-range=%d, busy=%d\r\n", cnt_out_of_range, cnt_busy_in_cal);
+        printf("DAC: out-of-range=%d, busy=%d\r\n", cnt_out_of_range, cnt_busy_in_cal);
     }
 
     int32_t Bias_DAC::calibrate(int32_t raw, int32_t cal35, int32_t cal45) {
@@ -67,7 +67,7 @@ namespace Calibration {
             temp = 0;
         }
 
-        HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, temp);
+        // HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, temp);
     }
 
     void Bias_DAC::set_dac_cal_test(int32_t value) {
@@ -88,7 +88,7 @@ namespace Calibration {
         if (temp < 0) {
             temp = 0;
         }
-        HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, temp);
+        // HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, temp);
     }
 
 
@@ -116,7 +116,7 @@ namespace Calibration {
             temp = 0.0f;
         }
         the_DAC_setting = static_cast<uint32_t>(temp);
-        HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, the_DAC_setting);
+        // HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, the_DAC_setting);
         return true;
     }
 } // Calibration

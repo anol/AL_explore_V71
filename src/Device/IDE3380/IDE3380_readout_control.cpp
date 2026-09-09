@@ -20,39 +20,39 @@
 * @brief  
 */
 
+#include <stdio.h>
+
 
 #include "IDE3380_readout_control.h"
 
-#include <stdio.h>
-
 #include "IDE3380_interface.h"
-#include "spi.h"
-#include "stm32u575xx.h"
-#include "stm32u5xx_hal_tim.h"
-#include "tim.h"
+// #include "spi.h"
+// #include "stm32u575xx.h"
+// #include "stm32u5xx_hal_tim.h"
+// #include "tim.h"
 
 
-extern "C" void HAL_SPI_RxHalfCpltCallback(const SPI_HandleTypeDef *hspi) {
-    using namespace IDE3380;
-    if (hspi == &hspi2) {
-        if (IDE3380_readout_control::optional_readout_controller) {
-            uint16_t data =
-                    IDE3380_readout_control::data_rx_TXD[0] << 8 |
-                    IDE3380_readout_control::data_rx_TXD[1];
-            IDE3380_readout_control::optional_readout_controller->on_TXD_data(data);
-        }
-    }
-}
+// extern "C" void HAL_SPI_RxHalfCpltCallback(const SPI_HandleTypeDef *hspi) {
+//     using namespace IDE3380;
+//     if (hspi == &hspi2) {
+//         if (IDE3380_readout_control::optional_readout_controller) {
+//             uint16_t data =
+//                     IDE3380_readout_control::data_rx_TXD[0] << 8 |
+//                     IDE3380_readout_control::data_rx_TXD[1];
+//             IDE3380_readout_control::optional_readout_controller->on_TXD_data(data);
+//         }
+//     }
+// }
 
-extern "C" void HAL_SPI_RxCpltCallback(const SPI_HandleTypeDef *hspi) {
-    using namespace IDE3380;
-    if (hspi == &hspi2) {
-        uint16_t data =
-                IDE3380_readout_control::data_rx_TXD[2] << 8 |
-                IDE3380_readout_control::data_rx_TXD[3];
-        IDE3380_readout_control::optional_readout_controller->on_TXD_data(data);
-    }
-}
+// extern "C" void HAL_SPI_RxCpltCallback(const SPI_HandleTypeDef *hspi) {
+//     using namespace IDE3380;
+//     if (hspi == &hspi2) {
+//         uint16_t data =
+//                 IDE3380_readout_control::data_rx_TXD[2] << 8 |
+//                 IDE3380_readout_control::data_rx_TXD[3];
+//         IDE3380_readout_control::optional_readout_controller->on_TXD_data(data);
+//     }
+// }
 
 namespace IDE3380 {
     uint8_t IDE3380_readout_control::data_rx_TXD[4]{};
@@ -64,20 +64,20 @@ namespace IDE3380 {
         optional_readout_controller = this;
         optional_IDE3380_user = user;
         optional_readout_func = readout;
-        HAL_SPI_Init(&hspi2);
-        HAL_SPI_Receive_DMA(&hspi2, data_rx_TXD, 4);
-        HAL_TIM_PWM_Start(&htim15, TIM_CHANNEL_1);
-        TIM15->CCR1 = 0;
+        // HAL_SPI_Init(&hspi2);
+        // HAL_SPI_Receive_DMA(&hspi2, data_rx_TXD, 4);
+        // HAL_TIM_PWM_Start(&htim15, TIM_CHANNEL_1);
+        // TIM15->CCR1 = 0;
     }
 
     void IDE3380_readout_control::start_IDE3380_SYSCLK_I() {
         enum { CLK_CCR = 20, };
         //set the clock to 50% duty cycle at 4MHz in order for the IDE3380 to do the ADC conversion and send the data over the TXD pin
-        TIM15->CCR1 = CLK_CCR;
+        // TIM15->CCR1 = CLK_CCR;
     }
 
     void IDE3380_readout_control::stop_IDE3380_SYSCLK_I() {
-        TIM15->CCR1 = 0;
+        // TIM15->CCR1 = 0;
     }
 
     void IDE3380_readout_control::on_TXD_data(const uint16_t irq_data) {
@@ -98,7 +98,7 @@ namespace IDE3380 {
                 optional_readout_func(optional_IDE3380_user, data);
             }
             if (data.ADC_Channel <= IDE3380_last_channel) {
-                HAL_GPIO_WritePin(IDE3380_DCAL_GPIO_Port, IDE3380_DCAL_Pin, GPIO_PIN_RESET);
+                // HAL_GPIO_WritePin(IDE3380_DCAL_GPIO_Port, IDE3380_DCAL_Pin, GPIO_PIN_RESET);
             }
         }
         //if the number of TXD iterations is not 0. decrement the number of iterations
@@ -163,9 +163,10 @@ namespace IDE3380 {
 
     void IDE3380_readout_control::on_GPIO_interrupt(uint16_t pin_mask) {
         the_EXTI_bits = pin_mask;
-        if (pin_mask & IDE3380_TOR_Pin) { count_TORO(); }
-        if (pin_mask & IDE3380_TSUM_Pin) { cnt_TSUM_O = cnt_TSUM_O + 1; }
-        if (pin_mask & (IDE3380_TSUM_Pin | IDE3380_TOR_Pin)) {
+        // if (pin_mask & IDE3380_TOR_Pin) { count_TORO(); }
+        // if (pin_mask & IDE3380_TSUM_Pin) { cnt_TSUM_O = cnt_TSUM_O + 1; }
+        // if (pin_mask & (IDE3380_TSUM_Pin | IDE3380_TOR_Pin))
+        {
             if (is_TXD_idle()) {
                 if (!is_ignore_trigger()) {
                     restart_TXD_iteration();

@@ -20,10 +20,9 @@
 * @brief  
 */
 
+#include <stdio.h>
 
 #include "Configuration_repository.h"
-
-#include "Platform/Print_support.h"
 
 namespace Repository {
     Configuration_repository::Configuration_repository(const Abstract_configuration &default_config,
@@ -46,10 +45,10 @@ namespace Repository {
             }
         }
         if (!success) {
-            PRINTF("Failed to initialize the default configuration.");
+            printf("Failed to initialize the default configuration.");
         }
         if (!use_store.initialize()) {
-            PRINTF("Failed to initialize the persistent storage.");
+            printf("Failed to initialize the persistent storage.");
         }
     }
 
@@ -114,12 +113,12 @@ namespace Repository {
     }
 
     void Configuration_repository::dump(const char *title) const {
-        PRINTF("%s\r\n", title);
+        printf("%s\r\n", title);
         the_current_config.dump();
     }
 
     void Configuration_repository::print_diag() const {
-        PRINTF("Repo: get_error=%d, set_error=%d\r\n", the_get_error, the_set_error);
+        printf("Repo: get_error=%d, set_error=%d\r\n", the_get_error, the_set_error);
         use_store.print_diag();
     }
 } // Repository

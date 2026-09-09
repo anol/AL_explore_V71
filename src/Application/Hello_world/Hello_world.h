@@ -6,6 +6,19 @@
 #include "Abstract_application.h"
 #include "Abstract_board.h"
 
+#include "Cadence_control.h"
+#include "Command_handler.h"
+#include "Command_parser.h"
+#include "Default_configuration.h"
+// #include "Device/MCU/STM32U575RG/U575xG_embedded_flash.h"
+// #include "Device/MCU/STM32U575RG/U575xG_persistent_storage.h"
+#include "Configuration_repository.h"
+#include "IDE3380_interface.h"
+#include "Histogram_storage.h"
+#include "Event_counter.h"
+#include "Bias_calibration.h"
+#include "Mockup_persistent_storage.h"
+
 extern "C" {
 #include "FreeRTOS.h"
 #include "portmacro.h"
@@ -19,6 +32,20 @@ namespace Application
         Abstract::Abstract_board& use_board;
         TaskHandle_t the_task{};
         bool the_toggle_flag{};
+
+        const Default_configuration the_attribute_types;
+        Cadence_control the_cadence_control{};
+        IDE3380::IDE3380_interface the_IDE3380{};
+        Calibration::Bias_calibration the_bias{};
+        MOCKUP::Mockup_persistent_storage the_storage{};
+        Configuration_repository the_repository{the_attribute_types, the_storage};
+        Event_counter the_event_counter{};
+        Histogram_storage the_histogram{the_event_counter, the_IDE3380};
+        Command_parser the_command_parser{};
+        Command_handler the_command_handler{
+            the_histogram, the_event_counter, the_IDE3380, the_bias, the_repository, the_cadence_control
+        };
+        uint32_t the_background_count{};
 
     public:
         explicit Hello_world(Abstract::Abstract_board& board) : use_board(board)

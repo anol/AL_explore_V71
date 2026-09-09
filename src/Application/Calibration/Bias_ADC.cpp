@@ -21,9 +21,12 @@
 */
 
 
-#include "Calibration/Bias_ADC.h"
-#include "adc.h"
-#include "Print_support.h"
+#include "Bias_ADC.h"
+
+#include <cstdint>
+
+// #include "adc.h"
+#include <stdio.h>
 
 // Define ADC and calibration parameters
 #define ADC_FULL_SCALE   16383.0f  // 14-bit ADC max count
@@ -38,13 +41,13 @@ namespace Calibration {
     volatile int32_t Bias_ADC::the_last_sense{};
 
     void Bias_ADC::initialize() {
-        HAL_ADC_Init(&hadc1);
-        HAL_ADCEx_Calibration_Start(&hadc1, ADC_CALIB_OFFSET_LINEARITY, ADC_SINGLE_ENDED);
+        // HAL_ADC_Init(&hadc1);
+        // HAL_ADCEx_Calibration_Start(&hadc1, ADC_CALIB_OFFSET_LINEARITY, ADC_SINGLE_ENDED);
         is_initialized = true;
     }
 
     void Bias_ADC::print_diag() {
-        // PRINTF("ADC: range=%d, busy=%d\r\n", 0, 0);
+        // printf("ADC: range=%d, busy=%d\r\n", 0, 0);
     }
 
     void Bias_ADC::calibrate() {
@@ -76,13 +79,13 @@ namespace Calibration {
 
     int32_t Bias_ADC::read_ADC() {
         uint32_t adc_val = 0;
-        HAL_ADCEx_Calibration_Start(&hadc1, ADC_CALIB_OFFSET_LINEARITY, ADC_SINGLE_ENDED);
-        for (int i = 0; i < 256; i++) {
-            HAL_ADC_Start(&hadc1);
-            HAL_ADC_PollForConversion(&hadc1, 100);
-            adc_val += HAL_ADC_GetValue(&hadc1);
-            HAL_ADC_Stop(&hadc1);
-        }
+        // HAL_ADCEx_Calibration_Start(&hadc1, ADC_CALIB_OFFSET_LINEARITY, ADC_SINGLE_ENDED);
+        // for (int i = 0; i < 256; i++) {
+        //     HAL_ADC_Start(&hadc1);
+        //     HAL_ADC_PollForConversion(&hadc1, 100);
+        //     adc_val += HAL_ADC_GetValue(&hadc1);
+        //     HAL_ADC_Stop(&hadc1);
+        // }
         return convertADCtoSensorValue(adc_val / 256);
     }
 } // Temperature
