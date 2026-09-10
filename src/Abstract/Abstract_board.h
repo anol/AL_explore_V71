@@ -26,7 +26,7 @@ namespace Abstract
 
         virtual Abstract_UART& get_UART() = 0;
 
-        virtual Abstract_IO_pin& get_pin(const Dictionary::Pin_id id) = 0;
+        virtual Abstract_IO_pin& get_pin(Dictionary::Pin_id id) = 0;
 
         virtual void print_diagnostics() = 0;
 
