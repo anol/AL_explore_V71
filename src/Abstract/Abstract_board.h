@@ -29,7 +29,5 @@ namespace Abstract
         virtual Abstract_IO_pin& get_pin(Dictionary::Pin_id id) = 0;
 
         virtual void print_diagnostics() = 0;
-
-        virtual void NOP() =0;
     };
 } // Abstract

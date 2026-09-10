@@ -48,13 +48,16 @@ result) — Graphviz's own text rendering is plain `<text>` by default and shoul
 automatically; that check exists because a Mermaid-based diagram would fail it, and one
 already did in this repo's history (it didn't render in the user's markdown previewer).
 
-## 3. Save and link it
+## 3. Save and embed it
 
 - Save as `doc/<snake_case_class_name>_aggregation.svg` (e.g. `Request_router` →
   `doc/request_router_aggregation.svg`)
-- Add a bullet for it under the `## Wiring` section of the top-level `README.md`,
-  alongside the existing two, as a plain link (not an embedded image — embedding was
-  tried and didn't render in the user's previewer):
-  `- [\`doc/<file>.svg\`](doc/<file>.svg) — what \`<ClassName>\` owns and references`
+- Add it under the `## Wiring` section of the top-level `README.md`, alongside the
+  existing ones, as an **embedded image** (not a plain link — a plain-text-only Mermaid
+  SVG once failed to render inline in the user's previewer, but that's not a concern
+  with Graphviz's plain-`<text>` output, and the user explicitly wants these visible
+  without a click):
+  a short line of context, then `![<ClassName> aggregation graph](doc/<file>.svg)` on
+  its own line.
 
 Keep the existing entries in that section as they are; only add to them.
