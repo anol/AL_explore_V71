@@ -22,7 +22,6 @@ target_sources(${THE_TARGET_NAME} PUBLIC
 #        Unit_converter_unit_test.cpp
         Size_adapter.cpp
         Simple_string.h
-        Utility_types.h
         Gray_code.h
 #        Simple_bitset_unit_test.cpp
         CRC_16_CCITT.cpp

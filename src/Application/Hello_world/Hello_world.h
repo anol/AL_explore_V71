@@ -35,7 +35,7 @@ namespace Application
 
         const Default_configuration the_attribute_types;
         Cadence_control the_cadence_control{};
-        IDE3380::IDE3380_interface the_IDE3380{};
+        IDE3380_interface the_IDE3380{};
         Calibration::Bias_calibration the_bias{};
         MOCKUP::Mockup_persistent_storage the_storage{};
         Configuration_repository the_repository{the_attribute_types, the_storage};

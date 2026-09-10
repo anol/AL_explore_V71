@@ -8,7 +8,7 @@ Sources for this guide, in order of authority:
 2. Explicit corrections given after v1 (compile-time constants, `static`
    data members, and enum values are capitalized with no prefix).
 3. The project's own refactor of the generated code — `Ethernet_unit_test`
-   (`../src/Abstract`, `src/Platform/*_platform`, `src/Unit_test`, and the
+   (`../src/Type`, `src/Platform/*_platform`, `src/Unit_test`, and the
    accompanying CMake files) — which introduced the module/directory
    structure, the `Abstract_`/`<Platform>_` class-naming split, the
    namespace-per-module convention, and all CMake conventions below.
@@ -42,7 +42,7 @@ Each rule below is tagged with which source it came from:
 |---|---|---|---|
 | Abstract/interface class | `Abstract_<domain>` | `Abstract_ethernet` | Observed (project) — directly reuses the `Abstract_` prefix from the reference file's own class name, rather than repeating an enclosing namespace name |
 | Concrete/platform class | `<Platform>_<domain>` | `SamV71_ethernet`, `Windows_target` | Observed (project) — prefixed with the platform name instead of `Abstract_` or the shared namespace name, so the class name alone tells you whether it's the cross-platform contract or one platform's implementation |
-| Namespace (shared/common layer) | Domain word, independent of directory name | `namespace Ethernet` (in `../src/Abstract`) | Observed (project) |
+| Namespace (shared/common layer) | Domain word, independent of directory name | `namespace Ethernet` (in `../src/Type`) | Observed (project) |
 | Namespace (per-platform layer) | Matches its platform directory exactly | `namespace SamV71_platform`, `namespace Windows_platform` | Observed (project) |
 | Method name | `snake_case`, verb-first for actions, `is_`/`get_` prefix for queries | `initialize()`, `get_mac_address()`, `is_link_up()` | Observed (reference file) |
 | Reference member (injected collaborator) | `use_<name>` | `use_application`, `use_board` | Observed (reference file) |

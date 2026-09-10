@@ -23,11 +23,9 @@
 
 #include <cstdint>
 
-#include "Error_code.h"
+#include "Status_code.h"
 
 namespace Error_handling {
-
-    using namespace Dictionary;
 
     void information(const char *message);
 
@@ -79,13 +77,13 @@ namespace Error_handling {
 
     void error_code(uint32_t code, const char *diag, const char *diag1);
 
-    void error_code(const Error_code &);
+    void error_code(const Status_code &);
 
-    void error_code(const Error_code &, const char *);
+    void error_code(const Status_code &, const char *);
 
-    void error_code(const Error_code &, const char *, uint32_t);
+    void error_code(const Status_code &, const char *, uint32_t);
 
-    void error_code(const Error_code &, const char *, uint32_t, uint32_t);
+    void error_code(const Status_code &, const char *, uint32_t, uint32_t);
 
-    void error_code(const Error_code &, const char *, const char *);
+    void error_code(const Status_code &, const char *, const char *);
 };

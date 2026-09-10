@@ -18,7 +18,7 @@ namespace SamV71
         SamV71_IO_pin(uint8_t id, const char* name, Pin_phase phase, Pin_port port, uint8_t pin,
                       Pin_mode mux, Pin_type type, uint8_t strength = 0, bool default_state = false);
 
-        [[nodiscard]] Abstract::Abstract_error initialize(uint8_t id, Pin_phase) override;
+        [[nodiscard]] Status_code initialize(uint8_t id, Pin_phase) override;
 
         [[nodiscard]] uint8_t get_id() const override { return the_id; }
 
@@ -36,7 +36,7 @@ namespace SamV71
 
         [[nodiscard]] bool is_used() const override { return optional_base != nullptr; }
 
-        void print_diagnostics();
+        void print_diagnostics() const;
 
         static void initialize_clocks();
 

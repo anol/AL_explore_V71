@@ -26,12 +26,9 @@
 
 #include "CLI_help.h"
 
-#include "Dictionary.h"
-#include "SpectraNode_error_code.h"
 #include <cstdio>
 
 using namespace Instruction;
-using namespace Dictionary;
 
 CLI_help::CLI_help(uint32_t help_id, const Instruction_token *table, func_get_keyword get_keyword)
     : the_help_id(help_id), optional_table(table), optional_get_keyword(get_keyword) {
@@ -41,8 +38,8 @@ CLI_help::CLI_help(uint32_t help_id, const Instruction_token *table, func_get_ke
 // - Only the significant letters are necessary.
 // - Use ? as 2nd argument for help on an individual command.
 // - Use 'help ?' to display the numeric token codes.
-Error_code CLI_help::print(bool with_ids, uint32_t number_of_ids) {
-    Error_code result{Success_code};
+Status_code CLI_help::print(bool with_ids, uint32_t number_of_ids) {
+    Status_code result{true};
     print_with_ids = with_ids;
     CLI_stack stack{};
     const Instruction_token *p_token = optional_table;
@@ -51,7 +48,6 @@ Error_code CLI_help::print(bool with_ids, uint32_t number_of_ids) {
         if (stack.push(*p_token)) {
             result = build_command(stack, p_token->optional_next);
             p_token++;
-
             if (result.failed()) {
                 break;
             }
@@ -69,8 +65,8 @@ Error_code CLI_help::print(bool with_ids, uint32_t number_of_ids) {
     return result;
 }
 
-Error_code CLI_help::print(uint32_t token_id) {
-    Error_code result{Success_code};
+Status_code CLI_help::print(uint32_t token_id) {
+    Status_code result{true};
     CLI_stack stack{};
     const Instruction_token *p_token = optional_table;
     printf("\r\n");
@@ -106,8 +102,8 @@ void CLI_help::print(uint32_t command, uint32_t name) {
     printf("\r\n");
 }
 
-Error_code CLI_help::build_command(CLI_stack &stack, const Instruction_token *p_token) {
-    Error_code result{Success_code};
+Status_code CLI_help::build_command(CLI_stack &stack, const Instruction_token *p_token) {
+    Status_code result{true};
     if (p_token == nullptr || p_token->token_type == End_token) {
         if (print_with_ids) {
             print_command_with_ids(stack);
@@ -128,7 +124,7 @@ Error_code CLI_help::build_command(CLI_stack &stack, const Instruction_token *p_
                     break;
                 }
             } else {
-                result = Token_limit_exceeded;
+                result.set_failed();
                 p_token = nullptr;
             }
         }

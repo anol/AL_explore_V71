@@ -21,7 +21,7 @@
 
 #include <cstdint>
 #include <type_traits>
-#include "Error_code.h"
+#include "Status_code.h"
 
 namespace Dictionary
 {

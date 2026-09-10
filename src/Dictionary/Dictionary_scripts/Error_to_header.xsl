@@ -54,7 +54,7 @@
 
 #include &lt;cstdint&gt;
 #include &lt;type_traits&gt;
-#include "Dictionary/Error_code.h"</xsl:text>
+#include "Dictionary/Status_code.h"</xsl:text>
         <xsl:for-each select="include">
             <xsl:text>
 #include "</xsl:text><xsl:value-of select="@path"/><xsl:text>"</xsl:text>

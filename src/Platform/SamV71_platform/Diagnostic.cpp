@@ -23,7 +23,7 @@
 
 #include "Diagnostic.h"
 
-#include "Error_code.h"
+#include "Status_code.h"
 
 namespace Error_handling
 {
@@ -163,12 +163,7 @@ namespace Error_handling
         error_epilog();
     }
 
-    void error_code(const Error_code& code)
-    {
-        printf("ERROR=%lu IN MODULE %lX.\r\n", code.local_id(), code.module_id());
-    }
-
-    void error_code(const Error_code& code, const char* diag)
+    void error_code(const Status_code& code, const char* diag)
     {
         error_prolog();
         printf("%s", diag);
@@ -176,7 +171,7 @@ namespace Error_handling
         error_code(code);
     }
 
-    void error_code(const Error_code& code, const char* diag, uint32_t diag1)
+    void error_code(const Status_code& code, const char* diag, uint32_t diag1)
     {
         error_prolog();
         printf(diag, diag1);
@@ -184,7 +179,7 @@ namespace Error_handling
         error_code(code);
     }
 
-    void error_code(const Error_code& code, const char* diag, uint32_t diag1, uint32_t diag2)
+    void error_code(const Status_code& code, const char* diag, uint32_t diag1, uint32_t diag2)
     {
         error_prolog();
         printf(diag, diag1, diag2);
@@ -192,7 +187,7 @@ namespace Error_handling
         error_code(code);
     }
 
-    void error_code(const Error_code& code, const char* diag, const char* diag1)
+    void error_code(const Status_code& code, const char* diag, const char* diag1)
     {
         error_prolog();
         printf(diag, diag1);

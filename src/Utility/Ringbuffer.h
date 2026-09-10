@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "Utility_types.h"
+#include "../Type/Misc_type.h"
 #include <cstring>
 
 template<class T, int Buffer_size>

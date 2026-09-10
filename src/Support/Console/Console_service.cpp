@@ -8,7 +8,7 @@ namespace Console
 {
     void Console_service::initialize()
     {
-        // the_receiver.initialize();
-        // the_transmitter.initialize();
+        the_receiver.initialize();
+        the_transmitter.initialize();
     }
 } // Console

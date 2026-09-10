@@ -22,11 +22,10 @@
 
 
 #pragma once
+
 #include "Instruction/Instruction_token.h"
 #include "CLI_stack.h"
-#include "Error_code.h"
-
-using namespace Dictionary;
+#include "Status_code.h"
 
 namespace Instruction {
     typedef const char *(*func_get_keyword)(unsigned char key);
@@ -41,9 +40,9 @@ namespace Instruction {
     public:
         CLI_help(uint32_t help_id, const Instruction_token *table, func_get_keyword get_keyword);
 
-        Error_code print(bool with_ids = false, uint32_t number_of_ids = 0);
+        Status_code print(bool with_ids = false, uint32_t number_of_ids = 0);
 
-        Error_code print(uint32_t token_id);
+        Status_code print(uint32_t token_id);
 
         void print(uint32_t command, uint32_t name);
 
@@ -52,7 +51,7 @@ namespace Instruction {
         void set_mode(bool AT_mode) { is_AT_mode = AT_mode; };
 
     private:
-        Error_code build_command(CLI_stack &stack, const Instruction_token *p_token);
+        Status_code build_command(CLI_stack &stack, const Instruction_token *p_token);
 
         void print_command(CLI_stack &stack);
 

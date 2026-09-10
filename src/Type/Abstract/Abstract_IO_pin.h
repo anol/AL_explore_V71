@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-#include "Abstract_error.h"
+#include "Status_code.h"
 
 namespace Abstract {
 
@@ -33,7 +33,7 @@ namespace Abstract {
         };
 
     public:
-        [[nodiscard]] virtual Abstract_error initialize(uint8_t id, Pin_phase) = 0;
+        [[nodiscard]] virtual Status_code initialize(uint8_t id, Pin_phase) = 0;
 
         [[nodiscard]] virtual uint8_t get_id() const = 0;
 

@@ -5,8 +5,7 @@
 #pragma once
 
 
-#include <Utility_types.h>
-#include <Ringbuffer.h>
+#include "Misc_type.h"
 
 namespace Abstract
 {
