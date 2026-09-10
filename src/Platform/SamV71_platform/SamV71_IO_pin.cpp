@@ -2,6 +2,7 @@
 
 #include "SamV71_IO_pin.h"
 #include "core_cm7.h"
+#include "Error_code.h"
 #include "samv71q21b.h"
 #include "SamV71_clock.h"
 
@@ -24,15 +25,15 @@ namespace SamV71 {
                                                                                                       the_default_state(default_state) {
     }
 
-    Error_code SamV71_IO_pin::initialize(const uint8_t id, const Pin_phase phase) {
+    Abstract::Abstract_error SamV71_IO_pin::initialize(const uint8_t id, const Pin_phase phase) {
         if (optional_base != nullptr) {
             if (id != the_id) {
                 // Assert failed: the pin id does not match
-                return {0xF1};
+                return Dictionary::Error_code{0xF1};
             }
             if (!the_pin_mask) {
                 // Assert failed: the pin mask is zero
-                return {0xF2};
+                return Dictionary::Error_code{0xF2};
             }
             if (phase >= the_phase) {
                 if (is_GPIO()) {

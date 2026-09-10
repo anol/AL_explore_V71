@@ -12,7 +12,7 @@ extern "C" {
 
 namespace SamV71
 {
-    class SamV71_USART1 : public Abstract_UART
+    class SamV71_USART1 : public Abstract::Abstract_UART
     {
     public:
         static SamV71_USART1* optional_one_and_only_UART;

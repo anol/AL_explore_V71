@@ -11,5 +11,10 @@ namespace Console
     {
     public:
         void initialize() override;
+
+    private:
+        void task_loop();
+
+        static void task_entry(void* object);
     };
 } // Console

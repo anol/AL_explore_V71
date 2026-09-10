@@ -3,14 +3,18 @@
 //
 #pragma once
 
-#include "Abstract_UART.h"
+
+namespace Abstract
+{
+    class Abstract_UART;
+}
 
 namespace Platform {
     class Common_stdio {
-        Abstract_UART *optional_UART;
+        Abstract::Abstract_UART *optional_UART;
 
     public:
-        explicit Common_stdio(Abstract_UART *UART) : optional_UART(UART) {
+        explicit Common_stdio(Abstract::Abstract_UART *UART) : optional_UART(UART) {
         }
 
         void initialize() const;

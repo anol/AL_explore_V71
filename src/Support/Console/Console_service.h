@@ -11,10 +11,15 @@ namespace Console
 {
     class Console_service : public Abstract::Abstract_service
     {
-        Console_receive_task the_receiver{};
+        Console_receive_task the_receiver;
         Console_transmit_task the_transmitter{};
 
     public:
-        Console_service() = default;
+        Console_service(Abstract::Abstract_UART& UART, Application::Request_router& router) :
+            the_receiver(UART, router)
+        {
+        }
+
+        void initialize() override;
     };
 } // Console

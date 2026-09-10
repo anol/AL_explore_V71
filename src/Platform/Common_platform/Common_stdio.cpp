@@ -21,6 +21,9 @@
 
 #include "Common_stdio.h"
 
+#include "Abstract_UART.h"
+#include "Console_service.h"
+
 extern "C" {
 //! Pointer to the base of the USART module instance to use for stdio.
 volatile void *volatile stdio_base;
@@ -30,7 +33,7 @@ int (*ptr_put)(void volatile *, char);
 void (*ptr_get)(void volatile *, char *);
 }
 
-static Abstract_UART *optional_one_and_only_console = nullptr;
+static Abstract::Abstract_UART *optional_one_and_only_console = nullptr;
 
 extern "C" int stdio_serial_putchar(void volatile *, char c) {
     if (optional_one_and_only_console != nullptr) {

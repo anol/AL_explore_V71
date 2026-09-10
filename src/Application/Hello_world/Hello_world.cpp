@@ -20,7 +20,7 @@ namespace Application
         // // HAL_Delay(500);
         the_bias.initialize();
         the_event_counter.initialize();
-        the_command_parser.initialize();
+        the_console_service.initialize();
         the_command_handler.initialize();
         // the_histogram.disable_trigger_flag(true);
         // the_cadence_control.set_cadence_callback(nullptr, nullptr);

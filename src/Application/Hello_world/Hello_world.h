@@ -8,7 +8,7 @@
 
 #include "Cadence_control.h"
 #include "Request_router.h"
-#include "Console_task.h"
+#include "Console_service.h"
 #include "Default_configuration.h"
 // #include "Device/MCU/STM32U575RG/U575xG_embedded_flash.h"
 // #include "Device/MCU/STM32U575RG/U575xG_persistent_storage.h"
@@ -44,7 +44,7 @@ namespace Application
         Request_router the_command_handler{
             the_histogram, the_event_counter, the_IDE3380, the_bias, the_repository, the_cadence_control
         };
-        Console_task the_command_parser{use_board.get_UART(), the_command_handler};
+        Console::Console_service the_console_service{use_board.get_UART(), the_command_handler};
         uint32_t the_background_count{};
 
     public:

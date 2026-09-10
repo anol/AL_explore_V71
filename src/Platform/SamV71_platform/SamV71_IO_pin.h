@@ -6,9 +6,7 @@
 
 namespace SamV71
 {
-    using namespace Dictionary;
-
-    class SamV71_IO_pin : public Abstract::Abstract_IO_pin
+     class SamV71_IO_pin : public Abstract::Abstract_IO_pin
     {
     public:
         SamV71_IO_pin() = delete;
@@ -20,7 +18,7 @@ namespace SamV71
         SamV71_IO_pin(uint8_t id, const char* name, Pin_phase phase, Pin_port port, uint8_t pin,
                       Pin_mode mux, Pin_type type, uint8_t strength = 0, bool default_state = false);
 
-        [[nodiscard]] Error_code initialize(uint8_t id, Pin_phase) override;
+        [[nodiscard]] Abstract::Abstract_error initialize(uint8_t id, Pin_phase) override;
 
         [[nodiscard]] uint8_t get_id() const override { return the_id; }
 

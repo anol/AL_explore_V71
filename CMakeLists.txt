@@ -37,6 +37,7 @@ add_executable(${THE_TARGET_NAME}
         src/Support/Console/Console_transmit_task.cpp
         src/Support/Console/Console_transmit_task.h
         src/Abstract/Abstract_service.h
+        src/Abstract/Abstract_error.h
 )
 
 target_include_directories(${THE_TARGET_NAME} PRIVATE

@@ -22,45 +22,60 @@
 #include <cstdint>
 #include <cstddef>
 
-namespace Dictionary {
+#include "Abstract_error.h"
 
+namespace Dictionary
+{
     bool report_anomaly(uint32_t code);
     bool report_anomaly(uint32_t code, int level);
 
     using Error_code_storage = uint32_t;
 
-    enum Common_code : Error_code_storage {
+    enum Common_code : Error_code_storage
+    {
         Success_code = 0,
         Unimplemented_function = static_cast<Error_code_storage>(-1)
     };
 
-    struct Error_code {
+    class Error_code : public Abstract::Abstract_error
+    {
         Error_code_storage the_code{Success_code};
 
-        inline Error_code &operator=(Error_code_storage code) {
+    public:
+        Error_code() = default;
+
+        explicit Error_code(const int code) : the_code(code)
+        {
+        };
+
+        explicit Error_code(const Common_code code) : the_code(code)
+        {
+        };
+
+        [[nodiscard]] bool success() const override { return the_code == Success_code; }
+
+        [[nodiscard]] bool failed() const override { return the_code != Success_code; }
+
+        Error_code& operator=(Error_code_storage code)
+        {
             the_code = code;
             return *this;
         }
 
-        inline  Error_code_storage operator()() const { return the_code; }
+        Error_code_storage operator()() const { return the_code; }
 
-        inline bool operator==(const Error_code &code) const { return the_code == code.code(); }
+        bool operator==(const Error_code& code) const { return the_code == code.code(); }
 
-        inline bool operator!=(const Error_code &code) const { return the_code != code.code(); }
+        bool operator!=(const Error_code& code) const { return the_code != code.code(); }
 
-        inline bool operator==(Error_code_storage code) const { return the_code == code; }
+        bool operator==(Error_code_storage code) const { return the_code == code; }
 
-        inline bool operator!=(Error_code_storage code) const { return the_code != code; }
+        bool operator!=(Error_code_storage code) const { return the_code != code; }
 
-        inline bool success() const { return the_code == Success_code; }
+        [[nodiscard]] Error_code_storage code() const { return the_code; }
 
-        inline bool failed() const { return the_code != Success_code; }
+        [[nodiscard]] uint32_t module_id() const { return (the_code >> 16); }
 
-        inline Error_code_storage code() const { return the_code; }
-
-        inline uint32_t module_id() const { return (the_code >> 16); }
-
-        inline uint32_t local_id() const { return (the_code & 0xFFFF); }
+        [[nodiscard]] uint32_t local_id() const { return (the_code & 0xFFFF); }
     };
-
 }
