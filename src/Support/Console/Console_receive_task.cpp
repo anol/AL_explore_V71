@@ -30,20 +30,20 @@ namespace Console
         Instruction_major instruction;
         while (true)
         {
-            if (use_console.get(&data))
+            if (use_console.get(&data).success())
             {
                 on_data(data);
             }
-            if (get_command(instruction))
+            if (get_command(instruction).success())
             {
                 use_router.on_indication(instruction);
             }
         }
     }
 
-    bool Console_receive_task::get_command(Instruction_major& instruction)
+    Status_code Console_receive_task::get_command(Instruction_major& instruction)
     {
-        return the_queue.get(&instruction);
+        return Status_code(the_queue.get(&instruction));
     }
 
     void Console_receive_task::on_data(const uint8_t data)

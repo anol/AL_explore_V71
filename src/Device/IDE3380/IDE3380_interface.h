@@ -9,6 +9,7 @@
 #include "IDE3380_definitions.h"
 #include "IDE3380_readout_control.h"
 #include "IDE3380_register_access.h"
+#include "Status_code.h"
 
 extern volatile uint8_t software_reset;
 
@@ -60,6 +61,6 @@ namespace IDE3380 {
 
         [[nodiscard]] bool is_external_hold() const { return the_raise_external_hold; }
 
-        bool update_registers(Repository::Configuration_repository &repository, uint32_t base_id);
+        Status_code update_registers(Repository::Configuration_repository &repository, uint32_t base_id);
     };
 }

@@ -63,11 +63,11 @@ namespace STM32U575RG {
 
         [[nodiscard]] bool is_open_for_write() override { return is_write_open; }
 
-        [[nodiscard]] bool erase_page(uint32_t bank, uint32_t page) override;
+        [[nodiscard]] Status_code erase_page(uint32_t bank, uint32_t page) override;
 
-        [[nodiscard]] bool read_quad(const uint32_t *address, uint32_t *quadword) override;
+        [[nodiscard]] Status_code read_quad(const uint32_t *address, uint32_t *quadword) override;
 
-        [[nodiscard]] bool program_quad(uint32_t *address, const uint32_t quadword[4]) override;
+        [[nodiscard]] Status_code program_quad(uint32_t *address, const uint32_t quadword[4]) override;
 
         void read_page(uint32_t *buffer, const uint32_t *page, uint32_t size_8) override;
 
@@ -81,26 +81,26 @@ namespace STM32U575RG {
 
         [[nodiscard]] uint32_t *get_right_page() override;
 
-        [[nodiscard]] bool erase_left_page() override;
+        [[nodiscard]] Status_code erase_left_page() override;
 
-        [[nodiscard]] bool erase_right_page() override;
+        [[nodiscard]] Status_code erase_right_page() override;
 
         [[nodiscard]] bool assert_address(const uint32_t *address) const override;
 
     private:
         static bool check_status_flags(uint32_t status_flags);
 
-        static bool busy_wait_for_raised_flag(uint32_t flags);
+        [[nodiscard]] static Status_code busy_wait_for_raised_flag(uint32_t flags);
 
-        static bool busy_wait_for_ceased_flag(uint32_t flags);
+        [[nodiscard]] static Status_code busy_wait_for_ceased_flag(uint32_t flags);
 
-        static bool busy_wait_for_control_flag(uint32_t flags);
+        [[nodiscard]] static Status_code busy_wait_for_control_flag(uint32_t flags);
 
-        static bool wait_for_complete(uint32_t timeout);
+        [[nodiscard]] static Status_code wait_for_complete(uint32_t timeout);
 
         static void wait_for_timeout(uint32_t timeout);
 
-        static bool unlock_control_register();
+        [[nodiscard]] static Status_code unlock_control_register();
 
         static void clear_error_status();
 

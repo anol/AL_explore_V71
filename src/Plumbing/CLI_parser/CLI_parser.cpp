@@ -123,14 +123,14 @@ namespace Instruction {
                         }
                         break;
                     case Integer_token:
-                        if (parse_integer(argv, i_value, token, instruction)) {
+                        if (parse_integer(argv, i_value, token, instruction).success()) {
                             match_type = Integer_token;
                             match = token;
                             cnt_match++;
                         }
                         break;
                     case Float_token:
-                        if (parse_float(argv, f_value, token, instruction)) {
+                        if (parse_float(argv, f_value, token, instruction).success()) {
                             match_type = Float_token;
                             match = token;
                             cnt_match++;
@@ -144,7 +144,7 @@ namespace Instruction {
                         }
                         break;
                     case String_token:
-                        if (parse_string(argv, &string, token, instruction)) {
+                        if (parse_string(argv, &string, token, instruction).success()) {
                             match_type = String_token;
                             match = token;
                             cnt_match++;
@@ -198,7 +198,7 @@ namespace Instruction {
         return match;
     }
 
-    bool CLI_parser::parse_integer(const char *argv, int32_t &result, const Instruction_token *p_token,
+    Status_code CLI_parser::parse_integer(const char *argv, int32_t &result, const Instruction_token *p_token,
                                    Instruction_major &instruction) {
         if (strlen(argv) > 2 && argv[0] == '0' && argv[1] == 'x') {
             result = static_cast<int>(strtoul(argv, nullptr, 0));
@@ -208,7 +208,7 @@ namespace Instruction {
             if (!success) {
                 instruction.value_out_of_range();
             }
-            return success;
+            return Status_code(success);
         }
         if (strlen(argv) > 0 && ((argv[0] >= '0' && argv[0] <= '9') || (argv[0] == '-' || argv[0] <= '+'))) {
             result = strtol(argv, nullptr, 0);
@@ -216,12 +216,12 @@ namespace Instruction {
             if (!success) {
                 instruction.value_out_of_range();
             }
-            return success;
+            return Status_code(success);
         }
-        return false;
+        return Status_code::Failure();
     }
 
-    bool CLI_parser::parse_float(const char *argv, float32_t &result, const Instruction_token *p_token,
+    Status_code CLI_parser::parse_float(const char *argv, float32_t &result, const Instruction_token *p_token,
                                  Instruction_major &instruction) {
         if (strlen(argv) > 0 && ((argv[0] >= '0' && argv[0] <= '9') || (argv[0] == '-' || argv[0] <= '+'))) {
             result = strtof(argv, nullptr);
@@ -230,12 +230,12 @@ namespace Instruction {
             if (!success) {
                 instruction.value_out_of_range();
             }
-            return success;
+            return Status_code(success);
         }
-        return false;
+        return Status_code::Failure();
     }
 
-    bool CLI_parser::parse_string(const char *argv, const char **pointer, const Instruction_token *p_token,
+    Status_code CLI_parser::parse_string(const char *argv, const char **pointer, const Instruction_token *p_token,
                                   Instruction_major &instruction) {
         bool success = false;
         *pointer = nullptr;
@@ -246,6 +246,6 @@ namespace Instruction {
         } else {
             instruction.oversized_string(argv, length, p_token->the_max_value);
         }
-        return success;
+        return Status_code(success);
     }
 } // Instruction

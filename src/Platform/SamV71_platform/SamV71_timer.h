@@ -27,19 +27,19 @@ public:
 
     void initialize() override;
 
-    bool enable_one_shot(Nanoseconds) override;
+    Status_code enable_one_shot(Nanoseconds) override;
 
-    bool enable_external_trigger(Nanoseconds, Optional_user, Optional_data,
+    Status_code enable_external_trigger(Nanoseconds, Optional_user, Optional_data,
                                  void (*)(Optional_user, Optional_data, bool success)) override;
 
-    bool delayed_action(Nanoseconds, Optional_user, Optional_data,
+    Status_code delayed_action(Nanoseconds, Optional_user, Optional_data,
                         void (*func)(Optional_user, Optional_data, bool success)) override;
 
-    bool start() override;
+    Status_code start() override;
 
-    bool stop() override;
+    Status_code stop() override;
 
-    bool trigger() override;
+    Status_code trigger() override;
 
     [[nodiscard]] uint32_t get_state() const override;
 

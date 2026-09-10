@@ -39,7 +39,7 @@ namespace Repository {
             auto *name = attribute.get_name();
             if (name) {
                 if (!the_current_config.define_attribute(
-                    attribute.get_id(), name, State_default, attribute.get_value())) {
+                    attribute.get_id(), name, State_default, attribute.get_value()).success()) {
                     success = false;
                 }
             }
@@ -47,36 +47,36 @@ namespace Repository {
         if (!success) {
             printf("Failed to initialize the default configuration.");
         }
-        if (!use_store.initialize()) {
+        if (!use_store.initialize().success()) {
             printf("Failed to initialize the persistent storage.");
         }
     }
 
-    bool Configuration_repository::clean() {
+    Status_code Configuration_repository::clean() {
         auto success = use_store.clean();
         initialize();
         return success;
     }
 
-    bool Configuration_repository::set(const uint32_t id, const int32_t value) {
+    Status_code Configuration_repository::set(const uint32_t id, const int32_t value) {
         auto success = the_current_config.update_attribute(id, State_changed, value);
-        if (!success) { the_set_error++; }
+        if (!success.success()) { the_set_error++; }
         return success;
     }
 
-    bool Configuration_repository::get(const uint32_t id, int32_t &value) {
+    Status_code Configuration_repository::get(const uint32_t id, int32_t &value) {
         auto success = the_current_config.get_value(id, value);
-        if (!success) { the_get_error++; }
+        if (!success.success()) { the_get_error++; }
         return success;
     }
 
-    bool Configuration_repository::load() {
+    Status_code Configuration_repository::load() {
         const auto success = use_store.open_reading();
-        if (success) {
+        if (success.success()) {
             for (uint32_t index = 0; index < Current_configuration::get_max_count(); index++) {
                 auto &attribute = the_current_config.get_attribute(index);
                 if (attribute.is_valid()) {
-                    if (int32_t value; use_store.read(attribute.get_id(), value)) {
+                    if (int32_t value; use_store.read(attribute.get_id(), value).success()) {
                         attribute.set_value(value, State_loaded);
                     }
                 }
@@ -85,22 +85,22 @@ namespace Repository {
         return success;
     }
 
-    bool Configuration_repository::save() {
+    Status_code Configuration_repository::save() {
         const auto dirty_count = the_current_config.get_dirty_count();
-        auto success = use_store.open_writing(dirty_count);
+        auto success = use_store.open_writing(dirty_count).success();
         if (success) {
             // Copy changes from the Current Configuration to the Write Cache.
             for (uint32_t index = 0; success & (index < Current_configuration::get_max_count()); index++) {
                 auto &attribute = the_current_config.get_attribute(index);
                 if (attribute.is_dirty()) {
-                    success = use_store.write_cache(attribute.get_id(), attribute.get_value());
+                    success = use_store.write_cache(attribute.get_id(), attribute.get_value()).success();
                     attribute.set_state(success ? State_cached : State_write_failed);
                 }
             }
         }
         if (success) {
             // Store the changes from the Write Cache to the Flash.
-            success = use_store.program_flash();
+            success = use_store.program_flash().success();
             const auto new_state = success ? State_saved : State_flash_failed;
             for (uint32_t index = 0; index < Current_configuration::get_max_count(); index++) {
                 auto &attribute = the_current_config.get_attribute(index);
@@ -109,7 +109,7 @@ namespace Repository {
                 }
             }
         }
-        return success;
+        return Status_code(success);
     }
 
     void Configuration_repository::dump(const char *title) const {

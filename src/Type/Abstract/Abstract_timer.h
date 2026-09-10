@@ -2,6 +2,8 @@
 
 #include <Utility/Utility_types.h>
 
+#include "Status_code.h"
+
 class Service_report;
 
 /// Purpose: Hardware abstraction of the special timer functions used to control the detector.
@@ -41,23 +43,23 @@ public:
     {
     };
 
-    virtual bool enable_one_shot(Nanoseconds) { return true; }
+    virtual Status_code enable_one_shot(Nanoseconds) { return Status_code::Success(); }
 
-    virtual bool enable_external_trigger(Nanoseconds, Optional_user, Optional_data,
+    virtual Status_code enable_external_trigger(Nanoseconds, Optional_user, Optional_data,
                                          void (*)(Optional_user, Optional_data, bool success)) = 0;
 
-    virtual bool delayed_action(Nanoseconds, Optional_user, Optional_data,
+    virtual Status_code delayed_action(Nanoseconds, Optional_user, Optional_data,
                                 void (*func)(Optional_user, Optional_data, bool success)) = 0;
 
     void set_frequency(Frequency frequency) { the_frequency = frequency; };
 
     [[nodiscard]] Frequency get_frequency() const { return the_frequency; };
 
-    virtual bool start() { return true; }
+    virtual Status_code start() { return Status_code::Success(); }
 
-    virtual bool stop() { return true; }
+    virtual Status_code stop() { return Status_code::Success(); }
 
-    virtual bool trigger() { return true; }
+    virtual Status_code trigger() { return Status_code::Success(); }
 
     [[nodiscard]] virtual uint32_t get_state() const = 0;
 

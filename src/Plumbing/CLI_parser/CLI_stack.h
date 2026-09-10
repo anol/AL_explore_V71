@@ -23,6 +23,7 @@
 #include <cstdint>
 
 #include "Instruction/Instruction_token.h"
+#include "Status_code.h"
 
 namespace Instruction {
 
@@ -34,11 +35,11 @@ namespace Instruction {
         Instruction_token my_tokens[Max_number_of_token]{};
 
     public:
-        bool push(const Instruction_token &token);
+        Status_code push(const Instruction_token &token);
 
-        bool pop(Instruction_token &token);
+        Status_code pop(Instruction_token &token);
 
-        bool get_token(uint32_t index, Instruction_token &token);
+        Status_code get_token(uint32_t index, Instruction_token &token);
 
         void clear() { number_of_tokens = 0; }
     };

@@ -26,6 +26,7 @@
 #include <cstdint>
 
 #include "Attribute_type.h"
+#include "Status_code.h"
 
 namespace Repository {
     class Current_configuration {
@@ -38,9 +39,9 @@ namespace Repository {
 
         void clean();
 
-        [[nodiscard]] bool update_attribute(uint32_t id, Attribute_state state, int32_t value);
+        [[nodiscard]] Status_code update_attribute(uint32_t id, Attribute_state state, int32_t value);
 
-        [[nodiscard]] bool define_attribute(uint32_t id, const char *name, Attribute_state state, int32_t value);
+        [[nodiscard]] Status_code define_attribute(uint32_t id, const char *name, Attribute_state state, int32_t value);
 
         [[nodiscard]] Attribute_type &get_attribute(uint32_t index);
 
@@ -48,7 +49,7 @@ namespace Repository {
 
         [[nodiscard]] Attribute_state get_state(uint32_t id) const;
 
-        [[nodiscard]] bool get_value(uint32_t id, int32_t& value) const;
+        [[nodiscard]] Status_code get_value(uint32_t id, int32_t& value) const;
 
         [[nodiscard]] int get_dirty_count();
 

@@ -92,18 +92,18 @@ namespace Calibration {
     }
 
 
-    bool Bias_DAC::set_dac_value_with_calibration(int32_t value) {
+    Status_code Bias_DAC::set_dac_value_with_calibration(int32_t value) {
         the_DAC_pre_cal = value;
         //-30000 = 0V and -50000 = 3.3V
         //convert -30000 to 0 and -50000 to 4095
         //convert value to dac value
         if (value > -30000 || value < -48000) {
             cnt_out_of_range++;
-            return false;
+            return Status_code::Failure();
         }
         if (in_calibration) {
             cnt_busy_in_cal++;
-            return false;
+            return Status_code::Failure();
         }
         float temp = calibrate(value, the_cal_35V, the_cal_45V);
         temp *= -1.0f;
@@ -117,6 +117,6 @@ namespace Calibration {
         }
         the_DAC_setting = static_cast<uint32_t>(temp);
         // HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, the_DAC_setting);
-        return true;
+        return Status_code::Success();
     }
 } // Calibration

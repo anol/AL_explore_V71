@@ -79,13 +79,13 @@ namespace WIN32_mockup {
         memcpy(buffer, page, size_8);
     }
 
-    bool WIN32_embedded_flash::read_quad(const uint32_t* address, uint32_t* quadword)
+    Status_code WIN32_embedded_flash::read_quad(const uint32_t* address, uint32_t* quadword)
     {
         *quadword++ = *address++;
         *quadword++ = *address++;
         *quadword++ = *address++;
         *quadword = *address;
-        return true;
+        return Status_code::Success();
     }
 
     void WIN32_embedded_flash::begin_programming()
@@ -101,7 +101,7 @@ namespace WIN32_mockup {
         }
     }
 
-    bool WIN32_embedded_flash::erase_page(const uint32_t bank, const uint32_t page)
+    Status_code WIN32_embedded_flash::erase_page(const uint32_t bank, const uint32_t page)
     {
         constexpr uint32_t Erased_value{0xFF};
         const auto success{bank == Flash_bank2};
@@ -114,10 +114,10 @@ namespace WIN32_mockup {
             WIN32_binary_file::put_page(Right_file_name, reinterpret_cast<const uint8_t*>(the_right_page), Page_size_8);
         }
         cnt_erase++;
-        return success;
+        return Status_code(success);
     }
 
-    bool WIN32_embedded_flash::program_quad(uint32_t* address, const uint32_t quadword[4])
+    Status_code WIN32_embedded_flash::program_quad(uint32_t* address, const uint32_t quadword[4])
     {
         auto success{address != nullptr};
         if (success) {
@@ -128,7 +128,7 @@ namespace WIN32_mockup {
             *address = *quadword;
             cnt_programmed++;
         }
-        return success;
+        return Status_code(success);
     }
 
     bool WIN32_embedded_flash::assert_address(const uint32_t* address) const

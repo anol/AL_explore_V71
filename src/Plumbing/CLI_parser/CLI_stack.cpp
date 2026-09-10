@@ -21,31 +21,31 @@
 
 using namespace Instruction;
 
-bool CLI_stack::push(const Instruction_token &token) {
+Status_code CLI_stack::push(const Instruction_token &token) {
     if (number_of_tokens < (Max_number_of_token - 1)) {
         my_tokens[number_of_tokens++] = token;
-        return true;
+        return Status_code::Success();
     } else {
-        return false;
+        return Status_code::Failure();
     }
 }
 
-bool CLI_stack::pop(Instruction_token &token) {
+Status_code CLI_stack::pop(Instruction_token &token) {
     if ((number_of_tokens > 0) && (number_of_tokens < (Max_number_of_token))) {
         token = my_tokens[number_of_tokens];
         my_tokens[number_of_tokens].clear();
         number_of_tokens--;
-        return true;
+        return Status_code::Success();
     } else {
-        return false;
+        return Status_code::Failure();
     }
 }
 
-bool CLI_stack::get_token(uint32_t index, Instruction_token &token) {
+Status_code CLI_stack::get_token(uint32_t index, Instruction_token &token) {
     if (index < number_of_tokens) {
         token = my_tokens[index];
-        return true;
+        return Status_code::Success();
     } else {
-        return false;
+        return Status_code::Failure();
     }
 }

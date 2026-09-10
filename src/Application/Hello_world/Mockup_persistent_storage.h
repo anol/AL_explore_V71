@@ -4,19 +4,19 @@
 namespace MOCKUP {
     class Mockup_persistent_storage : public Repository::Persistent_storage {
     public:
-        [[nodiscard]] bool initialize() override { return true; }
+        [[nodiscard]] Status_code initialize() override { return Status_code::Success(); }
 
-        [[nodiscard]] bool clean() override { return true; }
+        [[nodiscard]] Status_code clean() override { return Status_code::Success(); }
 
-        [[nodiscard]] bool open_reading() override { return true; }
+        [[nodiscard]] Status_code open_reading() override { return Status_code::Success(); }
 
-        [[nodiscard]] bool read(uint32_t id, int32_t &value) override { return true; }
+        [[nodiscard]] Status_code read(uint32_t id, int32_t &value) override { return Status_code::Success(); }
 
-        [[nodiscard]] bool open_writing(int dirty_count) override { return true; }
+        [[nodiscard]] Status_code open_writing(int dirty_count) override { return Status_code::Success(); }
 
-        [[nodiscard]] bool write_cache(uint32_t id, int32_t value) override { return true; }
+        [[nodiscard]] Status_code write_cache(uint32_t id, int32_t value) override { return Status_code::Success(); }
 
-        [[nodiscard]] bool program_flash() override { return true; }
+        [[nodiscard]] Status_code program_flash() override { return Status_code::Success(); }
 
         void dump() const override {
         }

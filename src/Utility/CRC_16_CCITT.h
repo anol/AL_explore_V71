@@ -7,6 +7,8 @@
 
 #include <cstdint>
 
+#include "Status_code.h"
+
 /// Purpose: Encoding and decoding of the CCITT 16-bit CRC-function.
 class CRC_16_CCITT {
     static uint16_t lookup_table[256];
@@ -24,9 +26,9 @@ public:
 
     static void initialize() { build_lookup_table(lookup_table); };
 
-    static bool crc_decode_octets(const uint8_t *data, uint32_t length);
+    [[nodiscard]] static Status_code crc_decode_octets(const uint8_t *data, uint32_t length);
 
-    static bool crc_decode_words(const uint16_t *data, uint32_t length);
+    [[nodiscard]] static Status_code crc_decode_words(const uint16_t *data, uint32_t length);
 
     static uint16_t crc_encode_octets(const uint8_t *data, uint32_t length);
 
@@ -36,9 +38,9 @@ public:
 
     /** unoptimized CRC functions with _uo suffix */
 
-    static bool crc_decode_octets_uo(const uint8_t *data, uint32_t length);
+    [[nodiscard]] static Status_code crc_decode_octets_uo(const uint8_t *data, uint32_t length);
 
-    static bool crc_decode_words_uo(const uint16_t *data, uint32_t length);
+    [[nodiscard]] static Status_code crc_decode_words_uo(const uint16_t *data, uint32_t length);
 
     static uint16_t crc_encode_octets(uint16_t Syndrome, const uint8_t *data, uint32_t length);
 

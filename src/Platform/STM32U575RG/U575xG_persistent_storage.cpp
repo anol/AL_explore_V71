@@ -47,7 +47,7 @@ namespace STM32U575RG {
     static uint32_t cnt_write_error{};
     static uint32_t cnt_write{};
 
-    bool U575xG_persistent_storage::initialize() {
+    Status_code U575xG_persistent_storage::initialize() {
         const auto left_is_erased = Free_to_use == *use_flash.get_left_page();
         const auto right_is_erased = Free_to_use == *use_flash.get_right_page();
         if (left_is_erased) {
@@ -57,81 +57,81 @@ namespace STM32U575RG {
             is_left_current = true;
             optional_page_address = use_flash.get_left_page();
         }
-        return true;
+        return Status_code::Success();
     }
 
-    bool U575xG_persistent_storage::clean() {
-        bool success = use_flash.erase_left_page();
-        if (!use_flash.erase_right_page()) success = false;
+    Status_code U575xG_persistent_storage::clean() {
+        bool success = use_flash.erase_left_page().success();
+        if (!use_flash.erase_right_page().success()) success = false;
         if (!success) {
             cnt_erase_error++;
         }
-        return success;
+        return Status_code(success);
     }
 
-    bool U575xG_persistent_storage::swap_pages() {
+    Status_code U575xG_persistent_storage::swap_pages() {
         bool success{};
         cnt_swap_pages++;
         if (is_left_current) {
-            success = copy_page(the_cache.get_page(), use_flash.get_right_page());
+            success = copy_page(the_cache.get_page(), use_flash.get_right_page()).success();
             if (success) {
                 is_left_current = false;
                 optional_page_address = use_flash.get_right_page();
-                success = use_flash.erase_left_page();
+                success = use_flash.erase_left_page().success();
             }
         } else {
-            success = copy_page(the_cache.get_page(), use_flash.get_left_page());
+            success = copy_page(the_cache.get_page(), use_flash.get_left_page()).success();
             if (success) {
                 is_left_current = true;
                 optional_page_address = use_flash.get_left_page();
-                success = use_flash.erase_right_page();
+                success = use_flash.erase_right_page().success();
             }
         }
         if (!success) {
             cnt_erase_error++;
         }
-        return success;
+        return Status_code(success);
     }
 
-    bool U575xG_persistent_storage::open_reading() {
+    Status_code U575xG_persistent_storage::open_reading() {
         use_flash.open_for_write(false);
         const auto *page = current_page_address();
         load_cache(page);
-        return true;
+        return Status_code::Success();
     }
 
-    bool U575xG_persistent_storage::read(const uint32_t id, int32_t &value) {
+    Status_code U575xG_persistent_storage::read(const uint32_t id, int32_t &value) {
         if (use_flash.is_open_for_write()) {
             printf("Not open for reading\r\n");
-            return false;
+            return Status_code::Failure();
         }
         const auto *page = current_page_address();
         return search_value(id, value, page);
     }
 
-    bool U575xG_persistent_storage::open_writing(const int dirty_count) {
+    Status_code U575xG_persistent_storage::open_writing(const int dirty_count) {
         use_flash.open_for_write(false);
-        auto success = load_cache(current_page_address());
+        auto success = load_cache(current_page_address()).success();
         if (success) {
             if (dirty_count >= the_cache.get_free_cnt()) {
-                success = swap_pages();
+                success = swap_pages().success();
                 if (success) {
-                    success = load_cache(current_page_address());
+                    success = load_cache(current_page_address()).success();
                 }
             }
         }
         if (success) {
             use_flash.open_for_write(true);
         }
-        return success;
+        return Status_code(success);
     }
 
-    bool U575xG_persistent_storage::write_cache(const uint32_t id, const int32_t value) {
+    Status_code U575xG_persistent_storage::write_cache(const uint32_t id, const int32_t value) {
         if (!use_flash.is_open_for_write()) {
             printf("Not open for writing\r\n");
-            return false;
+            return Status_code::Failure();
         }
-        const auto success = write_to_cache(id, value);
+        const auto success = write_to_cache(id, value).success();
         if (success) {
             if (is_left_current) {
                 cnt_left_pages++;
@@ -139,17 +139,17 @@ namespace STM32U575RG {
                 cnt_right_pages++;
             }
         }
-        return success;
+        return Status_code(success);
     }
 
-    bool U575xG_persistent_storage::program_flash() {
+    Status_code U575xG_persistent_storage::program_flash() {
         auto *page = current_page_address();
-        const auto success = write_from_cache_to_flash(page);
+        const auto success = write_from_cache_to_flash(page).success();
         use_flash.open_for_write(false);
-        return success;
+        return Status_code(success);
     }
 
-    bool U575xG_persistent_storage::load_cache(const uint32_t *page) {
+    Status_code U575xG_persistent_storage::load_cache(const uint32_t *page) {
         bool success{page != nullptr};
         if (success) {
             the_cache.initialize();
@@ -171,10 +171,10 @@ namespace STM32U575RG {
                 cache += U575xG_page_cache::Quadword_width_32;
             }
         }
-        return success;
+        return Status_code(success);
     }
 
-    bool U575xG_persistent_storage::write_to_cache(const uint32_t id, const int32_t value) {
+    Status_code U575xG_persistent_storage::write_to_cache(const uint32_t id, const int32_t value) {
         auto unsigned_value = static_cast<uint32_t>(value);
         uint8_t result{Void_result};
         auto *address = the_cache.get_page();
@@ -212,10 +212,10 @@ namespace STM32U575RG {
                 address += U575xG_page_cache::Quadword_width_32;
             }
         }
-        return Error_result != result;
+        return Status_code(Error_result != result);
     }
 
-    bool U575xG_persistent_storage::write_from_cache_to_flash(uint32_t *page_address) {
+    Status_code U575xG_persistent_storage::write_from_cache_to_flash(uint32_t *page_address) {
         constexpr uint32_t void_quad[U575xG_page_cache::Quadword_width_32]{
             Void_value, Void_value, Void_value, Void_value
         };
@@ -231,7 +231,7 @@ namespace STM32U575RG {
                 case U575xG_page_cache::Is_free:
                     break;
                 case U575xG_page_cache::To_clear: {
-                    if (use_flash.program_quad(page_address, void_quad)) {
+                    if (use_flash.program_quad(page_address, void_quad).success()) {
                         cnt_void++;
                     } else {
                         cnt_void_error++;
@@ -241,7 +241,7 @@ namespace STM32U575RG {
                     break;
                 }
                 case U575xG_page_cache::To_write: {
-                    if (use_flash.program_quad(page_address, cache_address)) {
+                    if (use_flash.program_quad(page_address, cache_address).success()) {
                         cnt_write++;
                     } else {
                         cnt_write_error++;
@@ -260,42 +260,42 @@ namespace STM32U575RG {
             page_address += U575xG_page_cache::Quadword_width_32;
         }
         use_flash.end_programming();
-        return success;
+        return Status_code(success);
     }
 
-    bool U575xG_persistent_storage::copy_page(const uint32_t *source_addr, uint32_t *target_addr) const {
+    Status_code U575xG_persistent_storage::copy_page(const uint32_t *source_addr, uint32_t *target_addr) const {
         uint32_t quad_word[U575xG_page_cache::Quadword_width_32]{};
         for (uint32_t quad = 0; quad < U575xG_page_cache::Quadwords_per_page; quad++) {
             quad_word[Index_of_id] = *source_addr;
             if (Void_value != quad_word[Index_of_id]) {
                 if (Free_to_use == quad_word[Index_of_id]) {
-                    return true;
+                    return Status_code::Success();
                 }
                 quad_word[Index_of_sentinel] = Sentinel_value;
                 if (source_addr[Index_of_sentinel] != Sentinel_value) {
                     printf("Copy: Illegal sentinel at 0x%08X\r\n", source_addr);
-                    return false;
+                    return Status_code::Failure();
                 }
                 quad_word[Index_of_size] = source_addr[Index_of_size];
                 quad_word[Index_of_value] = source_addr[Index_of_value];
                 cnt_copy = cnt_copy + 1;
-                if (!use_flash.program_quad(target_addr, quad_word)) {
+                if (!use_flash.program_quad(target_addr, quad_word).success()) {
                     cnt_copy_error = cnt_copy_error + 1;
                 }
                 target_addr += U575xG_page_cache::Quadword_width_32;
             }
             source_addr += U575xG_page_cache::Quadword_width_32;
         }
-        return true;
+        return Status_code::Success();
     }
 
-    bool U575xG_persistent_storage::search_value(const uint32_t id, int32_t &value, const uint32_t *address) const {
+    Status_code U575xG_persistent_storage::search_value(const uint32_t id, int32_t &value, const uint32_t *address) const {
         uint8_t result{use_flash.assert_address(address) ? Void_result : Error_result};
         uint32_t read_quad[U575xG_page_cache::Quadword_width_32]{
         };
         assert_id(id, result);
         for (uint32_t gpc = 0; Void_result == result && gpc < U575xG_page_cache::Quadwords_per_page; gpc++) {
-            if (use_flash.read_quad(address, read_quad)) {
+            if (use_flash.read_quad(address, read_quad).success()) {
                 if (id == read_quad[Index_of_id]) {
                     if (Sentinel_value == read_quad[Index_of_sentinel]) {
                         value = static_cast<int32_t>(read_quad[Index_of_value]);
@@ -311,7 +311,7 @@ namespace STM32U575RG {
                 result = Error_result;
             }
         }
-        return Success_result == result;
+        return Status_code(Success_result == result);
     }
 
     void U575xG_persistent_storage::assert_id(const uint32_t id, uint8_t &result) {

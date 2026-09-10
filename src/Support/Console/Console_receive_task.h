@@ -7,6 +7,7 @@
 #include "CLI_parser.h"
 #include "Instruction_major.h"
 #include "Ringbuffer.h"
+#include "Status_code.h"
 
 namespace Application
 {
@@ -51,7 +52,7 @@ namespace Console
     private:
         void task_loop();
 
-        bool get_command(Instruction_major& instruction);
+        Status_code get_command(Instruction_major& instruction);
 
         void on_data(uint8_t data);
 

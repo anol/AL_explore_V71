@@ -56,13 +56,13 @@ namespace Calibration {
 
         [[nodiscard]] bool is_active() const override { return 0 < the_readout_countdown; }
 
-        bool start_test(Instruction_major *instruction) override {
+        [[nodiscard]] Status_code start_test(Instruction_major *instruction) override {
             optional_instruction = instruction;
             const auto success{0 == the_readout_countdown};
             if (success) {
                 test_prolog(Readout_count);
             }
-            return success;
+            return Status_code(success);
         }
 
         void background_process() override {

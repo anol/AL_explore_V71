@@ -147,10 +147,10 @@ namespace Calibration {
         }
     }
 
-    bool IDE3380_test_noise_floor::start_test(Instruction_major *instruction) {
+    Status_code IDE3380_test_noise_floor::start_test(Instruction_major *instruction) {
         optional_instruction = instruction;
         the_iteration = Starting;
-        return true;
+        return Status_code::Success();
     }
 
     void IDE3380_test_noise_floor::main_prolog() const {

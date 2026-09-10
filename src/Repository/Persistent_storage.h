@@ -27,25 +27,26 @@
 #include <cstdint>
 
 #include "Repository_diagnostics.h"
+#include "Status_code.h"
 
 namespace Repository {
     class Persistent_storage : public Repository_diagnostics {
     public:
         ~Persistent_storage() override = default;
 
-        [[nodiscard]] virtual bool initialize() = 0;
+        [[nodiscard]] virtual Status_code initialize() = 0;
 
-        [[nodiscard]] virtual bool clean() = 0;
+        [[nodiscard]] virtual Status_code clean() = 0;
 
-        [[nodiscard]] virtual bool open_reading() = 0;
+        [[nodiscard]] virtual Status_code open_reading() = 0;
 
-        [[nodiscard]] virtual bool read(uint32_t id, int32_t &value) = 0;
+        [[nodiscard]] virtual Status_code read(uint32_t id, int32_t &value) = 0;
 
-        [[nodiscard]] virtual bool open_writing(int dirty_count) = 0;
+        [[nodiscard]] virtual Status_code open_writing(int dirty_count) = 0;
 
-        [[nodiscard]] virtual bool write_cache(uint32_t id, int32_t value) = 0;
+        [[nodiscard]] virtual Status_code write_cache(uint32_t id, int32_t value) = 0;
 
-        [[nodiscard]] virtual bool program_flash() = 0;
+        [[nodiscard]] virtual Status_code program_flash() = 0;
     };
 } // Repository
 

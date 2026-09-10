@@ -38,7 +38,7 @@ void Housekeeping_provider::print_version() {
     printf("Branch: " GIT_BRANCH "\r\n");
     printf("Date: " __DATE__ " " __TIME__ "\r\n");
     int32_t serial{};
-    if (use_repository.get(Serial_number, serial)) {
+    if (use_repository.get(Serial_number, serial).success()) {
         printf("S/N 8063-2-%d.\r\n", (int) serial);
     }
 }

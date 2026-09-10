@@ -35,20 +35,20 @@ namespace Repository {
         }
     }
 
-    bool Current_configuration::define_attribute(
+    Status_code Current_configuration::define_attribute(
         const uint32_t id, const char *name, const Attribute_state state, const int32_t value) {
         if (Attribute_type::is_valid_id(id)) {
             for (auto &attribute: the_attributes) {
                 if (!attribute.is_valid()) {
                     attribute.set(id, state, sizeof(value), value, name);
-                    return true;
+                    return Status_code::Success();
                 }
             }
         }
-        return false;
+        return Status_code::Failure();
     }
 
-    bool Current_configuration::update_attribute(
+    Status_code Current_configuration::update_attribute(
         const uint32_t id, const Attribute_state state, const int32_t value) {
         if (Attribute_type::is_valid_id(id)) {
             for (auto &attribute: the_attributes) {
@@ -56,11 +56,11 @@ namespace Repository {
                     if (attribute.get_value() != value) {
                         attribute.set_value(value, state);
                     }
-                    return true;
+                    return Status_code::Success();
                 }
             }
         }
-        return false;
+        return Status_code::Failure();
     }
 
     Attribute_type &Current_configuration::get_attribute(const uint32_t index) {
@@ -90,7 +90,7 @@ namespace Repository {
         return {};
     }
 
-    bool Current_configuration::get_value(const uint32_t id, int32_t &value) const {
+    Status_code Current_configuration::get_value(const uint32_t id, int32_t &value) const {
         auto success{false};
         if (Attribute_type::is_valid_id(id)) {
             for (auto &attribute: the_attributes) {
@@ -101,7 +101,7 @@ namespace Repository {
                 }
             }
         }
-        return success;
+        return Status_code(success);
     }
 
     int Current_configuration::get_dirty_count() {

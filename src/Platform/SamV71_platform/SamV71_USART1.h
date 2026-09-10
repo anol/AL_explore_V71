@@ -38,9 +38,9 @@ namespace SamV71
 
         bool has_input() override { return uxQueueMessagesWaiting(the_RX_queue) > 0; }
 
-        bool put(const uint8_t data) override { return xQueueSend(the_TX_queue, &data, 0) == pdPASS; }
+        Status_code put(const uint8_t data) override { return Status_code(xQueueSend(the_TX_queue, &data, 0) == pdPASS); }
 
-        bool get(uint8_t* data) override { return xQueueReceive(the_RX_queue, data, 100) == pdPASS; }
+        Status_code get(uint8_t* data) override { return Status_code(xQueueReceive(the_RX_queue, data, 100) == pdPASS); }
 
         bool for_each_input(Optional_user user, Optional_func func) override;
 

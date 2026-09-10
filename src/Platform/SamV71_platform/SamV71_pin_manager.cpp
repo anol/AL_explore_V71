@@ -10,7 +10,7 @@ namespace SamV71
     using namespace Dictionary;
     using Pin = Abstract::Abstract_IO_pin;
 
-    bool SamV71_pin_manager::initialize()
+    Status_code SamV71_pin_manager::initialize()
     {
         initialize_matrix();
         return set_phase(Abstract::Abstract_IO_pin::Start_up);
@@ -24,7 +24,7 @@ namespace SamV71
         MATRIX_REGS->CCFG_SYSIO |= CCFG_SYSIO_SYSIO12_Msk;
     }
 
-    bool SamV71_pin_manager::set_phase(Pin::Pin_phase phase)
+    Status_code SamV71_pin_manager::set_phase(Pin::Pin_phase phase)
     {
         if ((phase == Pin::Start_up) || (phase == Pin::Host_up))
         {
@@ -35,10 +35,10 @@ namespace SamV71
         {
             if (pin.initialize(id_counter++, phase).failed())
             {
-                return false;
+                return Status_code::Failure();
             }
         }
-        return true;
+        return Status_code::Success();
     }
 
     Pin& SamV71_pin_manager::get_pin(const Pin_id id)

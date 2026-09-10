@@ -27,6 +27,7 @@
 #include "gamma_peak_detector.h"
 #include "IDE3380_interface.h"
 #include "Persistent_parameter_id.h"
+#include "Status_code.h"
 
 namespace Repository {
     class Configuration_repository;
@@ -83,7 +84,7 @@ namespace Application {
 
         void clear_isotope_identification();
 
-        bool update_seconds_past(uint32_t &cadence);
+        Status_code update_seconds_past(uint32_t &cadence);
 
         const uint32_t *get_channel_buffer(const uint8_t channel_index) {
             if (channel_index < Number_of_channels) {
@@ -92,7 +93,7 @@ namespace Application {
             return the_transit_buffer;
         }
 
-        bool send_data(Data_format, int channel, uint32_t cadence = 0);
+        Status_code send_data(Data_format, int channel, uint32_t cadence = 0);
 
         void clear_channel_pedestal() {
             for (auto &pedestal: the_channel_pedestal) {
@@ -112,9 +113,9 @@ namespace Application {
             }
         }
 
-        bool update_pedestals(Repository::Configuration_repository &repository, Parameter_id base_offset);
+        Status_code update_pedestals(Repository::Configuration_repository &repository, Parameter_id base_offset);
 
-        bool update_gain(Repository::Configuration_repository &repository, Parameter_id base_gain);
+        Status_code update_gain(Repository::Configuration_repository &repository, Parameter_id base_gain);
 
         static uint8_t get_channel_count() { return Number_of_channels; }
 

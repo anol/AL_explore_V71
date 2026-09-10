@@ -30,7 +30,7 @@
 
 void Spectroscopic_data_provider::v_FORMAT_R6(Instruction_major &instruction) {
     the_format = Application::Format_simple_R6;
-    if (use_repository.set(Application::Format_demo, the_format)) {
+    if (use_repository.set(Application::Format_demo, the_format).success()) {
         instruction.print_ack();
     } else {
         instruction.print_nack(use_repository.get_diag_code());
@@ -39,7 +39,7 @@ void Spectroscopic_data_provider::v_FORMAT_R6(Instruction_major &instruction) {
 
 void Spectroscopic_data_provider::v_FORMAT_CPS(Instruction_major &instruction) {
     the_format = Application::Format_only_CPS;
-    if (use_repository.set(Application::Format_demo, the_format)) {
+    if (use_repository.set(Application::Format_demo, the_format).success()) {
         instruction.print_ack();
     } else {
         instruction.print_nack(use_repository.get_diag_code());
@@ -48,7 +48,7 @@ void Spectroscopic_data_provider::v_FORMAT_CPS(Instruction_major &instruction) {
 
 void Spectroscopic_data_provider::v_FORMAT_N42(Instruction_major &instruction) {
     the_format = Application::Format_complex_N42;
-    if (use_repository.set(Application::Format_demo, the_format)) {
+    if (use_repository.set(Application::Format_demo, the_format).success()) {
         instruction.print_ack();
     } else {
         instruction.print_nack(use_repository.get_diag_code());
@@ -61,7 +61,7 @@ void Spectroscopic_data_provider::v_TIME_date_time(Instruction_major &, const in
 }
 
 void Spectroscopic_data_provider::v_GET(Instruction_major &instruction) {
-    if (use_histogram.send_data(the_format, the_channel)) {
+    if (use_histogram.send_data(the_format, the_channel).success()) {
         instruction.print_ack();
     } else {
         printf("Failed to send data: format=%d, channel=%d\r\n", the_format, the_channel);
@@ -70,7 +70,7 @@ void Spectroscopic_data_provider::v_GET(Instruction_major &instruction) {
 }
 
 void Spectroscopic_data_provider::v_GET_RESET(Instruction_major &instruction) {
-    if (use_histogram.send_data(the_format, the_channel)) {
+    if (use_histogram.send_data(the_format, the_channel).success()) {
         use_histogram.clear_histogram_buffer();
         instruction.print_ack();
     } else {
@@ -80,7 +80,7 @@ void Spectroscopic_data_provider::v_GET_RESET(Instruction_major &instruction) {
 }
 
 void Spectroscopic_data_provider::send_science_data(const uint32_t cadence) const {
-    if (use_histogram.send_data(the_format, the_channel, cadence)) {
+    if (use_histogram.send_data(the_format, the_channel, cadence).success()) {
         use_histogram.clear_histogram_buffer();
     } else {
         printf("!");

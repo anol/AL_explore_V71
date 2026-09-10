@@ -97,7 +97,7 @@ void Instruction_token::pack_string(const char *string, uint32_t length)
     }
 }
 
-bool Instruction_token::unpack_string(char *string, uint32_t length) const {
+Status_code Instruction_token::unpack_string(char *string, uint32_t length) const {
     bool result = false;
     char sym;
     if (length > Max_packet_length) {
@@ -128,6 +128,6 @@ bool Instruction_token::unpack_string(char *string, uint32_t length) const {
         *string = 0;
         result = true;
     }
-    return result;
+    return Status_code(result);
 }
 

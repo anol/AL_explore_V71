@@ -5,6 +5,7 @@
 #pragma once
 #include "Abstract_IO_pin.h"
 #include "IO_pins.h"
+#include "Status_code.h"
 
 namespace Win11
 {
@@ -13,9 +14,9 @@ namespace Win11
     public :
         using Pin = Abstract::Abstract_IO_pin;
 
-        bool initialize();
+        Status_code initialize();
 
-        bool set_phase(Pin::Pin_phase);
+        Status_code set_phase(Pin::Pin_phase);
 
         Pin& get_pin(Dictionary::Pin_id);
 

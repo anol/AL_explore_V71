@@ -70,7 +70,7 @@ namespace Calibration {
                             uint8_t start_threshold = Start_threshold,
                             int32_t stop_count = Stop_count);
 
-        bool start_test(Instruction_major *instruction) override;
+        [[nodiscard]] Status_code start_test(Instruction_major *instruction) override;
 
         void background_process() override {
             run_iterative();

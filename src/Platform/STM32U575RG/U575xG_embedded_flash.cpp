@@ -77,9 +77,9 @@ namespace STM32U575RG {
 
     uint32_t *U575xG_embedded_flash::get_right_page() { return Right_page_address; }
 
-    bool U575xG_embedded_flash::erase_left_page() { return erase_page(Flash_bank2, Left_page); }
+    Status_code U575xG_embedded_flash::erase_left_page() { return erase_page(Flash_bank2, Left_page); }
 
-    bool U575xG_embedded_flash::erase_right_page() { return erase_page(Flash_bank2, Right_page); }
+    Status_code U575xG_embedded_flash::erase_right_page() { return erase_page(Flash_bank2, Right_page); }
 
     bool U575xG_embedded_flash::assert_address(const uint32_t *address) const {
         if (address < Left_page_address || address > reinterpret_cast<uint32_t *>(End_of_flash)) {
@@ -93,21 +93,21 @@ namespace STM32U575RG {
         memcpy(buffer, page, size_8);
     }
 
-    bool U575xG_embedded_flash::read_quad(const uint32_t *address, uint32_t *quadword) {
+    Status_code U575xG_embedded_flash::read_quad(const uint32_t *address, uint32_t *quadword) {
         if (0xF & reinterpret_cast<uint32_t>(address)) {
             printf("Update: Illegal address 0x%08X\r\n", address);
-            return false;
+            return Status_code::Failure();
         }
         clear_error_status();
         clear_end_of_operation();
-        auto success = busy_wait_for_ceased_flag(FLASH_FLAG_BSY);
+        auto success = busy_wait_for_ceased_flag(FLASH_FLAG_BSY).success();
         if (success) {
             *quadword++ = *address++;
             *quadword++ = *address++;
             *quadword++ = *address++;
             *quadword = *address;
         }
-        return success;
+        return Status_code(success);
     }
 
     void U575xG_embedded_flash::begin_programming() {
@@ -132,20 +132,20 @@ namespace STM32U575RG {
     // 5. Wait for BSY to be cleared in FLASH_NSSR or FLASH_SECSR.
     //
 
-    bool U575xG_embedded_flash::erase_page(const uint32_t bank, const uint32_t page) {
-        if (!unlock_control_register()) {
-            return false;
+    Status_code U575xG_embedded_flash::erase_page(const uint32_t bank, const uint32_t page) {
+        if (!unlock_control_register().success()) {
+            return Status_code::Failure();
         }
         if ((Flash_bank1 != bank) && (Flash_bank2 != bank)) {
             printf("U575xG_embedded_flash: illegal bank=%d\r\n", static_cast<int>(bank));
-            return false;
+            return Status_code::Failure();
         }
         if (Pages_per_bank <= page) {
             printf("U575xG_embedded_flash: illegal page=%d\r\n", static_cast<int>(page));
-            return false;
+            return Status_code::Failure();
         }
         /* Wait for last operation to be completed */
-        auto success = wait_for_complete(Operation_timeout_1s);
+        auto success = wait_for_complete(Operation_timeout_1s).success();
         if (success) {
             volatile uint32_t *control_register = &(FLASH_NS->NSCR);
             uint32_t control_flags = *control_register;
@@ -158,7 +158,7 @@ namespace STM32U575RG {
             }
             control_flags |= (page << FLASH_NSCR_PNB_Pos);
             *control_register = control_flags;
-            success = wait_for_complete(Operation_timeout_1s);
+            success = wait_for_complete(Operation_timeout_1s).success();
             *control_register &= ~Control_flags_to_clear;
         }
         if (success) {
@@ -166,7 +166,7 @@ namespace STM32U575RG {
         } else {
             cnt_page_erase_error++;
         }
-        return success;
+        return Status_code(success);
     }
 
     // The flash memory is programmed 137 bits at a time (128-bit data + 9 bits ECC).
@@ -201,15 +201,15 @@ namespace STM32U575RG {
     // If the user needs to program only one word, the quad-word must be completed with the erase value 0xFFFF FFFF
     // to launch automatically the programming. ECC is calculated from the quad-word to program.
 
-    bool U575xG_embedded_flash::program_quad(uint32_t *address, const uint32_t quadword[4]) {
+    Status_code U575xG_embedded_flash::program_quad(uint32_t *address, const uint32_t quadword[4]) {
         if (0xF & reinterpret_cast<uint32_t>(address)) {
             cnt_param_error++;
-            return false;
+            return Status_code::Failure();
         }
-        if (!unlock_control_register()) {
-            return false;
+        if (!unlock_control_register().success()) {
+            return Status_code::Failure();
         }
-        auto success = wait_for_complete(Operation_timeout_10ms);
+        auto success = wait_for_complete(Operation_timeout_10ms).success();
         if (success) {
             // Enter critical section: Disable interrupts
             uint32_t primask_bit = __get_PRIMASK();
@@ -224,15 +224,15 @@ namespace STM32U575RG {
             *control_register = control_flags;
             __DSB();
             __ISB();
-            if (!busy_wait_for_control_flag(FLASH_NSCR_PG)) success = false;
+            if (!busy_wait_for_control_flag(FLASH_NSCR_PG).success()) success = false;
             *target++ = *quadword++;
-            if (!busy_wait_for_raised_flag(FLASH_FLAG_WDW)) success = false;
+            if (!busy_wait_for_raised_flag(FLASH_FLAG_WDW).success()) success = false;
             *target++ = *quadword++;
             *target++ = *quadword++;
             *target = *quadword;
             __DSB();
             __ISB();
-            if (!busy_wait_for_ceased_flag(FLASH_FLAG_BSY | FLASH_FLAG_WDW)) success = false;
+            if (!busy_wait_for_ceased_flag(FLASH_FLAG_BSY | FLASH_FLAG_WDW).success()) success = false;
             *control_register &= ~(Control_flags_for_program);
             clear_end_of_operation();
             clear_error_status();
@@ -246,7 +246,7 @@ namespace STM32U575RG {
         } else {
             cnt_old_error++;
         }
-        return success;
+        return Status_code(success);
     }
 
     // Bit 3 PROGERR: Nonsecure programming error
@@ -307,7 +307,7 @@ namespace STM32U575RG {
         return 0 == error_flags;
     }
 
-    bool U575xG_embedded_flash::busy_wait_for_raised_flag(const uint32_t flags) {
+    Status_code U575xG_embedded_flash::busy_wait_for_raised_flag(const uint32_t flags) {
         int countdown{Countdown_for_raised};
         volatile uint32_t *status_register = &(FLASH_NS->NSSR);
         uint32_t status_flags = *status_register;
@@ -328,10 +328,10 @@ namespace STM32U575RG {
         } else {
             cnt_wait_raised_failed++;
         }
-        return success;
+        return Status_code(success);
     }
 
-    bool U575xG_embedded_flash::busy_wait_for_ceased_flag(const uint32_t flags) {
+    Status_code U575xG_embedded_flash::busy_wait_for_ceased_flag(const uint32_t flags) {
         int countdown{Countdown_for_ceased};
         volatile uint32_t *status_register = &(FLASH_NS->NSSR);
         uint32_t status_flags = *status_register;
@@ -348,10 +348,10 @@ namespace STM32U575RG {
         } else {
             cnt_wait_ceased_failed++;
         }
-        return success;
+        return Status_code(success);
     }
 
-    bool U575xG_embedded_flash::busy_wait_for_control_flag(const uint32_t flags) {
+    Status_code U575xG_embedded_flash::busy_wait_for_control_flag(const uint32_t flags) {
         int countdown{Countdown_for_control};
         volatile uint32_t *control_register = &(FLASH_NS->NSCR);
         uint32_t control_flags = *control_register;
@@ -368,7 +368,7 @@ namespace STM32U575RG {
         } else {
             cnt_wait_CR_failed++;
         }
-        return success;
+        return Status_code(success);
     }
 
     void U575xG_embedded_flash::wait_for_timeout(const uint32_t timeout) {
@@ -383,7 +383,7 @@ namespace STM32U575RG {
     // Wait for the FLASH operation to complete by polling on BUSY and WDW flags to be reset.
     // Even if the FLASH operation fails, the BUSY & WDW flags will be reset, and an error flag will be set.
 
-    bool U575xG_embedded_flash::wait_for_complete(const uint32_t timeout) {
+    Status_code U575xG_embedded_flash::wait_for_complete(const uint32_t timeout) {
         uint32_t wakeup = HAL_GetTick() + timeout;
         volatile uint32_t *status_register = &(FLASH_NS->NSSR);
         __DSB();
@@ -396,7 +396,7 @@ namespace STM32U575RG {
                 cnt_timeout_error++;
                 clear_error_status();
                 clear_end_of_operation();
-                return false;
+                return Status_code::Failure();
             }
             __DSB();
             __ISB();
@@ -406,7 +406,7 @@ namespace STM32U575RG {
         }
         clear_error_status();
         clear_end_of_operation();
-        return check_status_flags(status_flags);
+        return Status_code(check_status_flags(status_flags));
     }
 
     // FLASH_NSCR = 0xC0000000
@@ -429,7 +429,7 @@ namespace STM32U575RG {
     // KEY1: 0x4567 0123
     // KEY2: 0xCDEF 89AB
 
-    bool U575xG_embedded_flash::unlock_control_register() {
+    Status_code U575xG_embedded_flash::unlock_control_register() {
         volatile uint32_t *control_register = &(FLASH_NS->NSCR);
         __DSB();
         __ISB();
@@ -450,7 +450,7 @@ namespace STM32U575RG {
         if (!success) {
             cnt_unlock_error++;
         }
-        return success;
+        return Status_code(success);
     }
 
     void U575xG_embedded_flash::clear_error_status() {

@@ -6,6 +6,7 @@
 
 
 #include "Misc_type.h"
+#include "Status_code.h"
 
 namespace Abstract
 {
@@ -26,8 +27,8 @@ namespace Abstract
 
         virtual int print(const char* data, int len) = 0;
 
-        virtual bool put(uint8_t data) = 0;
+        [[nodiscard]] virtual Status_code put(uint8_t data) = 0;
 
-        virtual bool get(uint8_t* data) = 0;
+        [[nodiscard]] virtual Status_code get(uint8_t* data) = 0;
     };
 }

@@ -26,6 +26,7 @@
 #include "Instruction/Instruction_token.h"
 #include "Instruction_major.h"
 #include "CLI_tokenizer.h"
+#include "Status_code.h"
 
 namespace Instruction {
     class CLI_parser {
@@ -54,13 +55,13 @@ namespace Instruction {
         static const Instruction_token *match_token(const char *argv, const Instruction_token token[],
                                                     Instruction_major &);
 
-        static bool parse_integer(const char *argv, int32_t &result, const Instruction_token *p_token,
+        static Status_code parse_integer(const char *argv, int32_t &result, const Instruction_token *p_token,
                                   Instruction_major &);
 
-        static bool parse_float(const char *argv, float32_t &result, const Instruction_token *p_token,
+        static Status_code parse_float(const char *argv, float32_t &result, const Instruction_token *p_token,
                                 Instruction_major &);
 
-        static bool parse_string(const char *argv, const char **pointer, const Instruction_token *,
+        static Status_code parse_string(const char *argv, const char **pointer, const Instruction_token *,
                                  Instruction_major &);
 
         static const Instruction_token *check_match(const Instruction_token *match, Instruction_major &instruction);

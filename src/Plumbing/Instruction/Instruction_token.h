@@ -21,6 +21,7 @@
 #define TARGET_WINDOWS_INSTRUCTION_TOKEN_H
 
 #include "Token_type.h"
+#include "Status_code.h"
 
 namespace Instruction {
 
@@ -88,7 +89,7 @@ namespace Instruction {
 
         void clear();
 
-        bool unpack_string(char *string, uint32_t length) const;
+        Status_code unpack_string(char *string, uint32_t length) const;
 
         void pack_string(const char *string);
 

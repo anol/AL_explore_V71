@@ -22,6 +22,8 @@
 
 
 #pragma once
+#include "Status_code.h"
+
 class Instruction_major;
 
 namespace Calibration {
@@ -33,7 +35,7 @@ namespace Calibration {
 
         [[nodiscard]] virtual bool is_active() const = 0;
 
-        virtual bool start_test(Instruction_major *instruction) = 0;
+        [[nodiscard]] virtual Status_code start_test(Instruction_major *instruction) = 0;
 
         virtual void background_process() = 0;
 

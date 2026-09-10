@@ -224,22 +224,22 @@ void SamV71_timer::reinitialize(Timer_function function)
     __asm volatile ("isb"); // Instruction Synchronization Barrier
 }
 
-bool SamV71_timer::trigger()
+Status_code SamV71_timer::trigger()
 {
     auto p_channel = the_definition.p_channel;
     p_channel->TC_CCR = TC_CCR_SWTRG_Msk;
-    return true;
+    return Status_code::Success();
 }
 
-bool SamV71_timer::enable_one_shot(Nanoseconds pulse_width_ns)
+Status_code SamV71_timer::enable_one_shot(Nanoseconds pulse_width_ns)
 {
     auto p_channel = the_definition.p_channel;
     p_channel->TC_RC = (pulse_width_ns / 1000) * (SamV71_clock::get_frequency() / 1000000);
     p_channel->TC_CCR = TC_CCR_CLKEN_Msk;
-    return true;
+    return Status_code::Success();
 }
 
-bool
+Status_code
 SamV71_timer::enable_external_trigger(Nanoseconds pulse_delay_ns, Optional_user user, Optional_data data,
                                       void (*func)(Optional_user, Optional_data, bool success))
 {
@@ -264,7 +264,7 @@ SamV71_timer::enable_external_trigger(Nanoseconds pulse_delay_ns, Optional_user 
             break;
         default:
             p_channel->TC_CMR = 0;
-            return false;
+            return Status_code::Failure();
         }
         p_channel->TC_RC = nanoseconds_to_count(SamV71_clock::get_frequency(), pulse_delay_ns);
         p_channel->TC_CCR = TC_CCR_CLKEN_Msk; // Enable counter clock
@@ -272,10 +272,10 @@ SamV71_timer::enable_external_trigger(Nanoseconds pulse_delay_ns, Optional_user 
     }
     NVIC_ClearPendingIRQ(static_cast<IRQn_Type>(the_definition.peripheral_id));
     NVIC_EnableIRQ(static_cast<IRQn_Type>(the_definition.peripheral_id));
-    return true;
+    return Status_code::Success();
 }
 
-bool SamV71_timer::delayed_action(Nanoseconds pulse_delay_ns, Optional_user user, Optional_data data,
+Status_code SamV71_timer::delayed_action(Nanoseconds pulse_delay_ns, Optional_user user, Optional_data data,
                                   void (*func)(Optional_user, Optional_data, bool success))
 {
     NVIC_DisableIRQ(static_cast<IRQn_Type>(the_definition.peripheral_id));
@@ -293,7 +293,7 @@ bool SamV71_timer::delayed_action(Nanoseconds pulse_delay_ns, Optional_user user
     }
     NVIC_ClearPendingIRQ(static_cast<IRQn_Type>(the_definition.peripheral_id));
     NVIC_EnableIRQ(static_cast<IRQn_Type>(the_definition.peripheral_id));
-    return true;
+    return Status_code::Success();
 }
 
 void SamV71_timer::release_external_trigger()
@@ -323,7 +323,7 @@ void SamV71_timer::release_external_trigger()
     }
 }
 
-bool SamV71_timer::start()
+Status_code SamV71_timer::start()
 {
     auto p_channel = the_definition.p_channel;
     bool success = the_frequency > 0;
@@ -335,14 +335,14 @@ bool SamV71_timer::start()
         p_channel->TC_CCR = TC_CCR_CLKEN_Msk;
         p_channel->TC_CCR = TC_CCR_SWTRG_Msk;
     }
-    return success;
+    return Status_code(success);
 }
 
-bool SamV71_timer::stop()
+Status_code SamV71_timer::stop()
 {
     auto p_channel = the_definition.p_channel;
     p_channel->TC_CCR = TC_CCR_CLKDIS_Msk;
-    return true;
+    return Status_code::Success();
 }
 
 uint32_t SamV71_timer::get_state() const

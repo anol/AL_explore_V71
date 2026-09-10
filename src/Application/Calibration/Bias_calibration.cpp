@@ -50,7 +50,7 @@ namespace Calibration
         the_bias_at_25 = bias_25C;
     }
 
-    bool Bias_calibration::update_setpoints(Repository::Configuration_repository& repository)
+    Status_code Bias_calibration::update_setpoints(Repository::Configuration_repository& repository)
     {
         auto success{true};
         int32_t DAC_35V;
@@ -58,22 +58,22 @@ namespace Calibration
         int32_t ADC_35V;
         int32_t ADC_45V;
         int32_t bias_25C;
-        success = repository.get(Application::Cal_DAC_35V, DAC_35V) ? success : false;
-        success = repository.get(Application::Cal_DAC_40V, DAC_45V) ? success : false;
-        success = repository.get(Application::Cal_ADC_35V, ADC_35V) ? success : false;
-        success = repository.get(Application::Cal_ADC_40V, ADC_45V) ? success : false;
-        success = repository.get(Application::Cal_bias_25C, bias_25C) ? success : false;
+        success = repository.get(Application::Cal_DAC_35V, DAC_35V).success() ? success : false;
+        success = repository.get(Application::Cal_DAC_40V, DAC_45V).success() ? success : false;
+        success = repository.get(Application::Cal_ADC_35V, ADC_35V).success() ? success : false;
+        success = repository.get(Application::Cal_ADC_40V, ADC_45V).success() ? success : false;
+        success = repository.get(Application::Cal_bias_25C, bias_25C).success() ? success : false;
         if (success)
         {
             set_calibration(DAC_35V, DAC_45V, ADC_35V, ADC_45V, bias_25C);
         }
         int32_t param_A;
-        success = repository.get(Application::Cal_parameter_A, param_A) ? success : false;
+        success = repository.get(Application::Cal_parameter_A, param_A).success() ? success : false;
         set_gamma_param_A(static_cast<float>(param_A) / 1000000.0f);
         int32_t param_B;
-        success = repository.get(Application::Cal_parameter_B, param_B) ? success : false;
+        success = repository.get(Application::Cal_parameter_B, param_B).success() ? success : false;
         set_gamma_param_B(static_cast<float>(param_B) / 1000.0f);
-        return success;
+        return Status_code(success);
     }
 
     void Bias_calibration::hw_init_bias_regulator()
@@ -120,7 +120,7 @@ namespace Calibration
         // }
         the_temperature = tempo;
         auto temp_float = static_cast<float>(the_temperature) / 100.0f;
-        if (calibrate_bias(temp_float))
+        if (calibrate_bias(temp_float).success())
         {
             cnt_bias_cal++;
         }
@@ -139,7 +139,7 @@ namespace Calibration
         return static_cast<int32_t>(bias);
     }
 
-    bool Bias_calibration::calibrate_bias(const float temperature)
+    Status_code Bias_calibration::calibrate_bias(const float temperature)
     {
         enum { Volt_50mV = 5, Delay_10ms = 10, Iterations = 20, Max_offset = 6000, Min_offset = -3000 };
         the_ADC.calibrate();
@@ -174,6 +174,6 @@ namespace Calibration
                 return success;
             }
         }
-        return false;
+        return Status_code::Failure();
     }
 }

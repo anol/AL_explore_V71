@@ -35,14 +35,14 @@ namespace Win11
             return 0;
         }
 
-        bool put(uint8_t data) override
+        Status_code put(uint8_t data) override
         {
-            return false;
+            return Status_code::Failure();
         }
 
-        bool get(uint8_t* data) override
+        Status_code get(uint8_t* data) override
         {
-            return false;
+            return Status_code::Failure();
         }
     };
 } // Win11

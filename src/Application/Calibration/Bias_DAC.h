@@ -22,6 +22,8 @@
 #pragma once
 #include <cstdint>
 
+#include "Status_code.h"
+
 namespace Calibration {
     class Bias_DAC {
         int32_t the_cal_35V{-35000};
@@ -41,7 +43,7 @@ namespace Calibration {
 
         void set_dac_cal_test(int32_t value);
 
-        bool set_dac_value_with_calibration(int32_t value);
+        [[nodiscard]] Status_code set_dac_value_with_calibration(int32_t value);
 
         void set_cal_35V(int32_t cal) { the_cal_35V = cal; }
 

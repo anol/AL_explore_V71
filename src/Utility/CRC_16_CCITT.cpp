@@ -81,16 +81,16 @@ uint16_t CRC_16_CCITT::crc_encode_octets(const uint8_t *data, uint32_t length) {
     return Chk;
 }
 
-bool CRC_16_CCITT::crc_decode_words(const uint16_t *data, uint32_t length) {
+Status_code CRC_16_CCITT::crc_decode_words(const uint16_t *data, uint32_t length) {
     uint16_t Chk = 0xFFFF;
     for (uint32_t index = 0; index < length; index++, data++) {
         Chk = Crc_opt(0xFFu & (*data >> 8u), Chk, lookup_table);
         Chk = Crc_opt(0xFFu & (*data), Chk, lookup_table);
     }
-    return (Chk == 0);
+    return Status_code(Chk == 0);
 }
 
-bool CRC_16_CCITT::crc_decode_octets(const uint8_t *data, uint32_t length) {
+Status_code CRC_16_CCITT::crc_decode_octets(const uint8_t *data, uint32_t length) {
 /* Decoding procedure */
 /* The error detection syndrome, S(x) is given by: */
 /* S(x)=(x^16 * C¤(x) + x^n * L(x)) modulo G(x) */
@@ -99,25 +99,25 @@ bool CRC_16_CCITT::crc_decode_octets(const uint8_t *data, uint32_t length) {
     for (uint32_t index = 0; index < length; index++, data++) {
         Chk = Crc_opt(*data, Chk, lookup_table);
     }
-    return (Chk == 0);
+    return Status_code(Chk == 0);
 }
 
 
-bool CRC_16_CCITT::crc_decode_octets_uo(const uint8_t *data, uint32_t length) {
+Status_code CRC_16_CCITT::crc_decode_octets_uo(const uint8_t *data, uint32_t length) {
     uint16_t Chk = 0xFFFF; /* Reset syndrome to all ones */
     for (uint32_t index = 0; index < length; index++, data++) {
         Chk = Crc(*data, Chk);
     }
-    return (Chk == 0);
+    return Status_code(Chk == 0);
 }
 
-bool CRC_16_CCITT::crc_decode_words_uo(const uint16_t *data, uint32_t length) {
+Status_code CRC_16_CCITT::crc_decode_words_uo(const uint16_t *data, uint32_t length) {
     uint16_t Chk = 0xFFFF; /* Reset syndrome to all ones */
     for (uint32_t index = 0; index < length; index++, data++) {
         Chk = Crc(0xFFu & (*data >> 8u), Chk);
         Chk = Crc(0xFFu & (*data), Chk);
     }
-    return (Chk == 0);
+    return Status_code(Chk == 0);
 }
 
 uint16_t CRC_16_CCITT::crc_encode_octets(uint16_t Syndrome, const uint8_t *data, uint32_t length) {

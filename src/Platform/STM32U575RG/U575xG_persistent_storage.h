@@ -54,19 +54,19 @@ namespace STM32U575RG {
         explicit U575xG_persistent_storage(Repository::Embedded_flash &flash) : use_flash(flash) {
         }
 
-        [[nodiscard]] bool initialize() override;
+        [[nodiscard]] Status_code initialize() override;
 
-        [[nodiscard]] bool clean() override;
+        [[nodiscard]] Status_code clean() override;
 
-        [[nodiscard]] bool open_reading() override;
+        [[nodiscard]] Status_code open_reading() override;
 
-        [[nodiscard]] bool read(uint32_t id, int32_t &value) override;
+        [[nodiscard]] Status_code read(uint32_t id, int32_t &value) override;
 
-        [[nodiscard]] bool open_writing(int dirty_count) override;
+        [[nodiscard]] Status_code open_writing(int dirty_count) override;
 
-        [[nodiscard]] bool write_cache(uint32_t id, int32_t value) override;
+        [[nodiscard]] Status_code write_cache(uint32_t id, int32_t value) override;
 
-        [[nodiscard]] bool program_flash() override;
+        [[nodiscard]] Status_code program_flash() override;
 
         void dump() const override;
 
@@ -75,19 +75,19 @@ namespace STM32U575RG {
         static uint32_t get_page_size() { return U575xG_page_cache::Page_size_8; }
 
     private:
-        [[nodiscard]] bool swap_pages();
+        [[nodiscard]] Status_code swap_pages();
 
         [[nodiscard]] uint32_t *current_page_address() const { return optional_page_address; };
 
-        bool load_cache(const uint32_t *page);
+        Status_code load_cache(const uint32_t *page);
 
-        bool write_from_cache_to_flash(uint32_t *page_address);
+        Status_code write_from_cache_to_flash(uint32_t *page_address);
 
-        bool copy_page(const uint32_t *source_addr, uint32_t *target_addr) const;
+        Status_code copy_page(const uint32_t *source_addr, uint32_t *target_addr) const;
 
-        bool search_value(uint32_t id, int32_t &value, const uint32_t *address) const;
+        Status_code search_value(uint32_t id, int32_t &value, const uint32_t *address) const;
 
-        bool write_to_cache(uint32_t id, int32_t value);
+        Status_code write_to_cache(uint32_t id, int32_t value);
 
         static void assert_id(uint32_t id, uint8_t &result);
     };

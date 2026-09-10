@@ -130,7 +130,7 @@ namespace Application
         }
     }
 
-    bool Histogram_storage::update_seconds_past(uint32_t& cadence)
+    Status_code Histogram_storage::update_seconds_past(uint32_t& cadence)
     {
         bool success{};
         auto timestamp = 1000u /** HAL_GetTick()*/;
@@ -143,10 +143,10 @@ namespace Application
             }
         }
         the_old_timestamp = timestamp;
-        return success;
+        return Status_code(success);
     }
 
-    bool Histogram_storage::send_data(const Data_format format, const int channel, uint32_t cadence)
+    Status_code Histogram_storage::send_data(const Data_format format, const int channel, uint32_t cadence)
     {
         bool success{channel <= Number_of_channels};
         if (success)
@@ -178,7 +178,7 @@ namespace Application
                     auto hard = use_event_counter.reset_event_count(); // Hard event counter
                     if (cadence == 0)
                     {
-                        if (update_seconds_past(cadence))
+                        if (update_seconds_past(cadence).success())
                         {
                             printf("R6:events=%d;CH=%d;", hard, channel_index + 1);
                         }
@@ -208,7 +208,7 @@ namespace Application
                     auto bias = Calibration::Bias_DAC::get_last_bias();
                     if (cadence == 0)
                     {
-                        if (update_seconds_past(cadence))
+                        if (update_seconds_past(cadence).success())
                         {
                             printf("Events=%d, ISR=%d, soft=%d, sense=%d, bias=%d\r\n",
                                    (int)hard, (int)TORO, (int)soft, (int)sense, (int)bias);
@@ -228,38 +228,38 @@ namespace Application
                 }
             }
         }
-        return success;
+        return Status_code(success);
     }
 
-    bool Histogram_storage::update_pedestals(Repository::Configuration_repository& repository, Parameter_id base_offset)
+    Status_code Histogram_storage::update_pedestals(Repository::Configuration_repository& repository, Parameter_id base_offset)
     {
         auto success{true};
         for (uint8_t channel = 0; success && channel < Number_of_inputs; channel++)
         {
             int32_t value;
             auto id = base_offset + channel;
-            success = repository.get(id, value);
+            success = repository.get(id, value).success();
             if (success)
             {
                 set_channel_pedestal(channel, value);
             }
         }
-        return success;
+        return Status_code(success);
     }
 
-    bool Histogram_storage::update_gain(Repository::Configuration_repository& repository, Parameter_id base_gain)
+    Status_code Histogram_storage::update_gain(Repository::Configuration_repository& repository, Parameter_id base_gain)
     {
         auto success{true};
         for (uint8_t channel = 0; success && channel < Number_of_inputs; channel++)
         {
             int32_t value;
             auto id = base_gain + channel;
-            success = repository.get(id, value);
+            success = repository.get(id, value).success();
             if (success)
             {
                 set_channel_gain(channel, value);
             }
         }
-        return success;
+        return Status_code(success);
     }
 } // Application

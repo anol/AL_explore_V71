@@ -80,7 +80,7 @@ public:
         the_mode = mode;
     };
 
-    bool set_mode(Operation_mode mode, Parameter_id channel, Parameter_id format, Parameter_id cadence);
+    Status_code set_mode(Operation_mode mode, Parameter_id channel, Parameter_id format, Parameter_id cadence);
 
 protected:
     void v_MODE_DEMO(Instruction_major &) override;
@@ -100,12 +100,12 @@ protected:
     void v_NOMINAL_CADENCE_seconds(Instruction_major &, int seconds_2) override;
 
 private:
-    [[nodiscard]] bool set_parameter(Parameter_id param, int32_t value, bool success) const {
-        return use_repository.set(param, value) ? success : false;
+    [[nodiscard]] Status_code set_parameter(Parameter_id param, int32_t value, bool success) const {
+        return Status_code(use_repository.set(param, value).success() ? success : false);
     }
 
-    [[nodiscard]] bool get_parameter(Parameter_id param, int32_t &value, bool success) const {
-        return use_repository.get(param, value) ? success : false;
+    [[nodiscard]] Status_code get_parameter(Parameter_id param, int32_t &value, bool success) const {
+        return Status_code(use_repository.get(param, value).success() ? success : false);
     }
 
     static const char *Operation_mode_to_text(Operation_mode mode);

@@ -88,12 +88,12 @@ namespace IDE3380 {
         the_raise_external_hold = false;
     }
 
-    bool IDE3380_interface::update_registers(Repository::Configuration_repository &repository,
+    Status_code IDE3380_interface::update_registers(Repository::Configuration_repository &repository,
                                            const uint32_t base_id) {
         auto success{true};
         for (uint8_t address = IDE3380_channel_1_reg; address <= IDE3380_sysclock_control_reg; address++) {
             const auto id = base_id + address;
-            if (int32_t value; repository.get(id, value)) {
+            if (int32_t value; repository.get(id, value).success()) {
                 if (value != static_cast<int32_t>(
                         the_register_access.SPI_update_register(address, IDE3380_write_read, value))) {
                     success = false;
@@ -104,6 +104,6 @@ namespace IDE3380 {
                 the_get_error++;
             }
         }
-        return success;
+        return Status_code(success);
     }
 }

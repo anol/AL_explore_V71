@@ -26,6 +26,7 @@
 #include "Abstract_configuration.h"
 #include "Persistent_storage.h"
 #include "Current_configuration.h"
+#include "Status_code.h"
 
 namespace Repository {
     class Configuration_repository {
@@ -42,15 +43,15 @@ namespace Repository {
 
         void initialize();
 
-        bool set(uint32_t id, int32_t value);
+        Status_code set(uint32_t id, int32_t value);
 
-        [[nodiscard]] bool get(uint32_t id, int32_t &value);
+        [[nodiscard]] Status_code get(uint32_t id, int32_t &value);
 
-        [[nodiscard]] bool clean();
+        [[nodiscard]] Status_code clean();
 
-        [[nodiscard]] bool load();
+        [[nodiscard]] Status_code load();
 
-        [[nodiscard]] bool save();
+        [[nodiscard]] Status_code save();
 
         void dump(const char *title) const;
 

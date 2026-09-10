@@ -45,7 +45,7 @@ Status_code CLI_help::print(bool with_ids, uint32_t number_of_ids) {
     const Instruction_token *p_token = optional_table;
     while (p_token != nullptr && p_token->token_type != End_token) {
         stack.clear();
-        if (stack.push(*p_token)) {
+        if (stack.push(*p_token).success()) {
             result = build_command(stack, p_token->optional_next);
             p_token++;
             if (result.failed()) {
@@ -73,7 +73,7 @@ Status_code CLI_help::print(uint32_t token_id) {
     while (p_token != nullptr && p_token->token_type != End_token) {
         if (p_token->the_id == token_id) {
             stack.clear();
-            if (stack.push(*p_token)) {
+            if (stack.push(*p_token).success()) {
                 result = build_command(stack, p_token->optional_next);
                 p_token++;
                 if (result.failed()) {
@@ -115,7 +115,7 @@ Status_code CLI_help::build_command(CLI_stack &stack, const Instruction_token *p
     } else {
         Instruction_token token{};
         while (p_token != nullptr && p_token->token_type != End_token) {
-            if (stack.push(*p_token)) {
+            if (stack.push(*p_token).success()) {
                 result = build_command(stack, p_token->optional_next);
                 stack.pop(token);
                 p_token++;
@@ -135,7 +135,7 @@ Status_code CLI_help::build_command(CLI_stack &stack, const Instruction_token *p
 void CLI_help::print_command(CLI_stack &stack) {
     uint32_t index = 0;
     Instruction_token token;
-    while (stack.get_token(index++, token)) {
+    while (stack.get_token(index++, token).success()) {
         if (token.optional_keyword && strlen(token.optional_keyword)) {
             if (index == 1) {
                 printf(" %-10s", token.optional_keyword);
@@ -156,7 +156,7 @@ void CLI_help::print_AT_command(CLI_stack &stack) {
     uint32_t index = 0;
     bool first_param{};
     Instruction_token token;
-    while (stack.get_token(index++, token)) {
+    while (stack.get_token(index++, token).success()) {
         if (token.optional_keyword && strlen(token.optional_keyword)) {
             if (index == 1) {
                 first_param = true;
@@ -190,7 +190,7 @@ void CLI_help::print_AT_command(CLI_stack &stack) {
 void CLI_help::print_command_with_ids(CLI_stack &stack) {
     uint32_t index = 0;
     Instruction_token token;
-    while (stack.get_token(index++, token)) {
+    while (stack.get_token(index++, token).success()) {
         if (token.optional_keyword && strlen(token.optional_keyword)) {
             if (index == 1) {
                 printf(" [0x%02X]%-10s", token.the_id, token.optional_keyword);

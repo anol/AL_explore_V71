@@ -31,7 +31,7 @@ namespace Calibration {
 
         int32_t temperature_to_bias(float temperature);
 
-        bool calibrate_bias(float temperature);
+        [[nodiscard]] Status_code calibrate_bias(float temperature);
 
         void set_calibration(int32_t DAC_35V, int32_t DAC_45V, int32_t ADC_35V, int32_t ADC_45V, int32_t bias_25C);
 
@@ -53,7 +53,7 @@ namespace Calibration {
 
         [[nodiscard]] uint32_t get_DAC_setting() const { return the_DAC.get_DAC_setting(); }
 
-        bool update_setpoints(Repository::Configuration_repository &repository);
+        [[nodiscard]] Status_code update_setpoints(Repository::Configuration_repository &repository);
 
         void set_gamma_param_A(const float x) { gamma_param_A = x; }
 

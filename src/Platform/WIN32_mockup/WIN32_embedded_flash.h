@@ -55,11 +55,11 @@ namespace WIN32_mockup {
 
         [[nodiscard]] bool is_open_for_write() override { return is_write_open; }
 
-        [[nodiscard]] bool erase_page(uint32_t bank, uint32_t page) override;
+        [[nodiscard]] Status_code erase_page(uint32_t bank, uint32_t page) override;
 
-        [[nodiscard]] bool read_quad(const uint32_t* address, uint32_t* quadword) override;
+        [[nodiscard]] Status_code read_quad(const uint32_t* address, uint32_t* quadword) override;
 
-        [[nodiscard]] bool program_quad(uint32_t* address, const uint32_t quadword[4]) override;
+        [[nodiscard]] Status_code program_quad(uint32_t* address, const uint32_t quadword[4]) override;
 
         void read_page(uint32_t* buffer, const uint32_t* page, uint32_t size_8) override;
 
@@ -71,9 +71,9 @@ namespace WIN32_mockup {
 
         [[nodiscard]] uint32_t* get_right_page() override { return the_right_page; };
 
-        [[nodiscard]] bool erase_left_page() override { return erase_page(Flash_bank2, Left_page); };
+        [[nodiscard]] Status_code erase_left_page() override { return erase_page(Flash_bank2, Left_page); };
 
-        [[nodiscard]] bool erase_right_page() override { return erase_page(Flash_bank2, Right_page); };
+        [[nodiscard]] Status_code erase_right_page() override { return erase_page(Flash_bank2, Right_page); };
 
         [[nodiscard]] bool assert_address(const uint32_t* address) const override;
 

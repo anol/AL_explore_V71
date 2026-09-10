@@ -62,7 +62,7 @@ namespace Application
         }
     }
 
-    bool Request_router::update_mode()
+    Status_code Request_router::update_mode()
     {
         int32_t value;
         auto success{use_repository.get(Active_mode, value)};

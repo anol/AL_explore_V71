@@ -127,6 +127,6 @@ namespace Application
         {
         }
 
-        bool update_mode();
+        Status_code update_mode();
     };
 } // Application

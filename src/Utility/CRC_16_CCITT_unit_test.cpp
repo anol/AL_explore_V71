@@ -12,7 +12,7 @@ static void verify_CRC_octets(uint8_t *data, uint32_t length, uint8_t expected_C
     EXPECT_EQ(expected_CRC_2, 0xFFu & actual_CRC);
     *(data + length - 1) = 0xFFu & actual_CRC;
     *(data + length - 2) = 0xFFu & (actual_CRC >> 8u);
-    EXPECT_TRUE(CRC_16_CCITT::crc_decode_octets(data, length));
+    EXPECT_TRUE(CRC_16_CCITT::crc_decode_octets(data, length).success());
     /*
     * Hint: You can use https://crccalc.com/ to verify as well.
     * Set "Input type" to HEX, and use "Calc CRC-16" then examine "CRC-16/CCITT-FALSE" which is NORM default.
@@ -27,7 +27,7 @@ static void verify_CRC_words(uint16_t *data, uint32_t length, uint16_t expected_
     uint16_t actual_CRC = CRC_16_CCITT::crc_encode_words(data, length - 1);
     EXPECT_EQ(expected_CRC, actual_CRC);
     *(data + length - 1) = actual_CRC;
-    EXPECT_TRUE(CRC_16_CCITT::crc_decode_words(data, length));
+    EXPECT_TRUE(CRC_16_CCITT::crc_decode_words(data, length).success());
     /*
     * Hint: You can use https://crccalc.com/ to verify as well
     * Set "Input type" to HEX, and use "Calc CRC-16" then examine "CRC-16/CCITT-FALSE" which is NORM default.
@@ -70,11 +70,11 @@ TEST(CRC_16_CCITT_unit_test, test_wrong_crc_octets) {
     octets[4] = (crc >> 8) & 0xFF;
     octets[5] = crc & 0xFF;
     /* Verify the correctness of the CRC error detection implementation */
-    EXPECT_TRUE(CRC_16_CCITT::crc_decode_octets(octets, 6));
+    EXPECT_TRUE(CRC_16_CCITT::crc_decode_octets(octets, 6).success());
 
     octets[1] = 0xEE;
 
-    EXPECT_FALSE(CRC_16_CCITT::crc_decode_octets(octets, 6));
+    EXPECT_FALSE(CRC_16_CCITT::crc_decode_octets(octets, 6).success());
 }
 
 TEST(CRC_16_CCITT_unit_test, test_words) {
@@ -107,11 +107,11 @@ TEST(CRC_16_CCITT_unit_test, test_wrong_crc_words) {
     CRC_16_CCITT::initialize();
     words[4] = CRC_16_CCITT::crc_encode_words(words, 4);
     /* Verify the correctness of the CRC error detection implementation */
-    EXPECT_TRUE(CRC_16_CCITT::crc_decode_words(words, 5));
+    EXPECT_TRUE(CRC_16_CCITT::crc_decode_words(words, 5).success());
 
     words[1] = 0x1234;
 
-    EXPECT_FALSE(CRC_16_CCITT::crc_decode_words(words, 5));
+    EXPECT_FALSE(CRC_16_CCITT::crc_decode_words(words, 5).success());
 }
 
 TEST(CRC_16_CCITT_unit_test, test_special_message) {
