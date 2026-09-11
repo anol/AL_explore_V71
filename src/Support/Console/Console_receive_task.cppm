@@ -2,24 +2,16 @@
 // Created by aeols on 2026-09-10.
 //
 
-#pragma once
+module;
 #include "Abstract_task.h"
 #include "CLI_parser.h"
 #include "Instruction_major.h"
 #include "Ringbuffer.h"
 #include "Status_code.h"
+#include "Abstract_UART.h"
+#include "Request_router.h"
 
-namespace Application
-{
-    class Request_router;
-}
-
-namespace Abstract
-{
-    class Abstract_UART;
-}
-
-class Instruction_major;
+module Support.Console_service:Console_receive_task;
 
 namespace Console
 {
@@ -29,7 +21,7 @@ namespace Console
 
         using Command_queue = Ringbuffer<Instruction_major, Queue_size>;
         Abstract::Abstract_UART& use_console;
-        Application::Request_router& use_router;
+        Request_router& use_router;
         CLI_parser the_parser;
         Command_queue the_queue{};
         int escape_received{};

@@ -22,7 +22,8 @@
 #include "Common_stdio.h"
 
 #include "Abstract_UART.h"
-#include "Console_service.h"
+
+import Support.Console_service;
 
 extern "C" {
 //! Pointer to the base of the USART module instance to use for stdio.

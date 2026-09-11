@@ -4,7 +4,6 @@
 
 #pragma once
 
-
 #include "Misc_type.h"
 #include "Status_code.h"
 

@@ -8,7 +8,6 @@
 
 #include "Cadence_control.h"
 #include "Request_router.h"
-#include "Console_service.h"
 #include "Default_configuration.h"
 // #include "Device/MCU/STM32U575RG/U575xG_embedded_flash.h"
 // #include "Device/MCU/STM32U575RG/U575xG_persistent_storage.h"
@@ -24,6 +23,8 @@ extern "C" {
 #include "portmacro.h"
 #include "task.h"
 }
+
+import Support.Console_service;
 
 namespace Application
 {

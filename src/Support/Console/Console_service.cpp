@@ -2,7 +2,7 @@
 // Created by aeols on 2026-09-10.
 //
 
-#include "Console_service.h"
+module Support.Console_service;
 
 namespace Console
 {

@@ -32,23 +32,29 @@
 // #include "stm32u5xx_hal.h"
 #include "Bias_calibration.h"
 
-void Housekeeping_provider::print_version() {
-    printf("Product: " IDEAS_PRODUCT_ID "\r\n");
-    printf("Version: " BUILD_INFORMATION "\r\n");
-    printf("Branch: " GIT_BRANCH "\r\n");
-    printf("Date: " __DATE__ " " __TIME__ "\r\n");
-    int32_t serial{};
-    if (use_repository.get(Serial_number, serial).success()) {
-        printf("S/N 8063-2-%d.\r\n", (int) serial);
-    }
+void Housekeeping_provider::print_version()
+{
+    printf("----------------------------\r\n");
+    printf("-- " IDEAS_PRODUCT_ID " " BUILD_INFORMATION "\r\n");
+    printf("-- " GIT_REPO "\r\n");
+    printf("-- " ARCH_NAME " " __VERSION__ "\r\n");
+    printf("-- " __DATE__ " " __TIME__ "\r\n");
+    printf("----------------------------\r\n");
+    // int32_t serial{};
+    // if (use_repository.get(Serial_number, serial).success())
+    // {
+    //     printf("S/N xxxx-x-%d.\r\n", (int)serial);
+    // }
 }
 
-void Housekeeping_provider::v_VERSION(Instruction_major &instruction) {
+void Housekeeping_provider::v_VERSION(Instruction_major& instruction)
+{
     print_version();
     instruction.print_ack();
 }
 
-void Housekeeping_provider::v_STATUS(Instruction_major &instruction) {
+void Housekeeping_provider::v_STATUS(Instruction_major& instruction)
+{
     printf("Status:");
     use_mode_control.print_status();
     use_data_provider.print_status();
@@ -57,7 +63,8 @@ void Housekeeping_provider::v_STATUS(Instruction_major &instruction) {
     instruction.print_ack();
 }
 
-void Housekeeping_provider::v_DIAG(Instruction_major &instruction) {
+void Housekeeping_provider::v_DIAG(Instruction_major& instruction)
+{
     printf("Diagnostic info\r\n");
     use_histogram.print_diag();
     use_bias.print_diag();
@@ -66,19 +73,26 @@ void Housekeeping_provider::v_DIAG(Instruction_major &instruction) {
     instruction.print_ack();
 }
 
-void Housekeeping_provider::v_TEST(Instruction_major &) {
+void Housekeeping_provider::v_TEST(Instruction_major&)
+{
     printf("Test_utility_provider::v_TEST:\r\n");
 }
 
-void Housekeeping_provider::v_HELP(Instruction_major &instruction) {
+void Housekeeping_provider::v_HELP(Instruction_major& instruction)
+{
     the_help.set_mode(instruction.is_AT_mode());
     if (the_help.is_help_command(instruction.get_token_id(0)) ||
-        instruction.get_token_type(0) == Question_mark) {
+        instruction.get_token_type(0) == Question_mark)
+    {
         the_help.print(instruction.get_token_type(1) == Question_mark,
                        number_of_keys);
-    } else if (instruction.get_token_type(1) == Question_mark) {
-        the_help.print((uint32_t) instruction.get_token_id(0));
-    } else {
+    }
+    else if (instruction.get_token_type(1) == Question_mark)
+    {
+        the_help.print((uint32_t)instruction.get_token_id(0));
+    }
+    else
+    {
         the_help.print(false, number_of_keys);
     }
     instruction.print_ack();

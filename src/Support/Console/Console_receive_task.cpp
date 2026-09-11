@@ -2,13 +2,15 @@
 // Created by aeols on 2026-09-10.
 //
 
+module;
 #include <cstring>
 #include <cstdio>
 #include <cctype>
 
-#include "Console_receive_task.h"
-#include "Abstract_UART.h"
-#include "Request_router.h"
+#include "Abstract_task.h"
+#include "Instruction_major.h"
+
+module Support.Console_service;
 
 namespace Console
 {

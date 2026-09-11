@@ -55,7 +55,7 @@ namespace Application
     {
         constexpr TickType_t period = pdMS_TO_TICKS(1000);
         TickType_t last_wake_time = xTaskGetTickCount();
-        printf("Hello_world::task_loop\r\n");
+        Housekeeping_provider::print_version();
         while (true)
         {
             vTaskDelayUntil(&last_wake_time, period);

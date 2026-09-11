@@ -50,6 +50,13 @@ if (DEFINED GNU_VERSION)
         set(CMAKE_LINKER ${GNU_TOOL_HOME}/bin/arm-none-eabi-gcc.exe)
         set(OBJCOPY ${GNU_TOOL_HOME}/bin/arm-none-eabi-objcopy.exe)
         set(OBJDUMP ${GNU_TOOL_HOME}/bin/arm-none-eabi-objdump.exe)
+
+        execute_process(
+                COMMAND ${CMAKE_CXX_COMPILER} -dumpmachine
+                OUTPUT_VARIABLE ARCH_NAME
+                OUTPUT_STRIP_TRAILING_WHITESPACE
+        )
+
     else ()
 
         message(FATAL_ERROR " <> Sorry, the GNU_TOOL_HOME='${GNU_TOOL_HOME}' is not installed <> ")

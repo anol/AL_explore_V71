@@ -4,7 +4,13 @@ set(SOURCE_ROOT_DIR ${CMAKE_SOURCE_DIR}/src)
 
 include(${SOURCE_ROOT_DIR}/Platform/${PLATFORM}_platform/${PLATFORM}_toolchain.cmake)
 
-# Get the current working branch
+# Get the repository and the current working branch
+execute_process(
+        COMMAND git config --get remote.origin.url
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        OUTPUT_VARIABLE GIT_REPO
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+)
 execute_process(
         COMMAND git rev-parse --abbrev-ref HEAD
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
@@ -12,7 +18,7 @@ execute_process(
         OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
-set(IDE_SW_VERSION "1.0.0")
+set(IDE_SW_VERSION "1.1.0")
 
 project(${TARGET} VERSION ${IDE_SW_VERSION})
 

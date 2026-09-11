@@ -2,7 +2,10 @@
 // Created by aeols on 2026-09-10.
 //
 
-#include "Console_transmit_task.h"
+module;
+#include <Abstract_task.h>
+
+module Support.Console_service;
 
 namespace Console
 {
