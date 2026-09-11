@@ -57,91 +57,72 @@
 <text text-anchor="middle" x="278.5" y="-292.5" font-family="Consolas" font-size="15.00">SamV71_clock</text>
 </g>
 <!-- V71_EK_board&#45;&gt;SamV71_clock -->
-<g id="edge5" class="edge">
+<g id="edge2" class="edge">
 <title>V71_EK_board&#45;&gt;SamV71_clock</title>
 <path fill="none" stroke="#1b6f60" d="M394.43,-358.97C367.91,-344.8 334.49,-326.93 310.36,-314.03"/>
 <polygon fill="#1b6f60" stroke="#1b6f60" points="394.74,-359.14 401.92,-358.44 405.32,-364.8 398.15,-365.5 394.74,-359.14"/>
 <text text-anchor="middle" x="399" y="-338.2" font-family="Consolas" font-size="11.00" fill="#155a4e"> the_clock</text>
 </g>
-<!-- SamV71_pin_manager -->
+<!-- V71_EK_pin_manager -->
 <g id="node7" class="node">
-<title>SamV71_pin_manager</title>
+<title>V71_EK_pin_manager</title>
 <polygon fill="none" stroke="black" points="520,-314 355,-314 355,-278 520,-278 520,-314"/>
-<text text-anchor="middle" x="437.5" y="-292.5" font-family="Consolas" font-size="15.00">SamV71_pin_manager</text>
+<text text-anchor="middle" x="437.5" y="-292.5" font-family="Consolas" font-size="15.00">V71_EK_pin_manager</text>
 </g>
-<!-- V71_EK_board&#45;&gt;SamV71_pin_manager -->
-<g id="edge6" class="edge">
-<title>V71_EK_board&#45;&gt;SamV71_pin_manager</title>
+<!-- V71_EK_board&#45;&gt;V71_EK_pin_manager -->
+<g id="edge3" class="edge">
+<title>V71_EK_board&#45;&gt;V71_EK_pin_manager</title>
 <path fill="none" stroke="#1b6f60" d="M437.5,-352.74C437.5,-339.88 437.5,-325.23 437.5,-314.18"/>
 <polygon fill="#1b6f60" stroke="#1b6f60" points="437.5,-352.8 441.5,-358.8 437.5,-364.8 433.5,-358.8 437.5,-352.8"/>
 <text text-anchor="middle" x="486" y="-338.2" font-family="Consolas" font-size="11.00" fill="#155a4e"> the_pin_manager</text>
 </g>
 <!-- SamV71_USART1 -->
-<g id="node10" class="node">
+<g id="node8" class="node">
 <title>SamV71_USART1</title>
 <polygon fill="none" stroke="black" points="662.5,-314 538.5,-314 538.5,-278 662.5,-278 662.5,-314"/>
 <text text-anchor="middle" x="600.5" y="-292.5" font-family="Consolas" font-size="15.00">SamV71_USART1</text>
 </g>
 <!-- V71_EK_board&#45;&gt;SamV71_USART1 -->
-<g id="edge7" class="edge">
+<g id="edge4" class="edge">
 <title>V71_EK_board&#45;&gt;SamV71_USART1</title>
 <path fill="none" stroke="#1b6f60" d="M506.87,-361.54C517.73,-357.33 528.62,-352.48 538.5,-347 554.71,-338.02 570.93,-324.74 582.72,-314.12"/>
 <polygon fill="#1b6f60" stroke="#1b6f60" points="506.86,-361.54 502.62,-367.37 495.6,-365.7 499.85,-359.87 506.86,-361.54"/>
 <text text-anchor="middle" x="585" y="-338.2" font-family="Consolas" font-size="11.00" fill="#155a4e"> the_UART</text>
 </g>
 <!-- Common_stdio -->
-<g id="node11" class="node">
+<g id="node9" class="node">
 <title>Common_stdio</title>
 <polygon fill="none" stroke="black" points="796.5,-314 680.5,-314 680.5,-278 796.5,-278 796.5,-314"/>
 <text text-anchor="middle" x="738.5" y="-292.5" font-family="Consolas" font-size="15.00">Common_stdio</text>
 </g>
 <!-- V71_EK_board&#45;&gt;Common_stdio -->
-<g id="edge8" class="edge">
+<g id="edge5" class="edge">
 <title>V71_EK_board&#45;&gt;Common_stdio</title>
 <path fill="none" stroke="#1b6f60" d="M507.78,-371.54C541.11,-365.75 581.24,-357.56 616.5,-347 646.1,-338.13 678.41,-324.71 702.34,-314.01"/>
 <polygon fill="#1b6f60" stroke="#1b6f60" points="507.67,-371.56 502.42,-376.5 495.84,-373.56 501.08,-368.61 507.67,-371.56"/>
 <text text-anchor="middle" x="688" y="-338.2" font-family="Consolas" font-size="11.00" fill="#155a4e"> the_console</text>
 </g>
 <!-- SamV71_clock&#45;&gt;Abstract_clock -->
-<g id="edge2" class="edge">
+<g id="edge6" class="edge">
 <title>SamV71_clock&#45;&gt;Abstract_clock</title>
 <path fill="none" stroke="black" stroke-dasharray="5,2" d="M272.57,-277.61C268.59,-265.93 263.23,-250.22 258.59,-236.59"/>
 <polygon fill="none" stroke="black" points="261.9,-235.46 255.36,-227.12 255.27,-237.72 261.9,-235.46"/>
 </g>
 <!-- V71_EK_pin_table&lt;SamV71_IO_pin&gt; -->
-<g id="node8" class="node">
+<g id="node10" class="node">
 <title>V71_EK_pin_table&lt;SamV71_IO_pin&gt;</title>
 <polygon fill="none" stroke="black" points="604.5,-224 332.5,-224 332.5,-188 604.5,-188 604.5,-224"/>
 <text text-anchor="middle" x="468.5" y="-202.5" font-family="Consolas" font-size="15.00">V71_EK_pin_table&lt;SamV71_IO_pin&gt;</text>
 </g>
-<!-- SamV71_pin_manager&#45;&gt;V71_EK_pin_table&lt;SamV71_IO_pin&gt; -->
-<g id="edge9" class="edge">
-<title>SamV71_pin_manager&#45;&gt;V71_EK_pin_table&lt;SamV71_IO_pin&gt;</title>
+<!-- V71_EK_pin_manager&#45;&gt;V71_EK_pin_table&lt;SamV71_IO_pin&gt; -->
+<g id="edge7" class="edge">
+<title>V71_EK_pin_manager&#45;&gt;V71_EK_pin_table&lt;SamV71_IO_pin&gt;</title>
 <path fill="none" stroke="#1b6f60" d="M447.67,-266.14C452.57,-252.21 458.29,-235.98 462.49,-224.05"/>
 <polygon fill="#1b6f60" stroke="#1b6f60" points="447.61,-266.3 449.39,-273.28 443.62,-277.61 441.85,-270.63 447.61,-266.3"/>
 <text text-anchor="middle" x="498" y="-248.2" font-family="Consolas" font-size="11.00" fill="#155a4e"> the_pin_table</text>
 </g>
-<!-- SamV71_IO_pin -->
-<g id="node9" class="node">
-<title>SamV71_IO_pin</title>
-<polygon fill="none" stroke="black" points="530.5,-137 406.5,-137 406.5,-101 530.5,-101 530.5,-137"/>
-<text text-anchor="middle" x="468.5" y="-115.5" font-family="Consolas" font-size="15.00">SamV71_IO_pin</text>
-</g>
-<!-- V71_EK_pin_table&lt;SamV71_IO_pin&gt;&#45;&gt;SamV71_IO_pin -->
-<g id="edge10" class="edge">
-<title>V71_EK_pin_table&lt;SamV71_IO_pin&gt;&#45;&gt;SamV71_IO_pin</title>
-<path fill="none" stroke="#1b6f60" d="M468.5,-175.74C468.5,-162.88 468.5,-148.23 468.5,-137.18"/>
-<polygon fill="#1b6f60" stroke="#1b6f60" points="468.5,-175.8 472.5,-181.8 468.5,-187.8 464.5,-181.8 468.5,-175.8"/>
-<text text-anchor="middle" x="496" y="-158.2" font-family="Consolas" font-size="11.00" fill="#155a4e"> the_pins</text>
-</g>
-<!-- SamV71_IO_pin&#45;&gt;Abstract_IO_pin -->
-<g id="edge4" class="edge">
-<title>SamV71_IO_pin&#45;&gt;Abstract_IO_pin</title>
-<path fill="none" stroke="black" stroke-dasharray="5,2" d="M468.5,-100.84C468.5,-92.98 468.5,-83.43 468.5,-74.42"/>
-<polygon fill="none" stroke="black" points="472,-74.22 468.5,-64.22 465,-74.22 472,-74.22"/>
-</g>
 <!-- SamV71_USART1&#45;&gt;Abstract_UART -->
-<g id="edge3" class="edge">
+<g id="edge10" class="edge">
 <title>SamV71_USART1&#45;&gt;Abstract_UART</title>
 <path fill="none" stroke="black" stroke-dasharray="5,2" d="M619.47,-277.61C632.96,-265.24 651.36,-248.38 666.79,-234.23"/>
 <polygon fill="none" stroke="black" points="669.54,-236.46 674.55,-227.12 664.81,-231.3 669.54,-236.46"/>
@@ -152,6 +133,25 @@
 <path fill="none" stroke="#b8631f" d="M724.91,-266.53C718.78,-253.67 711.67,-238.79 706.1,-227.12"/>
 <polygon fill="none" stroke="#b8631f" points="725.03,-266.78 731.23,-270.48 730.2,-277.61 724.01,-273.92 725.03,-266.78"/>
 <text text-anchor="middle" x="762" y="-248.2" font-family="Consolas" font-size="11.00" fill="#8a4c18"> optional_UART</text>
+</g>
+<!-- SamV71_IO_pin -->
+<g id="node11" class="node">
+<title>SamV71_IO_pin</title>
+<polygon fill="none" stroke="black" points="530.5,-137 406.5,-137 406.5,-101 530.5,-101 530.5,-137"/>
+<text text-anchor="middle" x="468.5" y="-115.5" font-family="Consolas" font-size="15.00">SamV71_IO_pin</text>
+</g>
+<!-- V71_EK_pin_table&lt;SamV71_IO_pin&gt;&#45;&gt;SamV71_IO_pin -->
+<g id="edge8" class="edge">
+<title>V71_EK_pin_table&lt;SamV71_IO_pin&gt;&#45;&gt;SamV71_IO_pin</title>
+<path fill="none" stroke="#1b6f60" d="M468.5,-175.74C468.5,-162.88 468.5,-148.23 468.5,-137.18"/>
+<polygon fill="#1b6f60" stroke="#1b6f60" points="468.5,-175.8 472.5,-181.8 468.5,-187.8 464.5,-181.8 468.5,-175.8"/>
+<text text-anchor="middle" x="496" y="-158.2" font-family="Consolas" font-size="11.00" fill="#155a4e"> the_pins</text>
+</g>
+<!-- SamV71_IO_pin&#45;&gt;Abstract_IO_pin -->
+<g id="edge9" class="edge">
+<title>SamV71_IO_pin&#45;&gt;Abstract_IO_pin</title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M468.5,-100.84C468.5,-92.98 468.5,-83.43 468.5,-74.42"/>
+<polygon fill="none" stroke="black" points="472,-74.22 468.5,-64.22 465,-74.22 472,-74.22"/>
 </g>
 </g>
 </svg>

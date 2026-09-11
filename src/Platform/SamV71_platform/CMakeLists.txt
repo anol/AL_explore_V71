@@ -9,9 +9,7 @@ target_sources(${THE_TARGET_NAME} PUBLIC
 #        SamV71_ethernet.h
         SamV71_IO_pin.cpp
         SamV71_IO_pin.h
-        SamV71_pin_manager.cpp
-        SamV71_pin_manager.h
-#        SamV71_timer.cpp
+ #        SamV71_timer.cpp
 #        SamV71_timer.h
         SamV71_USART1.cpp
         SamV71_USART1.h

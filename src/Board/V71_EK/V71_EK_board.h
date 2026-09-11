@@ -6,7 +6,7 @@
 #include "Abstract_board.h"
 #include "Common_stdio.h"
 #include "SamV71_clock.h"
-#include "SamV71_pin_manager.h"
+#include "V71_EK_pin_manager.h"
 #include "SamV71_USART1.h"
 
 namespace Board
@@ -16,7 +16,7 @@ namespace Board
     class V71_EK_board : public Abstract::Abstract_board
     {
         SamV71_clock the_clock{};
-        SamV71_pin_manager the_pin_manager{};
+        V71_EK_pin_manager the_pin_manager{};
         SamV71_USART1 the_UART{};
         Platform::Common_stdio the_console{&the_UART};
 

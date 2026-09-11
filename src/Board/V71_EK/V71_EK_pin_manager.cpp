@@ -1,8 +1,8 @@
 #include <cstdio>
 
-#include "SamV71_IO_pin.h"
+#include "../../Platform/SamV71_platform/SamV71_IO_pin.h"
 #include "V71_EK_pin_table.h"
-#include "SamV71_pin_manager.h"
+#include "V71_EK_pin_manager.h"
 #include "component/matrix.h"
 
 namespace SamV71
@@ -10,13 +10,13 @@ namespace SamV71
     using namespace Dictionary;
     using Pin = Abstract::Abstract_IO_pin;
 
-    Status_code SamV71_pin_manager::initialize()
+    Status_code V71_EK_pin_manager::initialize()
     {
         initialize_matrix();
         return set_phase(Abstract::Abstract_IO_pin::Start_up);
     }
 
-    void SamV71_pin_manager::initialize_matrix()
+    void V71_EK_pin_manager::initialize_matrix()
     {
         // Release the JTAG TDI pin
         MATRIX_REGS->CCFG_SYSIO |= CCFG_SYSIO_SYSIO4_Msk;
@@ -24,7 +24,7 @@ namespace SamV71
         MATRIX_REGS->CCFG_SYSIO |= CCFG_SYSIO_SYSIO12_Msk;
     }
 
-    Status_code SamV71_pin_manager::set_phase(Pin::Pin_phase phase)
+    Status_code V71_EK_pin_manager::set_phase(Pin::Pin_phase phase)
     {
         if ((phase == Pin::Start_up) || (phase == Pin::Host_up))
         {
@@ -41,7 +41,7 @@ namespace SamV71
         return Status_code::Success();
     }
 
-    Pin& SamV71_pin_manager::get_pin(const Pin_id id)
+    Pin& V71_EK_pin_manager::get_pin(const Pin_id id)
     {
         if (id < Number_of_pins)
         {
@@ -50,7 +50,7 @@ namespace SamV71
         return the_pin_table.the_pins[Pin_not_used];
     }
 
-    Pin* SamV71_pin_manager::get_optional_pin(const Pin_id id)
+    Pin* V71_EK_pin_manager::get_optional_pin(const Pin_id id)
     {
         if (id < Number_of_pins)
         {
@@ -59,7 +59,7 @@ namespace SamV71
         return {};
     }
 
-    void SamV71_pin_manager::print_diagnostics()
+    void V71_EK_pin_manager::print_diagnostics()
     {
         printf("NORM_pin_manager\r\n");
         for (auto& pin : the_pin_table.the_pins)
