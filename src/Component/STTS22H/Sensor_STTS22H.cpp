@@ -1,3 +1,5 @@
+
+#include <cstdint>
 #include "Sensor_STTS22H.h"
 
 /*

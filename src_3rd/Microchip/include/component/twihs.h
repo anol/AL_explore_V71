@@ -100,8 +100,8 @@
 
 
 /* -------- TWIHS_MMR : (TWIHS Offset: 0x04) (R/W 32) Master Mode Register -------- */
-#define TWIHS_MMR_IADRSZ_Pos                  _UINT32_(8)                                          /* (TWIHS_MMR) Internal Device Address Size Position */
-#define TWIHS_MMR_IADRSZ_Msk                  (_UINT32_(0x3) << TWIHS_MMR_IADRSZ_Pos)              /* (TWIHS_MMR) Internal Device Address Size Mask */
+#define TWIHS_MMR_IADRSZ_Pos                  _UINT32_(8)                                          /* (TWIHS_MMR) Internal Component Address Size Position */
+#define TWIHS_MMR_IADRSZ_Msk                  (_UINT32_(0x3) << TWIHS_MMR_IADRSZ_Pos)              /* (TWIHS_MMR) Internal Component Address Size Mask */
 #define TWIHS_MMR_IADRSZ(value)               (TWIHS_MMR_IADRSZ_Msk & (_UINT32_(value) << TWIHS_MMR_IADRSZ_Pos)) /* Assignment of value for IADRSZ in the TWIHS_MMR register */
 #define   TWIHS_MMR_IADRSZ_NONE_Val           _UINT32_(0x0)                                        /* (TWIHS_MMR) No internal device address  */
 #define   TWIHS_MMR_IADRSZ_1_BYTE_Val         _UINT32_(0x1)                                        /* (TWIHS_MMR) One-byte internal device address  */
@@ -114,8 +114,8 @@
 #define TWIHS_MMR_MREAD_Pos                   _UINT32_(12)                                         /* (TWIHS_MMR) Master Read Direction Position */
 #define TWIHS_MMR_MREAD_Msk                   (_UINT32_(0x1) << TWIHS_MMR_MREAD_Pos)               /* (TWIHS_MMR) Master Read Direction Mask */
 #define TWIHS_MMR_MREAD(value)                (TWIHS_MMR_MREAD_Msk & (_UINT32_(value) << TWIHS_MMR_MREAD_Pos)) /* Assignment of value for MREAD in the TWIHS_MMR register */
-#define TWIHS_MMR_DADR_Pos                    _UINT32_(16)                                         /* (TWIHS_MMR) Device Address Position */
-#define TWIHS_MMR_DADR_Msk                    (_UINT32_(0x7F) << TWIHS_MMR_DADR_Pos)               /* (TWIHS_MMR) Device Address Mask */
+#define TWIHS_MMR_DADR_Pos                    _UINT32_(16)                                         /* (TWIHS_MMR) Component Address Position */
+#define TWIHS_MMR_DADR_Msk                    (_UINT32_(0x7F) << TWIHS_MMR_DADR_Pos)               /* (TWIHS_MMR) Component Address Mask */
 #define TWIHS_MMR_DADR(value)                 (TWIHS_MMR_DADR_Msk & (_UINT32_(value) << TWIHS_MMR_DADR_Pos)) /* Assignment of value for DADR in the TWIHS_MMR register */
 #define TWIHS_MMR_Msk                         _UINT32_(0x007F1300)                                 /* (TWIHS_MMR) Register Mask  */
 

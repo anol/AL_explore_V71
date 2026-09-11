@@ -19,12 +19,15 @@ Graphviz source (larger/editable version): [`doc/hello_world_wiring_A4.dot`](doc
 
 ## Dependencies
 
-Derived from every `#include "..."` in `src/` (SDK/RTOS/third-party headers excluded),
-restricted to what CMake actually builds for the `V71_hello_world` preset (APP=Hello_world,
-TARGET=V71_EK_hello_world, BOARD=V71_EK, PLATFORM=SamV71) — other targets, boards, and
-platform variants are real directories in `src/` but aren't part of this build, so they're
-left out. One node per source directory (a "module"), clustered by top-level area — wide,
-meant for scrolling/zooming rather than an at-a-glance read:
+Derived from every `#include "..."` and C++20 `import ...;` in `src/` (SDK/RTOS/third-party
+headers excluded), restricted to what CMake actually builds for the `V71_hello_world` preset
+(APP=Hello_world, TARGET=V71_EK_hello_world, BOARD=V71_EK, PLATFORM=SamV71) — other targets,
+boards, and platform variants are real directories in `src/` but aren't part of this build,
+so they're left out. One node per source directory (a "module"), clustered by top-level area
+— wide, meant for scrolling/zooming rather than an at-a-glance read. Solid arrows are
+`#include` dependencies; dashed arrows are C++20 module imports (currently just consumers of
+`Support/Console`'s `Support.Console_service` module). A module pair with edges in both
+directions (either kind) is flagged as a two-way dependency: both arrows render bold and red:
 
 ![Module dependency graph](doc/module_dependencies.svg)
 

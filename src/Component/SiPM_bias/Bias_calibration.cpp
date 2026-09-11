@@ -11,7 +11,7 @@
 #include "Bias_ADC.h"
 #include "Bias_DAC.h"
 #include "Persistent_parameter_id.h"
-#include "Sensor_STTS22H.h"
+#include "../../Component/STTS22H/Sensor_STTS22H.h"
 
 
 // #include "usart.h"

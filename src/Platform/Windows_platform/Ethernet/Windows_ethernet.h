@@ -49,7 +49,7 @@ namespace Windows_platform {
     class Windows_ethernet final : public Abstract_ethernet {
     public:
         struct Adapter_info {
-            std::string name;         // pcap device name, e.g. "\Device\NPF_{GUID}"
+            std::string name;         // pcap device name, e.g. "\Component\NPF_{GUID}"
             std::string description;  // human-readable, e.g. "Intel(R) Ethernet Connection"
         };
 
@@ -60,7 +60,7 @@ namespace Windows_platform {
 
         // adapter_name: a pcap device name as returned by
         // list_adapters(), e.g.
-        // "\Device\NPF_{4D36E972-E325-11CE-BFC1-08002BE10318}".
+        // "\Component\NPF_{4D36E972-E325-11CE-BFC1-08002BE10318}".
         explicit Windows_ethernet(std::string adapter_name) : the_adapter_name(std::move(adapter_name)) {
         }
 

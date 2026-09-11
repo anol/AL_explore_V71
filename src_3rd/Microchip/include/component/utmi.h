@@ -39,8 +39,8 @@
 #define UTMI_OHCIICR_APPSTART_Pos             _UINT32_(5)                                          /* (UTMI_OHCIICR) Reserved Position */
 #define UTMI_OHCIICR_APPSTART_Msk             (_UINT32_(0x1) << UTMI_OHCIICR_APPSTART_Pos)         /* (UTMI_OHCIICR) Reserved Mask */
 #define UTMI_OHCIICR_APPSTART(value)          (UTMI_OHCIICR_APPSTART_Msk & (_UINT32_(value) << UTMI_OHCIICR_APPSTART_Pos)) /* Assignment of value for APPSTART in the UTMI_OHCIICR register */
-#define UTMI_OHCIICR_UDPPUDIS_Pos             _UINT32_(23)                                         /* (UTMI_OHCIICR) USB Device Pull-up Disable Position */
-#define UTMI_OHCIICR_UDPPUDIS_Msk             (_UINT32_(0x1) << UTMI_OHCIICR_UDPPUDIS_Pos)         /* (UTMI_OHCIICR) USB Device Pull-up Disable Mask */
+#define UTMI_OHCIICR_UDPPUDIS_Pos             _UINT32_(23)                                         /* (UTMI_OHCIICR) USB Component Pull-up Disable Position */
+#define UTMI_OHCIICR_UDPPUDIS_Msk             (_UINT32_(0x1) << UTMI_OHCIICR_UDPPUDIS_Pos)         /* (UTMI_OHCIICR) USB Component Pull-up Disable Mask */
 #define UTMI_OHCIICR_UDPPUDIS(value)          (UTMI_OHCIICR_UDPPUDIS_Msk & (_UINT32_(value) << UTMI_OHCIICR_UDPPUDIS_Pos)) /* Assignment of value for UDPPUDIS in the UTMI_OHCIICR register */
 #define UTMI_OHCIICR_Msk                      _UINT32_(0x00800031)                                 /* (UTMI_OHCIICR) Register Mask  */
 

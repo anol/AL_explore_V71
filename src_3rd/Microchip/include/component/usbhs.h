@@ -29,21 +29,21 @@
 /*                     SOFTWARE API DEFINITION FOR USBHS                      */
 /* ************************************************************************** */
 
-/* -------- USBHS_DEVDMANXTDSC : (USBHS Offset: 0x00) (R/W 32) Device DMA Channel Next Descriptor Address Register -------- */
+/* -------- USBHS_DEVDMANXTDSC : (USBHS Offset: 0x00) (R/W 32) Component DMA Channel Next Descriptor Address Register -------- */
 #define USBHS_DEVDMANXTDSC_NXT_DSC_ADD_Pos    _UINT32_(0)                                          /* (USBHS_DEVDMANXTDSC) Next Descriptor Address Position */
 #define USBHS_DEVDMANXTDSC_NXT_DSC_ADD_Msk    (_UINT32_(0xFFFFFFFF) << USBHS_DEVDMANXTDSC_NXT_DSC_ADD_Pos) /* (USBHS_DEVDMANXTDSC) Next Descriptor Address Mask */
 #define USBHS_DEVDMANXTDSC_NXT_DSC_ADD(value) (USBHS_DEVDMANXTDSC_NXT_DSC_ADD_Msk & (_UINT32_(value) << USBHS_DEVDMANXTDSC_NXT_DSC_ADD_Pos)) /* Assignment of value for NXT_DSC_ADD in the USBHS_DEVDMANXTDSC register */
 #define USBHS_DEVDMANXTDSC_Msk                _UINT32_(0xFFFFFFFF)                                 /* (USBHS_DEVDMANXTDSC) Register Mask  */
 
 
-/* -------- USBHS_DEVDMAADDRESS : (USBHS Offset: 0x04) (R/W 32) Device DMA Channel Address Register -------- */
+/* -------- USBHS_DEVDMAADDRESS : (USBHS Offset: 0x04) (R/W 32) Component DMA Channel Address Register -------- */
 #define USBHS_DEVDMAADDRESS_BUFF_ADD_Pos      _UINT32_(0)                                          /* (USBHS_DEVDMAADDRESS) Buffer Address Position */
 #define USBHS_DEVDMAADDRESS_BUFF_ADD_Msk      (_UINT32_(0xFFFFFFFF) << USBHS_DEVDMAADDRESS_BUFF_ADD_Pos) /* (USBHS_DEVDMAADDRESS) Buffer Address Mask */
 #define USBHS_DEVDMAADDRESS_BUFF_ADD(value)   (USBHS_DEVDMAADDRESS_BUFF_ADD_Msk & (_UINT32_(value) << USBHS_DEVDMAADDRESS_BUFF_ADD_Pos)) /* Assignment of value for BUFF_ADD in the USBHS_DEVDMAADDRESS register */
 #define USBHS_DEVDMAADDRESS_Msk               _UINT32_(0xFFFFFFFF)                                 /* (USBHS_DEVDMAADDRESS) Register Mask  */
 
 
-/* -------- USBHS_DEVDMACONTROL : (USBHS Offset: 0x08) (R/W 32) Device DMA Channel Control Register -------- */
+/* -------- USBHS_DEVDMACONTROL : (USBHS Offset: 0x08) (R/W 32) Component DMA Channel Control Register -------- */
 #define USBHS_DEVDMACONTROL_CHANN_ENB_Pos     _UINT32_(0)                                          /* (USBHS_DEVDMACONTROL) Channel Enable Command Position */
 #define USBHS_DEVDMACONTROL_CHANN_ENB_Msk     (_UINT32_(0x1) << USBHS_DEVDMACONTROL_CHANN_ENB_Pos) /* (USBHS_DEVDMACONTROL) Channel Enable Command Mask */
 #define USBHS_DEVDMACONTROL_CHANN_ENB(value)  (USBHS_DEVDMACONTROL_CHANN_ENB_Msk & (_UINT32_(value) << USBHS_DEVDMACONTROL_CHANN_ENB_Pos)) /* Assignment of value for CHANN_ENB in the USBHS_DEVDMACONTROL register */
@@ -74,7 +74,7 @@
 #define USBHS_DEVDMACONTROL_Msk               _UINT32_(0xFFFF00FF)                                 /* (USBHS_DEVDMACONTROL) Register Mask  */
 
 
-/* -------- USBHS_DEVDMASTATUS : (USBHS Offset: 0x0C) (R/W 32) Device DMA Channel Status Register -------- */
+/* -------- USBHS_DEVDMASTATUS : (USBHS Offset: 0x0C) (R/W 32) Component DMA Channel Status Register -------- */
 #define USBHS_DEVDMASTATUS_CHANN_ENB_Pos      _UINT32_(0)                                          /* (USBHS_DEVDMASTATUS) Channel Enable Status Position */
 #define USBHS_DEVDMASTATUS_CHANN_ENB_Msk      (_UINT32_(0x1) << USBHS_DEVDMASTATUS_CHANN_ENB_Pos)  /* (USBHS_DEVDMASTATUS) Channel Enable Status Mask */
 #define USBHS_DEVDMASTATUS_CHANN_ENB(value)   (USBHS_DEVDMASTATUS_CHANN_ENB_Msk & (_UINT32_(value) << USBHS_DEVDMASTATUS_CHANN_ENB_Pos)) /* Assignment of value for CHANN_ENB in the USBHS_DEVDMASTATUS register */
@@ -163,7 +163,7 @@
 #define USBHS_HSTDMASTATUS_Msk                _UINT32_(0xFFFF0073)                                 /* (USBHS_HSTDMASTATUS) Register Mask  */
 
 
-/* -------- USBHS_DEVCTRL : (USBHS Offset: 0x00) (R/W 32) Device General Control Register -------- */
+/* -------- USBHS_DEVCTRL : (USBHS Offset: 0x00) (R/W 32) Component General Control Register -------- */
 #define USBHS_DEVCTRL_UADD_Pos                _UINT32_(0)                                          /* (USBHS_DEVCTRL) USB Address Position */
 #define USBHS_DEVCTRL_UADD_Msk                (_UINT32_(0x7F) << USBHS_DEVCTRL_UADD_Pos)           /* (USBHS_DEVCTRL) USB Address Mask */
 #define USBHS_DEVCTRL_UADD(value)             (USBHS_DEVCTRL_UADD_Msk & (_UINT32_(value) << USBHS_DEVCTRL_UADD_Pos)) /* Assignment of value for UADD in the USBHS_DEVCTRL register */
@@ -208,7 +208,7 @@
 #define USBHS_DEVCTRL_OPMODE_Msk              (_UINT32_(0x1) << USBHS_DEVCTRL_OPMODE_Pos)          /* (USBHS_DEVCTRL Mask) OPMODE */
 #define USBHS_DEVCTRL_OPMODE(value)           (USBHS_DEVCTRL_OPMODE_Msk & (_UINT32_(value) << USBHS_DEVCTRL_OPMODE_Pos)) 
 
-/* -------- USBHS_DEVISR : (USBHS Offset: 0x04) ( R/ 32) Device Global Interrupt Status Register -------- */
+/* -------- USBHS_DEVISR : (USBHS Offset: 0x04) ( R/ 32) Component Global Interrupt Status Register -------- */
 #define USBHS_DEVISR_SUSP_Pos                 _UINT32_(0)                                          /* (USBHS_DEVISR) Suspend Interrupt Position */
 #define USBHS_DEVISR_SUSP_Msk                 (_UINT32_(0x1) << USBHS_DEVISR_SUSP_Pos)             /* (USBHS_DEVISR) Suspend Interrupt Mask */
 #define USBHS_DEVISR_SUSP(value)              (USBHS_DEVISR_SUSP_Msk & (_UINT32_(value) << USBHS_DEVISR_SUSP_Pos)) /* Assignment of value for SUSP in the USBHS_DEVISR register */
@@ -290,7 +290,7 @@
 #define USBHS_DEVISR_DMA__Msk                 (_UINT32_(0x7F) << USBHS_DEVISR_DMA__Pos)            /* (USBHS_DEVISR Mask) DMA_ */
 #define USBHS_DEVISR_DMA_(value)              (USBHS_DEVISR_DMA__Msk & (_UINT32_(value) << USBHS_DEVISR_DMA__Pos)) 
 
-/* -------- USBHS_DEVICR : (USBHS Offset: 0x08) ( /W 32) Device Global Interrupt Clear Register -------- */
+/* -------- USBHS_DEVICR : (USBHS Offset: 0x08) ( /W 32) Component Global Interrupt Clear Register -------- */
 #define USBHS_DEVICR_SUSPC_Pos                _UINT32_(0)                                          /* (USBHS_DEVICR) Suspend Interrupt Clear Position */
 #define USBHS_DEVICR_SUSPC_Msk                (_UINT32_(0x1) << USBHS_DEVICR_SUSPC_Pos)            /* (USBHS_DEVICR) Suspend Interrupt Clear Mask */
 #define USBHS_DEVICR_SUSPC(value)             (USBHS_DEVICR_SUSPC_Msk & (_UINT32_(value) << USBHS_DEVICR_SUSPC_Pos)) /* Assignment of value for SUSPC in the USBHS_DEVICR register */
@@ -315,7 +315,7 @@
 #define USBHS_DEVICR_Msk                      _UINT32_(0x0000007F)                                 /* (USBHS_DEVICR) Register Mask  */
 
 
-/* -------- USBHS_DEVIFR : (USBHS Offset: 0x0C) ( /W 32) Device Global Interrupt Set Register -------- */
+/* -------- USBHS_DEVIFR : (USBHS Offset: 0x0C) ( /W 32) Component Global Interrupt Set Register -------- */
 #define USBHS_DEVIFR_SUSPS_Pos                _UINT32_(0)                                          /* (USBHS_DEVIFR) Suspend Interrupt Set Position */
 #define USBHS_DEVIFR_SUSPS_Msk                (_UINT32_(0x1) << USBHS_DEVIFR_SUSPS_Pos)            /* (USBHS_DEVIFR) Suspend Interrupt Set Mask */
 #define USBHS_DEVIFR_SUSPS(value)             (USBHS_DEVIFR_SUSPS_Msk & (_UINT32_(value) << USBHS_DEVIFR_SUSPS_Pos)) /* Assignment of value for SUSPS in the USBHS_DEVIFR register */
@@ -364,7 +364,7 @@
 #define USBHS_DEVIFR_DMA__Msk                 (_UINT32_(0x7F) << USBHS_DEVIFR_DMA__Pos)            /* (USBHS_DEVIFR Mask) DMA_ */
 #define USBHS_DEVIFR_DMA_(value)              (USBHS_DEVIFR_DMA__Msk & (_UINT32_(value) << USBHS_DEVIFR_DMA__Pos)) 
 
-/* -------- USBHS_DEVIMR : (USBHS Offset: 0x10) ( R/ 32) Device Global Interrupt Mask Register -------- */
+/* -------- USBHS_DEVIMR : (USBHS Offset: 0x10) ( R/ 32) Component Global Interrupt Mask Register -------- */
 #define USBHS_DEVIMR_SUSPE_Pos                _UINT32_(0)                                          /* (USBHS_DEVIMR) Suspend Interrupt Mask Position */
 #define USBHS_DEVIMR_SUSPE_Msk                (_UINT32_(0x1) << USBHS_DEVIMR_SUSPE_Pos)            /* (USBHS_DEVIMR) Suspend Interrupt Mask Mask */
 #define USBHS_DEVIMR_SUSPE(value)             (USBHS_DEVIMR_SUSPE_Msk & (_UINT32_(value) << USBHS_DEVIMR_SUSPE_Pos)) /* Assignment of value for SUSPE in the USBHS_DEVIMR register */
@@ -446,7 +446,7 @@
 #define USBHS_DEVIMR_DMA__Msk                 (_UINT32_(0x7F) << USBHS_DEVIMR_DMA__Pos)            /* (USBHS_DEVIMR Mask) DMA_ */
 #define USBHS_DEVIMR_DMA_(value)              (USBHS_DEVIMR_DMA__Msk & (_UINT32_(value) << USBHS_DEVIMR_DMA__Pos)) 
 
-/* -------- USBHS_DEVIDR : (USBHS Offset: 0x14) ( /W 32) Device Global Interrupt Disable Register -------- */
+/* -------- USBHS_DEVIDR : (USBHS Offset: 0x14) ( /W 32) Component Global Interrupt Disable Register -------- */
 #define USBHS_DEVIDR_SUSPEC_Pos               _UINT32_(0)                                          /* (USBHS_DEVIDR) Suspend Interrupt Disable Position */
 #define USBHS_DEVIDR_SUSPEC_Msk               (_UINT32_(0x1) << USBHS_DEVIDR_SUSPEC_Pos)           /* (USBHS_DEVIDR) Suspend Interrupt Disable Mask */
 #define USBHS_DEVIDR_SUSPEC(value)            (USBHS_DEVIDR_SUSPEC_Msk & (_UINT32_(value) << USBHS_DEVIDR_SUSPEC_Pos)) /* Assignment of value for SUSPEC in the USBHS_DEVIDR register */
@@ -528,7 +528,7 @@
 #define USBHS_DEVIDR_DMA__Msk                 (_UINT32_(0x7F) << USBHS_DEVIDR_DMA__Pos)            /* (USBHS_DEVIDR Mask) DMA_ */
 #define USBHS_DEVIDR_DMA_(value)              (USBHS_DEVIDR_DMA__Msk & (_UINT32_(value) << USBHS_DEVIDR_DMA__Pos)) 
 
-/* -------- USBHS_DEVIER : (USBHS Offset: 0x18) ( /W 32) Device Global Interrupt Enable Register -------- */
+/* -------- USBHS_DEVIER : (USBHS Offset: 0x18) ( /W 32) Component Global Interrupt Enable Register -------- */
 #define USBHS_DEVIER_SUSPES_Pos               _UINT32_(0)                                          /* (USBHS_DEVIER) Suspend Interrupt Enable Position */
 #define USBHS_DEVIER_SUSPES_Msk               (_UINT32_(0x1) << USBHS_DEVIER_SUSPES_Pos)           /* (USBHS_DEVIER) Suspend Interrupt Enable Mask */
 #define USBHS_DEVIER_SUSPES(value)            (USBHS_DEVIER_SUSPES_Msk & (_UINT32_(value) << USBHS_DEVIER_SUSPES_Pos)) /* Assignment of value for SUSPES in the USBHS_DEVIER register */
@@ -610,7 +610,7 @@
 #define USBHS_DEVIER_DMA__Msk                 (_UINT32_(0x7F) << USBHS_DEVIER_DMA__Pos)            /* (USBHS_DEVIER Mask) DMA_ */
 #define USBHS_DEVIER_DMA_(value)              (USBHS_DEVIER_DMA__Msk & (_UINT32_(value) << USBHS_DEVIER_DMA__Pos)) 
 
-/* -------- USBHS_DEVEPT : (USBHS Offset: 0x1C) (R/W 32) Device Endpoint Register -------- */
+/* -------- USBHS_DEVEPT : (USBHS Offset: 0x1C) (R/W 32) Component Endpoint Register -------- */
 #define USBHS_DEVEPT_EPEN0_Pos                _UINT32_(0)                                          /* (USBHS_DEVEPT) Endpoint 0 Enable Position */
 #define USBHS_DEVEPT_EPEN0_Msk                (_UINT32_(0x1) << USBHS_DEVEPT_EPEN0_Pos)            /* (USBHS_DEVEPT) Endpoint 0 Enable Mask */
 #define USBHS_DEVEPT_EPEN0(value)             (USBHS_DEVEPT_EPEN0_Msk & (_UINT32_(value) << USBHS_DEVEPT_EPEN0_Pos)) /* Assignment of value for EPEN0 in the USBHS_DEVEPT register */
@@ -680,7 +680,7 @@
 #define USBHS_DEVEPT_EPRST_Msk                (_UINT32_(0x3FF) << USBHS_DEVEPT_EPRST_Pos)          /* (USBHS_DEVEPT Mask) EPRST */
 #define USBHS_DEVEPT_EPRST(value)             (USBHS_DEVEPT_EPRST_Msk & (_UINT32_(value) << USBHS_DEVEPT_EPRST_Pos)) 
 
-/* -------- USBHS_DEVFNUM : (USBHS Offset: 0x20) ( R/ 32) Device Frame Number Register -------- */
+/* -------- USBHS_DEVFNUM : (USBHS Offset: 0x20) ( R/ 32) Component Frame Number Register -------- */
 #define USBHS_DEVFNUM_MFNUM_Pos               _UINT32_(0)                                          /* (USBHS_DEVFNUM) Micro Frame Number Position */
 #define USBHS_DEVFNUM_MFNUM_Msk               (_UINT32_(0x7) << USBHS_DEVFNUM_MFNUM_Pos)           /* (USBHS_DEVFNUM) Micro Frame Number Mask */
 #define USBHS_DEVFNUM_MFNUM(value)            (USBHS_DEVFNUM_MFNUM_Msk & (_UINT32_(value) << USBHS_DEVFNUM_MFNUM_Pos)) /* Assignment of value for MFNUM in the USBHS_DEVFNUM register */
@@ -693,7 +693,7 @@
 #define USBHS_DEVFNUM_Msk                     _UINT32_(0x0000BFFF)                                 /* (USBHS_DEVFNUM) Register Mask  */
 
 
-/* -------- USBHS_DEVEPTCFG : (USBHS Offset: 0x100) (R/W 32) Device Endpoint Configuration Register -------- */
+/* -------- USBHS_DEVEPTCFG : (USBHS Offset: 0x100) (R/W 32) Component Endpoint Configuration Register -------- */
 #define USBHS_DEVEPTCFG_ALLOC_Pos             _UINT32_(1)                                          /* (USBHS_DEVEPTCFG) Endpoint Memory Allocate Position */
 #define USBHS_DEVEPTCFG_ALLOC_Msk             (_UINT32_(0x1) << USBHS_DEVEPTCFG_ALLOC_Pos)         /* (USBHS_DEVEPTCFG) Endpoint Memory Allocate Mask */
 #define USBHS_DEVEPTCFG_ALLOC(value)          (USBHS_DEVEPTCFG_ALLOC_Msk & (_UINT32_(value) << USBHS_DEVEPTCFG_ALLOC_Pos)) /* Assignment of value for ALLOC in the USBHS_DEVEPTCFG register */
@@ -760,7 +760,7 @@
 #define USBHS_DEVEPTCFG_Msk                   _UINT32_(0x00007B7E)                                 /* (USBHS_DEVEPTCFG) Register Mask  */
 
 
-/* -------- USBHS_DEVEPTISR : (USBHS Offset: 0x130) ( R/ 32) Device Endpoint Interrupt Status Register -------- */
+/* -------- USBHS_DEVEPTISR : (USBHS Offset: 0x130) ( R/ 32) Component Endpoint Interrupt Status Register -------- */
 #define USBHS_DEVEPTISR_TXINI_Pos             _UINT32_(0)                                          /* (USBHS_DEVEPTISR) Transmitted IN Data Interrupt Position */
 #define USBHS_DEVEPTISR_TXINI_Msk             (_UINT32_(0x1) << USBHS_DEVEPTISR_TXINI_Pos)         /* (USBHS_DEVEPTISR) Transmitted IN Data Interrupt Mask */
 #define USBHS_DEVEPTISR_TXINI(value)          (USBHS_DEVEPTISR_TXINI_Msk & (_UINT32_(value) << USBHS_DEVEPTISR_TXINI_Pos)) /* Assignment of value for TXINI in the USBHS_DEVEPTISR register */
@@ -888,7 +888,7 @@
 #define USBHS_DEVEPTISR_INTRPT_Msk            _UINT32_(0x0002005C)                                 /* (USBHS_DEVEPTISR_INTRPT) Register Mask  */
 
 
-/* -------- USBHS_DEVEPTICR : (USBHS Offset: 0x160) ( /W 32) Device Endpoint Interrupt Clear Register -------- */
+/* -------- USBHS_DEVEPTICR : (USBHS Offset: 0x160) ( /W 32) Component Endpoint Interrupt Clear Register -------- */
 #define USBHS_DEVEPTICR_TXINIC_Pos            _UINT32_(0)                                          /* (USBHS_DEVEPTICR) Transmitted IN Data Interrupt Clear Position */
 #define USBHS_DEVEPTICR_TXINIC_Msk            (_UINT32_(0x1) << USBHS_DEVEPTICR_TXINIC_Pos)        /* (USBHS_DEVEPTICR) Transmitted IN Data Interrupt Clear Mask */
 #define USBHS_DEVEPTICR_TXINIC(value)         (USBHS_DEVEPTICR_TXINIC_Msk & (_UINT32_(value) << USBHS_DEVEPTICR_TXINIC_Pos)) /* Assignment of value for TXINIC in the USBHS_DEVEPTICR register */
@@ -964,7 +964,7 @@
 #define USBHS_DEVEPTICR_INTRPT_Msk            _UINT32_(0x0000005C)                                 /* (USBHS_DEVEPTICR_INTRPT) Register Mask  */
 
 
-/* -------- USBHS_DEVEPTIFR : (USBHS Offset: 0x190) ( /W 32) Device Endpoint Interrupt Set Register -------- */
+/* -------- USBHS_DEVEPTIFR : (USBHS Offset: 0x190) ( /W 32) Component Endpoint Interrupt Set Register -------- */
 #define USBHS_DEVEPTIFR_TXINIS_Pos            _UINT32_(0)                                          /* (USBHS_DEVEPTIFR) Transmitted IN Data Interrupt Set Position */
 #define USBHS_DEVEPTIFR_TXINIS_Msk            (_UINT32_(0x1) << USBHS_DEVEPTIFR_TXINIS_Pos)        /* (USBHS_DEVEPTIFR) Transmitted IN Data Interrupt Set Mask */
 #define USBHS_DEVEPTIFR_TXINIS(value)         (USBHS_DEVEPTIFR_TXINIS_Msk & (_UINT32_(value) << USBHS_DEVEPTIFR_TXINIS_Pos)) /* Assignment of value for TXINIS in the USBHS_DEVEPTIFR register */
@@ -1043,7 +1043,7 @@
 #define USBHS_DEVEPTIFR_INTRPT_Msk            _UINT32_(0x0000005C)                                 /* (USBHS_DEVEPTIFR_INTRPT) Register Mask  */
 
 
-/* -------- USBHS_DEVEPTIMR : (USBHS Offset: 0x1C0) ( R/ 32) Device Endpoint Interrupt Mask Register -------- */
+/* -------- USBHS_DEVEPTIMR : (USBHS Offset: 0x1C0) ( R/ 32) Component Endpoint Interrupt Mask Register -------- */
 #define USBHS_DEVEPTIMR_TXINE_Pos             _UINT32_(0)                                          /* (USBHS_DEVEPTIMR) Transmitted IN Data Interrupt Position */
 #define USBHS_DEVEPTIMR_TXINE_Msk             (_UINT32_(0x1) << USBHS_DEVEPTIMR_TXINE_Pos)         /* (USBHS_DEVEPTIMR) Transmitted IN Data Interrupt Mask */
 #define USBHS_DEVEPTIMR_TXINE(value)          (USBHS_DEVEPTIMR_TXINE_Msk & (_UINT32_(value) << USBHS_DEVEPTIMR_TXINE_Pos)) /* Assignment of value for TXINE in the USBHS_DEVEPTIMR register */
@@ -1161,7 +1161,7 @@
 #define USBHS_DEVEPTIMR_INTRPT_Msk            _UINT32_(0x000A005C)                                 /* (USBHS_DEVEPTIMR_INTRPT) Register Mask  */
 
 
-/* -------- USBHS_DEVEPTIER : (USBHS Offset: 0x1F0) ( /W 32) Device Endpoint Interrupt Enable Register -------- */
+/* -------- USBHS_DEVEPTIER : (USBHS Offset: 0x1F0) ( /W 32) Component Endpoint Interrupt Enable Register -------- */
 #define USBHS_DEVEPTIER_TXINES_Pos            _UINT32_(0)                                          /* (USBHS_DEVEPTIER) Transmitted IN Data Interrupt Enable Position */
 #define USBHS_DEVEPTIER_TXINES_Msk            (_UINT32_(0x1) << USBHS_DEVEPTIER_TXINES_Pos)        /* (USBHS_DEVEPTIER) Transmitted IN Data Interrupt Enable Mask */
 #define USBHS_DEVEPTIER_TXINES(value)         (USBHS_DEVEPTIER_TXINES_Msk & (_UINT32_(value) << USBHS_DEVEPTIER_TXINES_Pos)) /* Assignment of value for TXINES in the USBHS_DEVEPTIER register */
@@ -1279,7 +1279,7 @@
 #define USBHS_DEVEPTIER_INTRPT_Msk            _UINT32_(0x000A005C)                                 /* (USBHS_DEVEPTIER_INTRPT) Register Mask  */
 
 
-/* -------- USBHS_DEVEPTIDR : (USBHS Offset: 0x220) ( /W 32) Device Endpoint Interrupt Disable Register -------- */
+/* -------- USBHS_DEVEPTIDR : (USBHS Offset: 0x220) ( /W 32) Component Endpoint Interrupt Disable Register -------- */
 #define USBHS_DEVEPTIDR_TXINEC_Pos            _UINT32_(0)                                          /* (USBHS_DEVEPTIDR) Transmitted IN Interrupt Clear Position */
 #define USBHS_DEVEPTIDR_TXINEC_Msk            (_UINT32_(0x1) << USBHS_DEVEPTIDR_TXINEC_Pos)        /* (USBHS_DEVEPTIDR) Transmitted IN Interrupt Clear Mask */
 #define USBHS_DEVEPTIDR_TXINEC(value)         (USBHS_DEVEPTIDR_TXINEC_Msk & (_UINT32_(value) << USBHS_DEVEPTIDR_TXINEC_Pos)) /* Assignment of value for TXINEC in the USBHS_DEVEPTIDR register */
@@ -1413,11 +1413,11 @@
 
 
 /* -------- USBHS_HSTISR : (USBHS Offset: 0x404) ( R/ 32) Host Global Interrupt Status Register -------- */
-#define USBHS_HSTISR_DCONNI_Pos               _UINT32_(0)                                          /* (USBHS_HSTISR) Device Connection Interrupt Position */
-#define USBHS_HSTISR_DCONNI_Msk               (_UINT32_(0x1) << USBHS_HSTISR_DCONNI_Pos)           /* (USBHS_HSTISR) Device Connection Interrupt Mask */
+#define USBHS_HSTISR_DCONNI_Pos               _UINT32_(0)                                          /* (USBHS_HSTISR) Component Connection Interrupt Position */
+#define USBHS_HSTISR_DCONNI_Msk               (_UINT32_(0x1) << USBHS_HSTISR_DCONNI_Pos)           /* (USBHS_HSTISR) Component Connection Interrupt Mask */
 #define USBHS_HSTISR_DCONNI(value)            (USBHS_HSTISR_DCONNI_Msk & (_UINT32_(value) << USBHS_HSTISR_DCONNI_Pos)) /* Assignment of value for DCONNI in the USBHS_HSTISR register */
-#define USBHS_HSTISR_DDISCI_Pos               _UINT32_(1)                                          /* (USBHS_HSTISR) Device Disconnection Interrupt Position */
-#define USBHS_HSTISR_DDISCI_Msk               (_UINT32_(0x1) << USBHS_HSTISR_DDISCI_Pos)           /* (USBHS_HSTISR) Device Disconnection Interrupt Mask */
+#define USBHS_HSTISR_DDISCI_Pos               _UINT32_(1)                                          /* (USBHS_HSTISR) Component Disconnection Interrupt Position */
+#define USBHS_HSTISR_DDISCI_Msk               (_UINT32_(0x1) << USBHS_HSTISR_DDISCI_Pos)           /* (USBHS_HSTISR) Component Disconnection Interrupt Mask */
 #define USBHS_HSTISR_DDISCI(value)            (USBHS_HSTISR_DDISCI_Msk & (_UINT32_(value) << USBHS_HSTISR_DDISCI_Pos)) /* Assignment of value for DDISCI in the USBHS_HSTISR register */
 #define USBHS_HSTISR_RSTI_Pos                 _UINT32_(2)                                          /* (USBHS_HSTISR) USB Reset Sent Interrupt Position */
 #define USBHS_HSTISR_RSTI_Msk                 (_UINT32_(0x1) << USBHS_HSTISR_RSTI_Pos)             /* (USBHS_HSTISR) USB Reset Sent Interrupt Mask */
@@ -1495,11 +1495,11 @@
 #define USBHS_HSTISR_DMA_(value)              (USBHS_HSTISR_DMA__Msk & (_UINT32_(value) << USBHS_HSTISR_DMA__Pos)) 
 
 /* -------- USBHS_HSTICR : (USBHS Offset: 0x408) ( /W 32) Host Global Interrupt Clear Register -------- */
-#define USBHS_HSTICR_DCONNIC_Pos              _UINT32_(0)                                          /* (USBHS_HSTICR) Device Connection Interrupt Clear Position */
-#define USBHS_HSTICR_DCONNIC_Msk              (_UINT32_(0x1) << USBHS_HSTICR_DCONNIC_Pos)          /* (USBHS_HSTICR) Device Connection Interrupt Clear Mask */
+#define USBHS_HSTICR_DCONNIC_Pos              _UINT32_(0)                                          /* (USBHS_HSTICR) Component Connection Interrupt Clear Position */
+#define USBHS_HSTICR_DCONNIC_Msk              (_UINT32_(0x1) << USBHS_HSTICR_DCONNIC_Pos)          /* (USBHS_HSTICR) Component Connection Interrupt Clear Mask */
 #define USBHS_HSTICR_DCONNIC(value)           (USBHS_HSTICR_DCONNIC_Msk & (_UINT32_(value) << USBHS_HSTICR_DCONNIC_Pos)) /* Assignment of value for DCONNIC in the USBHS_HSTICR register */
-#define USBHS_HSTICR_DDISCIC_Pos              _UINT32_(1)                                          /* (USBHS_HSTICR) Device Disconnection Interrupt Clear Position */
-#define USBHS_HSTICR_DDISCIC_Msk              (_UINT32_(0x1) << USBHS_HSTICR_DDISCIC_Pos)          /* (USBHS_HSTICR) Device Disconnection Interrupt Clear Mask */
+#define USBHS_HSTICR_DDISCIC_Pos              _UINT32_(1)                                          /* (USBHS_HSTICR) Component Disconnection Interrupt Clear Position */
+#define USBHS_HSTICR_DDISCIC_Msk              (_UINT32_(0x1) << USBHS_HSTICR_DDISCIC_Pos)          /* (USBHS_HSTICR) Component Disconnection Interrupt Clear Mask */
 #define USBHS_HSTICR_DDISCIC(value)           (USBHS_HSTICR_DDISCIC_Msk & (_UINT32_(value) << USBHS_HSTICR_DDISCIC_Pos)) /* Assignment of value for DDISCIC in the USBHS_HSTICR register */
 #define USBHS_HSTICR_RSTIC_Pos                _UINT32_(2)                                          /* (USBHS_HSTICR) USB Reset Sent Interrupt Clear Position */
 #define USBHS_HSTICR_RSTIC_Msk                (_UINT32_(0x1) << USBHS_HSTICR_RSTIC_Pos)            /* (USBHS_HSTICR) USB Reset Sent Interrupt Clear Mask */
@@ -1520,11 +1520,11 @@
 
 
 /* -------- USBHS_HSTIFR : (USBHS Offset: 0x40C) ( /W 32) Host Global Interrupt Set Register -------- */
-#define USBHS_HSTIFR_DCONNIS_Pos              _UINT32_(0)                                          /* (USBHS_HSTIFR) Device Connection Interrupt Set Position */
-#define USBHS_HSTIFR_DCONNIS_Msk              (_UINT32_(0x1) << USBHS_HSTIFR_DCONNIS_Pos)          /* (USBHS_HSTIFR) Device Connection Interrupt Set Mask */
+#define USBHS_HSTIFR_DCONNIS_Pos              _UINT32_(0)                                          /* (USBHS_HSTIFR) Component Connection Interrupt Set Position */
+#define USBHS_HSTIFR_DCONNIS_Msk              (_UINT32_(0x1) << USBHS_HSTIFR_DCONNIS_Pos)          /* (USBHS_HSTIFR) Component Connection Interrupt Set Mask */
 #define USBHS_HSTIFR_DCONNIS(value)           (USBHS_HSTIFR_DCONNIS_Msk & (_UINT32_(value) << USBHS_HSTIFR_DCONNIS_Pos)) /* Assignment of value for DCONNIS in the USBHS_HSTIFR register */
-#define USBHS_HSTIFR_DDISCIS_Pos              _UINT32_(1)                                          /* (USBHS_HSTIFR) Device Disconnection Interrupt Set Position */
-#define USBHS_HSTIFR_DDISCIS_Msk              (_UINT32_(0x1) << USBHS_HSTIFR_DDISCIS_Pos)          /* (USBHS_HSTIFR) Device Disconnection Interrupt Set Mask */
+#define USBHS_HSTIFR_DDISCIS_Pos              _UINT32_(1)                                          /* (USBHS_HSTIFR) Component Disconnection Interrupt Set Position */
+#define USBHS_HSTIFR_DDISCIS_Msk              (_UINT32_(0x1) << USBHS_HSTIFR_DDISCIS_Pos)          /* (USBHS_HSTIFR) Component Disconnection Interrupt Set Mask */
 #define USBHS_HSTIFR_DDISCIS(value)           (USBHS_HSTIFR_DDISCIS_Msk & (_UINT32_(value) << USBHS_HSTIFR_DDISCIS_Pos)) /* Assignment of value for DDISCIS in the USBHS_HSTIFR register */
 #define USBHS_HSTIFR_RSTIS_Pos                _UINT32_(2)                                          /* (USBHS_HSTIFR) USB Reset Sent Interrupt Set Position */
 #define USBHS_HSTIFR_RSTIS_Msk                (_UINT32_(0x1) << USBHS_HSTIFR_RSTIS_Pos)            /* (USBHS_HSTIFR) USB Reset Sent Interrupt Set Mask */
@@ -1569,11 +1569,11 @@
 #define USBHS_HSTIFR_DMA_(value)              (USBHS_HSTIFR_DMA__Msk & (_UINT32_(value) << USBHS_HSTIFR_DMA__Pos)) 
 
 /* -------- USBHS_HSTIMR : (USBHS Offset: 0x410) ( R/ 32) Host Global Interrupt Mask Register -------- */
-#define USBHS_HSTIMR_DCONNIE_Pos              _UINT32_(0)                                          /* (USBHS_HSTIMR) Device Connection Interrupt Enable Position */
-#define USBHS_HSTIMR_DCONNIE_Msk              (_UINT32_(0x1) << USBHS_HSTIMR_DCONNIE_Pos)          /* (USBHS_HSTIMR) Device Connection Interrupt Enable Mask */
+#define USBHS_HSTIMR_DCONNIE_Pos              _UINT32_(0)                                          /* (USBHS_HSTIMR) Component Connection Interrupt Enable Position */
+#define USBHS_HSTIMR_DCONNIE_Msk              (_UINT32_(0x1) << USBHS_HSTIMR_DCONNIE_Pos)          /* (USBHS_HSTIMR) Component Connection Interrupt Enable Mask */
 #define USBHS_HSTIMR_DCONNIE(value)           (USBHS_HSTIMR_DCONNIE_Msk & (_UINT32_(value) << USBHS_HSTIMR_DCONNIE_Pos)) /* Assignment of value for DCONNIE in the USBHS_HSTIMR register */
-#define USBHS_HSTIMR_DDISCIE_Pos              _UINT32_(1)                                          /* (USBHS_HSTIMR) Device Disconnection Interrupt Enable Position */
-#define USBHS_HSTIMR_DDISCIE_Msk              (_UINT32_(0x1) << USBHS_HSTIMR_DDISCIE_Pos)          /* (USBHS_HSTIMR) Device Disconnection Interrupt Enable Mask */
+#define USBHS_HSTIMR_DDISCIE_Pos              _UINT32_(1)                                          /* (USBHS_HSTIMR) Component Disconnection Interrupt Enable Position */
+#define USBHS_HSTIMR_DDISCIE_Msk              (_UINT32_(0x1) << USBHS_HSTIMR_DDISCIE_Pos)          /* (USBHS_HSTIMR) Component Disconnection Interrupt Enable Mask */
 #define USBHS_HSTIMR_DDISCIE(value)           (USBHS_HSTIMR_DDISCIE_Msk & (_UINT32_(value) << USBHS_HSTIMR_DDISCIE_Pos)) /* Assignment of value for DDISCIE in the USBHS_HSTIMR register */
 #define USBHS_HSTIMR_RSTIE_Pos                _UINT32_(2)                                          /* (USBHS_HSTIMR) USB Reset Sent Interrupt Enable Position */
 #define USBHS_HSTIMR_RSTIE_Msk                (_UINT32_(0x1) << USBHS_HSTIMR_RSTIE_Pos)            /* (USBHS_HSTIMR) USB Reset Sent Interrupt Enable Mask */
@@ -1651,11 +1651,11 @@
 #define USBHS_HSTIMR_DMA_(value)              (USBHS_HSTIMR_DMA__Msk & (_UINT32_(value) << USBHS_HSTIMR_DMA__Pos)) 
 
 /* -------- USBHS_HSTIDR : (USBHS Offset: 0x414) ( /W 32) Host Global Interrupt Disable Register -------- */
-#define USBHS_HSTIDR_DCONNIEC_Pos             _UINT32_(0)                                          /* (USBHS_HSTIDR) Device Connection Interrupt Disable Position */
-#define USBHS_HSTIDR_DCONNIEC_Msk             (_UINT32_(0x1) << USBHS_HSTIDR_DCONNIEC_Pos)         /* (USBHS_HSTIDR) Device Connection Interrupt Disable Mask */
+#define USBHS_HSTIDR_DCONNIEC_Pos             _UINT32_(0)                                          /* (USBHS_HSTIDR) Component Connection Interrupt Disable Position */
+#define USBHS_HSTIDR_DCONNIEC_Msk             (_UINT32_(0x1) << USBHS_HSTIDR_DCONNIEC_Pos)         /* (USBHS_HSTIDR) Component Connection Interrupt Disable Mask */
 #define USBHS_HSTIDR_DCONNIEC(value)          (USBHS_HSTIDR_DCONNIEC_Msk & (_UINT32_(value) << USBHS_HSTIDR_DCONNIEC_Pos)) /* Assignment of value for DCONNIEC in the USBHS_HSTIDR register */
-#define USBHS_HSTIDR_DDISCIEC_Pos             _UINT32_(1)                                          /* (USBHS_HSTIDR) Device Disconnection Interrupt Disable Position */
-#define USBHS_HSTIDR_DDISCIEC_Msk             (_UINT32_(0x1) << USBHS_HSTIDR_DDISCIEC_Pos)         /* (USBHS_HSTIDR) Device Disconnection Interrupt Disable Mask */
+#define USBHS_HSTIDR_DDISCIEC_Pos             _UINT32_(1)                                          /* (USBHS_HSTIDR) Component Disconnection Interrupt Disable Position */
+#define USBHS_HSTIDR_DDISCIEC_Msk             (_UINT32_(0x1) << USBHS_HSTIDR_DDISCIEC_Pos)         /* (USBHS_HSTIDR) Component Disconnection Interrupt Disable Mask */
 #define USBHS_HSTIDR_DDISCIEC(value)          (USBHS_HSTIDR_DDISCIEC_Msk & (_UINT32_(value) << USBHS_HSTIDR_DDISCIEC_Pos)) /* Assignment of value for DDISCIEC in the USBHS_HSTIDR register */
 #define USBHS_HSTIDR_RSTIEC_Pos               _UINT32_(2)                                          /* (USBHS_HSTIDR) USB Reset Sent Interrupt Disable Position */
 #define USBHS_HSTIDR_RSTIEC_Msk               (_UINT32_(0x1) << USBHS_HSTIDR_RSTIEC_Pos)           /* (USBHS_HSTIDR) USB Reset Sent Interrupt Disable Mask */
@@ -1733,11 +1733,11 @@
 #define USBHS_HSTIDR_DMA_(value)              (USBHS_HSTIDR_DMA__Msk & (_UINT32_(value) << USBHS_HSTIDR_DMA__Pos)) 
 
 /* -------- USBHS_HSTIER : (USBHS Offset: 0x418) ( /W 32) Host Global Interrupt Enable Register -------- */
-#define USBHS_HSTIER_DCONNIES_Pos             _UINT32_(0)                                          /* (USBHS_HSTIER) Device Connection Interrupt Enable Position */
-#define USBHS_HSTIER_DCONNIES_Msk             (_UINT32_(0x1) << USBHS_HSTIER_DCONNIES_Pos)         /* (USBHS_HSTIER) Device Connection Interrupt Enable Mask */
+#define USBHS_HSTIER_DCONNIES_Pos             _UINT32_(0)                                          /* (USBHS_HSTIER) Component Connection Interrupt Enable Position */
+#define USBHS_HSTIER_DCONNIES_Msk             (_UINT32_(0x1) << USBHS_HSTIER_DCONNIES_Pos)         /* (USBHS_HSTIER) Component Connection Interrupt Enable Mask */
 #define USBHS_HSTIER_DCONNIES(value)          (USBHS_HSTIER_DCONNIES_Msk & (_UINT32_(value) << USBHS_HSTIER_DCONNIES_Pos)) /* Assignment of value for DCONNIES in the USBHS_HSTIER register */
-#define USBHS_HSTIER_DDISCIES_Pos             _UINT32_(1)                                          /* (USBHS_HSTIER) Device Disconnection Interrupt Enable Position */
-#define USBHS_HSTIER_DDISCIES_Msk             (_UINT32_(0x1) << USBHS_HSTIER_DDISCIES_Pos)         /* (USBHS_HSTIER) Device Disconnection Interrupt Enable Mask */
+#define USBHS_HSTIER_DDISCIES_Pos             _UINT32_(1)                                          /* (USBHS_HSTIER) Component Disconnection Interrupt Enable Position */
+#define USBHS_HSTIER_DDISCIES_Msk             (_UINT32_(0x1) << USBHS_HSTIER_DDISCIES_Pos)         /* (USBHS_HSTIER) Component Disconnection Interrupt Enable Mask */
 #define USBHS_HSTIER_DDISCIES(value)          (USBHS_HSTIER_DDISCIES_Msk & (_UINT32_(value) << USBHS_HSTIER_DDISCIES_Pos)) /* Assignment of value for DDISCIES in the USBHS_HSTIER register */
 #define USBHS_HSTIER_RSTIES_Pos               _UINT32_(2)                                          /* (USBHS_HSTIER) USB Reset Sent Interrupt Enable Position */
 #define USBHS_HSTIER_RSTIES_Msk               (_UINT32_(0x1) << USBHS_HSTIER_RSTIES_Pos)           /* (USBHS_HSTIER) USB Reset Sent Interrupt Enable Mask */
@@ -2465,8 +2465,8 @@
 #define USBHS_HSTPIPERR_CRC(value)            (USBHS_HSTPIPERR_CRC_Msk & (_UINT32_(value) << USBHS_HSTPIPERR_CRC_Pos)) 
 
 /* -------- USBHS_CTRL : (USBHS Offset: 0x800) (R/W 32) General Control Register -------- */
-#define USBHS_CTRL_RDERRE_Pos                 _UINT32_(4)                                          /* (USBHS_CTRL) Remote Device Connection Error Interrupt Enable Position */
-#define USBHS_CTRL_RDERRE_Msk                 (_UINT32_(0x1) << USBHS_CTRL_RDERRE_Pos)             /* (USBHS_CTRL) Remote Device Connection Error Interrupt Enable Mask */
+#define USBHS_CTRL_RDERRE_Pos                 _UINT32_(4)                                          /* (USBHS_CTRL) Remote Component Connection Error Interrupt Enable Position */
+#define USBHS_CTRL_RDERRE_Msk                 (_UINT32_(0x1) << USBHS_CTRL_RDERRE_Pos)             /* (USBHS_CTRL) Remote Component Connection Error Interrupt Enable Mask */
 #define USBHS_CTRL_RDERRE(value)              (USBHS_CTRL_RDERRE_Msk & (_UINT32_(value) << USBHS_CTRL_RDERRE_Pos)) /* Assignment of value for RDERRE in the USBHS_CTRL register */
 #define USBHS_CTRL_VBUSHWC_Pos                _UINT32_(8)                                          /* (USBHS_CTRL) VBUS Hardware Control Position */
 #define USBHS_CTRL_VBUSHWC_Msk                (_UINT32_(0x1) << USBHS_CTRL_VBUSHWC_Pos)            /* (USBHS_CTRL) VBUS Hardware Control Mask */
@@ -2484,18 +2484,18 @@
 #define USBHS_CTRL_UIMOD_Msk                  (_UINT32_(0x1) << USBHS_CTRL_UIMOD_Pos)              /* (USBHS_CTRL) USBHS Mode Mask */
 #define USBHS_CTRL_UIMOD(value)               (USBHS_CTRL_UIMOD_Msk & (_UINT32_(value) << USBHS_CTRL_UIMOD_Pos)) /* Assignment of value for UIMOD in the USBHS_CTRL register */
 #define   USBHS_CTRL_UIMOD_HOST_Val           _UINT32_(0x0)                                        /* (USBHS_CTRL) The module is in USB Host mode.  */
-#define   USBHS_CTRL_UIMOD_DEVICE_Val         _UINT32_(0x1)                                        /* (USBHS_CTRL) The module is in USB Device mode.  */
+#define   USBHS_CTRL_UIMOD_DEVICE_Val         _UINT32_(0x1)                                        /* (USBHS_CTRL) The module is in USB Component mode.  */
 #define USBHS_CTRL_UIMOD_HOST                 (USBHS_CTRL_UIMOD_HOST_Val << USBHS_CTRL_UIMOD_Pos)  /* (USBHS_CTRL) The module is in USB Host mode. Position */
-#define USBHS_CTRL_UIMOD_DEVICE               (USBHS_CTRL_UIMOD_DEVICE_Val << USBHS_CTRL_UIMOD_Pos) /* (USBHS_CTRL) The module is in USB Device mode. Position */
+#define USBHS_CTRL_UIMOD_DEVICE               (USBHS_CTRL_UIMOD_DEVICE_Val << USBHS_CTRL_UIMOD_Pos) /* (USBHS_CTRL) The module is in USB Component mode. Position */
 #define USBHS_CTRL_Msk                        _UINT32_(0x0300C110)                                 /* (USBHS_CTRL) Register Mask  */
 
 
 /* -------- USBHS_SR : (USBHS Offset: 0x804) ( R/ 32) General Status Register -------- */
-#define USBHS_SR_RDERRI_Pos                   _UINT32_(4)                                          /* (USBHS_SR) Remote Device Connection Error Interrupt (Host mode only) Position */
-#define USBHS_SR_RDERRI_Msk                   (_UINT32_(0x1) << USBHS_SR_RDERRI_Pos)               /* (USBHS_SR) Remote Device Connection Error Interrupt (Host mode only) Mask */
+#define USBHS_SR_RDERRI_Pos                   _UINT32_(4)                                          /* (USBHS_SR) Remote Component Connection Error Interrupt (Host mode only) Position */
+#define USBHS_SR_RDERRI_Msk                   (_UINT32_(0x1) << USBHS_SR_RDERRI_Pos)               /* (USBHS_SR) Remote Component Connection Error Interrupt (Host mode only) Mask */
 #define USBHS_SR_RDERRI(value)                (USBHS_SR_RDERRI_Msk & (_UINT32_(value) << USBHS_SR_RDERRI_Pos)) /* Assignment of value for RDERRI in the USBHS_SR register */
-#define USBHS_SR_SPEED_Pos                    _UINT32_(12)                                         /* (USBHS_SR) Speed Status (Device mode only) Position */
-#define USBHS_SR_SPEED_Msk                    (_UINT32_(0x3) << USBHS_SR_SPEED_Pos)                /* (USBHS_SR) Speed Status (Device mode only) Mask */
+#define USBHS_SR_SPEED_Pos                    _UINT32_(12)                                         /* (USBHS_SR) Speed Status (Component mode only) Position */
+#define USBHS_SR_SPEED_Msk                    (_UINT32_(0x3) << USBHS_SR_SPEED_Pos)                /* (USBHS_SR) Speed Status (Component mode only) Mask */
 #define USBHS_SR_SPEED(value)                 (USBHS_SR_SPEED_Msk & (_UINT32_(value) << USBHS_SR_SPEED_Pos)) /* Assignment of value for SPEED in the USBHS_SR register */
 #define   USBHS_SR_SPEED_FULL_SPEED_Val       _UINT32_(0x0)                                        /* (USBHS_SR) Full-Speed mode  */
 #define   USBHS_SR_SPEED_HIGH_SPEED_Val       _UINT32_(0x1)                                        /* (USBHS_SR) High-Speed mode  */
@@ -2510,15 +2510,15 @@
 
 
 /* -------- USBHS_SCR : (USBHS Offset: 0x808) ( /W 32) General Status Clear Register -------- */
-#define USBHS_SCR_RDERRIC_Pos                 _UINT32_(4)                                          /* (USBHS_SCR) Remote Device Connection Error Interrupt Clear Position */
-#define USBHS_SCR_RDERRIC_Msk                 (_UINT32_(0x1) << USBHS_SCR_RDERRIC_Pos)             /* (USBHS_SCR) Remote Device Connection Error Interrupt Clear Mask */
+#define USBHS_SCR_RDERRIC_Pos                 _UINT32_(4)                                          /* (USBHS_SCR) Remote Component Connection Error Interrupt Clear Position */
+#define USBHS_SCR_RDERRIC_Msk                 (_UINT32_(0x1) << USBHS_SCR_RDERRIC_Pos)             /* (USBHS_SCR) Remote Component Connection Error Interrupt Clear Mask */
 #define USBHS_SCR_RDERRIC(value)              (USBHS_SCR_RDERRIC_Msk & (_UINT32_(value) << USBHS_SCR_RDERRIC_Pos)) /* Assignment of value for RDERRIC in the USBHS_SCR register */
 #define USBHS_SCR_Msk                         _UINT32_(0x00000010)                                 /* (USBHS_SCR) Register Mask  */
 
 
 /* -------- USBHS_SFR : (USBHS Offset: 0x80C) ( /W 32) General Status Set Register -------- */
-#define USBHS_SFR_RDERRIS_Pos                 _UINT32_(4)                                          /* (USBHS_SFR) Remote Device Connection Error Interrupt Set Position */
-#define USBHS_SFR_RDERRIS_Msk                 (_UINT32_(0x1) << USBHS_SFR_RDERRIS_Pos)             /* (USBHS_SFR) Remote Device Connection Error Interrupt Set Mask */
+#define USBHS_SFR_RDERRIS_Pos                 _UINT32_(4)                                          /* (USBHS_SFR) Remote Component Connection Error Interrupt Set Position */
+#define USBHS_SFR_RDERRIS_Msk                 (_UINT32_(0x1) << USBHS_SFR_RDERRIS_Pos)             /* (USBHS_SFR) Remote Component Connection Error Interrupt Set Mask */
 #define USBHS_SFR_RDERRIS(value)              (USBHS_SFR_RDERRIS_Msk & (_UINT32_(value) << USBHS_SFR_RDERRIS_Pos)) /* Assignment of value for RDERRIS in the USBHS_SFR register */
 #define USBHS_SFR_VBUSRQS_Pos                 _UINT32_(9)                                          /* (USBHS_SFR) VBUS Request Set Position */
 #define USBHS_SFR_VBUSRQS_Msk                 (_UINT32_(0x1) << USBHS_SFR_VBUSRQS_Pos)             /* (USBHS_SFR) VBUS Request Set Mask */
@@ -2527,100 +2527,100 @@
 
 
 /* USBHS register offsets definitions */
-#define USBHS_DEVDMANXTDSC_REG_OFST    _UINT32_(0x00)      /* (USBHS_DEVDMANXTDSC) Device DMA Channel Next Descriptor Address Register Offset */
-#define USBHS_DEVDMAADDRESS_REG_OFST   _UINT32_(0x04)      /* (USBHS_DEVDMAADDRESS) Device DMA Channel Address Register Offset */
-#define USBHS_DEVDMACONTROL_REG_OFST   _UINT32_(0x08)      /* (USBHS_DEVDMACONTROL) Device DMA Channel Control Register Offset */
-#define USBHS_DEVDMASTATUS_REG_OFST    _UINT32_(0x0C)      /* (USBHS_DEVDMASTATUS) Device DMA Channel Status Register Offset */
+#define USBHS_DEVDMANXTDSC_REG_OFST    _UINT32_(0x00)      /* (USBHS_DEVDMANXTDSC) Component DMA Channel Next Descriptor Address Register Offset */
+#define USBHS_DEVDMAADDRESS_REG_OFST   _UINT32_(0x04)      /* (USBHS_DEVDMAADDRESS) Component DMA Channel Address Register Offset */
+#define USBHS_DEVDMACONTROL_REG_OFST   _UINT32_(0x08)      /* (USBHS_DEVDMACONTROL) Component DMA Channel Control Register Offset */
+#define USBHS_DEVDMASTATUS_REG_OFST    _UINT32_(0x0C)      /* (USBHS_DEVDMASTATUS) Component DMA Channel Status Register Offset */
 #define USBHS_HSTDMANXTDSC_REG_OFST    _UINT32_(0x00)      /* (USBHS_HSTDMANXTDSC) Host DMA Channel Next Descriptor Address Register Offset */
 #define USBHS_HSTDMAADDRESS_REG_OFST   _UINT32_(0x04)      /* (USBHS_HSTDMAADDRESS) Host DMA Channel Address Register Offset */
 #define USBHS_HSTDMACONTROL_REG_OFST   _UINT32_(0x08)      /* (USBHS_HSTDMACONTROL) Host DMA Channel Control Register Offset */
 #define USBHS_HSTDMASTATUS_REG_OFST    _UINT32_(0x0C)      /* (USBHS_HSTDMASTATUS) Host DMA Channel Status Register Offset */
-#define USBHS_DEVCTRL_REG_OFST         _UINT32_(0x00)      /* (USBHS_DEVCTRL) Device General Control Register Offset */
-#define USBHS_DEVISR_REG_OFST          _UINT32_(0x04)      /* (USBHS_DEVISR) Device Global Interrupt Status Register Offset */
-#define USBHS_DEVICR_REG_OFST          _UINT32_(0x08)      /* (USBHS_DEVICR) Device Global Interrupt Clear Register Offset */
-#define USBHS_DEVIFR_REG_OFST          _UINT32_(0x0C)      /* (USBHS_DEVIFR) Device Global Interrupt Set Register Offset */
-#define USBHS_DEVIMR_REG_OFST          _UINT32_(0x10)      /* (USBHS_DEVIMR) Device Global Interrupt Mask Register Offset */
-#define USBHS_DEVIDR_REG_OFST          _UINT32_(0x14)      /* (USBHS_DEVIDR) Device Global Interrupt Disable Register Offset */
-#define USBHS_DEVIER_REG_OFST          _UINT32_(0x18)      /* (USBHS_DEVIER) Device Global Interrupt Enable Register Offset */
-#define USBHS_DEVEPT_REG_OFST          _UINT32_(0x1C)      /* (USBHS_DEVEPT) Device Endpoint Register Offset */
-#define USBHS_DEVFNUM_REG_OFST         _UINT32_(0x20)      /* (USBHS_DEVFNUM) Device Frame Number Register Offset */
-#define USBHS_DEVEPTCFG_REG_OFST       _UINT32_(0x100)     /* (USBHS_DEVEPTCFG) Device Endpoint Configuration Register Offset */
-#define USBHS_DEVEPTCFG0_REG_OFST      _UINT32_(0x100)     /* (USBHS_DEVEPTCFG0) Device Endpoint Configuration Register Offset */
-#define USBHS_DEVEPTCFG1_REG_OFST      _UINT32_(0x104)     /* (USBHS_DEVEPTCFG1) Device Endpoint Configuration Register Offset */
-#define USBHS_DEVEPTCFG2_REG_OFST      _UINT32_(0x108)     /* (USBHS_DEVEPTCFG2) Device Endpoint Configuration Register Offset */
-#define USBHS_DEVEPTCFG3_REG_OFST      _UINT32_(0x10C)     /* (USBHS_DEVEPTCFG3) Device Endpoint Configuration Register Offset */
-#define USBHS_DEVEPTCFG4_REG_OFST      _UINT32_(0x110)     /* (USBHS_DEVEPTCFG4) Device Endpoint Configuration Register Offset */
-#define USBHS_DEVEPTCFG5_REG_OFST      _UINT32_(0x114)     /* (USBHS_DEVEPTCFG5) Device Endpoint Configuration Register Offset */
-#define USBHS_DEVEPTCFG6_REG_OFST      _UINT32_(0x118)     /* (USBHS_DEVEPTCFG6) Device Endpoint Configuration Register Offset */
-#define USBHS_DEVEPTCFG7_REG_OFST      _UINT32_(0x11C)     /* (USBHS_DEVEPTCFG7) Device Endpoint Configuration Register Offset */
-#define USBHS_DEVEPTCFG8_REG_OFST      _UINT32_(0x120)     /* (USBHS_DEVEPTCFG8) Device Endpoint Configuration Register Offset */
-#define USBHS_DEVEPTCFG9_REG_OFST      _UINT32_(0x124)     /* (USBHS_DEVEPTCFG9) Device Endpoint Configuration Register Offset */
-#define USBHS_DEVEPTISR_REG_OFST       _UINT32_(0x130)     /* (USBHS_DEVEPTISR) Device Endpoint Interrupt Status Register Offset */
-#define USBHS_DEVEPTISR0_REG_OFST      _UINT32_(0x130)     /* (USBHS_DEVEPTISR0) Device Endpoint Interrupt Status Register Offset */
-#define USBHS_DEVEPTISR1_REG_OFST      _UINT32_(0x134)     /* (USBHS_DEVEPTISR1) Device Endpoint Interrupt Status Register Offset */
-#define USBHS_DEVEPTISR2_REG_OFST      _UINT32_(0x138)     /* (USBHS_DEVEPTISR2) Device Endpoint Interrupt Status Register Offset */
-#define USBHS_DEVEPTISR3_REG_OFST      _UINT32_(0x13C)     /* (USBHS_DEVEPTISR3) Device Endpoint Interrupt Status Register Offset */
-#define USBHS_DEVEPTISR4_REG_OFST      _UINT32_(0x140)     /* (USBHS_DEVEPTISR4) Device Endpoint Interrupt Status Register Offset */
-#define USBHS_DEVEPTISR5_REG_OFST      _UINT32_(0x144)     /* (USBHS_DEVEPTISR5) Device Endpoint Interrupt Status Register Offset */
-#define USBHS_DEVEPTISR6_REG_OFST      _UINT32_(0x148)     /* (USBHS_DEVEPTISR6) Device Endpoint Interrupt Status Register Offset */
-#define USBHS_DEVEPTISR7_REG_OFST      _UINT32_(0x14C)     /* (USBHS_DEVEPTISR7) Device Endpoint Interrupt Status Register Offset */
-#define USBHS_DEVEPTISR8_REG_OFST      _UINT32_(0x150)     /* (USBHS_DEVEPTISR8) Device Endpoint Interrupt Status Register Offset */
-#define USBHS_DEVEPTISR9_REG_OFST      _UINT32_(0x154)     /* (USBHS_DEVEPTISR9) Device Endpoint Interrupt Status Register Offset */
-#define USBHS_DEVEPTICR_REG_OFST       _UINT32_(0x160)     /* (USBHS_DEVEPTICR) Device Endpoint Interrupt Clear Register Offset */
-#define USBHS_DEVEPTICR0_REG_OFST      _UINT32_(0x160)     /* (USBHS_DEVEPTICR0) Device Endpoint Interrupt Clear Register Offset */
-#define USBHS_DEVEPTICR1_REG_OFST      _UINT32_(0x164)     /* (USBHS_DEVEPTICR1) Device Endpoint Interrupt Clear Register Offset */
-#define USBHS_DEVEPTICR2_REG_OFST      _UINT32_(0x168)     /* (USBHS_DEVEPTICR2) Device Endpoint Interrupt Clear Register Offset */
-#define USBHS_DEVEPTICR3_REG_OFST      _UINT32_(0x16C)     /* (USBHS_DEVEPTICR3) Device Endpoint Interrupt Clear Register Offset */
-#define USBHS_DEVEPTICR4_REG_OFST      _UINT32_(0x170)     /* (USBHS_DEVEPTICR4) Device Endpoint Interrupt Clear Register Offset */
-#define USBHS_DEVEPTICR5_REG_OFST      _UINT32_(0x174)     /* (USBHS_DEVEPTICR5) Device Endpoint Interrupt Clear Register Offset */
-#define USBHS_DEVEPTICR6_REG_OFST      _UINT32_(0x178)     /* (USBHS_DEVEPTICR6) Device Endpoint Interrupt Clear Register Offset */
-#define USBHS_DEVEPTICR7_REG_OFST      _UINT32_(0x17C)     /* (USBHS_DEVEPTICR7) Device Endpoint Interrupt Clear Register Offset */
-#define USBHS_DEVEPTICR8_REG_OFST      _UINT32_(0x180)     /* (USBHS_DEVEPTICR8) Device Endpoint Interrupt Clear Register Offset */
-#define USBHS_DEVEPTICR9_REG_OFST      _UINT32_(0x184)     /* (USBHS_DEVEPTICR9) Device Endpoint Interrupt Clear Register Offset */
-#define USBHS_DEVEPTIFR_REG_OFST       _UINT32_(0x190)     /* (USBHS_DEVEPTIFR) Device Endpoint Interrupt Set Register Offset */
-#define USBHS_DEVEPTIFR0_REG_OFST      _UINT32_(0x190)     /* (USBHS_DEVEPTIFR0) Device Endpoint Interrupt Set Register Offset */
-#define USBHS_DEVEPTIFR1_REG_OFST      _UINT32_(0x194)     /* (USBHS_DEVEPTIFR1) Device Endpoint Interrupt Set Register Offset */
-#define USBHS_DEVEPTIFR2_REG_OFST      _UINT32_(0x198)     /* (USBHS_DEVEPTIFR2) Device Endpoint Interrupt Set Register Offset */
-#define USBHS_DEVEPTIFR3_REG_OFST      _UINT32_(0x19C)     /* (USBHS_DEVEPTIFR3) Device Endpoint Interrupt Set Register Offset */
-#define USBHS_DEVEPTIFR4_REG_OFST      _UINT32_(0x1A0)     /* (USBHS_DEVEPTIFR4) Device Endpoint Interrupt Set Register Offset */
-#define USBHS_DEVEPTIFR5_REG_OFST      _UINT32_(0x1A4)     /* (USBHS_DEVEPTIFR5) Device Endpoint Interrupt Set Register Offset */
-#define USBHS_DEVEPTIFR6_REG_OFST      _UINT32_(0x1A8)     /* (USBHS_DEVEPTIFR6) Device Endpoint Interrupt Set Register Offset */
-#define USBHS_DEVEPTIFR7_REG_OFST      _UINT32_(0x1AC)     /* (USBHS_DEVEPTIFR7) Device Endpoint Interrupt Set Register Offset */
-#define USBHS_DEVEPTIFR8_REG_OFST      _UINT32_(0x1B0)     /* (USBHS_DEVEPTIFR8) Device Endpoint Interrupt Set Register Offset */
-#define USBHS_DEVEPTIFR9_REG_OFST      _UINT32_(0x1B4)     /* (USBHS_DEVEPTIFR9) Device Endpoint Interrupt Set Register Offset */
-#define USBHS_DEVEPTIMR_REG_OFST       _UINT32_(0x1C0)     /* (USBHS_DEVEPTIMR) Device Endpoint Interrupt Mask Register Offset */
-#define USBHS_DEVEPTIMR0_REG_OFST      _UINT32_(0x1C0)     /* (USBHS_DEVEPTIMR0) Device Endpoint Interrupt Mask Register Offset */
-#define USBHS_DEVEPTIMR1_REG_OFST      _UINT32_(0x1C4)     /* (USBHS_DEVEPTIMR1) Device Endpoint Interrupt Mask Register Offset */
-#define USBHS_DEVEPTIMR2_REG_OFST      _UINT32_(0x1C8)     /* (USBHS_DEVEPTIMR2) Device Endpoint Interrupt Mask Register Offset */
-#define USBHS_DEVEPTIMR3_REG_OFST      _UINT32_(0x1CC)     /* (USBHS_DEVEPTIMR3) Device Endpoint Interrupt Mask Register Offset */
-#define USBHS_DEVEPTIMR4_REG_OFST      _UINT32_(0x1D0)     /* (USBHS_DEVEPTIMR4) Device Endpoint Interrupt Mask Register Offset */
-#define USBHS_DEVEPTIMR5_REG_OFST      _UINT32_(0x1D4)     /* (USBHS_DEVEPTIMR5) Device Endpoint Interrupt Mask Register Offset */
-#define USBHS_DEVEPTIMR6_REG_OFST      _UINT32_(0x1D8)     /* (USBHS_DEVEPTIMR6) Device Endpoint Interrupt Mask Register Offset */
-#define USBHS_DEVEPTIMR7_REG_OFST      _UINT32_(0x1DC)     /* (USBHS_DEVEPTIMR7) Device Endpoint Interrupt Mask Register Offset */
-#define USBHS_DEVEPTIMR8_REG_OFST      _UINT32_(0x1E0)     /* (USBHS_DEVEPTIMR8) Device Endpoint Interrupt Mask Register Offset */
-#define USBHS_DEVEPTIMR9_REG_OFST      _UINT32_(0x1E4)     /* (USBHS_DEVEPTIMR9) Device Endpoint Interrupt Mask Register Offset */
-#define USBHS_DEVEPTIER_REG_OFST       _UINT32_(0x1F0)     /* (USBHS_DEVEPTIER) Device Endpoint Interrupt Enable Register Offset */
-#define USBHS_DEVEPTIER0_REG_OFST      _UINT32_(0x1F0)     /* (USBHS_DEVEPTIER0) Device Endpoint Interrupt Enable Register Offset */
-#define USBHS_DEVEPTIER1_REG_OFST      _UINT32_(0x1F4)     /* (USBHS_DEVEPTIER1) Device Endpoint Interrupt Enable Register Offset */
-#define USBHS_DEVEPTIER2_REG_OFST      _UINT32_(0x1F8)     /* (USBHS_DEVEPTIER2) Device Endpoint Interrupt Enable Register Offset */
-#define USBHS_DEVEPTIER3_REG_OFST      _UINT32_(0x1FC)     /* (USBHS_DEVEPTIER3) Device Endpoint Interrupt Enable Register Offset */
-#define USBHS_DEVEPTIER4_REG_OFST      _UINT32_(0x200)     /* (USBHS_DEVEPTIER4) Device Endpoint Interrupt Enable Register Offset */
-#define USBHS_DEVEPTIER5_REG_OFST      _UINT32_(0x204)     /* (USBHS_DEVEPTIER5) Device Endpoint Interrupt Enable Register Offset */
-#define USBHS_DEVEPTIER6_REG_OFST      _UINT32_(0x208)     /* (USBHS_DEVEPTIER6) Device Endpoint Interrupt Enable Register Offset */
-#define USBHS_DEVEPTIER7_REG_OFST      _UINT32_(0x20C)     /* (USBHS_DEVEPTIER7) Device Endpoint Interrupt Enable Register Offset */
-#define USBHS_DEVEPTIER8_REG_OFST      _UINT32_(0x210)     /* (USBHS_DEVEPTIER8) Device Endpoint Interrupt Enable Register Offset */
-#define USBHS_DEVEPTIER9_REG_OFST      _UINT32_(0x214)     /* (USBHS_DEVEPTIER9) Device Endpoint Interrupt Enable Register Offset */
-#define USBHS_DEVEPTIDR_REG_OFST       _UINT32_(0x220)     /* (USBHS_DEVEPTIDR) Device Endpoint Interrupt Disable Register Offset */
-#define USBHS_DEVEPTIDR0_REG_OFST      _UINT32_(0x220)     /* (USBHS_DEVEPTIDR0) Device Endpoint Interrupt Disable Register Offset */
-#define USBHS_DEVEPTIDR1_REG_OFST      _UINT32_(0x224)     /* (USBHS_DEVEPTIDR1) Device Endpoint Interrupt Disable Register Offset */
-#define USBHS_DEVEPTIDR2_REG_OFST      _UINT32_(0x228)     /* (USBHS_DEVEPTIDR2) Device Endpoint Interrupt Disable Register Offset */
-#define USBHS_DEVEPTIDR3_REG_OFST      _UINT32_(0x22C)     /* (USBHS_DEVEPTIDR3) Device Endpoint Interrupt Disable Register Offset */
-#define USBHS_DEVEPTIDR4_REG_OFST      _UINT32_(0x230)     /* (USBHS_DEVEPTIDR4) Device Endpoint Interrupt Disable Register Offset */
-#define USBHS_DEVEPTIDR5_REG_OFST      _UINT32_(0x234)     /* (USBHS_DEVEPTIDR5) Device Endpoint Interrupt Disable Register Offset */
-#define USBHS_DEVEPTIDR6_REG_OFST      _UINT32_(0x238)     /* (USBHS_DEVEPTIDR6) Device Endpoint Interrupt Disable Register Offset */
-#define USBHS_DEVEPTIDR7_REG_OFST      _UINT32_(0x23C)     /* (USBHS_DEVEPTIDR7) Device Endpoint Interrupt Disable Register Offset */
-#define USBHS_DEVEPTIDR8_REG_OFST      _UINT32_(0x240)     /* (USBHS_DEVEPTIDR8) Device Endpoint Interrupt Disable Register Offset */
-#define USBHS_DEVEPTIDR9_REG_OFST      _UINT32_(0x244)     /* (USBHS_DEVEPTIDR9) Device Endpoint Interrupt Disable Register Offset */
+#define USBHS_DEVCTRL_REG_OFST         _UINT32_(0x00)      /* (USBHS_DEVCTRL) Component General Control Register Offset */
+#define USBHS_DEVISR_REG_OFST          _UINT32_(0x04)      /* (USBHS_DEVISR) Component Global Interrupt Status Register Offset */
+#define USBHS_DEVICR_REG_OFST          _UINT32_(0x08)      /* (USBHS_DEVICR) Component Global Interrupt Clear Register Offset */
+#define USBHS_DEVIFR_REG_OFST          _UINT32_(0x0C)      /* (USBHS_DEVIFR) Component Global Interrupt Set Register Offset */
+#define USBHS_DEVIMR_REG_OFST          _UINT32_(0x10)      /* (USBHS_DEVIMR) Component Global Interrupt Mask Register Offset */
+#define USBHS_DEVIDR_REG_OFST          _UINT32_(0x14)      /* (USBHS_DEVIDR) Component Global Interrupt Disable Register Offset */
+#define USBHS_DEVIER_REG_OFST          _UINT32_(0x18)      /* (USBHS_DEVIER) Component Global Interrupt Enable Register Offset */
+#define USBHS_DEVEPT_REG_OFST          _UINT32_(0x1C)      /* (USBHS_DEVEPT) Component Endpoint Register Offset */
+#define USBHS_DEVFNUM_REG_OFST         _UINT32_(0x20)      /* (USBHS_DEVFNUM) Component Frame Number Register Offset */
+#define USBHS_DEVEPTCFG_REG_OFST       _UINT32_(0x100)     /* (USBHS_DEVEPTCFG) Component Endpoint Configuration Register Offset */
+#define USBHS_DEVEPTCFG0_REG_OFST      _UINT32_(0x100)     /* (USBHS_DEVEPTCFG0) Component Endpoint Configuration Register Offset */
+#define USBHS_DEVEPTCFG1_REG_OFST      _UINT32_(0x104)     /* (USBHS_DEVEPTCFG1) Component Endpoint Configuration Register Offset */
+#define USBHS_DEVEPTCFG2_REG_OFST      _UINT32_(0x108)     /* (USBHS_DEVEPTCFG2) Component Endpoint Configuration Register Offset */
+#define USBHS_DEVEPTCFG3_REG_OFST      _UINT32_(0x10C)     /* (USBHS_DEVEPTCFG3) Component Endpoint Configuration Register Offset */
+#define USBHS_DEVEPTCFG4_REG_OFST      _UINT32_(0x110)     /* (USBHS_DEVEPTCFG4) Component Endpoint Configuration Register Offset */
+#define USBHS_DEVEPTCFG5_REG_OFST      _UINT32_(0x114)     /* (USBHS_DEVEPTCFG5) Component Endpoint Configuration Register Offset */
+#define USBHS_DEVEPTCFG6_REG_OFST      _UINT32_(0x118)     /* (USBHS_DEVEPTCFG6) Component Endpoint Configuration Register Offset */
+#define USBHS_DEVEPTCFG7_REG_OFST      _UINT32_(0x11C)     /* (USBHS_DEVEPTCFG7) Component Endpoint Configuration Register Offset */
+#define USBHS_DEVEPTCFG8_REG_OFST      _UINT32_(0x120)     /* (USBHS_DEVEPTCFG8) Component Endpoint Configuration Register Offset */
+#define USBHS_DEVEPTCFG9_REG_OFST      _UINT32_(0x124)     /* (USBHS_DEVEPTCFG9) Component Endpoint Configuration Register Offset */
+#define USBHS_DEVEPTISR_REG_OFST       _UINT32_(0x130)     /* (USBHS_DEVEPTISR) Component Endpoint Interrupt Status Register Offset */
+#define USBHS_DEVEPTISR0_REG_OFST      _UINT32_(0x130)     /* (USBHS_DEVEPTISR0) Component Endpoint Interrupt Status Register Offset */
+#define USBHS_DEVEPTISR1_REG_OFST      _UINT32_(0x134)     /* (USBHS_DEVEPTISR1) Component Endpoint Interrupt Status Register Offset */
+#define USBHS_DEVEPTISR2_REG_OFST      _UINT32_(0x138)     /* (USBHS_DEVEPTISR2) Component Endpoint Interrupt Status Register Offset */
+#define USBHS_DEVEPTISR3_REG_OFST      _UINT32_(0x13C)     /* (USBHS_DEVEPTISR3) Component Endpoint Interrupt Status Register Offset */
+#define USBHS_DEVEPTISR4_REG_OFST      _UINT32_(0x140)     /* (USBHS_DEVEPTISR4) Component Endpoint Interrupt Status Register Offset */
+#define USBHS_DEVEPTISR5_REG_OFST      _UINT32_(0x144)     /* (USBHS_DEVEPTISR5) Component Endpoint Interrupt Status Register Offset */
+#define USBHS_DEVEPTISR6_REG_OFST      _UINT32_(0x148)     /* (USBHS_DEVEPTISR6) Component Endpoint Interrupt Status Register Offset */
+#define USBHS_DEVEPTISR7_REG_OFST      _UINT32_(0x14C)     /* (USBHS_DEVEPTISR7) Component Endpoint Interrupt Status Register Offset */
+#define USBHS_DEVEPTISR8_REG_OFST      _UINT32_(0x150)     /* (USBHS_DEVEPTISR8) Component Endpoint Interrupt Status Register Offset */
+#define USBHS_DEVEPTISR9_REG_OFST      _UINT32_(0x154)     /* (USBHS_DEVEPTISR9) Component Endpoint Interrupt Status Register Offset */
+#define USBHS_DEVEPTICR_REG_OFST       _UINT32_(0x160)     /* (USBHS_DEVEPTICR) Component Endpoint Interrupt Clear Register Offset */
+#define USBHS_DEVEPTICR0_REG_OFST      _UINT32_(0x160)     /* (USBHS_DEVEPTICR0) Component Endpoint Interrupt Clear Register Offset */
+#define USBHS_DEVEPTICR1_REG_OFST      _UINT32_(0x164)     /* (USBHS_DEVEPTICR1) Component Endpoint Interrupt Clear Register Offset */
+#define USBHS_DEVEPTICR2_REG_OFST      _UINT32_(0x168)     /* (USBHS_DEVEPTICR2) Component Endpoint Interrupt Clear Register Offset */
+#define USBHS_DEVEPTICR3_REG_OFST      _UINT32_(0x16C)     /* (USBHS_DEVEPTICR3) Component Endpoint Interrupt Clear Register Offset */
+#define USBHS_DEVEPTICR4_REG_OFST      _UINT32_(0x170)     /* (USBHS_DEVEPTICR4) Component Endpoint Interrupt Clear Register Offset */
+#define USBHS_DEVEPTICR5_REG_OFST      _UINT32_(0x174)     /* (USBHS_DEVEPTICR5) Component Endpoint Interrupt Clear Register Offset */
+#define USBHS_DEVEPTICR6_REG_OFST      _UINT32_(0x178)     /* (USBHS_DEVEPTICR6) Component Endpoint Interrupt Clear Register Offset */
+#define USBHS_DEVEPTICR7_REG_OFST      _UINT32_(0x17C)     /* (USBHS_DEVEPTICR7) Component Endpoint Interrupt Clear Register Offset */
+#define USBHS_DEVEPTICR8_REG_OFST      _UINT32_(0x180)     /* (USBHS_DEVEPTICR8) Component Endpoint Interrupt Clear Register Offset */
+#define USBHS_DEVEPTICR9_REG_OFST      _UINT32_(0x184)     /* (USBHS_DEVEPTICR9) Component Endpoint Interrupt Clear Register Offset */
+#define USBHS_DEVEPTIFR_REG_OFST       _UINT32_(0x190)     /* (USBHS_DEVEPTIFR) Component Endpoint Interrupt Set Register Offset */
+#define USBHS_DEVEPTIFR0_REG_OFST      _UINT32_(0x190)     /* (USBHS_DEVEPTIFR0) Component Endpoint Interrupt Set Register Offset */
+#define USBHS_DEVEPTIFR1_REG_OFST      _UINT32_(0x194)     /* (USBHS_DEVEPTIFR1) Component Endpoint Interrupt Set Register Offset */
+#define USBHS_DEVEPTIFR2_REG_OFST      _UINT32_(0x198)     /* (USBHS_DEVEPTIFR2) Component Endpoint Interrupt Set Register Offset */
+#define USBHS_DEVEPTIFR3_REG_OFST      _UINT32_(0x19C)     /* (USBHS_DEVEPTIFR3) Component Endpoint Interrupt Set Register Offset */
+#define USBHS_DEVEPTIFR4_REG_OFST      _UINT32_(0x1A0)     /* (USBHS_DEVEPTIFR4) Component Endpoint Interrupt Set Register Offset */
+#define USBHS_DEVEPTIFR5_REG_OFST      _UINT32_(0x1A4)     /* (USBHS_DEVEPTIFR5) Component Endpoint Interrupt Set Register Offset */
+#define USBHS_DEVEPTIFR6_REG_OFST      _UINT32_(0x1A8)     /* (USBHS_DEVEPTIFR6) Component Endpoint Interrupt Set Register Offset */
+#define USBHS_DEVEPTIFR7_REG_OFST      _UINT32_(0x1AC)     /* (USBHS_DEVEPTIFR7) Component Endpoint Interrupt Set Register Offset */
+#define USBHS_DEVEPTIFR8_REG_OFST      _UINT32_(0x1B0)     /* (USBHS_DEVEPTIFR8) Component Endpoint Interrupt Set Register Offset */
+#define USBHS_DEVEPTIFR9_REG_OFST      _UINT32_(0x1B4)     /* (USBHS_DEVEPTIFR9) Component Endpoint Interrupt Set Register Offset */
+#define USBHS_DEVEPTIMR_REG_OFST       _UINT32_(0x1C0)     /* (USBHS_DEVEPTIMR) Component Endpoint Interrupt Mask Register Offset */
+#define USBHS_DEVEPTIMR0_REG_OFST      _UINT32_(0x1C0)     /* (USBHS_DEVEPTIMR0) Component Endpoint Interrupt Mask Register Offset */
+#define USBHS_DEVEPTIMR1_REG_OFST      _UINT32_(0x1C4)     /* (USBHS_DEVEPTIMR1) Component Endpoint Interrupt Mask Register Offset */
+#define USBHS_DEVEPTIMR2_REG_OFST      _UINT32_(0x1C8)     /* (USBHS_DEVEPTIMR2) Component Endpoint Interrupt Mask Register Offset */
+#define USBHS_DEVEPTIMR3_REG_OFST      _UINT32_(0x1CC)     /* (USBHS_DEVEPTIMR3) Component Endpoint Interrupt Mask Register Offset */
+#define USBHS_DEVEPTIMR4_REG_OFST      _UINT32_(0x1D0)     /* (USBHS_DEVEPTIMR4) Component Endpoint Interrupt Mask Register Offset */
+#define USBHS_DEVEPTIMR5_REG_OFST      _UINT32_(0x1D4)     /* (USBHS_DEVEPTIMR5) Component Endpoint Interrupt Mask Register Offset */
+#define USBHS_DEVEPTIMR6_REG_OFST      _UINT32_(0x1D8)     /* (USBHS_DEVEPTIMR6) Component Endpoint Interrupt Mask Register Offset */
+#define USBHS_DEVEPTIMR7_REG_OFST      _UINT32_(0x1DC)     /* (USBHS_DEVEPTIMR7) Component Endpoint Interrupt Mask Register Offset */
+#define USBHS_DEVEPTIMR8_REG_OFST      _UINT32_(0x1E0)     /* (USBHS_DEVEPTIMR8) Component Endpoint Interrupt Mask Register Offset */
+#define USBHS_DEVEPTIMR9_REG_OFST      _UINT32_(0x1E4)     /* (USBHS_DEVEPTIMR9) Component Endpoint Interrupt Mask Register Offset */
+#define USBHS_DEVEPTIER_REG_OFST       _UINT32_(0x1F0)     /* (USBHS_DEVEPTIER) Component Endpoint Interrupt Enable Register Offset */
+#define USBHS_DEVEPTIER0_REG_OFST      _UINT32_(0x1F0)     /* (USBHS_DEVEPTIER0) Component Endpoint Interrupt Enable Register Offset */
+#define USBHS_DEVEPTIER1_REG_OFST      _UINT32_(0x1F4)     /* (USBHS_DEVEPTIER1) Component Endpoint Interrupt Enable Register Offset */
+#define USBHS_DEVEPTIER2_REG_OFST      _UINT32_(0x1F8)     /* (USBHS_DEVEPTIER2) Component Endpoint Interrupt Enable Register Offset */
+#define USBHS_DEVEPTIER3_REG_OFST      _UINT32_(0x1FC)     /* (USBHS_DEVEPTIER3) Component Endpoint Interrupt Enable Register Offset */
+#define USBHS_DEVEPTIER4_REG_OFST      _UINT32_(0x200)     /* (USBHS_DEVEPTIER4) Component Endpoint Interrupt Enable Register Offset */
+#define USBHS_DEVEPTIER5_REG_OFST      _UINT32_(0x204)     /* (USBHS_DEVEPTIER5) Component Endpoint Interrupt Enable Register Offset */
+#define USBHS_DEVEPTIER6_REG_OFST      _UINT32_(0x208)     /* (USBHS_DEVEPTIER6) Component Endpoint Interrupt Enable Register Offset */
+#define USBHS_DEVEPTIER7_REG_OFST      _UINT32_(0x20C)     /* (USBHS_DEVEPTIER7) Component Endpoint Interrupt Enable Register Offset */
+#define USBHS_DEVEPTIER8_REG_OFST      _UINT32_(0x210)     /* (USBHS_DEVEPTIER8) Component Endpoint Interrupt Enable Register Offset */
+#define USBHS_DEVEPTIER9_REG_OFST      _UINT32_(0x214)     /* (USBHS_DEVEPTIER9) Component Endpoint Interrupt Enable Register Offset */
+#define USBHS_DEVEPTIDR_REG_OFST       _UINT32_(0x220)     /* (USBHS_DEVEPTIDR) Component Endpoint Interrupt Disable Register Offset */
+#define USBHS_DEVEPTIDR0_REG_OFST      _UINT32_(0x220)     /* (USBHS_DEVEPTIDR0) Component Endpoint Interrupt Disable Register Offset */
+#define USBHS_DEVEPTIDR1_REG_OFST      _UINT32_(0x224)     /* (USBHS_DEVEPTIDR1) Component Endpoint Interrupt Disable Register Offset */
+#define USBHS_DEVEPTIDR2_REG_OFST      _UINT32_(0x228)     /* (USBHS_DEVEPTIDR2) Component Endpoint Interrupt Disable Register Offset */
+#define USBHS_DEVEPTIDR3_REG_OFST      _UINT32_(0x22C)     /* (USBHS_DEVEPTIDR3) Component Endpoint Interrupt Disable Register Offset */
+#define USBHS_DEVEPTIDR4_REG_OFST      _UINT32_(0x230)     /* (USBHS_DEVEPTIDR4) Component Endpoint Interrupt Disable Register Offset */
+#define USBHS_DEVEPTIDR5_REG_OFST      _UINT32_(0x234)     /* (USBHS_DEVEPTIDR5) Component Endpoint Interrupt Disable Register Offset */
+#define USBHS_DEVEPTIDR6_REG_OFST      _UINT32_(0x238)     /* (USBHS_DEVEPTIDR6) Component Endpoint Interrupt Disable Register Offset */
+#define USBHS_DEVEPTIDR7_REG_OFST      _UINT32_(0x23C)     /* (USBHS_DEVEPTIDR7) Component Endpoint Interrupt Disable Register Offset */
+#define USBHS_DEVEPTIDR8_REG_OFST      _UINT32_(0x240)     /* (USBHS_DEVEPTIDR8) Component Endpoint Interrupt Disable Register Offset */
+#define USBHS_DEVEPTIDR9_REG_OFST      _UINT32_(0x244)     /* (USBHS_DEVEPTIDR9) Component Endpoint Interrupt Disable Register Offset */
 #define USBHS_HSTCTRL_REG_OFST         _UINT32_(0x400)     /* (USBHS_HSTCTRL) Host General Control Register Offset */
 #define USBHS_HSTISR_REG_OFST          _UINT32_(0x404)     /* (USBHS_HSTISR) Host Global Interrupt Status Register Offset */
 #define USBHS_HSTICR_REG_OFST          _UINT32_(0x408)     /* (USBHS_HSTICR) Host Global Interrupt Clear Register Offset */
@@ -2741,10 +2741,10 @@
 /* USBHS_DEVDMA register API structure */
 typedef struct
 {
-  __IO  uint32_t                       USBHS_DEVDMANXTDSC; /* Offset: 0x00 (R/W  32) Device DMA Channel Next Descriptor Address Register */
-  __IO  uint32_t                       USBHS_DEVDMAADDRESS; /* Offset: 0x04 (R/W  32) Device DMA Channel Address Register */
-  __IO  uint32_t                       USBHS_DEVDMACONTROL; /* Offset: 0x08 (R/W  32) Device DMA Channel Control Register */
-  __IO  uint32_t                       USBHS_DEVDMASTATUS; /* Offset: 0x0C (R/W  32) Device DMA Channel Status Register */
+  __IO  uint32_t                       USBHS_DEVDMANXTDSC; /* Offset: 0x00 (R/W  32) Component DMA Channel Next Descriptor Address Register */
+  __IO  uint32_t                       USBHS_DEVDMAADDRESS; /* Offset: 0x04 (R/W  32) Component DMA Channel Address Register */
+  __IO  uint32_t                       USBHS_DEVDMACONTROL; /* Offset: 0x08 (R/W  32) Component DMA Channel Control Register */
+  __IO  uint32_t                       USBHS_DEVDMASTATUS; /* Offset: 0x0C (R/W  32) Component DMA Channel Status Register */
 } usbhs_devdma_registers_t;
 
 /* USBHS_HSTDMA register API structure */
@@ -2763,31 +2763,31 @@ typedef struct
 /* USBHS register API structure */
 typedef struct
 {
-  __IO  uint32_t                       USBHS_DEVCTRL;      /* Offset: 0x00 (R/W  32) Device General Control Register */
-  __I   uint32_t                       USBHS_DEVISR;       /* Offset: 0x04 (R/   32) Device Global Interrupt Status Register */
-  __O   uint32_t                       USBHS_DEVICR;       /* Offset: 0x08 ( /W  32) Device Global Interrupt Clear Register */
-  __O   uint32_t                       USBHS_DEVIFR;       /* Offset: 0x0C ( /W  32) Device Global Interrupt Set Register */
-  __I   uint32_t                       USBHS_DEVIMR;       /* Offset: 0x10 (R/   32) Device Global Interrupt Mask Register */
-  __O   uint32_t                       USBHS_DEVIDR;       /* Offset: 0x14 ( /W  32) Device Global Interrupt Disable Register */
-  __O   uint32_t                       USBHS_DEVIER;       /* Offset: 0x18 ( /W  32) Device Global Interrupt Enable Register */
-  __IO  uint32_t                       USBHS_DEVEPT;       /* Offset: 0x1C (R/W  32) Device Endpoint Register */
-  __I   uint32_t                       USBHS_DEVFNUM;      /* Offset: 0x20 (R/   32) Device Frame Number Register */
+  __IO  uint32_t                       USBHS_DEVCTRL;      /* Offset: 0x00 (R/W  32) Component General Control Register */
+  __I   uint32_t                       USBHS_DEVISR;       /* Offset: 0x04 (R/   32) Component Global Interrupt Status Register */
+  __O   uint32_t                       USBHS_DEVICR;       /* Offset: 0x08 ( /W  32) Component Global Interrupt Clear Register */
+  __O   uint32_t                       USBHS_DEVIFR;       /* Offset: 0x0C ( /W  32) Component Global Interrupt Set Register */
+  __I   uint32_t                       USBHS_DEVIMR;       /* Offset: 0x10 (R/   32) Component Global Interrupt Mask Register */
+  __O   uint32_t                       USBHS_DEVIDR;       /* Offset: 0x14 ( /W  32) Component Global Interrupt Disable Register */
+  __O   uint32_t                       USBHS_DEVIER;       /* Offset: 0x18 ( /W  32) Component Global Interrupt Enable Register */
+  __IO  uint32_t                       USBHS_DEVEPT;       /* Offset: 0x1C (R/W  32) Component Endpoint Register */
+  __I   uint32_t                       USBHS_DEVFNUM;      /* Offset: 0x20 (R/   32) Component Frame Number Register */
   __I   uint8_t                        Reserved1[0xDC];
-  __IO  uint32_t                       USBHS_DEVEPTCFG[10]; /* Offset: 0x100 (R/W  32) Device Endpoint Configuration Register */
+  __IO  uint32_t                       USBHS_DEVEPTCFG[10]; /* Offset: 0x100 (R/W  32) Component Endpoint Configuration Register */
   __I   uint8_t                        Reserved2[0x08];
-  __I   uint32_t                       USBHS_DEVEPTISR[10]; /* Offset: 0x130 (R/   32) Device Endpoint Interrupt Status Register */
+  __I   uint32_t                       USBHS_DEVEPTISR[10]; /* Offset: 0x130 (R/   32) Component Endpoint Interrupt Status Register */
   __I   uint8_t                        Reserved3[0x08];
-  __O   uint32_t                       USBHS_DEVEPTICR[10]; /* Offset: 0x160 ( /W  32) Device Endpoint Interrupt Clear Register */
+  __O   uint32_t                       USBHS_DEVEPTICR[10]; /* Offset: 0x160 ( /W  32) Component Endpoint Interrupt Clear Register */
   __I   uint8_t                        Reserved4[0x08];
-  __O   uint32_t                       USBHS_DEVEPTIFR[10]; /* Offset: 0x190 ( /W  32) Device Endpoint Interrupt Set Register */
+  __O   uint32_t                       USBHS_DEVEPTIFR[10]; /* Offset: 0x190 ( /W  32) Component Endpoint Interrupt Set Register */
   __I   uint8_t                        Reserved5[0x08];
-  __I   uint32_t                       USBHS_DEVEPTIMR[10]; /* Offset: 0x1C0 (R/   32) Device Endpoint Interrupt Mask Register */
+  __I   uint32_t                       USBHS_DEVEPTIMR[10]; /* Offset: 0x1C0 (R/   32) Component Endpoint Interrupt Mask Register */
   __I   uint8_t                        Reserved6[0x08];
-  __O   uint32_t                       USBHS_DEVEPTIER[10]; /* Offset: 0x1F0 ( /W  32) Device Endpoint Interrupt Enable Register */
+  __O   uint32_t                       USBHS_DEVEPTIER[10]; /* Offset: 0x1F0 ( /W  32) Component Endpoint Interrupt Enable Register */
   __I   uint8_t                        Reserved7[0x08];
-  __O   uint32_t                       USBHS_DEVEPTIDR[10]; /* Offset: 0x220 ( /W  32) Device Endpoint Interrupt Disable Register */
+  __O   uint32_t                       USBHS_DEVEPTIDR[10]; /* Offset: 0x220 ( /W  32) Component Endpoint Interrupt Disable Register */
   __I   uint8_t                        Reserved8[0xC8];
-        usbhs_devdma_registers_t       USBHS_DEVDMA[USBHS_DEVDMA_NUMBER]; /* Offset: 0x310 Device DMA Channel Next Descriptor Address Register */
+        usbhs_devdma_registers_t       USBHS_DEVDMA[USBHS_DEVDMA_NUMBER]; /* Offset: 0x310 Component DMA Channel Next Descriptor Address Register */
   __I   uint8_t                        Reserved9[0x80];
   __IO  uint32_t                       USBHS_HSTCTRL;      /* Offset: 0x400 (R/W  32) Host General Control Register */
   __I   uint32_t                       USBHS_HSTISR;       /* Offset: 0x404 (R/   32) Host Global Interrupt Status Register */

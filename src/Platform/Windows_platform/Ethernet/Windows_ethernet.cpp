@@ -119,7 +119,7 @@ namespace Windows_platform {
             return false;
         }
 
-        // Npcap/WinPcap device names look like "\Device\NPF_{GUID}"; the
+        // Npcap/WinPcap device names look like "\Component\NPF_{GUID}"; the
         // AdapterName field from GetAdaptersAddresses is that same
         // "{GUID}". Match by substring so this is tolerant of exact
         // prefix differences between Npcap versions/modes.

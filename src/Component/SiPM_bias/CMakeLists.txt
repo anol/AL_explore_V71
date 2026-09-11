@@ -11,10 +11,10 @@ target_sources(${THE_TARGET_NAME} PUBLIC
         Bias_DAC.h
         Calibration_analyzer.cpp
         Calibration_analyzer.h
-        IDE3380_test_noise_floor.cpp
-        IDE3380_test_noise_floor.h
-        IDE3380_test_pedestal.cpp
-        IDE3380_test_pedestal.h
+        ../IDE3380/IDE3380_test_noise_floor.cpp
+        ../IDE3380/IDE3380_test_noise_floor.h
+        ../IDE3380/IDE3380_test_pedestal.cpp
+        ../IDE3380/IDE3380_test_pedestal.h
 #        Sensor_STTS22H.cpp
 #        Sensor_STTS22H.h
 )

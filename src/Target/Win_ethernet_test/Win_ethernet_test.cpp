@@ -10,9 +10,9 @@
 int main()
 {
     // getmac
-    // B4-2E-99-FA-ED-F4   \Device\Tcpip_{2C15BB74-10B4-4053-8F36-8D4078F1ADA3}
+    // B4-2E-99-FA-ED-F4   \Component\Tcpip_{2C15BB74-10B4-4053-8F36-8D4078F1ADA3}
 
-    char interface_name[]{"\\Device\\NPF_{2C15BB74-10B4-4053-8F36-8D4078F1ADA3}"};
+    char interface_name[]{"\\Component\\NPF_{2C15BB74-10B4-4053-8F36-8D4078F1ADA3}"};
     Windows_platform::Windows_ethernet eth{interface_name};
     const uint8_t mac[6] = {0x02, 0x00, 0x00, 0x00, 0x00, 0x01};
 

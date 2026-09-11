@@ -5,7 +5,7 @@
 **
 **  Author      : STM32CubeIDE
 **
-**  Abstract    : Linker script for STM32U575xG Device from STM32U5 series
+**  Abstract    : Linker script for STM32U575xG Component from STM32U5 series
 **                      1024Kbytes FLASH_BANK1
 **                      784Kbytes RAM
 **

@@ -24,7 +24,7 @@
 #pragma once
 #include "Generated_code/SpectraNode_provider_indication.h"
 #include "IDE3380_test_pedestal.h"
-#include "IDE3380_test_noise_floor.h"
+#include "../../Component/IDE3380/IDE3380_test_noise_floor.h"
 
 namespace Repository {
     class Configuration_repository;

@@ -30,8 +30,8 @@
 /* ************************************************************************** */
 
 /* -------- CHIPID_CIDR : (CHIPID Offset: 0x00) ( R/ 32) Chip ID Register -------- */
-#define CHIPID_CIDR_VERSION_Pos               _UINT32_(0)                                          /* (CHIPID_CIDR) Version of the Device Position */
-#define CHIPID_CIDR_VERSION_Msk               (_UINT32_(0x1F) << CHIPID_CIDR_VERSION_Pos)          /* (CHIPID_CIDR) Version of the Device Mask */
+#define CHIPID_CIDR_VERSION_Pos               _UINT32_(0)                                          /* (CHIPID_CIDR) Version of the Component Position */
+#define CHIPID_CIDR_VERSION_Msk               (_UINT32_(0x1F) << CHIPID_CIDR_VERSION_Pos)          /* (CHIPID_CIDR) Version of the Component Mask */
 #define CHIPID_CIDR_VERSION(value)            (CHIPID_CIDR_VERSION_Msk & (_UINT32_(value) << CHIPID_CIDR_VERSION_Pos)) /* Assignment of value for VERSION in the CHIPID_CIDR register */
 #define CHIPID_CIDR_EPROC_Pos                 _UINT32_(5)                                          /* (CHIPID_CIDR) Embedded Processor Position */
 #define CHIPID_CIDR_EPROC_Msk                 (_UINT32_(0x7) << CHIPID_CIDR_EPROC_Pos)             /* (CHIPID_CIDR) Embedded Processor Mask */

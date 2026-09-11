@@ -182,8 +182,8 @@
 #define MLB_MLBC1_CLKM_Pos                    _UINT32_(7)                                          /* (MLB_MLBC1) MediaLB Clock Missing Status (cleared by writing a 0) Position */
 #define MLB_MLBC1_CLKM_Msk                    (_UINT32_(0x1) << MLB_MLBC1_CLKM_Pos)                /* (MLB_MLBC1) MediaLB Clock Missing Status (cleared by writing a 0) Mask */
 #define MLB_MLBC1_CLKM(value)                 (MLB_MLBC1_CLKM_Msk & (_UINT32_(value) << MLB_MLBC1_CLKM_Pos)) /* Assignment of value for CLKM in the MLB_MLBC1 register */
-#define MLB_MLBC1_NDA_Pos                     _UINT32_(8)                                          /* (MLB_MLBC1) Node Device Address Position */
-#define MLB_MLBC1_NDA_Msk                     (_UINT32_(0xFF) << MLB_MLBC1_NDA_Pos)                /* (MLB_MLBC1) Node Device Address Mask */
+#define MLB_MLBC1_NDA_Pos                     _UINT32_(8)                                          /* (MLB_MLBC1) Node Component Address Position */
+#define MLB_MLBC1_NDA_Msk                     (_UINT32_(0xFF) << MLB_MLBC1_NDA_Pos)                /* (MLB_MLBC1) Node Component Address Mask */
 #define MLB_MLBC1_NDA(value)                  (MLB_MLBC1_NDA_Msk & (_UINT32_(value) << MLB_MLBC1_NDA_Pos)) /* Assignment of value for NDA in the MLB_MLBC1 register */
 #define MLB_MLBC1_Msk                         _UINT32_(0x0000FFC0)                                 /* (MLB_MLBC1) Register Mask  */
 
