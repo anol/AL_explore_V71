@@ -6,6 +6,7 @@
  */
 
 #pragma once
+#include "Abstract_board.h"
 #include "IDE3380_definitions.h"
 #include "IDE3380_readout_control.h"
 #include "IDE3380_register_access.h"
@@ -13,27 +14,28 @@
 
 extern volatile uint8_t software_reset;
 
-
-void init_SPI_thread();
-
 namespace Repository {
     class Configuration_repository;
 }
 
 namespace IDE3380 {
     class IDE3380_interface {
-        IDE3380_register_access the_register_access{};
-        IDE3380_readout_control the_readout_control{};
-        uint32_t the_load_error{};
-        uint32_t the_get_error{};
-        bool the_enable_external_hold{};
-        bool the_raise_external_hold{};
+        Abstract::Abstract_board &use_board;
+        IDE3380_register_access   the_register_access;
+        IDE3380_readout_control   the_readout_control{};
+        uint32_t                  the_load_error{};
+        uint32_t                  the_get_error{};
+        bool                      the_enable_external_hold{};
+        bool                      the_raise_external_hold{};
 
     public:
         static IDE3380_readout_control *optional_readout_controller;
 
-        static void *optional_IDE3380_user;
+        static void *      optional_IDE3380_user;
         static wakeup_func optional_user_wakeup_func;
+
+        explicit IDE3380_interface(Abstract::Abstract_board &board) : use_board(board), the_register_access(board.get_SPI()) {
+        }
 
         void initialize(void *user, wakeup_func wakeup, readout_func readout);
 

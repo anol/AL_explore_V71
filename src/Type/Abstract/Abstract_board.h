@@ -6,6 +6,7 @@
 #include <cstdint>
 
 #include "Abstract_IO_pin.h"
+#include "Abstract_SPI.h"
 #include "Abstract_UART.h"
 
 namespace Dictionary
@@ -25,6 +26,8 @@ namespace Abstract
         virtual void initialize() = 0;
 
         virtual Abstract_UART& get_UART() = 0;
+
+        virtual Abstract_SPI& get_SPI() = 0;
 
         virtual Abstract_IO_pin& get_pin(Dictionary::Pin_id id) = 0;
 

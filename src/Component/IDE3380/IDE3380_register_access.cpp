@@ -1,54 +1,16 @@
-/*
-* Copyright (C) 2020-2025 Integrated Detector Electronics AS
-* All Rights Reserved.
-*
-* NOTICE: All information contained herein is, and remains
-* the property of Integrated Detector Electronics AS and its suppliers,
-* if any. The intellectual and technical concepts contained
-* herein are proprietary to Integrated Detector Electronics AS
-* and its suppliers and may be covered by Norwegian, EU. or U.S. patents,
-* patents in process, and are protected by trade secret or copyright law.
-* Dissemination of this information or reproduction of this material
-* is strictly forbidden unless prior written permission is obtained
-* from Integrated Detector Electronics AS.
-*/
-
-/**
-* @file   IDE3380_register_access.cpp
-* @author AndersEmilOlsen, IDEAS
-* @date   13.05.2026
-* @brief  
-*/
-
 #include <cstdio>
 
+#include "Abstract_SPI.h"
 #include "IDE3380_register_access.h"
-
 #include "IDE3380_register_decoder.h"
-// #include "main.h"
-// #include "spi.h"
+
 
 namespace IDE3380 {
     IDE3380_register_access *IDE3380_register_access::optional_one_and_only{};
-}
 
-// extern "C" void HAL_SPI_TxRxCpltCallback(const SPI_HandleTypeDef *hspi) {
-//     using namespace IDE3380;
-//     // if (hspi == &hspi1) {
-//     //     if (IDE3380_register_access::optional_one_and_only) {
-//     //         IDE3380_register_access::optional_one_and_only->transfer_complete();
-//     //     }
-//     // }
-// }
-
-namespace IDE3380 {
     void IDE3380_register_access::initialize() {
         optional_one_and_only = this;
-        // HAL_GPIO_WritePin(IDE3380_RST_GPIO_Port, IDE3380_RST_Pin, GPIO_PIN_SET);
-        // HAL_GPIO_WritePin(IDE3380_SPI1_nCS_GPIO_Port, IDE3380_SPI1_nCS_Pin, GPIO_PIN_SET);
-        // HAL_GPIO_WritePin(IDE3380_RST_GPIO_Port, IDE3380_RST_Pin, GPIO_PIN_RESET);
     }
-
 
     void IDE3380_register_access::dump() {
         for (uint8_t address = 0; address < IDE3380_register_count; address++) {
@@ -71,7 +33,7 @@ namespace IDE3380 {
         }
         for (uint8_t index = 0; index < IDE3380_channel_count; index++) {
             auto new_value = the_channel_restore_cache[index];
-            new_value |= QC_threshold_mask; // Set max threshold
+            new_value      |= QC_threshold_mask; // Set max threshold
             SPI_update_register(index, IDE3380_write_only, new_value);
         }
     }
@@ -107,14 +69,14 @@ namespace IDE3380 {
         uint32_t value{};
         if (index < IDE3380_channel_count) {
             value = SPI_read_register(index);
-            value &= ~QC_threshold_mask; // Clear old threshold
+            value &= ~QC_threshold_mask;            // Clear old threshold
             value |= threshold << QC_threshold_pos; // Set new threshold
             SPI_update_register(index, IDE3380_write_only, value);
         }
         return value;
     }
 
-    uint32_t IDE3380_register_access::SPI_update_register(uint8_t register_address, uint8_t nRead_Write,
+    uint32_t IDE3380_register_access::SPI_update_register(uint8_t  register_address, uint8_t nRead_Write,
                                                           uint32_t data) {
         if (register_address >= IDE3380_register_count)return 0;
         // uint32_t valid_mask = ~((~0) << IDE3380_register_width[register_address]);

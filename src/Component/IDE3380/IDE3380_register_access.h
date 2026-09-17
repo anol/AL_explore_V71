@@ -26,13 +26,22 @@
 #include <cstdint>
 #include "IDE3380_definitions.h"
 
+namespace Abstract {
+    class Abstract_SPI;
+}
+
 namespace IDE3380 {
     class IDE3380_register_access {
-        uint32_t the_channel_restore_cache[IDE3380_channel_count]{};
+        Abstract::Abstract_SPI &use_SPI;
+        uint32_t      the_channel_restore_cache[IDE3380_channel_count]{};
         volatile bool the_transfer_complete_flag{true};
 
     public:
         static IDE3380_register_access *optional_one_and_only;
+
+    public:
+        explicit IDE3380_register_access(Abstract::Abstract_SPI &SPI) : use_SPI(SPI) {
+        }
 
         void initialize();
 
