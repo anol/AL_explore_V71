@@ -1,0 +1,21 @@
+#pragma once
+#include "Abstract_semaphore.h"
+
+extern "C" {
+#include "FreeRTOS.h"
+#include "semphr.h"
+}
+
+namespace FreeRTOS {
+    class FreeRTOS_semaphore : public Abstract::Abstract_semaphore {
+        StaticSemaphore_t the_semaphore_structure{};
+        SemaphoreHandle_t optional_semaphore{};
+
+    public:
+        FreeRTOS_semaphore() { optional_semaphore = xSemaphoreCreateBinaryStatic(&the_semaphore_structure); }
+
+        bool take() override { return xSemaphoreTake(optional_semaphore, portMAX_DELAY) == pdTRUE; }
+
+        bool give() override { return xSemaphoreGive(optional_semaphore) == pdTRUE; }
+    };
+} // FreeRTOS

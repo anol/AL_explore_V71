@@ -2,10 +2,5 @@ target_include_directories(${THE_TARGET_NAME} PUBLIC
         .
 )
 target_sources(${THE_TARGET_NAME} PUBLIC
-        Status_code.h
-        Misc_type.h
+        Generic_transfer.h
 )
-add_subdirectory(Abstract)
-add_subdirectory(Generic)
-
-

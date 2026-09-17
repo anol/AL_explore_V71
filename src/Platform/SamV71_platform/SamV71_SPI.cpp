@@ -4,11 +4,14 @@ namespace SamV71 {
     void SamV71_SPI::initialize() {
     }
 
-    bool SamV71_SPI::transfer(Abstract::SPI_request *request) {
+    bool SamV71_SPI::transfer(Generic::Transfer_request *request) {
         bool success{};
-        if (optional_queue) {
-            auto result = xQueueSend(optional_queue, request, eNoTasksWaitingTimeout);
-            success = result == pdPASS;
+        if (request && request->get_semaphore()) {
+            if (the_queue.send(request)) {
+                auto *semaphore = request->get_semaphore();
+                semaphore->take();
+                success = true;
+            }
         }
         return success;
     }

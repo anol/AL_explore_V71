@@ -8,6 +8,8 @@ target_sources(${THE_TARGET_NAME} PUBLIC
         Abstract_ethernet.h
         Abstract_IO_pin.h
         Abstract_pin_table.h
+        Abstract_queue.h
+        Abstract_semaphore.h
         Abstract_service.h
         Abstract_SPI.h
         Abstract_target.h
