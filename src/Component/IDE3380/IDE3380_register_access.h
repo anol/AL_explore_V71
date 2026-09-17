@@ -33,11 +33,17 @@ namespace Abstract {
 namespace IDE3380 {
     class IDE3380_register_access {
         Abstract::Abstract_SPI &use_SPI;
-        uint32_t      the_channel_restore_cache[IDE3380_channel_count]{};
-        volatile bool the_transfer_complete_flag{true};
+        uint32_t                the_channel_restore_cache[IDE3380_channel_count]{};
+        volatile bool           the_transfer_complete_flag{true};
 
     public:
         static IDE3380_register_access *optional_one_and_only;
+
+    private:
+        enum {
+            CS_ASIC1, CS_ASIC2, CS_ASIC3, CS_ASIC4, CS_ASIC5,
+            IDE3380_data_width = 40, Bits_per_byte = 8, IDE3380_data_length = IDE3380_data_width / Bits_per_byte
+        };
 
     public:
         explicit IDE3380_register_access(Abstract::Abstract_SPI &SPI) : use_SPI(SPI) {
@@ -48,6 +54,8 @@ namespace IDE3380 {
         uint32_t SPI_read_register(uint8_t register_address);
 
         uint32_t SPI_update_register(uint8_t register_address, uint8_t nRead_Write, uint32_t data);
+
+        uint32_t SPI_write_register(uint8_t register_address, uint32_t data);
 
         void override_all_thresholds();
 

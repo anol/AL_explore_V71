@@ -2,6 +2,8 @@
 
 #include "Abstract_SPI.h"
 #include "IDE3380_register_access.h"
+
+#include "FreeRTOS_semaphore.h"
 #include "IDE3380_register_decoder.h"
 
 
@@ -76,14 +78,22 @@ namespace IDE3380 {
         return value;
     }
 
-    uint32_t IDE3380_register_access::SPI_update_register(uint8_t  register_address, uint8_t nRead_Write,
-                                                          uint32_t data) {
-        if (register_address >= IDE3380_register_count)return 0;
+    uint32_t IDE3380_register_access::SPI_update_register(uint8_t register_address, uint8_t nRead_Write, uint32_t data) {
+        uint32_t register_value{};
+        if (register_address < IDE3380_register_count) {
+            if (nRead_Write) {
+                register_value = SPI_write_register(register_address, data);
+            }
+            if (nRead_Write != IDE3380_write_only) {
+                register_value = SPI_read_register(register_address);
+            }
+        }
+        return register_value;
         // uint32_t valid_mask = ~((~0) << IDE3380_register_width[register_address]);
         // uint32_t data_masked = data & valid_mask;
         // uint8_t data_rx[5];
         // HAL_GPIO_WritePin(IDE3380_SPI1_nCS_GPIO_Port, IDE3380_SPI1_nCS_Pin, GPIO_PIN_SET);
-        if (nRead_Write) {
+        // if (nRead_Write) {
             // uint8_t data_tx[5] = {0};
             // data_tx[0] = (register_address << 1) | 0x01; //write
             // data_tx[1] = data_masked >> 24 & 0xFF;
@@ -97,8 +107,8 @@ namespace IDE3380 {
             //     // HAL_Delay(1);
             // }
             // HAL_GPIO_WritePin(IDE3380_SPI1_nCS_GPIO_Port, IDE3380_SPI1_nCS_Pin, GPIO_PIN_SET);
-        }
-        if (nRead_Write != IDE3380_write_only) {
+        // }
+        // if (nRead_Write != IDE3380_write_only) {
             // uint8_t data_tx[5] = {0};
             // data_tx[0] = (register_address << 1) | 0x00; //read
             // HAL_GPIO_WritePin(IDE3380_SPI1_nCS_GPIO_Port, IDE3380_SPI1_nCS_Pin, GPIO_PIN_RESET);
@@ -109,12 +119,45 @@ namespace IDE3380 {
             // }
             // HAL_GPIO_WritePin(IDE3380_SPI1_nCS_GPIO_Port, IDE3380_SPI1_nCS_Pin, GPIO_PIN_SET);
             // return (data_rx[1] << 24 | data_rx[2] << 16 | data_rx[3] << 8 | data_rx[4]) & valid_mask;
+        // }
+    }
+
+    uint32_t IDE3380_register_access::SPI_write_register(uint8_t register_address, uint32_t data) {
+        uint32_t register_value{};
+        if (register_address < IDE3380_register_count) {
+            FreeRTOS::FreeRTOS_semaphore semaphore{};
+            Generic::Transfer_request    request{CS_ASIC1, IDE3380_data_width, &semaphore};
+            uint8_t                      data_tx[IDE3380_data_length]{};
+            uint8_t                      data_rx[IDE3380_data_length]{};
+            uint32_t                     valid_mask  = ~((~0) << IDE3380_register_width[register_address]);
+            uint32_t                     data_masked = data & valid_mask;
+            data_tx[0]                               = (register_address << 1) | 0x01; //write
+            data_tx[1]                               = data_masked >> 24 & 0xFF;
+            data_tx[2]                               = data_masked >> 16 & 0xFF;
+            data_tx[3]                               = data_masked >> 8 & 0xFF;
+            data_tx[4]                               = data_masked & 0xFF;
+            request.set_buffers(data_tx, data_rx);
+            if (use_SPI.transfer(&request)) {
+                register_value = (data_rx[1] << 24 | data_rx[2] << 16 | data_rx[3] << 8 | data_rx[4]) & valid_mask;
+            }
         }
-        return 0;
+        return register_value;
     }
 
     uint32_t IDE3380_register_access::SPI_read_register(uint8_t register_address) {
-        if (register_address >= IDE3380_register_count)return 0;
+        uint32_t register_value{};
+        if (register_address < IDE3380_register_count) {
+            FreeRTOS::FreeRTOS_semaphore semaphore{};
+            Generic::Transfer_request    request{CS_ASIC1, IDE3380_data_width, &semaphore};
+            uint8_t                      data_tx[IDE3380_data_length]{};
+            uint8_t                      data_rx[IDE3380_data_length]{};
+            data_tx[0] = (register_address << 1) | 0x00; //read
+            request.set_buffers(data_tx, data_rx);
+            if (use_SPI.transfer(&request)) {
+                uint32_t valid_mask = ~((~0) << IDE3380_register_width[register_address]);
+                register_value      = (data_rx[1] << 24 | data_rx[2] << 16 | data_rx[3] << 8 | data_rx[4]) & valid_mask;
+            }
+        }
         // uint32_t valid_mask = ~((~0) << IDE3380_register_width[register_address]);
         // uint8_t data_rx[5];
         // HAL_GPIO_WritePin(IDE3380_SPI1_nCS_GPIO_Port, IDE3380_SPI1_nCS_Pin, GPIO_PIN_SET);
@@ -128,6 +171,6 @@ namespace IDE3380 {
         // }
         // HAL_GPIO_WritePin(IDE3380_SPI1_nCS_GPIO_Port, IDE3380_SPI1_nCS_Pin, GPIO_PIN_SET);
         // return (data_rx[1] << 24 | data_rx[2] << 16 | data_rx[3] << 8 | data_rx[4]) & valid_mask;
-        return 0;
+        return register_value;
     }
 }
