@@ -89,37 +89,6 @@ namespace IDE3380 {
             }
         }
         return register_value;
-        // uint32_t valid_mask = ~((~0) << IDE3380_register_width[register_address]);
-        // uint32_t data_masked = data & valid_mask;
-        // uint8_t data_rx[5];
-        // HAL_GPIO_WritePin(IDE3380_SPI1_nCS_GPIO_Port, IDE3380_SPI1_nCS_Pin, GPIO_PIN_SET);
-        // if (nRead_Write) {
-            // uint8_t data_tx[5] = {0};
-            // data_tx[0] = (register_address << 1) | 0x01; //write
-            // data_tx[1] = data_masked >> 24 & 0xFF;
-            // data_tx[2] = data_masked >> 16 & 0xFF;
-            // data_tx[3] = data_masked >> 8 & 0xFF;
-            // data_tx[4] = data_masked & 0xFF;
-            // // HAL_GPIO_WritePin(IDE3380_SPI1_nCS_GPIO_Port, IDE3380_SPI1_nCS_Pin, GPIO_PIN_RESET);
-            // the_transfer_complete_flag = false;
-            // // HAL_SPI_TransmitReceive_DMA(&hspi1, data_tx, data_rx, 5);
-            // while (!the_transfer_complete_flag) {
-            //     // HAL_Delay(1);
-            // }
-            // HAL_GPIO_WritePin(IDE3380_SPI1_nCS_GPIO_Port, IDE3380_SPI1_nCS_Pin, GPIO_PIN_SET);
-        // }
-        // if (nRead_Write != IDE3380_write_only) {
-            // uint8_t data_tx[5] = {0};
-            // data_tx[0] = (register_address << 1) | 0x00; //read
-            // HAL_GPIO_WritePin(IDE3380_SPI1_nCS_GPIO_Port, IDE3380_SPI1_nCS_Pin, GPIO_PIN_RESET);
-            // the_transfer_complete_flag = false;
-            // HAL_SPI_TransmitReceive_DMA(&hspi1, data_tx, data_rx, 5);
-            // while (!the_transfer_complete_flag) {
-            //     HAL_Delay(1);
-            // }
-            // HAL_GPIO_WritePin(IDE3380_SPI1_nCS_GPIO_Port, IDE3380_SPI1_nCS_Pin, GPIO_PIN_SET);
-            // return (data_rx[1] << 24 | data_rx[2] << 16 | data_rx[3] << 8 | data_rx[4]) & valid_mask;
-        // }
     }
 
     uint32_t IDE3380_register_access::SPI_write_register(uint8_t register_address, uint32_t data) {
@@ -158,19 +127,6 @@ namespace IDE3380 {
                 register_value      = (data_rx[1] << 24 | data_rx[2] << 16 | data_rx[3] << 8 | data_rx[4]) & valid_mask;
             }
         }
-        // uint32_t valid_mask = ~((~0) << IDE3380_register_width[register_address]);
-        // uint8_t data_rx[5];
-        // HAL_GPIO_WritePin(IDE3380_SPI1_nCS_GPIO_Port, IDE3380_SPI1_nCS_Pin, GPIO_PIN_SET);
-        // uint8_t data_tx[5] = {0};
-        // data_tx[0] = (register_address << 1) | 0x00; //read
-        // HAL_GPIO_WritePin(IDE3380_SPI1_nCS_GPIO_Port, IDE3380_SPI1_nCS_Pin, GPIO_PIN_RESET);
-        // the_transfer_complete_flag = false;
-        // HAL_SPI_TransmitReceive_DMA(&hspi1, data_tx, data_rx, 5);
-        // while (!the_transfer_complete_flag) {
-        //     HAL_Delay(1);
-        // }
-        // HAL_GPIO_WritePin(IDE3380_SPI1_nCS_GPIO_Port, IDE3380_SPI1_nCS_Pin, GPIO_PIN_SET);
-        // return (data_rx[1] << 24 | data_rx[2] << 16 | data_rx[3] << 8 | data_rx[4]) & valid_mask;
         return register_value;
     }
 }
