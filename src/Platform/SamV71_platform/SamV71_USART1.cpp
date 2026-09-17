@@ -43,7 +43,7 @@ extern "C" void USART1_ISR(void) {
 namespace SamV71 {
     SamV71_USART1::SamV71_USART1() {
         optional_RX_queue = xQueueCreateStatic(RX_queue_size, sizeof(uint8_t), reinterpret_cast<uint8_t *>(the_RX_storage), &the_RX_structure);
-        optional_TX_queue = xQueueCreateStatic(TX_queue_size, sizeof(uint8_t), reinterpret_cast<uint8_t *>(the_RX_storage), &the_RX_structure);
+        optional_TX_queue = xQueueCreateStatic(TX_queue_size, sizeof(uint8_t), reinterpret_cast<uint8_t *>(the_TX_storage), &the_TX_structure);
         configASSERT(optional_RX_queue != nullptr);
         configASSERT(optional_TX_queue != nullptr);
     }
