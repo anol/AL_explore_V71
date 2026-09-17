@@ -3,7 +3,7 @@
 //
 
 module;
-#include "Abstract_task.h"
+#include "FreeRTOS_task.h"
 #include "CLI_parser.h"
 #include "Instruction_major.h"
 #include "Ringbuffer.h"
@@ -13,44 +13,40 @@ module;
 
 module Support.Console_service:Console_receive_task;
 
-namespace Console
-{
-    class Console_receive_task : public Abstract::Abstract_task
-    {
-        enum { Queue_size = 16, Command_buffer_size = 100 };
+namespace Console {
+    class Console_receive_task : public FreeRTOS::FreeRTOS_task {
+        enum { Queue_size = 16, Command_buffer_size = 100, Priority = Default_priority, Stack_size = 4096 * 2 };
 
         using Command_queue = Ringbuffer<Instruction_major, Queue_size>;
-        Abstract::Abstract_UART& use_console;
-        Request_router& use_router;
-        CLI_parser the_parser;
-        Command_queue the_queue{};
-        int escape_received{};
-        volatile size_t the_buffer_pointer{};
-        char the_command_buffer[Command_buffer_size]{};
-        char the_previous_command[Command_buffer_size]{};
-        volatile uint8_t the_rx_index{};
-        bool the_echo_flag{};
+        Abstract::Abstract_UART &use_console;
+        Request_router &         use_router;
+        CLI_parser               the_parser;
+        Command_queue            the_queue{};
+        int                      escape_received{};
+        volatile size_t          the_buffer_pointer{};
+        char                     the_command_buffer[Command_buffer_size]{};
+        char                     the_previous_command[Command_buffer_size]{};
+        volatile uint8_t         the_rx_index{};
+        bool                     the_echo_flag{};
 
     public:
-        Console_receive_task(Abstract::Abstract_UART& UART, Application::Request_router& router)
-            : use_console(UART), use_router(router), the_parser(get_commands())
-        {
+        Console_receive_task(Abstract::Abstract_UART &UART, Application::Request_router &router)
+            : FreeRTOS_task("Console receive", Priority, Stack_size), use_console(UART), use_router(router), the_parser(get_commands()) {
         }
 
-        void initialize() override;
+        void initialize() override {
+        }
 
         void set_echo(bool echo) { the_echo_flag = echo; };
 
-    private:
-        void task_loop();
+        void task_loop() override;
 
-        Status_code get_command(Instruction_major& instruction);
+    private:
+        Status_code get_command(Instruction_major &instruction);
 
         void on_data(uint8_t data);
 
         bool is_command_completed(uint8_t data);
-
-        static void task_entry(void* object);
 
         [[nodiscard]] bool is_echo() const { return the_echo_flag; }
     };

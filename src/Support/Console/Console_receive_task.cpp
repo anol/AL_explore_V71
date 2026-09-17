@@ -14,18 +14,6 @@ module Support.Console_service;
 
 namespace Console
 {
-    void Console_receive_task::initialize()
-    {
-        constexpr UBaseType_t priority = tskIDLE_PRIORITY + 1;
-        constexpr StackType_t stack_size = 4096 * 2;
-        xTaskCreate(task_entry, "Console_receive_task", stack_size, this, priority, &optional_task);
-    }
-
-    void Console_receive_task::task_entry(void* object)
-    {
-        static_cast<Console_receive_task*>(object)->task_loop();
-    }
-
     void Console_receive_task::task_loop()
     {
         uint8_t data;

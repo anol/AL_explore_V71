@@ -3,20 +3,19 @@
 //
 
 module;
-#include "Abstract_task.h"
+#include "FreeRTOS_task.h"
 
 module Support.Console_service:Console_transmit_task;
 
-namespace Console
-{
-    class Console_transmit_task : public Abstract::Abstract_task
-    {
+namespace Console {
+    class Console_transmit_task : public FreeRTOS::FreeRTOS_task {
     public:
-        void initialize() override;
+        Console_transmit_task() : FreeRTOS_task("Console transmit") {
+        }
 
-    private:
-        void task_loop();
+        void initialize() override {
+        };
 
-        static void task_entry(void* object);
+        void task_loop() override;
     };
 } // Console
