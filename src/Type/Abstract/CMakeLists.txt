@@ -9,6 +9,7 @@ target_sources(${THE_TARGET_NAME} PUBLIC
         Abstract_IO_pin.h
         Abstract_pin_table.h
         Abstract_service.h
+        Abstract_SPI.h
         Abstract_target.h
         Abstract_task.h
         Abstract_timer.h

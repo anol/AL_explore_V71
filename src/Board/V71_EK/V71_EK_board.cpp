@@ -11,6 +11,7 @@ namespace Board
         the_clock.initialize();
         enable_cache();
         the_pin_manager.initialize();
+        the_SPI.initialize();
         the_UART.initialize();
         the_console.initialize();
     }

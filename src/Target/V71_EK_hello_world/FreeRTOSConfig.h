@@ -45,7 +45,7 @@ extern uint32_t SystemCoreClock;   /* Updated in SamV71_clock.cpp */
 /* ---------------------------------------------------------------------
  * Memory allocation
  * ------------------------------------------------------------------- */
-#define configSUPPORT_STATIC_ALLOCATION         0
+#define configSUPPORT_STATIC_ALLOCATION         1
 #define configSUPPORT_DYNAMIC_ALLOCATION        1
 #define configTOTAL_HEAP_SIZE                   ( 64 * 1024 )  /* TODO: budget against
                                                     your SAMV71 part's actual SRAM size
