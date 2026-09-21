@@ -7,8 +7,6 @@ target_sources(${THE_TARGET_NAME} PUBLIC
         SpectraNode_command_lookup.cpp
         SpectraNode_command_lookup.h
         SpectraNode_command_version.h
-#        SpectraNode_error_code.h
-#        SpectraNode_error_code_src.h
         SpectraNode_keyword.html
         SpectraNode_keyword_lookup.cpp
         SpectraNode_keyword_lookup.h

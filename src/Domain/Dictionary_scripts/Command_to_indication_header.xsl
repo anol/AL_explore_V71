@@ -18,7 +18,7 @@
 import Support.Instruction_lookup;
 import Type.Abstract_provider;
 
-using namespace Instruction;
+using namespace Abstract;
 
 namespace Transaction {
     class Transaction_major;

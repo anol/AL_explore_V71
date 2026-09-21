@@ -17,7 +17,7 @@ set SUBJECT=SpectraNode
 
 set TARGET_DIR=..\Generated_code
 set SCRIPT_DIR=..\Dictionary_scripts
-set XSLT=..\..\..\..\tools\XSLT\msxsl
+set XSLT=..\..\..\tool\XSLT\msxsl
 
 :: Keywords
 set KEYSRC=%SUBJECT%_keyword
@@ -55,10 +55,3 @@ set PRVTRG=%TARGET_DIR%\%SUBJECT%_provider
 %XSLT% %CMDSRC%.xml %SCRIPT_DIR%\Command_to_indication_source.xsl -o %PRVTRG%_indication.cpp
 %XSLT% %CMDSRC%.xml %SCRIPT_DIR%\Command_to_skeleton_header.xsl -o %PRVTRG%_skeleton.h
 %XSLT% %CMDSRC%.xml %SCRIPT_DIR%\Command_to_skeleton_source.xsl -o %PRVTRG%_skeleton.cpp
-
-:: Codes
-set ERRSRC=%SUBJECT%_error_code
-set ERRTRG=%TARGET_DIR%\%ERRSRC%
-%XSLT% %ERRSRC%.xml %SCRIPT_DIR%\Error_to_header.xsl -o %ERRTRG%.h
-%XSLT% %ERRSRC%.xml %SCRIPT_DIR%\Error_to_source_header.xsl -o %ERRTRG%_src.h
-%XSLT% %ERRSRC%.xml %SCRIPT_DIR%\Error_to_HTML.xsl -o %ERRTRG%.html date="%DATE%"
