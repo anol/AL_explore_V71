@@ -28,7 +28,6 @@
 
 #include "Instruction_lookup.h"
 #include "Abstract_provider.h"
-#include "Dictionary.h"
 
 using namespace Instruction;
 
