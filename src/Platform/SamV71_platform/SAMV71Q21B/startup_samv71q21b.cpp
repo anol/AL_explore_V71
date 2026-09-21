@@ -105,7 +105,7 @@ extern "C" void TWIHS0_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
 
 extern "C" void TWIHS1_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
 
-extern "C" void SPI0_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+extern "C" void SPI0_Handler();// __attribute__ ((weak, alias("Dummy_Handler")));
 
 extern "C" void SSC_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
 

@@ -142,7 +142,7 @@
 // }
 
 extern "C" {
-void SPI0_handler()
+void SPI0_Handler()
 {
     NVIC_DisableIRQ(SPI0_IRQn);
 }
