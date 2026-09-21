@@ -34,8 +34,9 @@ so they're left out. One node per source directory (a "module"), clustered by to
 (`Support.CLI_parser`, …), `Support/Console` (`Support.Console_service`) and the generated
 dictionary (`Domain.SpectraNode_keyword_lookup`, `Domain.SpectraNode_command_lookup`,
 `Domain.SpectraNode_provider_indication`, …) — plus `Domain/IO_pins`. So every edge into
-`Type/*`, `Support/*` and `Domain/Generated_code` is dashed, plus the `Domain.IO_pins` imports from
-`Application/Hello_world`, `Board/V71_EK` and `Type/Abstract`. The remaining `#include` edges only
+`Type/*`, `Support/*` and `Domain/Generated_code` is dashed (`Domain.IO_pins` itself imports
+`Type.Abstract_IO_pin` for the pin id type), plus the `Domain.IO_pins` imports from
+`Application/Hello_world` and `Board/V71_EK`. The remaining `#include` edges only
 point at `Application/*`, `Board/V71_EK`, `Component/*`, `Domain`, `Platform/*` and `Utility`.
 (`Type`, `Support` and `Support/Plumbing` have no files of their own any more, so none of them is a node.)
 A module pair with edges in both directions (either kind) is flagged as a two-way dependency:

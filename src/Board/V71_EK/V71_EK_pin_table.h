@@ -57,7 +57,7 @@ namespace SamV71
 
     public:
         void initialize() override;
-        Abstract::Abstract_IO_pin& get_pin(Domain::Pin_id id) override;
+        Abstract::Abstract_IO_pin& get_pin(Abstract::Abstract_pin_id id) override;
         Status_code set_phase(Pin::Pin_phase) override;
         Status_code for_each_pin(void* user, void (*func)(void*, Abstract::Abstract_IO_pin&)) override;
         [[nodiscard]] uint8_t get_pin_count() const override { return Domain::Number_of_pins; };

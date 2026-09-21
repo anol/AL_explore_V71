@@ -1,14 +1,9 @@
-//
-// Created by aeols on 2026-08-19.
-//
-
-module;
-#include <cstdint>
 
 export module Domain.IO_pins;
+import Type.Abstract_IO_pin;
 
 export namespace Domain {
-    enum Pin_id : std::uint8_t {
+    enum Pin_id : Abstract::Abstract_pin_id {
         Pin_not_used,
 
         Pin_SDA,

@@ -6,6 +6,8 @@ export import Type.Status_code;
 
 namespace Abstract {
 
+    export using Abstract_pin_id = uint8_t;
+
     /// Purpose: The Abstract_IO_pin is a hardware abstraction of the MCU peripheral IOs.
     export class Abstract_IO_pin {
     public:

@@ -45,7 +45,7 @@ namespace SamV71
         return Status_code::Success();
     }
 
-    Pin& V71_EK_pin_table::get_pin(const Domain::Pin_id id)
+    Pin& V71_EK_pin_table::get_pin(const Abstract::Abstract_pin_id id)
     {
         if (id < Domain::Number_of_pins)
         {
