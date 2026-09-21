@@ -32,6 +32,8 @@
 // #include "stm32u5xx_hal.h"
 #include "Bias_calibration.h"
 
+using namespace Instruction;
+
 void Housekeeping_provider::print_version()
 {
     printf("----------------------------\r\n");

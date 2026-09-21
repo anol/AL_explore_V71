@@ -20,16 +20,14 @@
 * @brief  
 */
 
-
-#ifndef UNIT_TEST_PERSISTENT_STORAGE_H
-#define UNIT_TEST_PERSISTENT_STORAGE_H
-
+module;
 #include <cstdint>
 
-#include "Repository_diagnostics.h"
-import Type.Status_code;
+export module Support.Persistent_storage;
+export import Support.Repository_diagnostics;
+export import Type.Status_code;
 
-namespace Repository {
+export namespace Repository {
     class Persistent_storage : public Repository_diagnostics {
     public:
         ~Persistent_storage() override = default;
@@ -49,5 +47,3 @@ namespace Repository {
         [[nodiscard]] virtual Status_code program_flash() = 0;
     };
 } // Repository
-
-#endif //UNIT_TEST_PERSISTENT_STORAGE_H

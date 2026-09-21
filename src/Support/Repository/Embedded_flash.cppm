@@ -2,13 +2,13 @@
 // Created by aeols on 2026-03-09.
 //
 
-#ifndef REPOSITORY_EMBEDDED_FLASH_H
-#define REPOSITORY_EMBEDDED_FLASH_H
+module;
 #include <cstdint>
 
-import Type.Status_code;
+export module Support.Embedded_flash;
+export import Type.Status_code;
 
-namespace Repository {
+export namespace Repository {
     class Embedded_flash {
     public:
         virtual ~Embedded_flash() = default;
@@ -28,5 +28,3 @@ namespace Repository {
         [[nodiscard]] virtual bool assert_address(const uint32_t* address) const = 0;
     };
 } // namespace Repository
-
-#endif // REPOSITORY_EMBEDDED_FLASH_H

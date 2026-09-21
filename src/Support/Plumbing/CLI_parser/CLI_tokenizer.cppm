@@ -17,12 +17,12 @@
 // Created by anolsen on 20.02.2020.
 //
 
-#ifndef TARGET_WINDOWS_CLI_TOKENIZER_H
-#define TARGET_WINDOWS_CLI_TOKENIZER_H
-
+module;
 #include <cstdint>
 
-class CLI_tokenizer {
+export module Support.CLI_tokenizer;
+
+export class CLI_tokenizer {
 public:
     struct Argument {
         enum {
@@ -57,6 +57,3 @@ private:
 
     static const char *copy_AT_argument(Argument *arg_value, const char *line, int &argument_size) ;
 };
-
-
-#endif //TARGET_WINDOWS_CLI_TOKENIZER_H

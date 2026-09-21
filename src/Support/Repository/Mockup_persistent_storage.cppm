@@ -1,7 +1,12 @@
-#pragma once
-#include "Persistent_storage.h"
 
-namespace MOCKUP {
+
+module;
+#include <cstdint>
+
+export module Support.Mockup_persistent_storage;
+export import Support.Persistent_storage;
+
+export namespace MOCKUP {
     class Mockup_persistent_storage : public Repository::Persistent_storage {
     public:
         [[nodiscard]] Status_code initialize() override { return Status_code::Success(); }

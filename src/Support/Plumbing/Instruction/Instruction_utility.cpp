@@ -17,11 +17,12 @@
 // Created by anolsen on 08.06.2020.
 //
 
+module;
+#include <cstdint>
 #include <cstdio>
-
 #include "Dictionary.h"
 
-#include "Instruction_utility.h"
+module Support.Instruction_utility;
 
 using namespace Instruction;
 

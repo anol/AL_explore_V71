@@ -27,10 +27,8 @@
 #include "IDE3380_interface.h"
 #include "Persistent_parameter_id.h"
 import Type.Status_code;
+import Support.Configuration_repository;
 
-namespace Repository {
-    class Configuration_repository;
-}
 
 namespace Application {
     class Event_counter;

@@ -23,12 +23,11 @@
 
 #pragma once
 #include "Generated_code/SpectraNode_provider_indication.h"
+#include "Dictionary.h"
 #include "IDE3380_test_pedestal.h"
 #include "../../Component/IDE3380/IDE3380_test_noise_floor.h"
+import Support.Configuration_repository;
 
-namespace Repository {
-    class Configuration_repository;
-}
 
 namespace Calibration {
     class Bias_calibration;

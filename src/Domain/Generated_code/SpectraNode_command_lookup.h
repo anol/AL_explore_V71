@@ -26,7 +26,9 @@
 #ifndef SpectraNode_COMMAND_LOOKUP_h
 #define SpectraNode_COMMAND_LOOKUP_h
 
-#include <Instruction/Instruction_token.h>
+#include <cstdint>
+
+import Support.Instruction_token;
 
 #include "SpectraNode_command_lookup.h"
 

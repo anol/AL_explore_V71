@@ -7,11 +7,8 @@ import Type.Abstract_provider;
 #include "Instrument_calibration_provider.h"
 #include "Mode_control_provider.h"
 #include "Spectroscopic_data_provider.h"
+import Support.Configuration_repository;
 
-namespace Repository
-{
-    class Configuration_repository;
-}
 
 namespace Calibration
 {

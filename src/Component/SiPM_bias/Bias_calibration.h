@@ -9,10 +9,8 @@
 
 #include "Bias_ADC.h"
 #include "Bias_DAC.h"
+import Support.Configuration_repository;
 
-namespace Repository {
-    class Configuration_repository;
-}
 
 namespace Calibration {
     class Bias_calibration {

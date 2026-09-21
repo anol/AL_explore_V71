@@ -23,11 +23,10 @@
 
 #pragma once
 #include "Generated_code/SpectraNode_provider_indication.h"
+#include "Dictionary.h"
 #include "IDE3380_interface.h"
+import Support.Configuration_repository;
 
-namespace Repository {
-    class Configuration_repository;
-}
 
 class Configuration_manager_provider : public Abstract_Configuration_manager_provider {
     Repository::Configuration_repository &use_repository;

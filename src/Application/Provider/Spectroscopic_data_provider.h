@@ -24,12 +24,11 @@
 #pragma once
 #include "Persistent_parameter_id.h"
 #include "Generated_code/SpectraNode_provider_indication.h"
+#include "Dictionary.h"
 #include "IDE3380_interface.h"
 #include "IDE3380_readout_control.h"
+import Support.Configuration_repository;
 
-namespace Repository {
-    class Configuration_repository;
-}
 
 namespace Application {
     class Cadence_control;

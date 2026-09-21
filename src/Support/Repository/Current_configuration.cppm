@@ -20,15 +20,14 @@
 * @brief  
 */
 
-
-#ifndef UNIT_TEST_CONFIGURATION_CACHE_H
-#define UNIT_TEST_CONFIGURATION_CACHE_H
+module;
 #include <cstdint>
 
-#include "Attribute_type.h"
-import Type.Status_code;
+export module Support.Current_configuration;
+export import Support.Attribute_type;
+export import Type.Status_code;
 
-namespace Repository {
+export namespace Repository {
     class Current_configuration {
         enum { Max_attribute_count = 128 };
 
@@ -60,5 +59,3 @@ namespace Repository {
     private:
     };
 } // Repository
-
-#endif //UNIT_TEST_CONFIGURATION_CACHE_H

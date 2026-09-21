@@ -20,14 +20,15 @@
 * @brief  
 */
 
+module;
+#include <cstdint>
 
-#pragma once
+export module Support.CLI_help;
+export import Support.Instruction_token;
+export import Type.Status_code;
+import Support.CLI_stack;
 
-#include "Instruction/Instruction_token.h"
-#include "CLI_stack.h"
-import Type.Status_code;
-
-namespace Instruction {
+export namespace Instruction {
     typedef const char *(*func_get_keyword)(unsigned char key);
 
     class CLI_help {

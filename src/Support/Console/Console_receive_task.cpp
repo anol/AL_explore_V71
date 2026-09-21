@@ -3,13 +3,14 @@
 //
 
 module;
+#include <cstdint>
 #include <cstring>
 #include <cstdio>
 #include <cctype>
 
-#include "Instruction_major.h"
 
 module Support.Console_service;
+import Support.Instruction_major;
 import Type.Abstract_task;
 
 namespace Console

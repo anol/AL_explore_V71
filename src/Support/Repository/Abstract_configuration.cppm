@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2025-2026 Integrated Detector Electronics AS
+* Copyright (C) 2020-2025 Integrated Detector Electronics AS
 * All Rights Reserved.
 *
 * NOTICE: All information contained herein is, and remains
@@ -14,31 +14,25 @@
 */
 
 /**
-* @file   Repository_diagnostics.h
+* @file   Abstract_attribute_types.h
 * @author AndersEmilOlsen, IDEAS
-* @date   03.03.2026
+* @date   02.02.2026
 * @brief  
 */
 
+module;
+#include <cstdint>
 
-#ifndef UNIT_TEST_REPOSITORY_DIAGNOSTICS_H
-#define UNIT_TEST_REPOSITORY_DIAGNOSTICS_H
+export module Support.Abstract_configuration;
+export import Support.Attribute_type;
 
-namespace Repository {
-    class Repository_diagnostics {
-        uint32_t the_diag_code{};
-
+export namespace Repository {
+    class Abstract_configuration {
     public:
-        virtual ~Repository_diagnostics() = default;
+        virtual ~Abstract_configuration() = default;
 
-        virtual void dump() const = 0;
+        [[nodiscard]] virtual uint32_t get_count() const = 0;
 
-        virtual void print_diag() const = 0;
-
-        void set_diag_code(const uint32_t code) { the_diag_code = code; }
-
-        [[nodiscard]] uint32_t get_diag_code() const { return the_diag_code; };
+        [[nodiscard]] virtual const Attribute_type &get_attribute(uint32_t index) const = 0;
     };
 } // Repository
-
-#endif //UNIT_TEST_REPOSITORY_DIAGNOSTICS_H

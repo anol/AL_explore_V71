@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "Abstract_configuration.h"
+import Support.Abstract_configuration;
 #include "Persistent_parameter_id.h"
 #include "IDE3380_register_decoder.h"
 

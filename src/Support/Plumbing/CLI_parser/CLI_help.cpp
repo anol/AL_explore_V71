@@ -20,13 +20,12 @@
 * @brief  
 */
 
-
+module;
+#include <cstdint>
 #include <cstring>
-
-
-#include "CLI_help.h"
-
 #include <cstdio>
+
+module Support.CLI_help;
 
 using namespace Instruction;
 

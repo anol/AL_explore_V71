@@ -17,7 +17,10 @@
 // Created by anolsen on 23.04.2020.
 //
 
-#include "CLI_stack.h"
+module;
+#include <cstdint>
+
+module Support.CLI_stack;
 
 using namespace Instruction;
 

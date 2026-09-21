@@ -19,7 +19,9 @@
         <xsl:text>_COMMAND_LOOKUP_h
 </xsl:text>
         <xsl:text>
-#include &lt;Instruction/Instruction_token.h&gt;
+#include &lt;cstdint&gt;
+
+import Support.Instruction_token;
 
 #include "</xsl:text>
         <xsl:value-of select="@keywords"/>

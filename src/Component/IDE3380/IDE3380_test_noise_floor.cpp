@@ -23,8 +23,8 @@
 #include <cstdio>
 #include <cstring>
 
-#include "Instruction_major.h"
-#include "Configuration_repository.h"
+import Support.Instruction_major;
+import Support.Configuration_repository;
 #include "../../Domain/Persistent_parameter_id.h"
 
 #include "Calibration_analyzer.h"

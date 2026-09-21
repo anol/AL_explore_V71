@@ -20,9 +20,11 @@
 * @brief  
 */
 
+module;
+#include <cstdint>
 #include <cstdio>
 
-#include "Configuration_repository.h"
+module Support.Configuration_repository;
 
 namespace Repository {
     Configuration_repository::Configuration_repository(const Abstract_configuration &default_config,

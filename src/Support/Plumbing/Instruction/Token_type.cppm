@@ -2,12 +2,12 @@
 // Created by AndersEmilOlsen on 10.01.2024.
 //
 
-#ifndef EXPLORE_CLI_TOKEN_TYPE_H
-#define EXPLORE_CLI_TOKEN_TYPE_H
-
+module;
 #include <cstdint>
 
-namespace Instruction {
+export module Support.Token_type;
+
+export namespace Instruction {
 
     using float32_t = float;
 
@@ -29,5 +29,3 @@ namespace Instruction {
 
 
 } // Instruction
-
-#endif //EXPLORE_CLI_TOKEN_TYPE_H

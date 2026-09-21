@@ -25,8 +25,8 @@
 #define UNIT_TEST_U575XG_PERSISTENT_STORAGE_H
 
 #include "U575xG_page_cache.h"
-#include "Repository/Embedded_flash.h"
-#include "Repository/Persistent_storage.h"
+import Support.Embedded_flash;
+import Support.Persistent_storage;
 
 namespace STM32U575RG {
     class U575xG_persistent_storage : public Repository::Persistent_storage {

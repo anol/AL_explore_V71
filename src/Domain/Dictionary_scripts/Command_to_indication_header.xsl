@@ -12,9 +12,11 @@
         <xsl:text>
 #pragma once
 
-#include "Instruction_lookup.h"
+#include &lt;cstdint&gt;
+#include "SpectraNode_keyword_lookup.h"
+
+import Support.Instruction_lookup;
 import Type.Abstract_provider;
-#include "Dictionary.h"
 
 using namespace Instruction;
 

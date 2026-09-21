@@ -25,7 +25,7 @@
 #define UNIT_TEST_EMBEDDED_FLASH_H
 #include <cstdint>
 
-#include "Repository/Embedded_flash.h"
+import Support.Embedded_flash;
 
 namespace WIN32_mockup {
     class WIN32_embedded_flash : public Repository::Embedded_flash {

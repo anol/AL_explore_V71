@@ -24,8 +24,8 @@
 
 #include "IDE3380_test_pedestal.h"
 
-#include "Configuration_repository.h"
-#include "Instruction_major.h"
+import Support.Configuration_repository;
+import Support.Instruction_major;
 
 namespace Calibration {
     void IDE3380_test_pedestal::test_prolog(const int32_t count) {

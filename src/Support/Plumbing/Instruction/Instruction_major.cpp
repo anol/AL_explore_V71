@@ -1,22 +1,17 @@
 //
 // Created by Drift on 29.09.2020.
 //
-#include <cstdio>
 
+module;
+#include <cstdio>
 #include <cstdint>
-
-#include <cstdio>
 #include "Diagnostic.h"
+#include "Dictionary.h"
 
-namespace SpectraNode_interface {
-    extern const char *get_keyword(uint8_t key);
-}
+module Support.Instruction_major;
 
+using namespace Instruction;
 using namespace SpectraNode_interface;
-
-#include "Instruction_major.h"
-#include "Diagnostic.h"
-
 using namespace Error_handling;
 
 Instruction_major::Instruction_major(const keyset_t &keys, const Instruction_token &token) {

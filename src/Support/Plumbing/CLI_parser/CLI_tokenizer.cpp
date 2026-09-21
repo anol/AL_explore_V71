@@ -17,7 +17,10 @@
 // Created by anolsen on 20.02.2020.
 //
 
-#include "CLI_tokenizer.h"
+module;
+#include <cstdint>
+
+module Support.CLI_tokenizer;
 
 CLI_tokenizer::CLI_tokenizer(Argument *arguments, const uint32_t max_number_of_arguments) : argument_buffer(arguments),
     use_max_number_of_arguments(max_number_of_arguments) {

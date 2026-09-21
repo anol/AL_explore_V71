@@ -17,15 +17,14 @@
 // Created by anolsen on 23.04.2020.
 //
 
-#ifndef TARGET_WINDOWS_CLI_stack_H
-#define TARGET_WINDOWS_CLI_stack_H
-
+module;
 #include <cstdint>
 
-#include "Instruction/Instruction_token.h"
-import Type.Status_code;
+export module Support.CLI_stack;
+export import Support.Instruction_token;
+export import Type.Status_code;
 
-namespace Instruction {
+export namespace Instruction {
 
     class CLI_stack {
         enum {
@@ -45,5 +44,3 @@ namespace Instruction {
     };
 
 }
-
-#endif //TARGET_WINDOWS_CLI_stack_H

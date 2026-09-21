@@ -20,13 +20,12 @@
 * @brief  
 */
 
+module;
+#include <cstdint>
 #include <cstdio>
-
-
-#include "Current_configuration.h"
-
 #include <cstring>
 
+module Support.Current_configuration;
 
 namespace Repository {
     void Current_configuration::clean() {

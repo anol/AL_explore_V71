@@ -4,11 +4,12 @@
 
 module;
 #include "FreeRTOS_task.h"
-#include "CLI_parser.h"
-#include "Instruction_major.h"
+#include "Dictionary.h"
 #include "Ringbuffer.h"
 
 module Support.Console_service:Console_receive_task;
+import Support.CLI_parser;
+import Support.Instruction_major;
 import Type.Abstract_provider;
 import Type.Abstract_UART;
 
@@ -21,7 +22,7 @@ namespace Console
         using Command_queue = Ringbuffer<Instruction_major, Queue_size>;
         Abstract::Abstract_UART& use_console;
         Abstract::Abstract_provider<Instruction_major>& use_router;
-        CLI_parser the_parser;
+        Instruction::CLI_parser the_parser;
         Command_queue the_queue{};
         int escape_received{};
         volatile size_t the_buffer_pointer{};

@@ -11,12 +11,12 @@ import Type.Abstract_board;
 #include "Default_configuration.h"
 // #include "Component/MCU/STM32U575RG/U575xG_embedded_flash.h"
 // #include "Component/MCU/STM32U575RG/U575xG_persistent_storage.h"
-#include "Configuration_repository.h"
+import Support.Configuration_repository;
 #include "IDE3380_interface.h"
 #include "../../Component/IDE3380/Histogram_storage.h"
 #include "../../Component/IDE3380/Event_counter.h"
 #include "Bias_calibration.h"
-#include "../../Support/Repository/Mockup_persistent_storage.h"
+import Support.Mockup_persistent_storage;
 
 extern "C" {
 #include "FreeRTOS.h"

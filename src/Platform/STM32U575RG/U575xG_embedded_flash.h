@@ -23,7 +23,7 @@
 
 #ifndef STM32U575RG_U575XG_EMBEDDED_FLASH_H
 #define STM32U575RG_U575XG_EMBEDDED_FLASH_H
-#include "Repository/Embedded_flash.h"
+import Support.Embedded_flash;
 
 namespace STM32U575RG {
     class U575xG_embedded_flash : public Repository::Embedded_flash {

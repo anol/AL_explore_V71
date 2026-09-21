@@ -25,14 +25,17 @@ headers excluded), restricted to what CMake actually builds for the `V71_hello_w
 boards, and platform variants are real directories in `src/` but aren't part of this build,
 so they're left out. One node per source directory (a "module"), clustered by top-level area
 — wide, meant for scrolling/zooming rather than an at-a-glance read. Solid arrows are
-`#include` dependencies; dashed arrows are C++20 module imports. Everything under `Type/` is now
-a named module — `Type/Abstract` (one module per `Abstract_*` interface), `Type/Basic`
-(`Type.Misc_type`, `Type.Status_code`) and `Type/Generic` (`Type.Transfer_request`) — plus
-`Domain/IO_pins` and `Support/Console`'s `Support.Console_service`, so every edge into `Type/*`
-is dashed. The other `import` edges are the consumers of those two: `Board/V71_EK` and
-`Type/Abstract` import `Domain.IO_pins`, `Application/Hello_world` imports both `Domain.IO_pins`
-and `Support.Console_service`, and `Platform/Common_platform` imports
-`Support.Console_service`. (`Type` and `Support/Plumbing` have no files of their own any more, so neither is a node.)
+`#include` dependencies; dashed arrows are C++20 module imports. Everything under `Type/` and
+`Support/` is now a named module — `Type/Abstract` (one module per `Abstract_*` interface),
+`Type/Basic` (`Type.Misc_type`, `Type.Status_code`), `Type/Generic` (`Type.Transfer_request`),
+`Support/Repository` (`Support.Attribute_type` … `Support.Configuration_repository`),
+`Support/Plumbing/Instruction` (`Support.Instruction_token`, `Support.Instruction_major`,
+`Support.Instruction_lookup`, …), `Support/Plumbing/CLI_parser` (`Support.CLI_parser`, …) and
+`Support/Console` (`Support.Console_service`) — plus `Domain/IO_pins`. So every edge into
+`Type/*` and `Support/*` is dashed, plus the `Domain.IO_pins` imports from `Application/Hello_world`,
+`Board/V71_EK` and `Type/Abstract`. The remaining `#include` edges only point at `Application/*`,
+`Board/V71_EK`, `Component/*`, `Domain`, `Domain/Generated_code`, `Platform/*` and `Utility`.
+(`Type`, `Support` and `Support/Plumbing` have no files of their own any more, so none of them is a node.)
 A module pair with edges in both directions (either kind) is flagged as a two-way dependency:
 both arrows render bold and red — there are currently none:
 

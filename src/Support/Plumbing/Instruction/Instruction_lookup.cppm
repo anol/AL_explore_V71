@@ -17,13 +17,13 @@
  * \brief
  */
 
-#ifndef TARGET_TOOLS_INSTRUCTION_LOOKUP_H
-#define TARGET_TOOLS_INSTRUCTION_LOOKUP_H
+module;
+#include <cstdint>
 
-#include <Diagnostic.h>
-#include <Instruction/Instruction_major.h>
+export module Support.Instruction_lookup;
+export import Support.Instruction_major;
 
-template<class T>
+export template<class T>
 class Instruction_lookup {
 public:
     typedef void (T::*Instruction_handler)(Instruction_major &instruction);
@@ -54,5 +54,3 @@ public:
         return success;
     }
 };
-
-#endif //TARGET_TOOLS_INSTRUCTION_LOOKUP_H

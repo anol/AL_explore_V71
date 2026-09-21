@@ -30,7 +30,7 @@
 // #include "stm32u5xx_hal.h"
 #include "Bias_ADC.h"
 #include "Bias_DAC.h"
-#include "Configuration_repository.h"
+import Support.Configuration_repository;
 
 namespace Application
 {

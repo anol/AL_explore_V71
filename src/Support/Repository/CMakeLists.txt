@@ -1,15 +1,15 @@
-target_include_directories(${THE_TARGET_NAME} PUBLIC
-        .
-)
 target_sources(${THE_TARGET_NAME} PUBLIC
-        Abstract_configuration.h
-        Attribute_type.h
         Configuration_repository.cpp
-        Configuration_repository.h
         Current_configuration.cpp
-        Current_configuration.h
-        Embedded_flash.h
-        Persistent_storage.h
-        Repository_diagnostics.h
-        Mockup_persistent_storage.h
+)
+target_sources(${THE_TARGET_NAME} PRIVATE
+        FILE_SET support_repository_modules TYPE CXX_MODULES BASE_DIRS . FILES
+        Abstract_configuration.cppm
+        Attribute_type.cppm
+        Configuration_repository.cppm
+        Current_configuration.cppm
+        Embedded_flash.cppm
+        Mockup_persistent_storage.cppm
+        Persistent_storage.cppm
+        Repository_diagnostics.cppm
 )

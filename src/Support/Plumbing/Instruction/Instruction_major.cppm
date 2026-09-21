@@ -2,15 +2,17 @@
 // Created by Drift on 29.09.2020.
 //
 
-#ifndef TARGET_WINDOWS_INSTRUCTION_MAJOR_H
-#define TARGET_WINDOWS_INSTRUCTION_MAJOR_H
-
+module;
 #include <cstring>
+#include <cstdint>
 #include "Dictionary.h"
+
+export module Support.Instruction_major;
+export import Support.Instruction_token;
 
 using namespace Instruction;
 
-class Instruction_major {
+export class Instruction_major {
 public:
     enum {
         Max_tokens = 16,
@@ -52,7 +54,7 @@ public:
 
     [[nodiscard]] uint32_t get_command_id() const { return the_command_id; }
 
-    void close(uint32_t id = Wildcard) { the_command_id = id; }
+    void close(uint32_t id = SpectraNode_interface::Wildcard) { the_command_id = id; }
 
     void add_token(const Instruction_token &token);
 
@@ -150,6 +152,3 @@ public:
 
     void build_instruction(const uint8_t (&keys)[16]);
 };
-
-
-#endif //TARGET_WINDOWS_INSTRUCTION_MAJOR_H

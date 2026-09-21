@@ -26,7 +26,10 @@
 
 #pragma once
 
-#include "Instruction_lookup.h"
+#include <cstdint>
+#include "SpectraNode_keyword_lookup.h"
+
+import Support.Instruction_lookup;
 import Type.Abstract_provider;
 
 using namespace Abstract;

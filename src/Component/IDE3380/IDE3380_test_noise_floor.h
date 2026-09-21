@@ -27,8 +27,8 @@ import Type.Abstract_scenario;
 
 #include "IDE3380_interface.h"
 #include "Event_counter.h"
+import Support.Instruction_major;
 
-class Instruction_major;
 
 using namespace IDE3380;
 

@@ -20,11 +20,12 @@
 * @brief  
 */
 
+module;
+#include <cstdint>
 
-#ifndef UNIT_TEST_ATTRIBUTE_TYPE_H
-#define UNIT_TEST_ATTRIBUTE_TYPE_H
+export module Support.Attribute_type;
 
-namespace Repository {
+export namespace Repository {
     enum Attribute_state {
         State_void, State_default, State_cached, State_saved, State_loaded, State_changed,
         State_write_failed, State_flash_failed,
@@ -96,4 +97,3 @@ namespace Repository {
         static bool is_valid_id(const uint32_t id) { return id > 0x00 && id < 0xFF; }
     };
 } // Repository
-#endif //UNIT_TEST_ATTRIBUTE_TYPE_H

@@ -25,7 +25,7 @@
 
 #include <cstdio>
 #include "Bias_calibration.h"
-#include "Configuration_repository.h"
+import Support.Configuration_repository;
 
 void Instrument_calibration_provider::v_CAL_ADC_V35_cal_35V(Instruction_major &instruction, const int cal_35V_3) {
     use_bias.get_ADC().set_cal_35V(cal_35V_3);

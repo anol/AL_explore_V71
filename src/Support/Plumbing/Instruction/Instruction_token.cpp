@@ -17,9 +17,11 @@
 // Created by anolsen on 20.02.2020.
 //
 
+module;
+#include <cstdint>
 #include <cstring>
 
-#include "Instruction_token.h"
+module Support.Instruction_token;
 
 using namespace Instruction;
 
@@ -130,4 +132,3 @@ Status_code Instruction_token::unpack_string(char *string, uint32_t length) cons
     }
     return Status_code(result);
 }
-

@@ -24,7 +24,7 @@
 #include "Configuration_manager_provider.h"
 
 #include "../../Domain/Persistent_parameter_id.h"
-#include "Configuration_repository.h"
+import Support.Configuration_repository;
 
 
 void Configuration_manager_provider::v_CONFIG_CLEAN(Instruction_major &instruction) {

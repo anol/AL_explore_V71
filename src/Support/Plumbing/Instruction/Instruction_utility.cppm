@@ -17,15 +17,16 @@
 // Created by anolsen on 08.06.2020.
 //
 
-#ifndef TARGET_EVAL_V71_CLI_UTILITY_H
-#define TARGET_EVAL_V71_CLI_UTILITY_H
+module;
+#include <cstdint>
 
-#include "Instruction_token.h"
-#include "Instruction_major.h"
+export module Support.Instruction_utility;
+export import Support.Instruction_token;
+export import Support.Instruction_major;
 
-typedef const char *(*func_get_keyword)(uint32_t key);
+export typedef const char *(*func_get_keyword)(uint32_t key);
 
-namespace Instruction {
+export namespace Instruction {
 
     class Instruction_utility {
         const Instruction_token *optional_table;
@@ -45,5 +46,3 @@ namespace Instruction {
         static void print_argument(const Instruction_major &instruction, uint32_t index);
     };
 }
-
-#endif //TARGET_EVAL_V71_CLI_UTILITY_H

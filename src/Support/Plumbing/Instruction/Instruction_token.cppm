@@ -17,13 +17,14 @@
 // Created by anolsen on 20.02.2020.
 //
 
-#ifndef TARGET_WINDOWS_INSTRUCTION_TOKEN_H
-#define TARGET_WINDOWS_INSTRUCTION_TOKEN_H
+module;
+#include <cstdint>
 
-#include "Token_type.h"
-import Type.Status_code;
+export module Support.Instruction_token;
+export import Support.Token_type;
+export import Type.Status_code;
 
-namespace Instruction {
+export namespace Instruction {
 
     struct Instruction_token {
         enum {
@@ -98,4 +99,3 @@ namespace Instruction {
     };
 
 }
-#endif //TARGET_WINDOWS_INSTRUCTION_TOKEN_H

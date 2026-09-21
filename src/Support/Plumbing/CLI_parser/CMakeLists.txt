@@ -1,13 +1,13 @@
-target_include_directories(${THE_TARGET_NAME} PUBLIC
-        .
-)
 target_sources(${THE_TARGET_NAME} PUBLIC
         CLI_help.cpp
-        CLI_help.h
         CLI_parser.cpp
-        CLI_parser.h
         CLI_stack.cpp
-        CLI_stack.h
         CLI_tokenizer.cpp
-        CLI_tokenizer.h
+)
+target_sources(${THE_TARGET_NAME} PRIVATE
+        FILE_SET support_cli_parser_modules TYPE CXX_MODULES BASE_DIRS . FILES
+        CLI_help.cppm
+        CLI_parser.cppm
+        CLI_stack.cppm
+        CLI_tokenizer.cppm
 )

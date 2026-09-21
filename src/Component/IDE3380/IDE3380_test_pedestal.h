@@ -27,8 +27,8 @@ import Type.Abstract_scenario;
 
 #include "Histogram_storage.h"
 #include "IDE3380_interface.h"
+import Support.Instruction_major;
 
-class Instruction_major;
 
 using namespace IDE3380;
 

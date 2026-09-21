@@ -9,7 +9,7 @@
 
 #include "IDE3380_interface.h"
 #include "IDE3380_register_decoder.h"
-#include "Configuration_repository.h"
+import Support.Configuration_repository;
 
 
 volatile uint8_t software_reset = 0;

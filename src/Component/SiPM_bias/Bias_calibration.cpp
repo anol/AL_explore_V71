@@ -15,7 +15,7 @@
 
 
 // #include "usart.h"
-#include "Configuration_repository.h"
+import Support.Configuration_repository;
 
 namespace Calibration
 {

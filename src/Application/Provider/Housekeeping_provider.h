@@ -23,16 +23,14 @@
 
 #pragma once
 
-#include "CLI_help.h"
+import Support.CLI_help;
 #include "Generated_code/SpectraNode_provider_indication.h"
+#include "Dictionary.h"
+import Support.Configuration_repository;
 
 class Mode_control_provider;
 class Spectroscopic_data_provider;
 
-namespace Repository
-{
-    class Configuration_repository;
-}
 
 namespace Calibration
 {
@@ -52,7 +50,7 @@ namespace Application
 
 class Housekeeping_provider : public Abstract_Housekeeping_provider
 {
-    CLI_help the_help{Key_HELP, get_commands(), get_keyword};
+    Instruction::CLI_help the_help{Key_HELP, get_commands(), get_keyword};
     Application::Histogram_storage& use_histogram;
     IDE3380::IDE3380_interface& use_IDE3380;
     Calibration::Bias_calibration& use_bias;

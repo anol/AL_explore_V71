@@ -27,7 +27,7 @@
 #include "U575xG_embedded_flash.h"
 // #include "stm32u575xx.h"
 #include "U575xG_page_cache.h"
-#include "Repository/Attribute_type.h"
+import Support.Attribute_type;
 
 namespace STM32U575RG {
     static uint32_t cnt_copy_error{};

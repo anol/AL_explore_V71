@@ -20,12 +20,13 @@
 * @brief  
 */
 
+module;
+#include <cstdint>
 #include <cstdlib>
 #include <cstring>
-
-#include "CLI_parser.h"
-
 #include "Simple_string.h"
+
+module Support.CLI_parser;
 
 namespace Instruction {
     static Instruction_token question_mark(Question_mark, "?", 0, static_cast<uint32_t>(Special_command), nullptr);

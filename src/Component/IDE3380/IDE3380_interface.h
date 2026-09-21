@@ -11,12 +11,10 @@ import Type.Status_code;
 #include "IDE3380_definitions.h"
 #include "IDE3380_readout_control.h"
 #include "IDE3380_register_access.h"
+import Support.Configuration_repository;
 
 extern volatile uint8_t software_reset;
 
-namespace Repository {
-    class Configuration_repository;
-}
 
 namespace IDE3380 {
     class IDE3380_interface {

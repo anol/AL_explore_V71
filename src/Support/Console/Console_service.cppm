@@ -2,12 +2,10 @@
 // Created by aeols on 2026-09-10.
 //
 
-module;
-#include "Instruction_major.h"
-
 export module Support.Console_service;
 import :Console_receive_task;
 import :Console_transmit_task;
+import Support.Instruction_major;
 import Type.Abstract_provider;
 import Type.Abstract_service;
 import Type.Abstract_UART;

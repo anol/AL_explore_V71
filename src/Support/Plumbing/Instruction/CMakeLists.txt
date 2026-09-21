@@ -1,13 +1,13 @@
-target_include_directories(${THE_TARGET_NAME} PUBLIC
-        .
-)
 target_sources(${THE_TARGET_NAME} PUBLIC
-        Instruction_lookup.h
         Instruction_major.cpp
-        Instruction_major.h
         Instruction_token.cpp
-        Instruction_token.h
         Instruction_utility.cpp
-        Instruction_utility.h
-        Token_type.h
+)
+target_sources(${THE_TARGET_NAME} PRIVATE
+        FILE_SET support_instruction_modules TYPE CXX_MODULES BASE_DIRS . FILES
+        Instruction_lookup.cppm
+        Instruction_major.cppm
+        Instruction_token.cppm
+        Instruction_utility.cppm
+        Token_type.cppm
 )

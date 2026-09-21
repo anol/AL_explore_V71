@@ -20,15 +20,16 @@
 * @brief  
 */
 
+module;
+#include <cstdint>
 
-#pragma once
+export module Support.CLI_parser;
+export import Support.Instruction_token;
+export import Support.Instruction_major;
+export import Type.Status_code;
+import Support.CLI_tokenizer;
 
-#include "Instruction/Instruction_token.h"
-#include "Instruction_major.h"
-#include "CLI_tokenizer.h"
-import Type.Status_code;
-
-namespace Instruction {
+export namespace Instruction {
     class CLI_parser {
         enum {
             Max_number_of_arguments = 16,

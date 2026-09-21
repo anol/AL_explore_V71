@@ -25,7 +25,7 @@
 
 #include "../../Component/IDE3380/Histogram_storage.h"
 #include <cstdio>
-#include "Configuration_repository.h"
+import Support.Configuration_repository;
 
 
 void Spectroscopic_data_provider::v_FORMAT_R6(Instruction_major &instruction) {

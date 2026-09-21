@@ -20,15 +20,16 @@
 * @brief  
 */
 
+module;
+#include <cstdint>
 
-#ifndef UNIT_TEST_CONFIGURATION_REPOSITORY_H
-#define UNIT_TEST_CONFIGURATION_REPOSITORY_H
-#include "Abstract_configuration.h"
-#include "Persistent_storage.h"
-#include "Current_configuration.h"
-import Type.Status_code;
+export module Support.Configuration_repository;
+export import Support.Abstract_configuration;
+export import Support.Persistent_storage;
+export import Support.Current_configuration;
+export import Type.Status_code;
 
-namespace Repository {
+export namespace Repository {
     class Configuration_repository {
         Persistent_storage &use_store;
         const Abstract_configuration &use_default_config;
@@ -60,5 +61,3 @@ namespace Repository {
         virtual uint32_t get_diag_code() { return use_store.get_diag_code(); };
     };
 } // Repository
-
-#endif //UNIT_TEST_CONFIGURATION_REPOSITORY_H
