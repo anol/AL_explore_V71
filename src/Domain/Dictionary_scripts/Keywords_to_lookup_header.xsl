@@ -13,6 +13,7 @@
         <xsl:text>export module Domain.</xsl:text>
         <xsl:value-of select="@name"/>
         <xsl:text>_keyword_lookup;
+import Support.Token_type;
 
 export namespace </xsl:text>
         <xsl:value-of select="@interface"/>
@@ -32,7 +33,7 @@ export namespace </xsl:text>
         <xsl:text>
         number_of_keys,
         Literal_value,
-        Wildcard = 0xFF
+        Wildcard = Instruction::Wildcard_id
     };
 
 }

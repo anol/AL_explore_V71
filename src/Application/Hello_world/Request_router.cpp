@@ -53,7 +53,7 @@ namespace Application
     {
         if (Housekeeping_provider::is_trace())
         {
-            instruction.print_trace();
+            instruction.print_trace(SpectraNode_interface::get_keyword);
         }
         bool executed = the_mode_control.on_indication(instruction);
         if (!executed) { executed = the_data_provider.on_indication(instruction); }

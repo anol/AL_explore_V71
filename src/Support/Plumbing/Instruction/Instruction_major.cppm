@@ -7,7 +7,6 @@ module;
 #include <cstdint>
 export module Support.Instruction_major;
 export import Support.Instruction_token;
-import Domain.SpectraNode_keyword_lookup;
 
 using namespace Instruction;
 
@@ -38,10 +37,12 @@ public:
     Instruction_major() = default;
 
     /// The purpose of this constructor is to allow for array initialization scheduled activities.
-    explicit Instruction_major(const keyset_t &keys);
+    /// The literal_key is the key that marks the next entry of the key set as a literal value, i.e. the dictionary's
+    /// Literal_value. It follows the number of keywords, so it is given here and not fixed by this class.
+    Instruction_major(const keyset_t &keys, uint8_t literal_key);
 
     /// This constructor is used when you need a single argument.
-    Instruction_major(const keyset_t &keys, const Instruction_token &);
+    Instruction_major(const keyset_t &keys, uint8_t literal_key, const Instruction_token &);
 
     void clean() {
         memset(the_token_ids, 0, sizeof(the_token_ids));
@@ -53,7 +54,7 @@ public:
 
     [[nodiscard]] uint32_t get_command_id() const { return the_command_id; }
 
-    void close(uint32_t id = SpectraNode_interface::Wildcard) { the_command_id = id; }
+    void close(uint32_t id = Wildcard_id) { the_command_id = id; }
 
     void add_token(const Instruction_token &token);
 
@@ -133,7 +134,10 @@ public:
 
     [[nodiscard]] bool is_valid() const { return the_command_id > 0 && the_token_count > 0; }
 
-    void print_trace() const;
+    /// The dictionary's get_keyword: returns the keyword text of a key.
+    using Keyword_lookup = const char *(*)(uint8_t key);
+
+    void print_trace(Keyword_lookup get_keyword) const;
 
     void set_request(uint32_t tag);
 
@@ -149,5 +153,5 @@ public:
 
     void set_string(uint32_t packed);
 
-    void build_instruction(const uint8_t (&keys)[16]);
+    void build_instruction(const uint8_t (&keys)[16], uint8_t literal_key);
 };

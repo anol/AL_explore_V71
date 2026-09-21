@@ -24,6 +24,7 @@
 */
 
 export module Domain.SpectraNode_keyword_lookup;
+import Support.Token_type;
 
 export namespace SpectraNode_interface {
 
@@ -96,7 +97,7 @@ export namespace SpectraNode_interface {
         
         number_of_keys,
         Literal_value,
-        Wildcard = 0xFF
+        Wildcard = Instruction::Wildcard_id
     };
 
 }

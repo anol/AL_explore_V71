@@ -39,10 +39,10 @@ dictionary (`Domain.SpectraNode_keyword_lookup`, `Domain.SpectraNode_command_loo
 point at `Application/*`, `Board/V71_EK`, `Component/*`, `Domain`, `Platform/*` and `Utility`.
 (`Type`, `Support` and `Support/Plumbing` have no files of their own any more, so none of them is a node.)
 A module pair with edges in both directions (either kind) is flagged as a two-way dependency:
-both arrows render bold and red. There is currently one: `Domain/Generated_code ↔
-Support/Plumbing/Instruction` — the generated command tables and provider base classes are built from
-`Instruction_token` / `Instruction_lookup`, while `Instruction_major` needs the generated keyword
-constants (`Wildcard`, `get_keyword`):
+both arrows render bold and red — there are currently none. (The generated dictionary depends on
+`Support/Plumbing/Instruction`, never the other way round: `Instruction_major` owns the `Wildcard_id`
+constant, which the generated `Keys` enum refers to, and is handed the dictionary's `Literal_value` and
+keyword lookup by its callers as arguments.)
 
 ![Module dependency graph](doc/module_dependencies.svg)
 

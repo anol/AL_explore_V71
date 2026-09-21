@@ -27,5 +27,8 @@ export namespace Instruction {
         No_such_command, Special_command,
     };
 
+    /// The key that means "any", and the command id of an instruction that is closed without a specific command.
+    inline constexpr uint32_t Wildcard_id = 0xFF;
+
 
 } // Instruction

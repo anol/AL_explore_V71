@@ -8,28 +8,26 @@ module;
 #include "Diagnostic.h"
 
 module Support.Instruction_major;
-import Domain.SpectraNode_keyword_lookup;
 
 using namespace Instruction;
-using namespace SpectraNode_interface;
 using namespace Error_handling;
 
-Instruction_major::Instruction_major(const keyset_t &keys, const Instruction_token &token) {
-    build_instruction(keys);
+Instruction_major::Instruction_major(const keyset_t &keys, const uint8_t literal_key, const Instruction_token &token) {
+    build_instruction(keys, literal_key);
     add_token(token);
     if (the_token_count > 0) {
         close();
     }
 }
 
-Instruction_major::Instruction_major(const keyset_t &keys) {
-    build_instruction(keys);
+Instruction_major::Instruction_major(const keyset_t &keys, const uint8_t literal_key) {
+    build_instruction(keys, literal_key);
     if (the_token_count > 0) {
         close();
     }
 }
 
-void Instruction_major::build_instruction(const uint8_t (&keys)[16]) {
+void Instruction_major::build_instruction(const uint8_t (&keys)[16], const uint8_t literal_key) {
     bool next_is_literal{};
     uint8_t value_index{};
     for (uint8_t index = 0; index < Max_tokens; index++) {
@@ -40,7 +38,7 @@ void Instruction_major::build_instruction(const uint8_t (&keys)[16]) {
                 the_token_values[value_index] = key;
                 the_token_types[value_index] = Integer_token;
             }
-        } else if (Literal_value == key) {
+        } else if (literal_key == key) {
             the_token_ids[index] = 0;
             the_token_values[index] = 0;
             the_token_types[index] = End_token;
@@ -168,7 +166,7 @@ void Instruction_major::set_keyword(uint32_t index, uint32_t tag) {
 //    }
 //}
 
-void Instruction_major::print_trace() const {
+void Instruction_major::print_trace(const Keyword_lookup get_keyword) const {
     for (uint32_t index = 0; index < the_token_count; index++) {
         if (index > 0) printf(", ");
         if (the_token_types[index] == Keyword_token) {
