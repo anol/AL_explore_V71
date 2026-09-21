@@ -2,9 +2,16 @@
 // Created by aeols on 2026-08-24.
 //
 
-#include "SamV71_USART1.h"
+module;
+#include <cstdint>
+#include "FreeRTOS.h"
+#include "queue.h"
 #include "sam.h"
-#include "SamV71_clock.h"
+
+module Platform.SamV71_USART1;
+import Type.Abstract_UART;
+import Type.Misc_type;
+import Platform.SamV71_clock;
 
 namespace SamV71 {
     SamV71_USART1 *SamV71_USART1::optional_one_and_only_UART{};

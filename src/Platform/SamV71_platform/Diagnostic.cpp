@@ -19,10 +19,11 @@
  * \brief
  */
 
+module;
+#include <cstdint>
 #include <cstdio>
 
-#include "Diagnostic.h"
-
+module Platform.Diagnostic;
 import Type.Status_code;
 
 namespace Error_handling

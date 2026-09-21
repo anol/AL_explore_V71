@@ -22,26 +22,6 @@
 <polygon fill="none" stroke="#c4cdc3" stroke-dasharray="5,2" points="182,-1018.71 182,-1112.71 607.5,-1112.71 607.5,-1018.71 182,-1018.71"/>
 <text text-anchor="middle" x="394.75" y="-1026.31" font-family="Consolas" font-size="13.00">Application</text>
 </g>
-<g id="clust6" class="cluster">
-<title>cluster_Support</title>
-<polygon fill="none" stroke="#c4cdc3" stroke-dasharray="5,2" points="500.5,-854.71 500.5,-982.71 985,-982.71 985,-854.71 500.5,-854.71"/>
-<text text-anchor="middle" x="742.75" y="-862.31" font-family="Consolas" font-size="13.00">Support</text>
-</g>
-<g id="clust2" class="cluster">
-<title>cluster_Board</title>
-<polygon fill="none" stroke="#c4cdc3" stroke-dasharray="5,2" points="336.5,-243.71 336.5,-317.71 409.5,-317.71 409.5,-243.71 336.5,-243.71"/>
-<text text-anchor="middle" x="373" y="-251.31" font-family="Consolas" font-size="13.00">Board</text>
-</g>
-<g id="clust7" class="cluster">
-<title>cluster_Target</title>
-<polygon fill="none" stroke="#c4cdc3" stroke-dasharray="5,2" points="8,-243.71 8,-317.71 162,-317.71 162,-243.71 8,-243.71"/>
-<text text-anchor="middle" x="85" y="-251.31" font-family="Consolas" font-size="13.00">Target</text>
-</g>
-<g id="clust4" class="cluster">
-<title>cluster_Domain</title>
-<polygon fill="none" stroke="#c4cdc3" stroke-dasharray="5,2" points="514,-704.71 514,-778.71 808,-778.71 808,-704.71 514,-704.71"/>
-<text text-anchor="middle" x="661" y="-712.31" font-family="Consolas" font-size="13.00">Domain</text>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_Platform</title>
 <polygon fill="none" stroke="#c4cdc3" stroke-dasharray="5,2" points="450,-124.71 450,-252.71 818,-252.71 818,-124.71 450,-124.71"/>
@@ -51,6 +31,26 @@
 <title>cluster_Type</title>
 <polygon fill="none" stroke="#c4cdc3" stroke-dasharray="5,2" points="704.5,-308.71 704.5,-382.71 1075,-382.71 1075,-308.71 704.5,-308.71"/>
 <text text-anchor="middle" x="889.75" y="-316.31" font-family="Consolas" font-size="13.00">Type</text>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_Target</title>
+<polygon fill="none" stroke="#c4cdc3" stroke-dasharray="5,2" points="8,-243.71 8,-317.71 162,-317.71 162,-243.71 8,-243.71"/>
+<text text-anchor="middle" x="85" y="-251.31" font-family="Consolas" font-size="13.00">Target</text>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_Board</title>
+<polygon fill="none" stroke="#c4cdc3" stroke-dasharray="5,2" points="336.5,-243.71 336.5,-317.71 409.5,-317.71 409.5,-243.71 336.5,-243.71"/>
+<text text-anchor="middle" x="373" y="-251.31" font-family="Consolas" font-size="13.00">Board</text>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_Domain</title>
+<polygon fill="none" stroke="#c4cdc3" stroke-dasharray="5,2" points="514,-704.71 514,-778.71 808,-778.71 808,-704.71 514,-704.71"/>
+<text text-anchor="middle" x="661" y="-712.31" font-family="Consolas" font-size="13.00">Domain</text>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_Support</title>
+<polygon fill="none" stroke="#c4cdc3" stroke-dasharray="5,2" points="500.5,-854.71 500.5,-982.71 985,-982.71 985,-854.71 500.5,-854.71"/>
+<text text-anchor="middle" x="742.75" y="-862.31" font-family="Consolas" font-size="13.00">Support</text>
 </g>
 <g id="clust9" class="cluster">
 <title>cluster_Utility</title>
@@ -271,8 +271,8 @@
 <!-- Board_V71_EK&#45;&gt;Platform_Common_platform -->
 <g id="edge20" class="edge">
 <title>Board_V71_EK&#45;&gt;Platform_Common_platform</title>
-<path fill="none" stroke="#7a8a80" d="M401.71,-290.64C462.06,-287.85 603.18,-278.77 643,-253.71 667.41,-238.35 656.75,-218.06 679,-199.71 681.01,-198.05 683.14,-196.48 685.36,-194.99"/>
-<polygon fill="#7a8a80" stroke="#7a8a80" points="686.86,-197.36 692.21,-190.79 683.93,-192.58 686.86,-197.36"/>
+<path fill="none" stroke="#3a6ea5" stroke-width="1.3" stroke-dasharray="5,2" d="M401.71,-290.64C462.06,-287.85 603.18,-278.77 643,-253.71 667.41,-238.35 656.75,-218.06 679,-199.71 681.01,-198.05 683.14,-196.48 685.36,-194.99"/>
+<polygon fill="#3a6ea5" stroke="#3a6ea5" stroke-width="1.3" points="686.86,-197.36 692.21,-190.79 683.93,-192.58 686.86,-197.36"/>
 </g>
 <!-- Platform_SamV71_platform -->
 <g id="node12" class="node">
@@ -284,8 +284,8 @@
 <!-- Board_V71_EK&#45;&gt;Platform_SamV71_platform -->
 <g id="edge21" class="edge">
 <title>Board_V71_EK&#45;&gt;Platform_SamV71_platform</title>
-<path fill="none" stroke="#7a8a80" d="M401.53,-278.98C415.84,-272.56 433.71,-264.85 450,-258.71 460.76,-254.66 472.29,-250.65 483.55,-246.91"/>
-<polygon fill="#7a8a80" stroke="#7a8a80" points="484.56,-249.53 491.29,-244.37 482.82,-244.21 484.56,-249.53"/>
+<path fill="none" stroke="#3a6ea5" stroke-width="1.3" stroke-dasharray="5,2" d="M401.53,-278.98C415.84,-272.56 433.71,-264.85 450,-258.71 460.76,-254.66 472.29,-250.65 483.55,-246.91"/>
+<polygon fill="#3a6ea5" stroke="#3a6ea5" stroke-width="1.3" points="484.56,-249.53 491.29,-244.37 482.82,-244.21 484.56,-249.53"/>
 </g>
 <!-- Board_V71_EK&#45;&gt;Type_Abstract -->
 <g id="edge22" class="edge">
@@ -315,8 +315,8 @@
 <!-- Component_IDE3380&#45;&gt;Platform_FreeRTOS_platform -->
 <g id="edge25" class="edge">
 <title>Component_IDE3380&#45;&gt;Platform_FreeRTOS_platform</title>
-<path fill="none" stroke="#7a8a80" d="M380.26,-490.36C390.7,-462.17 414.11,-407.99 450,-374.71 519.54,-310.23 558.81,-327.36 643,-283.71 664.07,-272.79 687.12,-259.79 705.83,-248.97"/>
-<polygon fill="#7a8a80" stroke="#7a8a80" points="707.53,-251.22 713.04,-244.78 704.72,-246.38 707.53,-251.22"/>
+<path fill="none" stroke="#3a6ea5" stroke-width="1.3" stroke-dasharray="5,2" d="M380.26,-490.36C390.7,-462.17 414.11,-407.99 450,-374.71 519.54,-310.23 558.81,-327.36 643,-283.71 664.07,-272.79 687.12,-259.79 705.83,-248.97"/>
+<polygon fill="#3a6ea5" stroke="#3a6ea5" stroke-width="1.3" points="707.53,-251.22 713.04,-244.78 704.72,-246.38 707.53,-251.22"/>
 </g>
 <!-- Component_IDE3380&#45;&gt;Support_Plumbing_Instruction -->
 <g id="edge26" class="edge">
@@ -450,14 +450,14 @@
 <!-- Platform_SamV71_platform&#45;&gt;Platform_Common_platform -->
 <g id="edge43" class="edge">
 <title>Platform_SamV71_platform&#45;&gt;Platform_Common_platform</title>
-<path fill="none" stroke="#7a8a80" d="M609.63,-210.36C630.96,-204.36 655.26,-197.53 677.25,-191.34"/>
-<polygon fill="#7a8a80" stroke="#7a8a80" points="678.3,-193.96 685.24,-189.1 676.78,-188.57 678.3,-193.96"/>
+<path fill="none" stroke="#3a6ea5" stroke-width="1.3" stroke-dasharray="5,2" d="M609.63,-210.36C630.96,-204.36 655.26,-197.53 677.25,-191.34"/>
+<polygon fill="#3a6ea5" stroke="#3a6ea5" stroke-width="1.3" points="678.3,-193.96 685.24,-189.1 676.78,-188.57 678.3,-193.96"/>
 </g>
 <!-- Platform_SamV71_platform&#45;&gt;Platform_FreeRTOS_platform -->
 <g id="edge44" class="edge">
 <title>Platform_SamV71_platform&#45;&gt;Platform_FreeRTOS_platform</title>
-<path fill="none" stroke="#7a8a80" d="M609.63,-226.71C628.83,-226.71 650.45,-226.71 670.62,-226.71"/>
-<polygon fill="#7a8a80" stroke="#7a8a80" points="670.86,-229.51 678.86,-226.71 670.86,-223.91 670.86,-229.51"/>
+<path fill="none" stroke="#3a6ea5" stroke-width="1.3" stroke-dasharray="5,2" d="M609.63,-226.71C628.83,-226.71 650.45,-226.71 670.62,-226.71"/>
+<polygon fill="#3a6ea5" stroke="#3a6ea5" stroke-width="1.3" points="670.86,-229.51 678.86,-226.71 670.86,-223.91 670.86,-229.51"/>
 </g>
 <!-- Platform_SamV71_platform&#45;&gt;Type_Abstract -->
 <g id="edge45" class="edge">
@@ -493,8 +493,8 @@
 <!-- Support_Console&#45;&gt;Platform_FreeRTOS_platform -->
 <g id="edge49" class="edge">
 <title>Support_Console&#45;&gt;Platform_FreeRTOS_platform</title>
-<path fill="none" stroke="#7a8a80" d="M586.45,-955.79C606.23,-953.28 629.62,-946.58 643,-929.71 686.23,-875.22 653.57,-369.46 679,-304.71 687.09,-284.1 702.85,-264.89 716.76,-250.68"/>
-<polygon fill="#7a8a80" stroke="#7a8a80" points="718.87,-252.53 722.58,-244.91 714.92,-248.56 718.87,-252.53"/>
+<path fill="none" stroke="#3a6ea5" stroke-width="1.3" stroke-dasharray="5,2" d="M586.45,-955.79C606.23,-953.28 629.62,-946.58 643,-929.71 686.23,-875.22 653.57,-369.46 679,-304.71 687.09,-284.1 702.85,-264.89 716.76,-250.68"/>
+<polygon fill="#3a6ea5" stroke="#3a6ea5" stroke-width="1.3" points="718.87,-252.53 722.58,-244.91 714.92,-248.56 718.87,-252.53"/>
 </g>
 <!-- Support_Console&#45;&gt;Support_Plumbing_CLI_parser -->
 <g id="edge50" class="edge">
@@ -541,8 +541,8 @@
 <!-- Support_Plumbing_Instruction&#45;&gt;Platform_Common_platform -->
 <g id="edge57" class="edge">
 <title>Support_Plumbing_Instruction&#45;&gt;Platform_Common_platform</title>
-<path fill="none" stroke="#7a8a80" d="M877.77,-884.57C865.58,-876 853,-864.58 846,-850.71 813.36,-786.09 860.57,-258.27 818,-199.71 815.87,-196.78 813.38,-194.16 810.63,-191.83"/>
-<polygon fill="#7a8a80" stroke="#7a8a80" points="811.92,-189.31 803.8,-186.89 808.64,-193.85 811.92,-189.31"/>
+<path fill="none" stroke="#3a6ea5" stroke-width="1.3" stroke-dasharray="5,2" d="M877.77,-884.57C865.58,-876 853,-864.58 846,-850.71 813.36,-786.09 860.57,-258.27 818,-199.71 815.87,-196.78 813.38,-194.16 810.63,-191.83"/>
+<polygon fill="#3a6ea5" stroke="#3a6ea5" stroke-width="1.3" points="811.92,-189.31 803.8,-186.89 808.64,-193.85 811.92,-189.31"/>
 </g>
 <!-- Support_Plumbing_Instruction&#45;&gt;Type_Basic -->
 <g id="edge58" class="edge">

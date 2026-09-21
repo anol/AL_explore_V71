@@ -1,14 +1,17 @@
-#pragma once
 
+
+module;
+#include <cstdint>
+#include "FreeRTOS.h"
+#include "queue.h"
+
+export module Platform.SamV71_USART1;
 import Type.Abstract_UART;
 import Type.Misc_type;
 
-extern "C" {
-#include "FreeRTOS.h"
-#include "queue.h"
-}
 
-namespace SamV71 {
+
+export namespace SamV71 {
     class SamV71_USART1 : public Abstract::Abstract_UART {
     public:
         static SamV71_USART1 *optional_one_and_only_UART;

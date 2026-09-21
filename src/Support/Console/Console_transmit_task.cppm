@@ -3,9 +3,9 @@
 //
 
 module;
-#include "FreeRTOS_task.h"
 
 module Support.Console_service:Console_transmit_task;
+import Platform.FreeRTOS_task;
 
 namespace Console {
     class Console_transmit_task : public FreeRTOS::FreeRTOS_task {

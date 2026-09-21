@@ -1,11 +1,13 @@
 //
 // Created by anolsen on 05.09.2019.
 //
-#pragma once
 
+export module Platform.Common_stdio;
 import Type.Abstract_UART;
 
-namespace Platform {
+
+
+export namespace Platform {
     class Common_stdio {
         Abstract::Abstract_UART *optional_UART;
 

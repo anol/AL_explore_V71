@@ -1,9 +1,16 @@
-#include "SamV71_SPI.h"
 
+
+module;
+#include <cstdint>
+#include "sam.h"
 #include "samv71q21b.h"
 #include <component/spi.h>
 
-#include "SamV71_clock.h"
+module Platform.SamV71_SPI;
+import Type.Abstract_SPI;
+import Type.Transfer_request;
+import Platform.FreeRTOS_queue;
+import Platform.SamV71_clock;
 
 // struct spi_proxy_counters_t {
 //     uint32_t cnt_idle;

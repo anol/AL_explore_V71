@@ -19,13 +19,15 @@
  * \brief
  */
 
-#pragma once
-
+module;
 #include <cstdint>
 
-import Type.Status_code;
+export module Platform.Diagnostic;
+export import Type.Status_code;
 
-namespace Error_handling {
+
+
+export namespace Error_handling {
 
     void information(const char *message);
 

@@ -17,10 +17,10 @@
  * \brief
  */
 
+module;
 #include <cstdio>
 
-#include "Common_stdio.h"
-
+module Platform.Common_stdio;
 import Type.Abstract_UART;
 
 extern "C" {

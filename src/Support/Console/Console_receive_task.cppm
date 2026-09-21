@@ -3,10 +3,10 @@
 //
 
 module;
-#include "FreeRTOS_task.h"
 #include "Ringbuffer.h"
 
 module Support.Console_service:Console_receive_task;
+import Platform.FreeRTOS_task;
 import Domain.SpectraNode_command_lookup;
 import Support.CLI_parser;
 import Support.Instruction_major;

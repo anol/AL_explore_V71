@@ -12,7 +12,13 @@
 /* Pull in the real clock value from your CMSIS/clock-init code rather than
  * hardcoding it, so it stays correct if you change the PLL config later. */
 #include <stdint.h>
+#ifdef __cplusplus
+extern "C" {
+#endif
 extern uint32_t SystemCoreClock;   /* Updated in SamV71_clock.cpp */
+#ifdef __cplusplus
+}
+#endif
 
 /* ---------------------------------------------------------------------
  * Scheduler
@@ -144,7 +150,13 @@ extern uint32_t SystemCoreClock;   /* Updated in SamV71_clock.cpp */
  * this up. A hardfault from a bad priority config is otherwise very
  * hard to tell apart from any other hardfault.
  * ------------------------------------------------------------------- */
+#ifdef __cplusplus
+extern "C" {
+#endif
 void vAssertCalled( const char * pcFile, unsigned long ulLine );
+#ifdef __cplusplus
+}
+#endif
 #define configASSERT( x ) \
     if( ( x ) == 0 ) vAssertCalled( __FILE__, __LINE__ )
 

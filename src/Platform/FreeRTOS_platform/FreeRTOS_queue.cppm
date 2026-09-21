@@ -1,13 +1,15 @@
-#pragma once
-#include <cstdint>
-import Type.Abstract_queue;
 
-extern "C" {
+
+module;
+#include <cstdint>
 #include "FreeRTOS.h"
 #include "queue.h"
-}
 
-namespace FreeRTOS {
+export module Platform.FreeRTOS_queue;
+import Type.Abstract_queue;
+
+
+export namespace FreeRTOS {
     template<typename T, uint32_t Queue_size>
     class FreeRTOS_queue : public Abstract::Abstract_queue<T> {
         StaticQueue_t the_queue_structure{};

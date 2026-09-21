@@ -1,15 +1,16 @@
-#pragma once
 
+
+module;
 #include <cstdint>
-
-import Type.Abstract_task;
-
-extern "C" {
 #include "FreeRTOS.h"
 #include "task.h"
-}
 
-namespace FreeRTOS {
+export module Platform.FreeRTOS_task;
+import Type.Abstract_task;
+
+
+
+export namespace FreeRTOS {
     class FreeRTOS_task : public Abstract::Abstract_task {
     public:
         enum { Default_priority = tskIDLE_PRIORITY + 1, Default_stack_size = configMINIMAL_STACK_SIZE * 2 };

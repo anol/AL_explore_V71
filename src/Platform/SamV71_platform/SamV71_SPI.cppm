@@ -1,10 +1,16 @@
-#pragma once
 
+
+module;
+#include <cstdint>
+
+export module Platform.SamV71_SPI;
 import Type.Abstract_SPI;
 import Type.Transfer_request;
-#include "FreeRTOS_queue.h"
+import Platform.FreeRTOS_queue;
 
-namespace SamV71 {
+
+
+export namespace SamV71 {
     class SamV71_SPI : public Abstract::Abstract_SPI {
         enum { Queue_size = 64, SPI_bitrate = 1000000 };
 

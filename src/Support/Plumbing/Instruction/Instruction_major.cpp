@@ -5,9 +5,9 @@
 module;
 #include <cstdio>
 #include <cstdint>
-#include "Diagnostic.h"
 
 module Support.Instruction_major;
+import Platform.Diagnostic;
 
 using namespace Instruction;
 using namespace Error_handling;

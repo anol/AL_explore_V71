@@ -3,9 +3,9 @@
 module;
 #include <cstdint>
 #include <cstdio>
-#include "FreeRTOS_semaphore.h"
 
 module Component.IDE3380_register_access;
+import Platform.FreeRTOS_semaphore;
 import Component.IDE3380_definitions;
 import Type.Abstract_SPI;
 import Type.Transfer_request;

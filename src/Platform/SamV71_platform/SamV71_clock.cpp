@@ -1,5 +1,11 @@
-#include "SamV71_clock.h"
+
+
+module;
+#include <cstdint>
 #include "sam.h"
+
+module Platform.SamV71_clock;
+import Type.Abstract_clock;
 
 namespace SamV71
 {

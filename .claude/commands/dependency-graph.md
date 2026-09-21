@@ -94,6 +94,12 @@ differently (see step 4) — don't collapse them into one:
   Some.Module.Name;`, found via the same grep) — locate which active file exports it, map
   that file to its containing directory, and that's the edge target; the importing file's
   directory is the source.
+- A module **implementation unit** (`module Some.Module.Name;`, without `export`) depends on
+  the module it implements, so it counts as an import of `Some.Module.Name`: the edge runs from
+  the implementation file's directory to the directory of the file that has the `export module`.
+  That matters when the two live in different directories (e.g. `Platform/SamV71_platform/
+  Diagnostic.cpp` implements `Platform.Diagnostic`, whose interface is in `Platform/Common_platform`);
+  the same-directory case drops out in step 3.
 
 ## 3. Roll up to module level
 

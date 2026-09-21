@@ -1,10 +1,17 @@
-#include <cstdio>
 
-#include "SamV71_IO_pin.h"
+
+module;
+#include <cstdint>
+#include "sam.h"
+#include "component/pio.h"
+#include <cstdio>
 #include "core_cm7.h"
-import Type.Status_code;
 #include "samv71q21b.h"
-#include "SamV71_clock.h"
+
+module Platform.SamV71_IO_pin;
+import Type.Abstract_IO_pin;
+import Type.Status_code;
+import Platform.SamV71_clock;
 
 namespace SamV71
 {
@@ -126,7 +133,6 @@ namespace SamV71
             }
         }
     }
-
 
     void SamV71_IO_pin::pin_configure(const Pin_port port, const uint8_t pin, const Pin_mode mode, const Pin_type type)
     {

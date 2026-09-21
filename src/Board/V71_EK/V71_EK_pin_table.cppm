@@ -2,9 +2,9 @@
 
 module;
 #include <cstdint>
-#include "SamV71_IO_pin.h"
 
 export module Board.V71_EK_pin_table;
+import Platform.SamV71_IO_pin;
 import Domain.IO_pins;
 import Type.Abstract_IO_pin;
 import Type.Abstract_pin_table;

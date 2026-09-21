@@ -1,12 +1,14 @@
-#pragma once
-import Type.Abstract_semaphore;
 
-extern "C" {
+
+module;
 #include "FreeRTOS.h"
 #include "semphr.h"
-}
 
-namespace FreeRTOS {
+export module Platform.FreeRTOS_semaphore;
+import Type.Abstract_semaphore;
+
+
+export namespace FreeRTOS {
     class FreeRTOS_semaphore : public Abstract::Abstract_semaphore {
         StaticSemaphore_t the_semaphore_structure{};
         SemaphoreHandle_t optional_semaphore{};

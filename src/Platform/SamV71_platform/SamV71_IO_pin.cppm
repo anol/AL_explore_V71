@@ -1,12 +1,16 @@
-#pragma once
 
+
+module;
 #include <cstdint>
-
-import Type.Abstract_IO_pin;
 #include "sam.h"
 #include "component/pio.h"
 
-namespace SamV71
+export module Platform.SamV71_IO_pin;
+import Type.Abstract_IO_pin;
+
+
+
+export namespace SamV71
 {
      class SamV71_IO_pin : public Abstract::Abstract_IO_pin
     {

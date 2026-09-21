@@ -1,10 +1,14 @@
-#pragma once
 
+
+module;
 #include <cstdint>
 
+export module Platform.SamV71_clock;
 import Type.Abstract_clock;
 
-namespace SamV71
+
+
+export namespace SamV71
 {
     class SamV71_clock : public Abstract::Abstract_clock
     {
