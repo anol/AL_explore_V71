@@ -41,13 +41,13 @@ namespace Application
         the_toggle_flag = !the_toggle_flag;
         if (the_toggle_flag)
         {
-            use_board.get_pin(Dictionary::Pin_LED0).set();
-            use_board.get_pin(Dictionary::Pin_LED1).clear();
+            use_board.get_pin(Domain::Pin_LED0).set();
+            use_board.get_pin(Domain::Pin_LED1).clear();
         }
         else
         {
-            use_board.get_pin(Dictionary::Pin_LED0).clear();
-            use_board.get_pin(Dictionary::Pin_LED1).set();
+            use_board.get_pin(Domain::Pin_LED0).clear();
+            use_board.get_pin(Domain::Pin_LED1).set();
         }
     }
 

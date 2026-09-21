@@ -30,7 +30,7 @@ namespace Board {
 
         Abstract_UART &  get_UART() override { return the_UART; }
         Abstract_SPI &   get_SPI() override { return the_SPI; }
-        Abstract_IO_pin &get_pin(const Dictionary::Pin_id id) override { return the_pin_manager.get_pin(id); }
+        Abstract_IO_pin &get_pin(const Domain::Pin_id id) override { return the_pin_manager.get_pin(id); }
 
     private:
         static void enable_cache();

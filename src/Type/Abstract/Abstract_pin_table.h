@@ -4,9 +4,9 @@
 
 #pragma once
 
-namespace Support
+namespace Abstract
 {
-    using Pin = Abstract::Abstract_IO_pin;
+    using Pin = Abstract_IO_pin;
 
     class Abstract_pin_table
     {
@@ -17,4 +17,4 @@ namespace Support
         virtual Status_code for_each_pin(void (*)(Pin&)) = 0;
         virtual void print_diagnostics() const = 0;
     };
-} // Support
+}

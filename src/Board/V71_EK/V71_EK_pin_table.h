@@ -1,10 +1,12 @@
 #pragma once
+
+import Type.Abstract_IO_pin;
 import Domain.IO_pins;
 
 namespace SamV71 {
     template<typename IO_pin>
     class V71_EK_pin_table {
-        using Tag = Dictionary::Pin_id;
+        using Tag = Domain::Pin_id;
         using Pin = Abstract::Abstract_IO_pin;
 
     public:

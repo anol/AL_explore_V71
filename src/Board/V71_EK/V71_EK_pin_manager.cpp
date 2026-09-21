@@ -7,7 +7,6 @@
 
 namespace SamV71
 {
-    using namespace Dictionary;
     using Pin = Abstract::Abstract_IO_pin;
 
     Status_code V71_EK_pin_manager::initialize()
@@ -41,18 +40,18 @@ namespace SamV71
         return Status_code::Success();
     }
 
-    Pin& V71_EK_pin_manager::get_pin(const Pin_id id)
+    Pin& V71_EK_pin_manager::get_pin(const Domain::Pin_id id)
     {
-        if (id < Number_of_pins)
+        if (id < Domain::Number_of_pins)
         {
             return the_pin_table.the_pins[id];
         }
-        return the_pin_table.the_pins[Pin_not_used];
+        return the_pin_table.the_pins[Domain::Pin_not_used];
     }
 
-    Pin* V71_EK_pin_manager::get_optional_pin(const Pin_id id)
+    Pin* V71_EK_pin_manager::get_optional_pin(const Domain::Pin_id id)
     {
-        if (id < Number_of_pins)
+        if (id < Domain::Number_of_pins)
         {
             return &the_pin_table.the_pins[id];
         }

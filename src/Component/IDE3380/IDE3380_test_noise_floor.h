@@ -23,14 +23,14 @@
 
 #pragma once
 
-#include "Abstract_calibration_test.h"
+#include "Abstract_scenario.h"
 #include "IDE3380_interface.h"
 #include "Event_counter.h"
 
 using namespace IDE3380;
 
 namespace Calibration {
-    class IDE3380_test_noise_floor : public Abstract_calibration_test {
+    class IDE3380_test_noise_floor : public Abstract::Abstract_scenario {
         enum {
             Number_of_channels = 16,
             Min_threshold = 0, Max_threshold = 254, Number_of_thresholds = 256,

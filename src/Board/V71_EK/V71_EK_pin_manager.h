@@ -1,7 +1,8 @@
 #pragma once
 
 import Type.Abstract_IO_pin;
-#include "../../Platform/SamV71_platform/SamV71_IO_pin.h"
+
+#include "SamV71_IO_pin.h"
 #include "V71_EK_pin_table.h"
 
 namespace SamV71
@@ -17,9 +18,9 @@ namespace SamV71
 
         Status_code set_phase(Pin::Pin_phase);
 
-        Pin& get_pin(Dictionary::Pin_id);
+        Pin& get_pin(Domain::Pin_id);
 
-        Pin* get_optional_pin(Dictionary::Pin_id);
+        Pin* get_optional_pin(Domain::Pin_id);
 
         void print_diagnostics();
 

@@ -7,7 +7,7 @@ module;
 
 export module Domain.IO_pins;
 
-export namespace Dictionary {
+export namespace Domain {
     enum Pin_id : std::uint8_t {
         Pin_not_used,
 
