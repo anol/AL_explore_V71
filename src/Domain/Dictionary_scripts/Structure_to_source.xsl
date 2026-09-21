@@ -25,10 +25,11 @@
 
 // Please note: the content of this file was generated using XSLT.
 
+module;
 #include &lt;cstdint&gt;
 
-#include "</xsl:text><xsl:value-of select="@keywords"/><xsl:text>.h"
-#include "</xsl:text><xsl:value-of select="@name"/><xsl:text>.h"
+module Domain.</xsl:text><xsl:value-of select="@keywords"/><xsl:text>_structure;
+import Domain.</xsl:text><xsl:value-of select="@keywords"/><xsl:text>_keyword_lookup;
 
 namespace </xsl:text><xsl:value-of select="@interface"/><xsl:text>{
 
@@ -106,8 +107,9 @@ struct Structure_buffer{
     uint32_t the_sentinel_3;
 };
 
-extern "C" Structure_buffer the_structure_definition __attribute__((section (".management_repos")));
-Structure_buffer the_structure_definition;
+extern "C" {
+    Structure_buffer the_structure_definition __attribute__((section (".management_repos")));
+}
 
 uint8_t the_flags[The_number_of_entries]{};
 

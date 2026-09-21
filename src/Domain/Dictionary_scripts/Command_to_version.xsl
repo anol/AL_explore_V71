@@ -7,32 +7,26 @@
             <xsl:text>../Definition_IDEAS/Copyright.xml</xsl:text>
         </xsl:variable>
         <xsl:apply-templates select="document($path)"/>
-        <xsl:text>#ifndef </xsl:text>
-        <xsl:value-of select="@name"/>
-        <xsl:text>_COMMAND_VERSION_H
-#define </xsl:text>
-        <xsl:value-of select="@name"/>
-        <xsl:text>_COMMAND_VERSION_H
-
+        <xsl:text>module;
 #include &lt;cstdint&gt;
 #include &lt;type_traits&gt;
 
-#define INSTRUCTION_VERSION "</xsl:text>
-        <xsl:value-of select="@version"/>
-        <xsl:text>"
+export module Domain.</xsl:text>
+        <xsl:value-of select="@name"/>
+        <xsl:text>_command_version;
 
-namespace </xsl:text><xsl:value-of select="@product_id"/><xsl:text>
+export namespace </xsl:text><xsl:value-of select="@product_id"/><xsl:text>
 {
     namespace version
     {
         using instruction = std::integral_constant&lt;uint8_t, </xsl:text>
             <xsl:value-of select="@version"/>
             <xsl:text>&gt;;
+        constexpr const char *instruction_string = "</xsl:text>
+            <xsl:value-of select="@version"/>
+            <xsl:text>";
     }
 }
-
-#endif // </xsl:text>
-        <xsl:value-of select="@name"/><xsl:text>_version_h
 </xsl:text>
     </xsl:template>
 

@@ -4,10 +4,10 @@
 
 module;
 #include "FreeRTOS_task.h"
-#include "Dictionary.h"
 #include "Ringbuffer.h"
 
 module Support.Console_service:Console_receive_task;
+import Domain.SpectraNode_command_lookup;
 import Support.CLI_parser;
 import Support.Instruction_major;
 import Type.Abstract_provider;
@@ -34,7 +34,7 @@ namespace Console
     public:
         Console_receive_task(Abstract::Abstract_UART& UART, Abstract::Abstract_provider<Instruction_major>& router)
             : FreeRTOS_task("Console receive", Priority, Stack_size), use_console(UART), use_router(router),
-              the_parser(get_commands())
+              the_parser(SpectraNode_interface::get_commands())
         {
         }
 

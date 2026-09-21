@@ -10,24 +10,15 @@
         </xsl:variable>
         <xsl:apply-templates select="document($path)"/>
 
-        <xsl:text>#ifndef </xsl:text>
-        <xsl:value-of select="@name"/>
-        <xsl:text>_COMMAND_LOOKUP_h
-</xsl:text>
-        <xsl:text>#define </xsl:text>
-        <xsl:value-of select="@name"/>
-        <xsl:text>_COMMAND_LOOKUP_h
-</xsl:text>
-        <xsl:text>
+        <xsl:text>module;
 #include &lt;cstdint&gt;
 
-import Support.Instruction_token;
+export module Domain.</xsl:text>
+        <xsl:value-of select="@name"/>
+        <xsl:text>_command_lookup;
+export import Support.Instruction_token;
 
-#include "</xsl:text>
-        <xsl:value-of select="@keywords"/>
-        <xsl:text>_command_lookup.h"
-
-namespace </xsl:text><xsl:value-of select="@interface"/><xsl:text>{
+export namespace </xsl:text><xsl:value-of select="@interface"/><xsl:text>{
 
     enum Command : uint16_t {
         No_such_command,
@@ -40,8 +31,6 @@ namespace </xsl:text><xsl:value-of select="@interface"/><xsl:text>{
     const Instruction::Instruction_token *get_commands();
 
 }
-
-#endif // </xsl:text><xsl:value-of select="@name"/><xsl:text>_h
 </xsl:text>
     </xsl:template>
 

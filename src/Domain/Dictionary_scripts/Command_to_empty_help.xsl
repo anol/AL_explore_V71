@@ -9,7 +9,9 @@
         </xsl:variable>
         <xsl:apply-templates select="document($path)"/>
         <xsl:text>
-namespace </xsl:text><xsl:value-of select="@interface"/><xsl:text>{
+export module Domain.</xsl:text><xsl:value-of select="@name"/><xsl:text>_command_empty_help;
+
+export namespace </xsl:text><xsl:value-of select="@interface"/><xsl:text>{
 
     </xsl:text>
         <xsl:call-template name="Build_help_text_table"/>

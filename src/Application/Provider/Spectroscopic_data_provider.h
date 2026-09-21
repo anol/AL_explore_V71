@@ -23,7 +23,7 @@
 
 #pragma once
 #include "Persistent_parameter_id.h"
-#include "Generated_code/SpectraNode_provider_indication.h"
+import Domain.SpectraNode_provider_indication;
 #include "Dictionary.h"
 #include "IDE3380_interface.h"
 #include "IDE3380_readout_control.h"

@@ -22,12 +22,12 @@
 
 // Please note: the content of this file was generated using XSLT.
 
-#ifndef <xsl:value-of select="@name"/>_H
-#define <xsl:value-of select="@name"/>_H
-
+module;
 #include &lt;cstdint&gt;
 
-namespace <xsl:value-of select="@interface"/>
+export module Domain.<xsl:value-of select="@keywords"/>_structure;
+
+export namespace <xsl:value-of select="@interface"/>
 {
 
     enum { Form_null, Form_keyword, Form_array, Form_reserved };
@@ -59,8 +59,6 @@ namespace <xsl:value-of select="@interface"/>
     const uint32_t* get_table_of_defaults();
 
 }
-
-#endif // <xsl:value-of select="@name"/>_H
 
     </xsl:template>
 

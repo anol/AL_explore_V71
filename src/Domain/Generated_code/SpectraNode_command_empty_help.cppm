@@ -24,7 +24,9 @@
 */
 
 
-namespace SpectraNode_interface{
+export module Domain.SpectraNode_command_empty_help;
+
+export namespace SpectraNode_interface{
 
     constexpr auto* help_DEMO_CADENCE_seconds{""};
     constexpr auto* help_DEMO_CHANNEL_channel{""};

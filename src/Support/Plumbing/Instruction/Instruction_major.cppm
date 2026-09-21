@@ -5,10 +5,9 @@
 module;
 #include <cstring>
 #include <cstdint>
-#include "Dictionary.h"
-
 export module Support.Instruction_major;
 export import Support.Instruction_token;
+import Domain.SpectraNode_keyword_lookup;
 
 using namespace Instruction;
 

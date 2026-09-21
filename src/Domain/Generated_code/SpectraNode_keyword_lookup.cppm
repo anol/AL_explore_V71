@@ -23,10 +23,9 @@
 *                 D O   N O T   E D I T
 */
 
-#ifndef SpectraNode_KEYWORD_LOOKUP_H
-#define SpectraNode_KEYWORD_LOOKUP_H
+export module Domain.SpectraNode_keyword_lookup;
 
-namespace SpectraNode_interface {
+export namespace SpectraNode_interface {
 
     constexpr int get_keyword_version() { return 1; }
 
@@ -101,5 +100,3 @@ namespace SpectraNode_interface {
     };
 
 }
-
-#endif // SpectraNode_h

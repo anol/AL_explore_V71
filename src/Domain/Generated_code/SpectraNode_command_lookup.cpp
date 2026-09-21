@@ -24,11 +24,12 @@
 */
 
 
+module;
 #include <cstdint>
 
-#include "SpectraNode_keyword_lookup.h"
-#include "SpectraNode_command_lookup.h"
-#include "SpectraNode_command_help.h"
+module Domain.SpectraNode_command_lookup;
+import Domain.SpectraNode_keyword_lookup;
+import Domain.SpectraNode_command_help;
 
 using namespace Instruction;
 

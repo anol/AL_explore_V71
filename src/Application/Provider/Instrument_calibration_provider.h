@@ -22,7 +22,7 @@
 
 
 #pragma once
-#include "Generated_code/SpectraNode_provider_indication.h"
+import Domain.SpectraNode_provider_indication;
 #include "Dictionary.h"
 #include "IDE3380_test_pedestal.h"
 #include "../../Component/IDE3380/IDE3380_test_noise_floor.h"

@@ -10,9 +10,9 @@
         </xsl:variable>
         <xsl:apply-templates select="document($path)"/>
 
-        <xsl:text>#include "</xsl:text>
+        <xsl:text>module Domain.</xsl:text>
         <xsl:value-of select="@name"/>
-        <xsl:text>_keyword_lookup.h"
+        <xsl:text>_keyword_lookup;
 
 namespace </xsl:text>
         <xsl:value-of select="@interface"/>

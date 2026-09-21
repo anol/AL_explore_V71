@@ -9,17 +9,18 @@
         </xsl:variable>
         <xsl:apply-templates select="document($path)"/>
         <xsl:text>
+module;
 #include &lt;cstdint&gt;
 
-#include "</xsl:text>
+module Domain.</xsl:text>
+        <xsl:value-of select="@name"/>
+        <xsl:text>_command_lookup;
+import Domain.</xsl:text>
         <xsl:value-of select="@keywords"/>
-        <xsl:text>_keyword_lookup.h"
-#include "</xsl:text>
+        <xsl:text>_keyword_lookup;
+import Domain.</xsl:text>
         <xsl:value-of select="@name"/>
-        <xsl:text>_command_lookup.h"
-#include "</xsl:text>
-        <xsl:value-of select="@name"/>
-        <xsl:text>_command_help.h"
+        <xsl:text>_command_help;
 
 using namespace Instruction;
 

@@ -23,7 +23,7 @@
 *                 D O   N O T   E D I T
 */
 
-#include "SpectraNode_keyword_lookup.h"
+module Domain.SpectraNode_keyword_lookup;
 
 namespace SpectraNode_interface {
 

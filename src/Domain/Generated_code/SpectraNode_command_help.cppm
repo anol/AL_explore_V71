@@ -24,7 +24,9 @@
 */
 
 
-namespace SpectraNode_interface{
+export module Domain.SpectraNode_command_help;
+
+export namespace SpectraNode_interface{
 
     constexpr auto* help_DEMO_CADENCE_seconds{"Set telemetry interval (s) in Demonstration Mode."};
     constexpr auto* help_DEMO_CHANNEL_channel{"Set channel to be used in live view demo. 0=inhibit readout, 1..16=input channel, 17=analog summing, 18=digital summing."};

@@ -17,12 +17,12 @@
 
 // Please note: the content of this file was generated using XSLT.
 
-#ifndef SpectraNode_structure_definition_H
-#define SpectraNode_structure_definition_H
-
+module;
 #include <cstdint>
 
-namespace SpectraNode
+export module Domain.SpectraNode_structure;
+
+export namespace SpectraNode
 {
 
     enum { Form_null, Form_keyword, Form_array, Form_reserved };
@@ -54,7 +54,5 @@ namespace SpectraNode
     const uint32_t* get_table_of_defaults();
 
 }
-
-#endif // SpectraNode_structure_definition_H
 
     

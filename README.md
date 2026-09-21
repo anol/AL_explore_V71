@@ -25,19 +25,24 @@ headers excluded), restricted to what CMake actually builds for the `V71_hello_w
 boards, and platform variants are real directories in `src/` but aren't part of this build,
 so they're left out. One node per source directory (a "module"), clustered by top-level area
 — wide, meant for scrolling/zooming rather than an at-a-glance read. Solid arrows are
-`#include` dependencies; dashed arrows are C++20 module imports. Everything under `Type/` and
-`Support/` is now a named module — `Type/Abstract` (one module per `Abstract_*` interface),
-`Type/Basic` (`Type.Misc_type`, `Type.Status_code`), `Type/Generic` (`Type.Transfer_request`),
-`Support/Repository` (`Support.Attribute_type` … `Support.Configuration_repository`),
-`Support/Plumbing/Instruction` (`Support.Instruction_token`, `Support.Instruction_major`,
-`Support.Instruction_lookup`, …), `Support/Plumbing/CLI_parser` (`Support.CLI_parser`, …) and
-`Support/Console` (`Support.Console_service`) — plus `Domain/IO_pins`. So every edge into
-`Type/*` and `Support/*` is dashed, plus the `Domain.IO_pins` imports from `Application/Hello_world`,
-`Board/V71_EK` and `Type/Abstract`. The remaining `#include` edges only point at `Application/*`,
-`Board/V71_EK`, `Component/*`, `Domain`, `Domain/Generated_code`, `Platform/*` and `Utility`.
+`#include` dependencies; dashed arrows are C++20 module imports. Everything under `Type/`,
+`Support/` and `Domain/Generated_code/` is now a named module — `Type/Abstract` (one module per
+`Abstract_*` interface), `Type/Basic` (`Type.Misc_type`, `Type.Status_code`), `Type/Generic`
+(`Type.Transfer_request`), `Support/Repository` (`Support.Attribute_type` …
+`Support.Configuration_repository`), `Support/Plumbing/Instruction` (`Support.Instruction_token`,
+`Support.Instruction_major`, `Support.Instruction_lookup`, …), `Support/Plumbing/CLI_parser`
+(`Support.CLI_parser`, …), `Support/Console` (`Support.Console_service`) and the generated
+dictionary (`Domain.SpectraNode_keyword_lookup`, `Domain.SpectraNode_command_lookup`,
+`Domain.SpectraNode_provider_indication`, …) — plus `Domain/IO_pins`. So every edge into
+`Type/*`, `Support/*` and `Domain/Generated_code` is dashed, plus the `Domain.IO_pins` imports from
+`Application/Hello_world`, `Board/V71_EK` and `Type/Abstract`. The remaining `#include` edges only
+point at `Application/*`, `Board/V71_EK`, `Component/*`, `Domain`, `Platform/*` and `Utility`.
 (`Type`, `Support` and `Support/Plumbing` have no files of their own any more, so none of them is a node.)
 A module pair with edges in both directions (either kind) is flagged as a two-way dependency:
-both arrows render bold and red — there are currently none:
+both arrows render bold and red. There is currently one: `Domain/Generated_code ↔
+Support/Plumbing/Instruction` — the generated command tables and provider base classes are built from
+`Instruction_token` / `Instruction_lookup`, while `Instruction_major` needs the generated keyword
+constants (`Wildcard`, `get_keyword`):
 
 ![Module dependency graph](doc/module_dependencies.svg)
 

@@ -17,10 +17,11 @@
 
 // Please note: the content of this file was generated using XSLT.
 
+module;
 #include <cstdint>
 
-#include "SpectraNode.h"
-#include "SpectraNode_structure_definition.h"
+module Domain.SpectraNode_structure;
+import Domain.SpectraNode_keyword_lookup;
 
 namespace SpectraNode{
 
@@ -68,8 +69,9 @@ struct Structure_buffer{
     uint32_t the_sentinel_3;
 };
 
-extern "C" Structure_buffer the_structure_definition __attribute__((section (".management_repos")));
-Structure_buffer the_structure_definition;
+extern "C" {
+    Structure_buffer the_structure_definition __attribute__((section (".management_repos")));
+}
 
 uint8_t the_flags[The_number_of_entries]{};
 

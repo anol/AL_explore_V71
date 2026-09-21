@@ -24,7 +24,7 @@
 #pragma once
 
 import Support.CLI_help;
-#include "Generated_code/SpectraNode_provider_indication.h"
+import Domain.SpectraNode_provider_indication;
 #include "Dictionary.h"
 import Support.Configuration_repository;
 

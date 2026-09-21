@@ -9,10 +9,10 @@
         </xsl:variable>
         <xsl:apply-templates select="document($path)"/>
         <xsl:text>
-
+module;
 #include &lt;iostream&gt;
 
-#include "Provider_skeleton.h"
+module Domain.</xsl:text><xsl:value-of select="@name"/><xsl:text>_provider_skeleton;
 
 using namespace </xsl:text><xsl:value-of select="/command_definition/@interface"/><xsl:text>;
         </xsl:text>

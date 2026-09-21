@@ -10,12 +10,12 @@
         <xsl:apply-templates select="document($path)"/>
 
         <xsl:text>
-#pragma once
-
+module;
 #include &lt;cstdint&gt;
-#include "SpectraNode_keyword_lookup.h"
 
-import Support.Instruction_lookup;
+export module Domain.</xsl:text><xsl:value-of select="@name"/><xsl:text>_provider_indication;
+import Domain.</xsl:text><xsl:value-of select="@keywords"/><xsl:text>_keyword_lookup;
+export import Support.Instruction_lookup;
 import Type.Abstract_provider;
 
 using namespace Abstract;
@@ -26,7 +26,7 @@ namespace Transaction {
 
 using namespace Transaction;
 
-namespace </xsl:text><xsl:value-of select="@interface"/><xsl:text> {
+export namespace </xsl:text><xsl:value-of select="@interface"/><xsl:text> {
     </xsl:text>
         <xsl:call-template name="All_class_definitions"/>
         <xsl:text>

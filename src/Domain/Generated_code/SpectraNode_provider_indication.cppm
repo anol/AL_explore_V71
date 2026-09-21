@@ -24,12 +24,12 @@
 */
 
 
-#pragma once
-
+module;
 #include <cstdint>
-#include "SpectraNode_keyword_lookup.h"
 
-import Support.Instruction_lookup;
+export module Domain.SpectraNode_provider_indication;
+import Domain.SpectraNode_keyword_lookup;
+export import Support.Instruction_lookup;
 import Type.Abstract_provider;
 
 using namespace Abstract;
@@ -40,7 +40,7 @@ namespace Transaction {
 
 using namespace Transaction;
 
-namespace SpectraNode_interface {
+export namespace SpectraNode_interface {
     
     class Abstract_Mode_control_provider : public Abstract_provider<Instruction_major> {
     public:

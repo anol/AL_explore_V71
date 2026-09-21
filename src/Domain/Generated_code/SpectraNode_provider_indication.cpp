@@ -24,9 +24,11 @@
 */
 
 
+module;
+#include <cstdint>
 
-#include "SpectraNode_command_lookup.h"
-#include "SpectraNode_provider_indication.h"
+module Domain.SpectraNode_provider_indication;
+import Domain.SpectraNode_command_lookup;
 
 using namespace Instruction;
 using namespace SpectraNode_interface;

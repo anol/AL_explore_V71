@@ -6,9 +6,9 @@ module;
 #include <cstdio>
 #include <cstdint>
 #include "Diagnostic.h"
-#include "Dictionary.h"
 
 module Support.Instruction_major;
+import Domain.SpectraNode_keyword_lookup;
 
 using namespace Instruction;
 using namespace SpectraNode_interface;

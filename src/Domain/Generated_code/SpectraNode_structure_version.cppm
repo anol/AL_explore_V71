@@ -23,20 +23,17 @@
 *                 D O   N O T   E D I T
 */
 
-#ifndef SpectraNode_COMMAND_VERSION_H
-#define SpectraNode_COMMAND_VERSION_H
-
+module;
 #include <cstdint>
 #include <type_traits>
 
-#define INSTRUCTION_VERSION "3"
+export module Domain.SpectraNode_structure_version;
 
-namespace FW1038
+export namespace FW1038
 {
     namespace version
     {
-        using instruction = std::integral_constant<uint8_t, 3>;
+        using structure = std::integral_constant<uint8_t, 1>;
+        constexpr const char *structure_string = "1";
     }
 }
-
-#endif // SpectraNode_version_h

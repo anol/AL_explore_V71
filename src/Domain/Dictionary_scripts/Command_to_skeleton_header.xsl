@@ -9,21 +9,14 @@
         </xsl:variable>
         <xsl:apply-templates select="document($path)"/>
 
-        <xsl:text>#ifndef </xsl:text><xsl:value-of select="@name"/><xsl:text>_IMPLEMENT_h
-</xsl:text>
-        <xsl:text>#define </xsl:text><xsl:value-of select="@name"/><xsl:text>_IMPLEMENT_h
-</xsl:text>
-        <xsl:text>
+        <xsl:text>export module Domain.</xsl:text><xsl:value-of select="@name"/><xsl:text>_provider_skeleton;
+import Domain.</xsl:text><xsl:value-of select="@name"/><xsl:text>_provider_indication;
 
-#include "Provider_indication.h"
-
-namespace </xsl:text><xsl:value-of select="@interface"/><xsl:text> {
+export namespace </xsl:text><xsl:value-of select="@interface"/><xsl:text> {
     </xsl:text>
         <xsl:call-template name="All_class_definitions"/>
         <xsl:text>
 }
-
-#endif
 </xsl:text>
     </xsl:template>
 

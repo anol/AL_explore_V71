@@ -10,14 +10,11 @@
         </xsl:variable>
         <xsl:apply-templates select="document($path)"/>
 
-        <xsl:text>#ifndef </xsl:text>
+        <xsl:text>export module Domain.</xsl:text>
         <xsl:value-of select="@name"/>
-        <xsl:text>_KEYWORD_LOOKUP_H
-#define </xsl:text>
-        <xsl:value-of select="@name"/>
-        <xsl:text>_KEYWORD_LOOKUP_H
+        <xsl:text>_keyword_lookup;
 
-namespace </xsl:text>
+export namespace </xsl:text>
         <xsl:value-of select="@interface"/>
         <xsl:text> {
 
@@ -39,8 +36,6 @@ namespace </xsl:text>
     };
 
 }
-
-#endif // </xsl:text><xsl:value-of select="@name"/><xsl:text>_h
 </xsl:text>
     </xsl:template>
 

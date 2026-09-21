@@ -23,16 +23,13 @@
 *                 D O   N O T   E D I T
 */
 
-#ifndef SpectraNode_COMMAND_LOOKUP_h
-#define SpectraNode_COMMAND_LOOKUP_h
-
+module;
 #include <cstdint>
 
-import Support.Instruction_token;
+export module Domain.SpectraNode_command_lookup;
+export import Support.Instruction_token;
 
-#include "SpectraNode_command_lookup.h"
-
-namespace SpectraNode_interface{
+export namespace SpectraNode_interface{
 
     enum Command : uint16_t {
         No_such_command,
@@ -83,5 +80,3 @@ namespace SpectraNode_interface{
     const Instruction::Instruction_token *get_commands();
 
 }
-
-#endif // SpectraNode_h

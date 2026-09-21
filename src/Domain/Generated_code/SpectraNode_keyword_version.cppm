@@ -23,20 +23,17 @@
 *                 D O   N O T   E D I T
 */
 
-#ifndef SpectraNode_KEYWORD_VERSION_H
-#define SpectraNode_KEYWORD_VERSION_H
-
+module;
 #include <cstdint>
 #include <type_traits>
 
-#define KEYWORD_VERSION "1"
+export module Domain.SpectraNode_keyword_version;
 
-namespace FW1038
+export namespace FW1038
 {
     namespace version
     {
         using keyword = std::integral_constant<uint8_t, 1>;
+        constexpr const char *keyword_string = "1";
     }
 }
-
-#endif // SpectraNode_version_h
