@@ -3,9 +3,11 @@
 // Please see here as well: https://www.codeproject.com/Articles/69941/Best-Square-Root-Method-Algorithm-Function-Precisi
 //
 
-#include "Simple_math.h"
-#include "Json_printer.h"
+module;
+#include <cstdint>
 
+module Utility.Simple_math;
+import Utility.Json_printer;
 
 static double powerOfTen(int num) {
     double rst = 1.0;

@@ -3,7 +3,7 @@
 //
 
 #include "gtest/gtest.h"
-#include "Unit_converter.h"
+import Utility.Unit_converter;
 
 TEST(Unit_converter_unit_test, test_nanoseconds_to_count) {
     EXPECT_EQ(Unit_converter::nanoseconds_to_count(1000000, 1000), 1);

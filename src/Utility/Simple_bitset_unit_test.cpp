@@ -4,7 +4,7 @@
 
 
 #include "gtest/gtest.h"
-#include "Simple_bitset.h"
+import Utility.Simple_bitset;
 
 TEST(Simple_bitset_unit_test, test_set_bit) {
     Simple_bitset<68> bitset;

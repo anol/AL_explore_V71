@@ -26,7 +26,7 @@ boards, and platform variants are real directories in `src/` but aren't part of 
 so they're left out. One node per source directory (a "module"), clustered by top-level area
 — wide, meant for scrolling/zooming rather than an at-a-glance read. Solid arrows are
 `#include` dependencies; dashed arrows are C++20 module imports. Everything under `Type/`,
-`Support/`, `Application/`, `Component/`, `Board/V71_EK`, the built `Platform/` directories and
+`Support/`, `Application/`, `Component/`, `Board/V71_EK`, the built `Platform/` directories, `Utility/` and
 `Domain/Generated_code/` is now a named module — `Type/Abstract` (one module per
 `Abstract_*` interface), `Type/Basic` (`Type.Misc_type`, `Type.Status_code`), `Type/Generic`
 (`Type.Transfer_request`), `Support/Repository` (`Support.Attribute_type` …
@@ -38,14 +38,15 @@ dictionary (`Domain.SpectraNode_keyword_lookup`, `Domain.SpectraNode_command_loo
 `Application.Request_router`, the five `Application.*_provider` modules, `Application.Cadence_control`),
 the components (`Component.IDE3380_interface`, `Component.Histogram_storage`, `Component.Bias_calibration`, …),
 the board (`Board.V71_EK_board`, `Board.V71_EK_pin_table`) and the platform (`Platform.SamV71_clock`,
-`Platform.SamV71_USART1`, `Platform.FreeRTOS_queue`, `Platform.Diagnostic`, …) — plus `Domain/IO_pins`. (The C sources in `Application/Support` — `gamma_peak_detector`, `Isotope_table` —
+`Platform.SamV71_USART1`, `Platform.FreeRTOS_queue`, `Platform.Diagnostic`, …) and the utilities
+(`Utility.Ringbuffer`, `Utility.Simple_string`, `Utility.Simple_math`, …) — plus `Domain/IO_pins`. (The C sources in `Application/Support` — `gamma_peak_detector`, `Isotope_table` —
 stay plain headers, since they are a C API, and so does `Component/STTS22H`, whose header is entirely
 commented out; `Platform/SamV71_platform/SAMV71Q21B` is startup code and the FreeRTOS port.) So every edge into
-`Type/*`, `Support/*`, `Application/*`, `Component/*` (except `STTS22H`), `Board/V71_EK`, `Platform/*` and
-`Domain/Generated_code` is dashed (`Domain.IO_pins` itself imports
+`Type/*`, `Support/*`, `Application/*`, `Component/*` (except `STTS22H`), `Board/V71_EK`, `Platform/*`,
+`Utility` and `Domain/Generated_code` is dashed (`Domain.IO_pins` itself imports
 `Type.Abstract_IO_pin` for the pin id type), plus the `Domain.IO_pins` imports from
 `Application/Hello_world` and `Board/V71_EK`. The remaining `#include` edges only
-point at `Component/STTS22H`, `Domain` and `Utility`. A module implementation unit (`module X;`) counts as
+point at `Component/STTS22H` and `Domain` (`Persistent_parameter_id.h`, `Dictionary.h`). A module implementation unit (`module X;`) counts as
 an import of `X`, so `Platform/SamV71_platform` → `Platform/Common_platform` is drawn for `Diagnostic.cpp`.
 (`Type`, `Support` and `Support/Plumbing` have no files of their own any more, so none of them is a node.)
 A module pair with edges in both directions (either kind) is flagged as a two-way dependency:

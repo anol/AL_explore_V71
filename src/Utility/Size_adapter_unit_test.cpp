@@ -3,7 +3,7 @@
 //
 
 #include "gtest/gtest.h"
-#include "Size_adapter.h"
+import Utility.Size_adapter;
 
 TEST(Size_adapter_unit_test, test_store_and_fetch) {
     uint32_t source = 0x01234567;

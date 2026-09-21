@@ -3,7 +3,7 @@
 //
 
 #include "gtest/gtest.h"
-#include "Ringbuffer.h"
+import Utility.Ringbuffer;
 
 TEST(Ringbuffer_unit_test, test_empty) {
     int data;

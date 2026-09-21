@@ -2,13 +2,14 @@
 // Created by Drift on 02.09.2020.
 //
 
-#ifndef TARGET_WINDOWS_SIMPLE_BITSET_H
-#define TARGET_WINDOWS_SIMPLE_BITSET_H
-
+module;
 #include <string.h>
 #include <cstdint>
 
-template<int N>
+export module Utility.Simple_bitset;
+
+
+export template<int N>
 class Simple_bitset {
     enum {
         Size_of_buffer = (N + 7) / 8
@@ -55,5 +56,3 @@ public:
         return true;
     }
 };
-
-#endif //TARGET_WINDOWS_SIMPLE_BITSET_H

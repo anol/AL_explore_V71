@@ -24,9 +24,9 @@ module;
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
-#include "Simple_string.h"
 
 module Support.CLI_parser;
+import Utility.Simple_string;
 
 namespace Instruction {
     static Instruction_token question_mark(Question_mark, "?", 0, static_cast<uint32_t>(Special_command), nullptr);

@@ -17,11 +17,11 @@
  * \brief
  */
 
+module;
+#include <cstdint>
 #include <cstdio>
 
-#include <cstdint>
-
-#include "Json_printer.h"
+module Utility.Json_printer;
 
 static uint32_t json_level = 0;
 static uint32_t json_index[JSON_printer::JSON_max_levels] = {};

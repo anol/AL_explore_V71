@@ -2,13 +2,14 @@
 // Created by anolsen on 15.01.2020.
 //
 
-#ifndef NORM_FW_GRAY_CODE_H
-#define NORM_FW_GRAY_CODE_H
-
+module;
 #include <cstdint>
-namespace Gray_code {
 
-    static uint32_t gray_to_normal(uint32_t GrayVal) {
+export module Utility.Gray_code;
+
+export namespace Gray_code {
+
+    inline uint32_t gray_to_normal(uint32_t GrayVal) {
         uint32_t result = GrayVal;
         result ^= (result >> 1u);
         result ^= (result >> 2u);
@@ -19,4 +20,3 @@ namespace Gray_code {
     }
 
 }
-#endif //NORM_FW_GRAY_CODE_H

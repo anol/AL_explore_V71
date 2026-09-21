@@ -6,7 +6,7 @@
  */
 
 #include "gtest/gtest.h"
-#include "Simple_buffer.h"
+import Utility.Simple_buffer;
 
 TEST(SimpleBuffer, generic_test) // NOLINT suppress static storage warning
 {

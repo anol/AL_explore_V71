@@ -3,7 +3,7 @@
 //
 
 #include "gtest/gtest.h"
-#include "Gray_code.h"
+import Utility.Gray_code;
 
 TEST(Gray_code_unit_test, test_gray_to_normal) {
     EXPECT_EQ(Gray_code::gray_to_normal(0), 0);

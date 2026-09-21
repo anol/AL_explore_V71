@@ -2,7 +2,11 @@
 // Created by aeols on 24.09.2020.
 //
 
-#include "CRC_16_CCITT.h"
+module;
+#include <cstdint>
+
+module Utility.CRC_16_CCITT;
+import Type.Status_code;
 
 /*
  * The following source code is based on the software implementation described in
@@ -101,7 +105,6 @@ Status_code CRC_16_CCITT::crc_decode_octets(const uint8_t *data, uint32_t length
     }
     return Status_code(Chk == 0);
 }
-
 
 Status_code CRC_16_CCITT::crc_decode_octets_uo(const uint8_t *data, uint32_t length) {
     uint16_t Chk = 0xFFFF; /* Reset syndrome to all ones */

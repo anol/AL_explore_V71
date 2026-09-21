@@ -4,7 +4,7 @@
 
 
 #include "gtest/gtest.h"
-#include "CRC_16_CCITT.h"
+import Utility.CRC_16_CCITT;
 
 static void verify_CRC_octets(uint8_t *data, uint32_t length, uint8_t expected_CRC_1, uint8_t expected_CRC_2) {
     uint16_t actual_CRC = CRC_16_CCITT::crc_encode_octets(data, length - 2);

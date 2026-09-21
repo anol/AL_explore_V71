@@ -2,14 +2,16 @@
 // Created by anolsen on 12.09.2019.
 //
 
-#pragma once
-
+module;
 #include <cstdint>
 #include <cstring>
 
+export module Utility.Ringbuffer;
 import Type.Misc_type;
 
-template<class T, int Buffer_size>
+
+
+export template<class T, int Buffer_size>
 class Ringbuffer {
     uint32_t the_put_count{};
     uint32_t the_pop_count{};

@@ -2,10 +2,9 @@
 // Created by anolsen on 13.12.2019.
 //
 
-#ifndef UTILITY_JSON_PRINTER_H
-#define UTILITY_JSON_PRINTER_H
+export module Utility.Json_printer;
 
-namespace JSON_printer {
+export namespace JSON_printer {
     enum {
         JSON_max_levels = 10,
     };
@@ -37,5 +36,3 @@ namespace JSON_printer {
     void string_value(const char *name, const char *value);
 
 }
-
-#endif //UTILITY_JSON_PRINTER_H

@@ -2,16 +2,18 @@
 // Created by AndersEmilOlsen on 01.12.2023.
 //
 
-#ifndef TARGET_UTILITY_LIB_CHUNK_QUEUE_H
-#define TARGET_UTILITY_LIB_CHUNK_QUEUE_H
-
+module;
 #include <cstdint>
+#include <cstddef>
 #include <type_traits>
 #include <algorithm>
-#include "Ringbuffer.h"
-#include "IChunk_queue.h"
 
-namespace Utility {
+export module Utility.Chunk_queue;
+import Utility.Ringbuffer;
+import Utility.IChunk_queue;
+
+
+export namespace Utility {
 
     template<size_t Queue_size>
     class Chunk_queue : public IChunk_queue
@@ -22,7 +24,6 @@ namespace Utility {
 
         explicit Chunk_queue(uint32_t force_constructor_wo_initialization)
                 : the_queue(force_constructor_wo_initialization) {}
-
 
         using size_type_size = std::integral_constant<uint8_t, 4U>;
         /*
@@ -64,7 +65,6 @@ namespace Utility {
                    ((0U != the_count) && (0U == size()));
         }
 
-
         bool push_back(const uint8_t *data, size_t n) final
         {
             bool result = the_queue.get_free() >= (n + size_type_size::value);
@@ -85,7 +85,6 @@ namespace Utility {
             return result;
         }
 
-
         size_t front_size() final
         {
             size_t size{0U};
@@ -101,8 +100,6 @@ namespace Utility {
             }
             return size;
         }
-
-
 
         size_t pop_front(uint8_t *data, size_t capacity) final
         {
@@ -138,7 +135,6 @@ namespace Utility {
             }
             return size;
         }
-
 
         size_t peek_front(uint8_t *data, size_t capacity) final
         {
@@ -176,5 +172,3 @@ namespace Utility {
     };
 
 } // Utility
-
-#endif //TARGET_UTILITY_LIB_CHUNK_QUEUE_H

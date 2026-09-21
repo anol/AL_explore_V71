@@ -17,12 +17,13 @@
  * \brief
  */
 
-#ifndef TARGET_TOOLS_SIMPLE_STRING_H
-#define TARGET_TOOLS_SIMPLE_STRING_H
-
+module;
 #include <cstdint>
 
-namespace Simple_string {
+export module Utility.Simple_string;
+
+
+export namespace Simple_string {
     enum : uint8_t {
         Wildcard = 0xFF
     };
@@ -34,5 +35,3 @@ namespace Simple_string {
     bool stringmask_to_bitmask(const char *string, int32_t &bitmask);
 
 }
-
-#endif //TARGET_TOOLS_SIMPLE_STRING_H

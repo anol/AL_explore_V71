@@ -4,7 +4,7 @@
 
 #include "gtest/gtest.h"
 
-#include "Chunk_queue.h"
+import Utility.Chunk_queue;
 
 
 TEST(Chunk_queue_unit_test, test_empty) {

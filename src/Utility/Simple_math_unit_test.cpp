@@ -4,7 +4,7 @@
 
 
 #include "gtest/gtest.h"
-#include "Simple_math.h"
+import Utility.Simple_math;
 
 TEST(Simple_math_unit_test, test_square_root) {
     EXPECT_EQ(Simple_math::square_root(1.0), 1.0);

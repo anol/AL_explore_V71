@@ -2,14 +2,15 @@
 // Created by anolsen on 19.09.2019.
 //
 
-#ifndef UTILITY_SIZE_ADAPTER_H
-#define UTILITY_SIZE_ADAPTER_H
-
+module;
 #include <cstdint>
 
+export module Utility.Size_adapter;
 import Type.Misc_type;
 
-namespace Size_adapter {
+
+
+export namespace Size_adapter {
     void store_byte(uint32_t *p_buffer, uint32_t byte_index, uint8_t data);
 
     uint8_t fetch_byte(const uint32_t *p_buffer, uint32_t byte_index, uint32_t write_flag = 0);
@@ -25,5 +26,3 @@ namespace Size_adapter {
                (0x00FF & (data >> 24));
     }
 }
-
-#endif //UTILITY_SIZE_ADAPTER_H

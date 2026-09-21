@@ -1,4 +1,4 @@
-#include "Utility/Unit_converter.h"
+import Utility.Unit_converter;
 #include "sam.h"
 #include "SamV71_clock.h"
 #include "SamV71_timer.h"

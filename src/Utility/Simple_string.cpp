@@ -17,9 +17,11 @@
  * \brief
  */
 
+module;
+#include <cstdint>
 #include <cstring>
-#include "Simple_string.h"
 
+module Utility.Simple_string;
 
 /// Compare up to equal lenght, or wildcard
 bool Simple_string::strict_wildcard_match(const char *match_rule, const char *search_string, int max_length) {

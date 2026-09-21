@@ -2,15 +2,16 @@
 // Created by aeols on 24.09.2020.
 //
 
-#ifndef TARGET_WINDOWS_CRC_16_CCITT_H
-#define TARGET_WINDOWS_CRC_16_CCITT_H
-
+module;
 #include <cstdint>
 
-import Type.Status_code;
+export module Utility.CRC_16_CCITT;
+export import Type.Status_code;
+
+
 
 /// Purpose: Encoding and decoding of the CCITT 16-bit CRC-function.
-class CRC_16_CCITT {
+export class CRC_16_CCITT {
     static uint16_t lookup_table[256];
 
     static uint16_t Crc_opt(uint8_t D, uint16_t Chk, uint16_t *table);
@@ -52,6 +53,3 @@ public:
 
     static uint16_t hex_to_word(const char *sym);
 };
-
-
-#endif //TARGET_WINDOWS_CRC_16_CCITT_H

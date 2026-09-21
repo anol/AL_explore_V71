@@ -17,10 +17,13 @@
  * \brief
  */
 
-#ifndef NORM_FW_HISTOGRAM_H
-#define NORM_FW_HISTOGRAM_H
+module;
+#include <cstdint>
 
-template<uint32_t Number_of_bins>
+export module Utility.Histogram;
+import Type.Misc_type;
+
+export template<uint32_t Number_of_bins>
 class Histogram {
     uint32_t the_min{};
     uint32_t the_max{};
@@ -85,5 +88,3 @@ public:
     uint32_t get_bin_count() const { return the_bin_count; }
 
 };
-
-#endif //NORM_FW_HISTOGRAM_H

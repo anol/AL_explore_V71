@@ -2,8 +2,11 @@
 // Created by anolsen on 19.09.2019.
 //
 
+module;
 #include <cstdint>
-#include "Size_adapter.h"
+
+module Utility.Size_adapter;
+import Type.Misc_type;
 
 union buffer_union {
     uint32_t four_bytes;

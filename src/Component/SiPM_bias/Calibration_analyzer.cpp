@@ -23,9 +23,9 @@
 module;
 #include <cstdint>
 #include <cmath>
-#include "Simple_math.h"
 
 module Component.Calibration_analyzer;
+import Utility.Simple_math;
 
 namespace Calibration {
     uint32_t Calibration_analyzer::find_noise_floor_A(const int32_t *data) {

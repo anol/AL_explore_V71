@@ -19,7 +19,7 @@
 
 #include "gtest/gtest.h"
 #include "Utility_types.h"
-#include "Histogram.h"
+import Utility.Histogram;
 
 TEST(Histogram_unit_test, test_one_to_one) {
     Histogram<4> histogram;

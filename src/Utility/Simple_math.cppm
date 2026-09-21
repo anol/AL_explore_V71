@@ -2,12 +2,13 @@
 // Created by anolsen on 08.01.2020.
 //
 
-#ifndef UTILITY_SIMPLE_MATH_H
-#define UTILITY_SIMPLE_MATH_H
+module;
+#include <cstdint>
 
-#include <stdint-gcc.h>
+export module Utility.Simple_math;
 
-namespace Simple_math {
+
+export namespace Simple_math {
     double square_root(double a);
 
     double standard_deviation(double sum, double sum_of_squares, double number_of_samples);
@@ -58,5 +59,3 @@ namespace Simple_math {
         return sum / static_cast<float>(end - start);
     }
 }
-
-#endif //UTILITY_SIMPLE_MATH_H

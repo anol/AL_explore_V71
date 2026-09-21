@@ -19,10 +19,13 @@
  * @brief  
  */
 
-#ifndef TARGET_UTILITY_LIB_ICHUNK_QUEUE_H
-#define TARGET_UTILITY_LIB_ICHUNK_QUEUE_H
+module;
+#include <cstdint>
+#include <cstddef>
 
-namespace Utility
+export module Utility.IChunk_queue;
+
+export namespace Utility
 {
     class IChunk_queue
     {
@@ -41,7 +44,6 @@ namespace Utility
 
         virtual bool is_corrupted() const = 0;
 
-
         virtual bool push_back(const uint8_t *data, size_t n) = 0;
 
         virtual size_t front_size() = 0;
@@ -51,5 +53,3 @@ namespace Utility
         virtual size_t peek_front(uint8_t *data, size_t capacity) = 0;
     };
 }
-
-#endif //TARGET_UTILITY_LIB_ICHUNK_QUEUE_H

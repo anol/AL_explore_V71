@@ -18,7 +18,7 @@
  */
 
 #include "gtest/gtest.h"
-#include "Simple_string.h"
+import Utility.Simple_string;
 
 using namespace Simple_string;
 

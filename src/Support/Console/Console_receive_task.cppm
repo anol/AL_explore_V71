@@ -3,9 +3,11 @@
 //
 
 module;
-#include "Ringbuffer.h"
+#include <cstdint>
+#include <cstddef>
 
 module Support.Console_service:Console_receive_task;
+import Utility.Ringbuffer;
 import Platform.FreeRTOS_task;
 import Domain.SpectraNode_command_lookup;
 import Support.CLI_parser;

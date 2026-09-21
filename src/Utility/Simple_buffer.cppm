@@ -5,11 +5,13 @@
  * @brief  
  */
 
+module;
 #include <cstdint>
 #include <array>
 
-#ifndef BASELINE_EM_SIMPLEBUFFER_H
-#define BASELINE_EM_SIMPLEBUFFER_H
+export module Utility.Simple_buffer;
+
+
 
 /**
  * @class SimpleBuffer
@@ -18,7 +20,7 @@
  * @tparam Capacity array capacity
  * @note Simplified Backbone 3.0.8 :: Buffer class
  */
-template <class T, uint32_t Capacity>
+export template <class T, uint32_t Capacity>
 class Simple_buffer
 {
 public:
@@ -122,10 +124,7 @@ public:
         if (!empty()) the_size--;
     }
 
-
 private:
     array the_array{};
     uint32_t the_size{};
 };
-
-#endif //BASELINE_EM_SIMPLEBUFFER_H
