@@ -58,6 +58,7 @@ class Housekeeping_provider : public Abstract_Housekeeping_provider
     Application::Cadence_control& use_cadence;
     Spectroscopic_data_provider& use_data_provider;
     Mode_control_provider& use_mode_control;
+    static bool the_trace_flag;
 
 public:
     Housekeeping_provider(Application::Histogram_storage& histogram,
@@ -75,6 +76,7 @@ public:
     {
     }
 
+    static bool is_trace() { return the_trace_flag; }
     static void print_version();
 
 protected:
@@ -87,4 +89,6 @@ protected:
     void v_TEST(Instruction_major&) override;
 
     void v_HELP(Instruction_major&) override;
+
+    void v_TRACE(Instruction_major&) override;
 };

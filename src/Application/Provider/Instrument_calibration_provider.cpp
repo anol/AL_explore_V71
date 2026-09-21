@@ -121,5 +121,5 @@ void Instrument_calibration_provider::v_CAL_DIAG(Instruction_major &instruction)
 
 void Instrument_calibration_provider::v_CAL_TRACE(Instruction_major &) {
     the_trace_flag = !the_trace_flag;
-    printf("The trace is %s\r\n", the_trace_flag ? "ON" : "OFF");
+    printf("The calibration trace is %s\r\n", the_trace_flag ? "ON" : "OFF");
 }

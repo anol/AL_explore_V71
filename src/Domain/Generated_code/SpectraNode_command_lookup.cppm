@@ -73,6 +73,7 @@ export namespace SpectraNode_interface{
         Cmd_HELP,
         Cmd_STATUS,
         Cmd_TEST,
+        Cmd_TRACE,
         Cmd_VERSION,
         
     };

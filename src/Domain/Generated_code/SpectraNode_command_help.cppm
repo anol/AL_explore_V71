@@ -67,6 +67,7 @@ export namespace SpectraNode_interface{
     constexpr auto* help_HELP{"Show commands."};
     constexpr auto* help_STATUS{"Send mode and other system data."};
     constexpr auto* help_TEST{"Initiate a self-test sequence."};
+    constexpr auto* help_TRACE{"Toggle trace on/off."};
     constexpr auto* help_VERSION{"Send version and other build information."};
     
 }

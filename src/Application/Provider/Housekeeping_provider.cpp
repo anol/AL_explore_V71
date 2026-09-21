@@ -34,6 +34,8 @@
 
 using namespace Instruction;
 
+bool Housekeeping_provider::the_trace_flag{true};
+
 void Housekeeping_provider::print_version()
 {
     printf("----------------------------\r\n");
@@ -98,4 +100,10 @@ void Housekeeping_provider::v_HELP(Instruction_major& instruction)
         the_help.print(false, number_of_keys);
     }
     instruction.print_ack();
+}
+
+void Housekeeping_provider::v_TRACE(Instruction_major&)
+{
+    the_trace_flag = !the_trace_flag;
+    printf("The command trace is %s\r\n", the_trace_flag ? "ON" : "OFF");
 }

@@ -135,6 +135,7 @@ Copyright (C) 2026 Integrated Detector Electronics AS
             <arg key="DIAG" brief="Send miscellaneous diagnostic information."/>
             <arg key="TEST" brief="Initiate a self-test sequence."/>
             <arg key="HELP" brief="Show commands."/>
+            <arg key="TRACE" brief="Toggle trace on/off."/>
         </provider>
     </commands>
 </command_definition>

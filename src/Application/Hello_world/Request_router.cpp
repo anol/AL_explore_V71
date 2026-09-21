@@ -51,6 +51,10 @@ namespace Application
 
     bool Request_router::on_indication(Instruction_major& instruction)
     {
+        if (Housekeeping_provider::is_trace())
+        {
+            instruction.print_trace();
+        }
         bool executed = the_mode_control.on_indication(instruction);
         if (!executed) { executed = the_data_provider.on_indication(instruction); }
         if (!executed) { executed = the_instrument_calibration.on_indication(instruction); }

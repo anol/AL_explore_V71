@@ -164,11 +164,13 @@ export namespace SpectraNode_interface {
         virtual void v_DIAG(Instruction_major &) = 0;
         virtual void v_TEST(Instruction_major &) = 0;
         virtual void v_HELP(Instruction_major &) = 0;
+        virtual void v_TRACE(Instruction_major &) = 0;
     public:
         void p_DIAG(Instruction_major &);
         void p_HELP(Instruction_major &);
         void p_STATUS(Instruction_major &);
         void p_TEST(Instruction_major &);
+        void p_TRACE(Instruction_major &);
         void p_VERSION(Instruction_major &);
     };
             
