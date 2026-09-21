@@ -20,11 +20,13 @@
 * @brief  
 */
 
-
-#pragma once
+module;
 #include <cstdint>
 
-namespace Application {
+export module Component.Event_counter;
+
+
+export namespace Application {
     class Event_counter {
         // STM32U575RG::STM32U5_timer the_counter{STM32U575RG::STM32U5_timer::Event_counter};
 

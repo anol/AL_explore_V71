@@ -19,12 +19,16 @@
 * @date   19.03.2026
 * @brief  
 */
-#pragma once
+
+module;
 #include <cstdint>
 
+export module Component.Bias_DAC;
 import Type.Status_code;
 
-namespace Calibration {
+
+
+export namespace Calibration {
     class Bias_DAC {
         int32_t the_cal_35V{-35000};
         int32_t the_cal_45V{-40700};

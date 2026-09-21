@@ -2,9 +2,18 @@
 // Created by aeols on 12.08.2026.
 //
 
-#include "V71_EK_board.h"
-
+module;
+#include <cstdint>
+#include "Common_stdio.h"
+#include "SamV71_clock.h"
+#include "SamV71_SPI.h"
+#include "SamV71_USART1.h"
+#include "sam.h"
 #include "cachel1_armv7.h"
+
+module Board.V71_EK_board;
+import Type.Abstract_board;
+import Board.V71_EK_pin_table;
 
 namespace Board
 {

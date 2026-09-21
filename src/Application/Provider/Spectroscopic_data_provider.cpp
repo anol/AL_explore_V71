@@ -20,13 +20,26 @@
 * @brief  
 */
 
-
-#include "Spectroscopic_data_provider.h"
-
-#include "../../Component/IDE3380/Histogram_storage.h"
+module;
+#include <cstdint>
 #include <cstdio>
-import Support.Configuration_repository;
+#include "Persistent_parameter_id.h"
 
+module Application.Spectroscopic_data_provider;
+import Component.IDE3380_interface;
+import Component.IDE3380_readout_control;
+import Component.Histogram_storage;
+import Domain.SpectraNode_keyword_lookup;
+import Domain.SpectraNode_command_lookup;
+import Domain.SpectraNode_provider_indication;
+import Support.Configuration_repository;
+import Support.Instruction_major;
+import Application.Cadence_control;
+
+using namespace IDE3380;
+
+using namespace SpectraNode_interface;
+using namespace Application;
 
 void Spectroscopic_data_provider::v_FORMAT_R6(Instruction_major &instruction) {
     the_format = Application::Format_simple_R6;

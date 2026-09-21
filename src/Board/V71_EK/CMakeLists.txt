@@ -1,10 +1,9 @@
-target_include_directories(${THE_TARGET_NAME} PUBLIC
-        .
-)
 target_sources(${THE_TARGET_NAME} PUBLIC
         V71_EK_board.cpp
-        V71_EK_board.h
-        V71_EK_configuration.h
         V71_EK_pin_table.cpp
-        V71_EK_pin_table.h
+)
+target_sources(${THE_TARGET_NAME} PRIVATE
+        FILE_SET board_v71_ek_modules TYPE CXX_MODULES BASE_DIRS . FILES
+        V71_EK_board.cppm
+        V71_EK_pin_table.cppm
 )

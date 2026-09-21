@@ -2,15 +2,19 @@
 // Created by aeols on 12.08.2026.
 //
 
-#pragma once
-import Type.Abstract_board;
+module;
+#include <cstdint>
 #include "Common_stdio.h"
 #include "SamV71_clock.h"
 #include "SamV71_SPI.h"
-#include "V71_EK_pin_table.h"
 #include "SamV71_USART1.h"
 
-namespace Board
+export module Board.V71_EK_board;
+import Type.Abstract_board;
+import Board.V71_EK_pin_table;
+
+
+export namespace Board
 {
     using namespace SamV71;
     using namespace Abstract;

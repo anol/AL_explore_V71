@@ -1,12 +1,15 @@
-#include <cstdio>
 
-import Type.Abstract_SPI;
-import Type.Transfer_request;
+
+module;
+#include <cstdint>
+#include <cstdio>
 #include "FreeRTOS_semaphore.h"
 
-#include "IDE3380_register_access.h"
-#include "IDE3380_register_decoder.h"
-
+module Component.IDE3380_register_access;
+import Component.IDE3380_definitions;
+import Type.Abstract_SPI;
+import Type.Transfer_request;
+import Component.IDE3380_register_decoder;
 
 namespace IDE3380 {
     IDE3380_register_access *IDE3380_register_access::optional_one_and_only{};

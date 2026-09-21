@@ -20,14 +20,16 @@
 * @brief
 */
 
+module;
+#include <cstdint>
 
-#pragma once
-
-#include "IDE3380_definitions.h"
-
+export module Component.IDE3380_register_access;
+export import Component.IDE3380_definitions;
 import Type.Abstract_SPI;
 
-namespace IDE3380 {
+
+
+export namespace IDE3380 {
     class IDE3380_register_access {
         Abstract::Abstract_SPI &use_SPI;
         uint32_t                the_channel_restore_cache[IDE3380_channel_count]{};

@@ -20,10 +20,14 @@
 * @brief  
 */
 
-
-#include "Bias_DAC.h"
-// #include "dac.h"
+module;
+#include <cstdint>
 #include <cstdio>
+
+module Component.Bias_DAC;
+import Type.Status_code;
+
+// #include "dac.h"
 
 namespace Calibration {
     uint32_t cnt_out_of_range{};
@@ -90,7 +94,6 @@ namespace Calibration {
         }
         // HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, temp);
     }
-
 
     Status_code Bias_DAC::set_dac_value_with_calibration(int32_t value) {
         the_DAC_pre_cal = value;

@@ -20,9 +20,12 @@
 * @brief  
 */
 
+module;
+#include <cstdint>
 #include <cstdio>
 
-#include "IDE3380_register_decoder.h"
+module Component.IDE3380_register_decoder;
+import Component.IDE3380_definitions;
 
 namespace IDE3380 {
     void IDE3380_register_decoder::dump(uint32_t address, uint32_t value) {

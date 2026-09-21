@@ -20,13 +20,13 @@
 * @brief  
 */
 
-
-#include "Bias_ADC.h"
-
+module;
 #include <cstdint>
+#include <cstdio>
+
+module Component.Bias_ADC;
 
 // #include "adc.h"
-#include <cstdio>
 
 // Define ADC and calibration parameters
 #define ADC_FULL_SCALE   16383.0f  // 14-bit ADC max count

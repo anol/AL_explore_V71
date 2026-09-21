@@ -20,8 +20,11 @@
 * @brief  
 */
 
+module;
+#include <cstdint>
 
-#include "Cadence_control.h"
+module Application.Cadence_control;
+
 // #include "rtc.h"
 // #include "System_clock.h"
 

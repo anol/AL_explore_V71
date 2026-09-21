@@ -20,17 +20,33 @@
 * @brief  
 */
 
-
-#include "Housekeeping_provider.h"
-
-#include "Target_config.h"
-
-#include "../../Component/IDE3380/Histogram_storage.h"
-#include "Mode_control_provider.h"
+module;
+#include <cstdint>
 #include <cstdio>
-#include "Spectroscopic_data_provider.h"
+#include "Target_config.h"
+#include "Persistent_parameter_id.h"
+
+module Application.Housekeeping_provider;
+import Component.Histogram_storage;
+import Component.IDE3380_interface;
+import Component.Bias_calibration;
+import Domain.SpectraNode_keyword_lookup;
+import Domain.SpectraNode_command_lookup;
+import Domain.SpectraNode_provider_indication;
+import Support.Configuration_repository;
+import Support.Instruction_major;
+import Support.CLI_help;
+import Application.Cadence_control;
+import Application.Mode_control_provider;
+import Application.Spectroscopic_data_provider;
+
+using namespace IDE3380;
+
+using namespace SpectraNode_interface;
+using namespace Application;
+using namespace Instruction;
+
 // #include "stm32u5xx_hal.h"
-#include "Bias_calibration.h"
 
 using namespace Instruction;
 

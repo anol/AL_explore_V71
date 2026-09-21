@@ -20,12 +20,14 @@
 * @brief  
 */
 
-
-#pragma once
-
+module;
 #include <cstdint>
 
-namespace IDE3380 {
+export module Component.IDE3380_definitions;
+
+
+
+export namespace IDE3380 {
     enum {
         IDE3380_read_only = 0,
         IDE3380_write_read = 1,

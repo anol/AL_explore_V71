@@ -20,17 +20,23 @@
 * @brief  
 */
 
-
-#include "Histogram_storage.h"
-
+module;
+#include "Persistent_parameter_id.h"
+#include <cstdint>
 #include <ctime>
-
-#include "Event_counter.h"
 #include <cstdio>
-// #include "stm32u5xx_hal.h"
-#include "Bias_ADC.h"
-#include "Bias_DAC.h"
+
+module Component.Histogram_storage;
+import Component.IDE3380_interface;
+import Component.Event_counter;
+import Type.Status_code;
 import Support.Configuration_repository;
+import Component.Bias_ADC;
+import Component.Bias_DAC;
+
+using namespace IDE3380;
+
+// #include "stm32u5xx_hal.h"
 
 namespace Application
 {

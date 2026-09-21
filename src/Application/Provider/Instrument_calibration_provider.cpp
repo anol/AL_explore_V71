@@ -20,12 +20,28 @@
 * @brief  
 */
 
-
-#include "Instrument_calibration_provider.h"
-
+module;
+#include "Persistent_parameter_id.h"
+#include <cstdint>
 #include <cstdio>
-#include "Bias_calibration.h"
+
+module Application.Instrument_calibration_provider;
+import Component.IDE3380_test_pedestal;
+import Component.IDE3380_test_noise_floor;
+import Component.Histogram_storage;
+import Component.IDE3380_interface;
+import Component.Bias_calibration;
+import Component.Event_counter;
+import Domain.SpectraNode_keyword_lookup;
+import Domain.SpectraNode_command_lookup;
+import Domain.SpectraNode_provider_indication;
 import Support.Configuration_repository;
+import Support.Instruction_major;
+
+using namespace IDE3380;
+
+using namespace SpectraNode_interface;
+using namespace Application;
 
 void Instrument_calibration_provider::v_CAL_ADC_V35_cal_35V(Instruction_major &instruction, const int cal_35V_3) {
     use_bias.get_ADC().set_cal_35V(cal_35V_3);

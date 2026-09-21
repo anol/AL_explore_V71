@@ -4,18 +4,19 @@
  *  Created on: Feb 18, 2025
  *      Author: Daniel
  */
+
+module;
+#include <cstdint>
 #include <cstdio>
-
-#include "Bias_calibration.h"
-
-#include "Bias_ADC.h"
-#include "Bias_DAC.h"
 #include "../../Domain/Persistent_parameter_id.h"
 #include "../../Component/STTS22H/Sensor_STTS22H.h"
 
+module Component.Bias_calibration;
+import Component.Bias_ADC;
+import Component.Bias_DAC;
+import Support.Configuration_repository;
 
 // #include "usart.h"
-import Support.Configuration_repository;
 
 namespace Calibration
 {
@@ -104,10 +105,8 @@ namespace Calibration
         return (int32_t)(BIAScal45 + m * (raw - ADC_cal45));
     }
 
-
     int32_t the_bias_offset = 0;
     int32_t uart_offset = 0;
-
 
     void Bias_calibration::bias_temperature_control()
     {

@@ -19,19 +19,21 @@
 * @date   17.03.2026
 * @brief  
 */
-#pragma once
 
+module;
 #include <cstdint>
 #include <cstring>
-
-#include "IDE3380_interface.h"
 #include "Persistent_parameter_id.h"
+
+export module Component.Histogram_storage;
+import Component.IDE3380_interface;
+import Component.Event_counter;
 import Type.Status_code;
 import Support.Configuration_repository;
 
 
-namespace Application {
-    class Event_counter;
+
+export namespace Application {
     using namespace IDE3380;
 
     class Histogram_storage {

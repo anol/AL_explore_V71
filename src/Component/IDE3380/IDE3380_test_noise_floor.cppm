@@ -20,19 +20,21 @@
 * @brief
 */
 
+module;
+#include <cstdint>
 
-#pragma once
-
+export module Component.IDE3380_test_noise_floor;
 import Type.Abstract_scenario;
-
-#include "IDE3380_interface.h"
-#include "Event_counter.h"
+import Component.IDE3380_interface;
+import Component.Event_counter;
 import Support.Instruction_major;
+import Support.Configuration_repository;
+
 
 
 using namespace IDE3380;
 
-namespace Calibration {
+export namespace Calibration {
     class IDE3380_test_noise_floor : public Abstract::Abstract_scenario<Instruction_major> {
         enum {
             Number_of_channels = 16,

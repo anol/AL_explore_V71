@@ -1,10 +1,10 @@
-target_include_directories(${THE_TARGET_NAME} PUBLIC
-        .
-)
 target_sources(${THE_TARGET_NAME} PUBLIC
-        Request_router.cpp
-        Request_router.h
-        Default_configuration.h
         Hello_world.cpp
-        Hello_world.h
+        Request_router.cpp
+)
+target_sources(${THE_TARGET_NAME} PRIVATE
+        FILE_SET application_hello_world_modules TYPE CXX_MODULES BASE_DIRS . FILES
+        Default_configuration.cppm
+        Hello_world.cppm
+        Request_router.cppm
 )

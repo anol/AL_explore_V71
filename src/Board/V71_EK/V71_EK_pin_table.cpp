@@ -1,8 +1,15 @@
-#include <cstdio>
 
+
+module;
+#include <cstdint>
+#include <cstdio>
 #include "SamV71_IO_pin.h"
-#include "V71_EK_pin_table.h"
 #include "component/matrix.h"
+
+module Board.V71_EK_pin_table;
+import Domain.IO_pins;
+import Type.Abstract_IO_pin;
+import Type.Abstract_pin_table;
 
 namespace SamV71
 {

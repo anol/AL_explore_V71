@@ -20,19 +20,21 @@
 * @brief
 */
 
+module;
+#include <cstdint>
 
-#pragma once
-
+export module Component.IDE3380_test_pedestal;
 import Type.Abstract_scenario;
-
-#include "Histogram_storage.h"
-#include "IDE3380_interface.h"
+import Component.IDE3380_interface;
+import Component.Histogram_storage;
 import Support.Instruction_major;
+import Support.Configuration_repository;
+
 
 
 using namespace IDE3380;
 
-namespace Calibration {
+export namespace Calibration {
     class IDE3380_test_pedestal : public Abstract::Abstract_scenario<Instruction_major> {
         enum {
             Default_diag_code = 76,

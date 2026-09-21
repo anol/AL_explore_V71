@@ -5,18 +5,21 @@
  *      Author: Daniel
  */
 
-#pragma once
+module;
+#include <cstdint>
+
+export module Component.IDE3380_interface;
+export import Component.IDE3380_definitions;
+export import Component.IDE3380_readout_control;
+export import Component.IDE3380_register_access;
 import Type.Abstract_board;
 import Type.Status_code;
-#include "IDE3380_definitions.h"
-#include "IDE3380_readout_control.h"
-#include "IDE3380_register_access.h"
 import Support.Configuration_repository;
 
-extern volatile uint8_t software_reset;
 
+export extern volatile uint8_t software_reset;
 
-namespace IDE3380 {
+export namespace IDE3380 {
     class IDE3380_interface {
         Abstract::Abstract_board &use_board;
         IDE3380_register_access   the_register_access;

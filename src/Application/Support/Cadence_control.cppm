@@ -20,11 +20,13 @@
 * @brief  
 */
 
-
-#pragma once
+module;
 #include <cstdint>
 
-namespace Application {
+export module Application.Cadence_control;
+
+
+export namespace Application {
     using callback_t = void (*)(void *);
 
     class Cadence_control {

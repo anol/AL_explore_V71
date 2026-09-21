@@ -20,33 +20,31 @@
 * @brief
 */
 
-
-#pragma once
+module;
 #include <cstdint>
 #include "Persistent_parameter_id.h"
+
+export module Application.Mode_control_provider;
+import Component.Histogram_storage;
+import Component.IDE3380_interface;
+import Component.Bias_calibration;
+import Domain.SpectraNode_keyword_lookup;
+import Domain.SpectraNode_command_lookup;
 import Domain.SpectraNode_provider_indication;
-#include "Dictionary.h"
+import Application.Cadence_control;
+import Application.Spectroscopic_data_provider;
 import Support.Configuration_repository;
+import Support.Instruction_major;
+
+using namespace IDE3380;
+
+using namespace SpectraNode_interface;
 
 
-class Spectroscopic_data_provider;
-
-namespace Calibration {
-    class Bias_calibration;
-}
-
-namespace IDE3380 {
-    class IDE3380_interface;
-}
-
-namespace Application {
-    class Cadence_control;
-    class Histogram_storage;
-}
 
 using namespace Application;
 
-class Mode_control_provider : public Abstract_Mode_control_provider {
+export class Mode_control_provider : public Abstract_Mode_control_provider {
 private:
     Histogram_storage &use_histogram;
     IDE3380::IDE3380_interface &use_IDE3380;

@@ -20,10 +20,13 @@
 * @brief  
 */
 
-#pragma once
+module;
 #include <cstdint>
 
-namespace Calibration {
+export module Component.Bias_ADC;
+
+
+export namespace Calibration {
     class Bias_ADC {
         int32_t the_ADC_cal_val_35{-35000};
         int32_t the_ADC_cal_val_45{-40700};

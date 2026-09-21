@@ -20,12 +20,19 @@
 * @brief  
 */
 
+module;
+#include "Persistent_parameter_id.h"
+#include <cstdint>
 #include <cstdio>
 
-#include "IDE3380_test_pedestal.h"
-
-import Support.Configuration_repository;
+module Component.IDE3380_test_pedestal;
+import Type.Abstract_scenario;
+import Component.IDE3380_interface;
+import Component.Histogram_storage;
 import Support.Instruction_major;
+import Support.Configuration_repository;
+
+using namespace IDE3380;
 
 namespace Calibration {
     void IDE3380_test_pedestal::test_prolog(const int32_t count) {

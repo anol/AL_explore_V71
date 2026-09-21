@@ -20,35 +20,31 @@
 * @brief
 */
 
+module;
+#include "Persistent_parameter_id.h"
+#include <cstdint>
 
-#pragma once
-
-import Support.CLI_help;
+export module Application.Housekeeping_provider;
+import Component.Histogram_storage;
+import Component.IDE3380_interface;
+import Component.Bias_calibration;
+import Domain.SpectraNode_keyword_lookup;
+import Domain.SpectraNode_command_lookup;
 import Domain.SpectraNode_provider_indication;
-#include "Dictionary.h"
+import Support.CLI_help;
+import Application.Cadence_control;
+import Application.Mode_control_provider;
+import Application.Spectroscopic_data_provider;
 import Support.Configuration_repository;
+import Support.Instruction_major;
 
-class Mode_control_provider;
-class Spectroscopic_data_provider;
+using namespace IDE3380;
+
+using namespace SpectraNode_interface;
 
 
-namespace Calibration
-{
-    class Bias_calibration;
-}
 
-namespace IDE3380
-{
-    class IDE3380_interface;
-}
-
-namespace Application
-{
-    class Cadence_control;
-    class Histogram_storage;
-}
-
-class Housekeeping_provider : public Abstract_Housekeeping_provider
+export class Housekeeping_provider : public Abstract_Housekeeping_provider
 {
     Instruction::CLI_help the_help{Key_HELP, get_commands(), get_keyword};
     Application::Histogram_storage& use_histogram;

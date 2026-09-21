@@ -20,22 +20,28 @@
 * @brief
 */
 
-
-#pragma once
+module;
+#include <cstdint>
 #include "Persistent_parameter_id.h"
+
+export module Application.Spectroscopic_data_provider;
+import Component.IDE3380_interface;
+import Component.IDE3380_readout_control;
+import Component.Histogram_storage;
+import Domain.SpectraNode_keyword_lookup;
+import Domain.SpectraNode_command_lookup;
 import Domain.SpectraNode_provider_indication;
-#include "Dictionary.h"
-#include "IDE3380_interface.h"
-#include "IDE3380_readout_control.h"
+import Application.Cadence_control;
 import Support.Configuration_repository;
+import Support.Instruction_major;
+
+using namespace IDE3380;
+
+using namespace SpectraNode_interface;
 
 
-namespace Application {
-    class Cadence_control;
-    class Histogram_storage;
-}
 
-class Spectroscopic_data_provider : public Abstract_Spectroscopic_data_provider {
+export class Spectroscopic_data_provider : public Abstract_Spectroscopic_data_provider {
     Application::Histogram_storage &use_histogram;
     Repository::Configuration_repository &use_repository;
     Application::Cadence_control &use_cadence;

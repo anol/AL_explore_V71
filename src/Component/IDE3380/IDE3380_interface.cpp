@@ -5,15 +5,20 @@
  *      Author: Daniel
  */
 
+module;
+#include <cstdint>
 #include <cstdio>
 
-#include "IDE3380_interface.h"
-#include "IDE3380_register_decoder.h"
+module Component.IDE3380_interface;
+import Component.IDE3380_definitions;
+import Component.IDE3380_readout_control;
+import Component.IDE3380_register_access;
+import Type.Abstract_board;
+import Type.Status_code;
 import Support.Configuration_repository;
-
+import Component.IDE3380_register_decoder;
 
 volatile uint8_t software_reset = 0;
-
 
 // extern "C" void HAL_GPIO_EXTI_Rising_Callback(const uint16_t GPIO_Pin) {
 //     using namespace IDE3380;

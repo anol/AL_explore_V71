@@ -20,12 +20,15 @@
 * @brief
 */
 
+module;
+#include <cstdint>
 
-#pragma once
+export module Component.IDE3380_readout_control;
+export import Component.IDE3380_definitions;
 
-#include "IDE3380_definitions.h"
 
-namespace IDE3380 {
+
+export namespace IDE3380 {
     class IDE3380_readout_control {
         volatile uint32_t the_TORO_count{};
         volatile int the_TXD_iteration{};

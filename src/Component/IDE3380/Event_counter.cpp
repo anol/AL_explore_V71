@@ -20,8 +20,10 @@
 * @brief  
 */
 
+module;
+#include <cstdint>
 
-#include "Event_counter.h"
+module Component.Event_counter;
 
 namespace Application {
 } // Application

@@ -5,8 +5,8 @@
 #include "Win_hello_world.h"
 
 //#include "Clock_thread.h"
-#include "Hello_world.h"
-#include "Win11_board.h"
+import Application.Hello_world;
+import Board.Win11_board;
 
 static Board::Win11_board the_board{};
 static Application::Hello_world the_application{the_board};

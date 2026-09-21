@@ -2,31 +2,34 @@
 // Created by aeols on 12.08.2026.
 //
 
-#pragma once
-import Type.Abstract_application;
-import Type.Abstract_board;
-
-#include "Cadence_control.h"
-#include "Request_router.h"
-#include "Default_configuration.h"
-// #include "Component/MCU/STM32U575RG/U575xG_embedded_flash.h"
-// #include "Component/MCU/STM32U575RG/U575xG_persistent_storage.h"
-import Support.Configuration_repository;
-#include "IDE3380_interface.h"
-#include "../../Component/IDE3380/Histogram_storage.h"
-#include "../../Component/IDE3380/Event_counter.h"
-#include "Bias_calibration.h"
-import Support.Mockup_persistent_storage;
-
-extern "C" {
+module;
+#include "Persistent_parameter_id.h"
+#include <cstdint>
 #include "FreeRTOS.h"
 #include "portmacro.h"
 #include "task.h"
-}
 
+export module Application.Hello_world;
+import Component.Histogram_storage;
+import Component.IDE3380_interface;
+import Component.Event_counter;
+import Component.Bias_calibration;
+import Type.Abstract_application;
+import Type.Abstract_board;
+import Application.Cadence_control;
+import Application.Default_configuration;
+import Application.Request_router;
+import Support.Configuration_repository;
+import Support.Mockup_persistent_storage;
 import Support.Console_service;
 
-namespace Application
+using namespace IDE3380;
+
+
+// #include "Component/MCU/STM32U575RG/U575xG_embedded_flash.h"
+// #include "Component/MCU/STM32U575RG/U575xG_persistent_storage.h"
+
+export namespace Application
 {
     class Hello_world : public Abstract::Abstract_application
     {
@@ -39,7 +42,7 @@ namespace Application
         IDE3380_interface the_IDE3380;
         Calibration::Bias_calibration the_bias{};
         MOCKUP::Mockup_persistent_storage the_storage{};
-        Configuration_repository the_repository{the_attribute_types, the_storage};
+        Repository::Configuration_repository the_repository{the_attribute_types, the_storage};
         Event_counter the_event_counter{};
         Histogram_storage the_histogram{the_event_counter, the_IDE3380};
         Request_router the_command_handler{

@@ -20,16 +20,17 @@
 * @brief  
 */
 
+module;
+#include <cstdint>
 #include <cstdio>
 
-#include "IDE3380_readout_control.h"
-#include "IDE3380_interface.h"
+module Component.IDE3380_readout_control;
+import Component.IDE3380_definitions;
 
 // #include "spi.h"
 // #include "stm32u575xx.h"
 // #include "stm32u5xx_hal_tim.h"
 // #include "tim.h"
-
 
 // extern "C" void HAL_SPI_RxHalfCpltCallback(const SPI_HandleTypeDef *hspi) {
 //     using namespace IDE3380;
@@ -127,7 +128,6 @@ namespace IDE3380 {
             //data already received fill the rest with the bits up to 22
 
             // restart_TXD_iteration();
-
 
             the_data_buffer |= (data_in << (22 - 16)) >> the_bit_index;
             the_bit_index += 16;

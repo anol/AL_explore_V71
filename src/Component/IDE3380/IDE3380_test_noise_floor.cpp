@@ -20,15 +20,21 @@
 * @brief  
 */
 
+module;
+#include "Persistent_parameter_id.h"
+#include <cstdint>
 #include <cstdio>
 #include <cstring>
 
+module Component.IDE3380_test_noise_floor;
+import Type.Abstract_scenario;
+import Component.IDE3380_interface;
+import Component.Event_counter;
 import Support.Instruction_major;
 import Support.Configuration_repository;
-#include "../../Domain/Persistent_parameter_id.h"
+import Component.Calibration_analyzer;
 
-#include "Calibration_analyzer.h"
-#include "IDE3380_test_noise_floor.h"
+using namespace IDE3380;
 
 void HAL_Delay(int milliseconds);
 

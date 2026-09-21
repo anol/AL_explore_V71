@@ -19,13 +19,16 @@
 * @date   17.03.2026
 * @brief  
 */
-#pragma once
 
+module;
 #include <cstdint>
 
-#include "IDE3380_interface.h"
+export module Component.IDE3380_register_decoder;
+import Component.IDE3380_definitions;
 
-namespace IDE3380 {
+
+
+export namespace IDE3380 {
     constexpr uint8_t IDE3380_register_width[IDE3380_register_count] = {
         26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26,
         14, 24, 23, 6, 8, 18, 6, 19, 15, 6, 2, 2, 1, 1, 17, 12, 28

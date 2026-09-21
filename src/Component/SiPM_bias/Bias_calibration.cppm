@@ -5,14 +5,17 @@
  *      Author: Daniel
  */
 
-#pragma once
+module;
+#include <cstdint>
 
-#include "Bias_ADC.h"
-#include "Bias_DAC.h"
+export module Component.Bias_calibration;
+import Component.Bias_ADC;
+import Component.Bias_DAC;
 import Support.Configuration_repository;
 
 
-namespace Calibration {
+
+export namespace Calibration {
     class Bias_calibration {
         int32_t the_bias_at_25{};
         volatile int16_t the_temperature{};

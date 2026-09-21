@@ -20,13 +20,27 @@
 * @brief  
 */
 
-
-#include "Mode_control_provider.h"
-
-#include "../Support/Cadence_control.h"
+module;
+#include <cstdint>
+#include "Persistent_parameter_id.h"
 #include <cstdio>
-#include "Spectroscopic_data_provider.h"
 
+module Application.Mode_control_provider;
+import Component.Histogram_storage;
+import Component.IDE3380_interface;
+import Component.Bias_calibration;
+import Domain.SpectraNode_keyword_lookup;
+import Domain.SpectraNode_command_lookup;
+import Domain.SpectraNode_provider_indication;
+import Support.Configuration_repository;
+import Support.Instruction_major;
+import Application.Cadence_control;
+import Application.Spectroscopic_data_provider;
+
+using namespace IDE3380;
+
+using namespace SpectraNode_interface;
+using namespace Application;
 
 const char *Mode_control_provider::Operation_mode_to_text(const Operation_mode mode) {
     switch (mode) {
@@ -120,4 +134,3 @@ void Mode_control_provider::v_NOMINAL_CADENCE_seconds(Instruction_major &instruc
         instruction.print_nack(use_repository.get_diag_code());
     }
 }
-

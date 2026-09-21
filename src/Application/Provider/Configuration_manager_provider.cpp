@@ -20,12 +20,22 @@
 * @brief  
 */
 
+module;
+#include <cstdint>
+#include "Persistent_parameter_id.h"
 
-#include "Configuration_manager_provider.h"
-
-#include "../../Domain/Persistent_parameter_id.h"
+module Application.Configuration_manager_provider;
+import Component.IDE3380_interface;
+import Domain.SpectraNode_keyword_lookup;
+import Domain.SpectraNode_command_lookup;
+import Domain.SpectraNode_provider_indication;
 import Support.Configuration_repository;
+import Support.Instruction_major;
 
+using namespace IDE3380;
+
+using namespace SpectraNode_interface;
+using namespace Application;
 
 void Configuration_manager_provider::v_CONFIG_CLEAN(Instruction_major &instruction) {
     if (use_repository.clean().success()) {

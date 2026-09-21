@@ -4,9 +4,9 @@
 
 #include "V71_EK_hello_world.h"
 
-#include "Hello_world.h"
+import Application.Hello_world;
 
-#include "V71_EK_board.h"
+import Board.V71_EK_board;
 
 namespace
 {

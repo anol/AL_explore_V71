@@ -1,12 +1,17 @@
-#pragma once
 
+
+module;
+#include <cstdint>
+#include "SamV71_IO_pin.h"
+
+export module Board.V71_EK_pin_table;
 import Domain.IO_pins;
 import Type.Abstract_IO_pin;
 import Type.Abstract_pin_table;
 
-#include "SamV71_IO_pin.h"
 
-namespace SamV71
+
+export namespace SamV71
 {
     class V71_EK_pin_table : public Abstract::Abstract_pin_table
     {

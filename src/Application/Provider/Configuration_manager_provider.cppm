@@ -20,15 +20,25 @@
 * @brief
 */
 
+module;
+#include "Persistent_parameter_id.h"
+#include <cstdint>
 
-#pragma once
+export module Application.Configuration_manager_provider;
+import Component.IDE3380_interface;
+import Domain.SpectraNode_keyword_lookup;
+import Domain.SpectraNode_command_lookup;
 import Domain.SpectraNode_provider_indication;
-#include "Dictionary.h"
-#include "IDE3380_interface.h"
 import Support.Configuration_repository;
+import Support.Instruction_major;
+
+using namespace IDE3380;
+
+using namespace SpectraNode_interface;
 
 
-class Configuration_manager_provider : public Abstract_Configuration_manager_provider {
+
+export class Configuration_manager_provider : public Abstract_Configuration_manager_provider {
     Repository::Configuration_repository &use_repository;
     IDE3380::IDE3380_interface &use_IDE3380;
     IDE3380::IDE3380_register_access &use_IDE3380_register;

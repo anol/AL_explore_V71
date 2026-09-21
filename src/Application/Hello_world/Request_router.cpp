@@ -20,12 +20,33 @@
 * @brief  
 */
 
-
-#include "Request_router.h"
-#include "../../Component/IDE3380/Histogram_storage.h"
+module;
+#include <cstdint>
+#include "Persistent_parameter_id.h"
 #include <cstdio>
-#include "IDE3380_interface.h"
 
+module Application.Request_router;
+import Component.Histogram_storage;
+import Component.IDE3380_interface;
+import Component.Bias_calibration;
+import Component.Event_counter;
+import Type.Abstract_provider;
+import Application.Cadence_control;
+import Application.Configuration_manager_provider;
+import Application.Housekeeping_provider;
+import Application.Instrument_calibration_provider;
+import Application.Mode_control_provider;
+import Application.Spectroscopic_data_provider;
+import Support.Configuration_repository;
+import Support.Instruction_major;
+import Domain.SpectraNode_keyword_lookup;
+import Domain.SpectraNode_command_lookup;
+import Domain.SpectraNode_provider_indication;
+
+using namespace IDE3380;
+
+using namespace SpectraNode_interface;
+using namespace Instruction;
 
 namespace Application
 {

@@ -20,12 +20,14 @@
 * @brief
 */
 
-
-#pragma once
-
+module;
 #include <cstdint>
 
-namespace Calibration {
+export module Component.Calibration_analyzer;
+
+
+
+export namespace Calibration {
     class Calibration_analyzer {
         enum { Threshold_margin = 2, Window_size = 3, Max_sum = 20, Array_size = 256 };
 

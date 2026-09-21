@@ -20,13 +20,19 @@
 * @brief  
 */
 
-#pragma once
-
-import Support.Abstract_configuration;
+module;
+#include <cstdint>
 #include "Persistent_parameter_id.h"
-#include "IDE3380_register_decoder.h"
 
-namespace Application {
+export module Application.Default_configuration;
+import Component.IDE3380_register_decoder;
+export import Support.Abstract_configuration;
+
+using namespace IDE3380;
+
+
+
+export namespace Application {
     using namespace Repository ;
 
     class Default_configuration : public Abstract_configuration {
@@ -47,7 +53,6 @@ namespace Application {
             Default_B = 10000,
             Default_cadence = 2,
             Default_bias = 0,
-
 
             // Default summing channel configuration:
             // cal_select_channel = 0 (13.1, Calibration Test Enable)

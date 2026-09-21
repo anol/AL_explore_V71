@@ -1,28 +1,30 @@
-#pragma once
 
+
+module;
+#include <cstdint>
+#include "Persistent_parameter_id.h"
+
+export module Application.Request_router;
+import Component.Histogram_storage;
+import Component.IDE3380_interface;
+import Component.Bias_calibration;
+import Component.Event_counter;
 import Type.Abstract_provider;
-#include "Cadence_control.h"
-#include "Configuration_manager_provider.h"
-#include "Housekeeping_provider.h"
-#include "Instrument_calibration_provider.h"
-#include "Mode_control_provider.h"
-#include "Spectroscopic_data_provider.h"
+import Application.Cadence_control;
+import Application.Configuration_manager_provider;
+import Application.Housekeeping_provider;
+import Application.Instrument_calibration_provider;
+import Application.Mode_control_provider;
+import Application.Spectroscopic_data_provider;
 import Support.Configuration_repository;
+import Support.Instruction_major;
+
+using namespace IDE3380;
 
 
-namespace Calibration
+
+export namespace Application
 {
-    class Bias_calibration;
-}
-
-namespace IDE3380
-{
-    class IDE3380_interface;
-}
-
-namespace Application
-{
-    class Event_counter;
 
     class Request_router : public Abstract::Abstract_provider<Instruction_major>
     {

@@ -2,10 +2,31 @@
 // Created by aeols on 12.08.2026.
 //
 
+module;
+#include "Persistent_parameter_id.h"
+#include <cstdint>
+#include "FreeRTOS.h"
+#include "portmacro.h"
+#include "task.h"
 #include <cstdio>
-#include "Hello_world.h"
 
+module Application.Hello_world;
+import Component.Histogram_storage;
+import Component.IDE3380_interface;
+import Component.Event_counter;
+import Component.Bias_calibration;
+import Type.Abstract_application;
+import Type.Abstract_board;
+import Application.Cadence_control;
+import Application.Default_configuration;
+import Application.Request_router;
+import Support.Configuration_repository;
+import Support.Mockup_persistent_storage;
+import Support.Console_service;
 import Domain.IO_pins;
+import Application.Housekeeping_provider;
+
+using namespace IDE3380;
 
 namespace Application
 {

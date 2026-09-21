@@ -2,12 +2,15 @@
 // Created by aeols on 12.08.2026.
 //
 
-#pragma once
-import Type.Abstract_board;
+module;
 #include "Win11_pin_manager.h"
 #include "Win11_UART.h"
 
-namespace Board
+export module Board.Win11_board;
+import Type.Abstract_board;
+
+
+export namespace Board
 {
     class Win11_board : public Abstract::Abstract_board
     {

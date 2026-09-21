@@ -20,20 +20,30 @@
 * @brief
 */
 
+module;
+#include "Persistent_parameter_id.h"
+#include <cstdint>
 
-#pragma once
+export module Application.Instrument_calibration_provider;
+import Component.IDE3380_test_pedestal;
+import Component.IDE3380_test_noise_floor;
+import Component.Histogram_storage;
+import Component.IDE3380_interface;
+import Component.Bias_calibration;
+import Component.Event_counter;
+import Domain.SpectraNode_keyword_lookup;
+import Domain.SpectraNode_command_lookup;
 import Domain.SpectraNode_provider_indication;
-#include "Dictionary.h"
-#include "IDE3380_test_pedestal.h"
-#include "../../Component/IDE3380/IDE3380_test_noise_floor.h"
 import Support.Configuration_repository;
+import Support.Instruction_major;
+
+using namespace IDE3380;
+
+using namespace SpectraNode_interface;
 
 
-namespace Calibration {
-    class Bias_calibration;
-}
 
-class Instrument_calibration_provider : public Abstract_Instrument_calibration_provider {
+export class Instrument_calibration_provider : public Abstract_Instrument_calibration_provider {
     Calibration::Bias_calibration &use_bias;
     Repository::Configuration_repository &use_repository;
     Calibration::IDE3380_test_pedestal the_test_pedestal;

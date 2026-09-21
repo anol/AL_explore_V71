@@ -20,10 +20,12 @@
 * @brief  
 */
 
-#include "Calibration_analyzer.h"
-
+module;
+#include <cstdint>
 #include <cmath>
 #include "Simple_math.h"
+
+module Component.Calibration_analyzer;
 
 namespace Calibration {
     uint32_t Calibration_analyzer::find_noise_floor_A(const int32_t *data) {
