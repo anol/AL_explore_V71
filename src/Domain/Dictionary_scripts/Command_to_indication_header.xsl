@@ -13,7 +13,7 @@
 #pragma once
 
 #include "Instruction_lookup.h"
-#include "Abstract_provider.h"
+import Type.Abstract_provider;
 #include "Dictionary.h"
 
 using namespace Instruction;
@@ -40,7 +40,7 @@ namespace </xsl:text><xsl:value-of select="@interface"/><xsl:text> {
                 <xsl:text>
     class Abstract_</xsl:text>
                 <xsl:value-of select="@key"/>
-                <xsl:text>_provider : public Abstract_provider {
+                <xsl:text>_provider : public Abstract_provider&lt;Instruction_major&gt; {
     public:
        using Lookup_table = Instruction_lookup&lt;Abstract_</xsl:text>
                 <xsl:value-of select="@key"/>

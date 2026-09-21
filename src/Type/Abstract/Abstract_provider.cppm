@@ -2,13 +2,16 @@
 // Created by AndersEmilOlsen on 14.04.2026.
 //
 
-#pragma once
+module;
 #include <cstdint>
 
-class Instruction_major;
+export module Type.Abstract_provider;
 
 namespace Abstract
 {
+    /// The Request type is opaque to this interface: it is what the provider is asked to handle (the received
+    /// instruction). Keeping it a template parameter avoids any dependency from Type on the caller.
+    export template <class Request>
     class Abstract_provider
     {
         const uint8_t the_key;
@@ -20,11 +23,8 @@ namespace Abstract
 
         virtual ~Abstract_provider() = default;
 
-        virtual bool on_indication(Instruction_major&)
-        {
-            return false;
-        }
+        virtual bool on_indication(Request&) = 0;
 
         [[nodiscard]] uint8_t get_key() const { return the_key; }
     };
-} // Request
+} // Abstract

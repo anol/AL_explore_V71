@@ -1,12 +1,7 @@
-//
-// Created by anolsen on 23.08.2019.
-//
-
 module;
 #include <cstdint>
 
 export module Type.Abstract_UART;
-
 export import Type.Status_code;
 export import Type.Misc_type;
 

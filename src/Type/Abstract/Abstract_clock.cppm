@@ -1,4 +1,5 @@
 module;
+
 #include <cstdint>
 
 export module Type.Abstract_clock;
@@ -12,6 +13,6 @@ namespace Abstract {
 
         virtual void initialize() = 0;
 
-        virtual uint32_t get_milliseconds() = 0;
+        [[nodiscard]] virtual uint32_t get_milliseconds() const = 0;
     };
 }

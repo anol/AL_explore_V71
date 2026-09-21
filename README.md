@@ -32,7 +32,7 @@ a named module — `Type/Abstract` (one module per `Abstract_*` interface), `Typ
 is dashed. The other `import` edges are the consumers of those two: `Board/V71_EK` and
 `Type/Abstract` import `Domain.IO_pins`, `Application/Hello_world` imports both `Domain.IO_pins`
 and `Support.Console_service`, and `Platform/Common_platform` imports
-`Support.Console_service`. (`Type` itself has no files of its own any more, so it is not a node.)
+`Support.Console_service`. (`Type` and `Support/Plumbing` have no files of their own any more, so neither is a node.)
 A module pair with edges in both directions (either kind) is flagged as a two-way dependency:
 both arrows render bold and red — there are currently none:
 

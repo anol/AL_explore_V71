@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Abstract_provider.h"
+import Type.Abstract_provider;
 #include "Cadence_control.h"
 #include "Configuration_manager_provider.h"
 #include "Housekeeping_provider.h"
@@ -27,7 +27,7 @@ namespace Application
 {
     class Event_counter;
 
-    class Request_router : public Abstract_provider
+    class Request_router : public Abstract::Abstract_provider<Instruction_major>
     {
         Histogram_storage& use_histogram;
         IDE3380_interface& use_IDE3380;

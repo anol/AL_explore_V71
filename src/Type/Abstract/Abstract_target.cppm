@@ -1,9 +1,6 @@
-//
-// Created by aeols on 12.08.2026.
-//
+module;
 
 export module Type.Abstract_target;
-
 export import Type.Abstract_application;
 export import Type.Abstract_board;
 

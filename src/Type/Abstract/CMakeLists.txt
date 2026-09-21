@@ -6,6 +6,7 @@ target_sources(${THE_TARGET_NAME} PRIVATE
         Abstract_ethernet.cppm
         Abstract_IO_pin.cppm
         Abstract_pin_table.cppm
+        Abstract_provider.cppm
         Abstract_queue.cppm
         Abstract_request.cppm
         Abstract_scenario.cppm

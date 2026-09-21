@@ -27,7 +27,7 @@
 #pragma once
 
 #include "Instruction_lookup.h"
-#include "Abstract_provider.h"
+import Type.Abstract_provider;
 
 using namespace Abstract;
 
@@ -39,7 +39,7 @@ using namespace Transaction;
 
 namespace SpectraNode_interface {
     
-    class Abstract_Mode_control_provider : public Abstract_provider {
+    class Abstract_Mode_control_provider : public Abstract_provider<Instruction_major> {
     public:
        using Lookup_table = Instruction_lookup<Abstract_Mode_control_provider>;
     public:
@@ -65,7 +65,7 @@ namespace SpectraNode_interface {
         void p_NOMINAL_CADENCE_seconds(Instruction_major &);
     };
             
-    class Abstract_Spectroscopic_data_provider : public Abstract_provider {
+    class Abstract_Spectroscopic_data_provider : public Abstract_provider<Instruction_major> {
     public:
        using Lookup_table = Instruction_lookup<Abstract_Spectroscopic_data_provider>;
     public:
@@ -87,7 +87,7 @@ namespace SpectraNode_interface {
         void p_TIME_date_time(Instruction_major &);
     };
             
-    class Abstract_Instrument_calibration_provider : public Abstract_provider {
+    class Abstract_Instrument_calibration_provider : public Abstract_provider<Instruction_major> {
     public:
        using Lookup_table = Instruction_lookup<Abstract_Instrument_calibration_provider>;
     public:
@@ -117,7 +117,7 @@ namespace SpectraNode_interface {
         void p_CAL_TRACE(Instruction_major &);
     };
             
-    class Abstract_Configuration_manager_provider : public Abstract_provider {
+    class Abstract_Configuration_manager_provider : public Abstract_provider<Instruction_major> {
     public:
        using Lookup_table = Instruction_lookup<Abstract_Configuration_manager_provider>;
     public:
@@ -149,7 +149,7 @@ namespace SpectraNode_interface {
         void p_CONFIG_SAVE(Instruction_major &);
     };
             
-    class Abstract_Housekeeping_provider : public Abstract_provider {
+    class Abstract_Housekeeping_provider : public Abstract_provider<Instruction_major> {
     public:
        using Lookup_table = Instruction_lookup<Abstract_Housekeeping_provider>;
     public:

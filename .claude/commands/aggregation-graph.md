@@ -33,20 +33,21 @@ that implementation belongs to a *different* class's own aggregation graph, not 
 Reference `doc/hello_world_aggregation.svg`'s source (reconstruct the `.dot` from it, or
 check recent conversation history) for the precise conventions:
 
-- `rankdir=TB`, `newrank=true` (rank globally rather than per cluster — keeps the module boxes
-  compact instead of stretching them), natural size (no forced `size`/`ratio=fill` — this is for a README, not print)
+- `rankdir=TB`, natural size (no forced `size`/`ratio=fill` — this is for a README, not print)
 - node style: `shape=box, fontname="Consolas", fontsize=15`; interfaces/abstract classes
-  get a `«interface»`/`«abstract»` stereotype as the first line of the label
+  get a `«interface»`/`«abstract»` stereotype as the first line of the label, in the same
+  small italic font as the super-class line below (`<I><FONT POINT-SIZE="11">…</FONT></I>`)
+- **super class**: a class that has a base class shows its name on a line *above* the class
+  name, right under any stereotype line and styled identically to it — small italic
+  (`<I><FONT POINT-SIZE="11">Base</FONT></I>`). Just the name, no colon or other prefix, with
+  the namespace dropped and template arguments kept as written in the declaration (e.g.
+  `Abstract_scenario<Instruction_major>`). That needs an HTML-like label
+  (`label=<...<BR/>...>`, with `<`/`>` in names escaped as `&lt;`/`&gt;`); it still renders as
+  plain `<text>`, so the `foreignObject` check keeps passing. This is text only — still no
+  inheritance edge, and the base does not get a node of its own. Several bases go on one
+  line, comma-separated. A class with no base gets nothing extra. Read the base from the
+  class declaration itself (`class X : public Base`), not from a guess at what it implements.
 - edge style: `fontname="Consolas", fontsize=11`
-- **module grouping**: put every class node inside a `subgraph cluster_<path>` for the module
-  (source directory) that defines it — same notion of "module" as the dependency graph: the
-  leaf directory under `src/`, e.g. `Component/IDE3380`, `Support/Plumbing/CLI_parser`,
-  `Type/Abstract`. Find each class's directory from where it is defined (a `.cppm` counts by
-  its own directory). Cluster attributes: `label="<path under src/>", style=dashed,
-  color="#c4cdc3", fontname="Consolas", fontsize=13, labelloc=t` (`labelloc=t` has to be
-  explicit, because the graph-level `labelloc=b` below would otherwise be inherited by the
-  clusters). Nodes stay unfilled — clusters only group, they don't recolor. A module with just
-  one class in the graph still gets its own cluster. Edges are declared outside the clusters.
 - **aggregation**: `arrowtail=odiamond, dir=both, arrowhead=none, color="#b8631f", fontcolor="#8a4c18"`,
   labeled with the member/parameter name (e.g. `use_board`)
 - **composition**: `arrowtail=diamond, dir=both, arrowhead=none, color="#1b6f60", fontcolor="#155a4e"`,

@@ -1,6 +1,4 @@
-//
-// Created by aeols on 12.08.2026.
-//
+module;
 
 export module Type.Abstract_application;
 

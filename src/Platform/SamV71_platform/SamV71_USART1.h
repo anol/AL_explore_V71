@@ -1,8 +1,5 @@
-//
-// Created by aeols on 2026-08-24.
-//
-
 #pragma once
+
 import Type.Abstract_UART;
 import Type.Misc_type;
 

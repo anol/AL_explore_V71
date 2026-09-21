@@ -2,7 +2,6 @@ module;
 #include <cstdint>
 
 export module Type.Abstract_timer;
-
 export import Type.Status_code;
 export import Type.Misc_type;
 

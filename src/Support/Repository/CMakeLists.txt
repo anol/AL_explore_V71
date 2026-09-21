@@ -11,4 +11,5 @@ target_sources(${THE_TARGET_NAME} PUBLIC
         Embedded_flash.h
         Persistent_storage.h
         Repository_diagnostics.h
+        Mockup_persistent_storage.h
 )

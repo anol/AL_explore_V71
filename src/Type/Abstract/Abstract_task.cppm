@@ -1,7 +1,3 @@
-//
-// Created by aeols on 2026-09-09.
-//
-
 module;
 #include <cstdint>
 

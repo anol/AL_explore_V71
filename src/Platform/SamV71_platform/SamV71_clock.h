@@ -15,7 +15,7 @@ namespace SamV71
 
         void initialize() override;
 
-        uint32_t get_milliseconds() override { return milliseconds_allmost_since_start; }
+        [[nodiscard]] uint32_t get_milliseconds() const override { return milliseconds_allmost_since_start; }
 
         static uint32_t get_frequency();
 

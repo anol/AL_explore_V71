@@ -1,5 +1,4 @@
 module;
-#include <cstdint>
 
 export module Type.Abstract_queue;
 

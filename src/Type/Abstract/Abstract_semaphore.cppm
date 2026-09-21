@@ -1,3 +1,5 @@
+module;
+
 export module Type.Abstract_semaphore;
 
 namespace Abstract {

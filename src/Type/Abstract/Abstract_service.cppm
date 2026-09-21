@@ -1,6 +1,4 @@
-//
-// Created by aeols on 2026-09-10.
-//
+module;
 
 export module Type.Abstract_service;
 

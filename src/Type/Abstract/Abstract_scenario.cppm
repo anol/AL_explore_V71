@@ -1,10 +1,9 @@
-export module Type.Abstract_scenario;
+module;
 
+export module Type.Abstract_scenario;
 export import Type.Status_code;
 
 namespace Abstract {
-    /// The Request type is opaque to this interface: it is whatever the caller uses to start (and later
-    /// acknowledge) a test. Keeping it a template parameter avoids any dependency from Type on the caller.
     export template<class Request>
     class Abstract_scenario {
         bool is_trace_flag{};

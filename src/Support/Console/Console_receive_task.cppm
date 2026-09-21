@@ -7,9 +7,9 @@ module;
 #include "CLI_parser.h"
 #include "Instruction_major.h"
 #include "Ringbuffer.h"
-#include "Abstract_provider.h"
 
 module Support.Console_service:Console_receive_task;
+import Type.Abstract_provider;
 import Type.Abstract_UART;
 
 namespace Console
@@ -20,7 +20,7 @@ namespace Console
 
         using Command_queue = Ringbuffer<Instruction_major, Queue_size>;
         Abstract::Abstract_UART& use_console;
-        Abstract::Abstract_provider& use_router;
+        Abstract::Abstract_provider<Instruction_major>& use_router;
         CLI_parser the_parser;
         Command_queue the_queue{};
         int escape_received{};
@@ -31,7 +31,7 @@ namespace Console
         bool the_echo_flag{};
 
     public:
-        Console_receive_task(Abstract::Abstract_UART& UART, Abstract::Abstract_provider& router)
+        Console_receive_task(Abstract::Abstract_UART& UART, Abstract::Abstract_provider<Instruction_major>& router)
             : FreeRTOS_task("Console receive", Priority, Stack_size), use_console(UART), use_router(router),
               the_parser(get_commands())
         {

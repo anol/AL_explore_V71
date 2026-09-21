@@ -1,9 +1,6 @@
-//
-// Created by aeols on 2026-09-21.
-//
+module;
 
 export module Type.Abstract_request;
-
 export import Type.Abstract_semaphore;
 
 namespace Abstract

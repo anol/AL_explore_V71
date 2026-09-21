@@ -4,13 +4,15 @@
 
 #include "V71_EK_board.h"
 
+#include "cachel1_armv7.h"
+
 namespace Board
 {
     void V71_EK_board::initialize()
     {
         the_clock.initialize();
         enable_cache();
-        the_pin_manager.initialize();
+        the_pin_table.initialize();
         the_SPI.initialize();
         the_UART.initialize();
         the_console.initialize();
@@ -24,6 +26,6 @@ namespace Board
 
     void V71_EK_board::print_diagnostics()
     {
-        // the_pin_manager.print_diagnostics();
+        // the_pin_table.print_diagnostics();
     }
 } // Board

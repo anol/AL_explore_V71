@@ -1,9 +1,6 @@
-//
-// Created by aeols on 12.08.2026.
-//
+module;
 
 export module Type.Abstract_board;
-
 export import Type.Abstract_IO_pin;
 export import Type.Abstract_SPI;
 export import Type.Abstract_UART;

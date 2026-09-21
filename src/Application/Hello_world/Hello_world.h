@@ -16,7 +16,7 @@ import Type.Abstract_board;
 #include "../../Component/IDE3380/Histogram_storage.h"
 #include "../../Component/IDE3380/Event_counter.h"
 #include "Bias_calibration.h"
-#include "Mockup_persistent_storage.h"
+#include "../../Support/Repository/Mockup_persistent_storage.h"
 
 extern "C" {
 #include "FreeRTOS.h"

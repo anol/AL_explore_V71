@@ -2,7 +2,6 @@ module;
 #include <cstdint>
 
 export module Type.Abstract_IO_pin;
-
 export import Type.Status_code;
 
 namespace Abstract {
