@@ -1,8 +1,6 @@
 module;
 #include <cstdint>
 
-#include "Misc_type.h"
-
 export module Type.Abstract_clock;
 
 namespace Abstract {

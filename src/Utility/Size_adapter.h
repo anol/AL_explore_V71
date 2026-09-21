@@ -5,7 +5,9 @@
 #ifndef UTILITY_SIZE_ADAPTER_H
 #define UTILITY_SIZE_ADAPTER_H
 
-#include "../Type/Misc_type.h"
+#include <cstdint>
+
+import Type.Misc_type;
 
 namespace Size_adapter {
     void store_byte(uint32_t *p_buffer, uint32_t byte_index, uint8_t data);

@@ -1,15 +1,16 @@
-#pragma once
-
+module;
 #include <cstdint>
 
-import Type.Abstract_request;
-import Type.Abstract_semaphore;
+export module Type.Transfer_request;
+
+export import Type.Abstract_request;
+export import Type.Abstract_semaphore;
 
 namespace Generic
 {
     using Semaphore = Abstract::Abstract_semaphore;
 
-    class Transfer_request : public Abstract::Abstract_request
+    export class Transfer_request : public Abstract::Abstract_request
     {
         const uint8_t the_chip_select;
         const uint8_t the_data_width;

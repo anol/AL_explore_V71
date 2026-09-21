@@ -1,11 +1,3 @@
-target_include_directories(${THE_TARGET_NAME} PUBLIC
-        .
-)
-target_sources(${THE_TARGET_NAME} PUBLIC
-        Abstract_scenario.h
-        Abstract_pin_table.h
-        Abstract_timer.h
-)
 target_sources(${THE_TARGET_NAME} PRIVATE
         FILE_SET type_abstract_modules TYPE CXX_MODULES BASE_DIRS . FILES
         Abstract_application.cppm
@@ -13,12 +5,15 @@ target_sources(${THE_TARGET_NAME} PRIVATE
         Abstract_clock.cppm
         Abstract_ethernet.cppm
         Abstract_IO_pin.cppm
+        Abstract_pin_table.cppm
         Abstract_queue.cppm
         Abstract_request.cppm
+        Abstract_scenario.cppm
         Abstract_semaphore.cppm
         Abstract_service.cppm
         Abstract_SPI.cppm
         Abstract_target.cppm
         Abstract_task.cppm
+        Abstract_timer.cppm
         Abstract_UART.cppm
 )

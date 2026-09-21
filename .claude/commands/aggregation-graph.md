@@ -13,8 +13,12 @@ Find the class `$ARGUMENTS` in the source. Starting from it, recursively follow:
 - **composition** — its own data members (owned by value, e.g. `Foo the_foo{};`)
 - **aggregation** — references/pointers it receives via constructor injection
   (e.g. `Foo& use_foo`) and holds onto
-- **inherits / realizes** — its base class, and any `Abstract_*`/interface base
-  classes it implements
+
+Do **not** draw inheritance or interface realization at all — no edge to a base class, and a
+class that would only appear because it is some class's base (e.g. `Abstract_application`,
+`Abstract_task`, `Abstract_service`) is left out. An `Abstract_*`/interface class only shows
+up when a class holds it as a member or injected reference (e.g. `use_board` →
+`Abstract_board`).
 
 Keep following composition and aggregation edges outward from each newly-found class,
 the same way, until you hit a leaf: an interface/abstract class (don't expand further —
@@ -29,18 +33,26 @@ that implementation belongs to a *different* class's own aggregation graph, not 
 Reference `doc/hello_world_aggregation.svg`'s source (reconstruct the `.dot` from it, or
 check recent conversation history) for the precise conventions:
 
-- `rankdir=TB`, natural size (no forced `size`/`ratio=fill` — this is for a README, not print)
+- `rankdir=TB`, `newrank=true` (rank globally rather than per cluster — keeps the module boxes
+  compact instead of stretching them), natural size (no forced `size`/`ratio=fill` — this is for a README, not print)
 - node style: `shape=box, fontname="Consolas", fontsize=15`; interfaces/abstract classes
   get a `«interface»`/`«abstract»` stereotype as the first line of the label
 - edge style: `fontname="Consolas", fontsize=11`
+- **module grouping**: put every class node inside a `subgraph cluster_<path>` for the module
+  (source directory) that defines it — same notion of "module" as the dependency graph: the
+  leaf directory under `src/`, e.g. `Component/IDE3380`, `Support/Plumbing/CLI_parser`,
+  `Type/Abstract`. Find each class's directory from where it is defined (a `.cppm` counts by
+  its own directory). Cluster attributes: `label="<path under src/>", style=dashed,
+  color="#c4cdc3", fontname="Consolas", fontsize=13, labelloc=t` (`labelloc=t` has to be
+  explicit, because the graph-level `labelloc=b` below would otherwise be inherited by the
+  clusters). Nodes stay unfilled — clusters only group, they don't recolor. A module with just
+  one class in the graph still gets its own cluster. Edges are declared outside the clusters.
 - **aggregation**: `arrowtail=odiamond, dir=both, arrowhead=none, color="#b8631f", fontcolor="#8a4c18"`,
   labeled with the member/parameter name (e.g. `use_board`)
 - **composition**: `arrowtail=diamond, dir=both, arrowhead=none, color="#1b6f60", fontcolor="#155a4e"`,
   labeled with the member name (e.g. `the_histogram`)
-- **inherits/realizes**: `arrowhead=empty`; solid line for inheritance, `style=dashed` for
-  interface realization
 - graph `label` at the bottom (`labelloc=b, fontsize=13`):
-  `"<ClassName> — aggregation graph   [ → inherits/realizes    ◇ aggregation (non-owning ref)    ◆ composition (owned member) ]"`
+  `"<ClassName> — aggregation graph   [ ◇ aggregation (non-owning ref)    ◆ composition (owned member) ]"`
 
 Render with `dot -Kdot -Tsvg` (the `dot.exe` at `C:\Program Files\Graphviz 2.44.1\bin\`).
 **Verify the output has zero `foreignObject` elements** (`grep -c foreignObject` on the

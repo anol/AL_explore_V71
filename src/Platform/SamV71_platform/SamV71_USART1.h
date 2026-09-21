@@ -3,9 +3,8 @@
 //
 
 #pragma once
-#include "Misc_type.h"
-
 import Type.Abstract_UART;
+import Type.Misc_type;
 
 extern "C" {
 #include "FreeRTOS.h"

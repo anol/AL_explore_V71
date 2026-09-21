@@ -17,23 +17,23 @@
  * \brief
  */
 
-#ifndef TARGET_BOOT_V71_UTILITY_TYPES_H
-#define TARGET_BOOT_V71_UTILITY_TYPES_H
-
+module;
 #include <cstdint>
 
-using Milliseconds = uint32_t;
-using Microseconds = uint32_t;
-using Nanoseconds = uint32_t;
-using Frequency = uint32_t;
-using Data_size = uint32_t;
-using User_data = uint32_t;
-using Optional_data = void *;
-using Optional_text = const char *;
-using Optional_user = void *;
-using Optional_func = bool (*)(Optional_user, User_data);
-using Optional_reply = bool (*)(Optional_user, Optional_data, User_data);
-using Optional_handler = bool (*)(Optional_user, Optional_text, User_data);
-using Optional_confirm = bool (*)(Optional_user, Optional_data, bool);
+export module Type.Misc_type;
 
-#endif //TARGET_BOOT_V71_UTILITY_TYPES_H
+export {
+    using Milliseconds = uint32_t;
+    using Microseconds = uint32_t;
+    using Nanoseconds = uint32_t;
+    using Frequency = uint32_t;
+    using Data_size = uint32_t;
+    using User_data = uint32_t;
+    using Optional_data = void *;
+    using Optional_text = const char *;
+    using Optional_user = void *;
+    using Optional_func = bool (*)(Optional_user, User_data);
+    using Optional_reply = bool (*)(Optional_user, Optional_data, User_data);
+    using Optional_handler = bool (*)(Optional_user, Optional_text, User_data);
+    using Optional_confirm = bool (*)(Optional_user, Optional_data, bool);
+}

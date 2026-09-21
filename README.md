@@ -25,14 +25,16 @@ headers excluded), restricted to what CMake actually builds for the `V71_hello_w
 boards, and platform variants are real directories in `src/` but aren't part of this build,
 so they're left out. One node per source directory (a "module"), clustered by top-level area
 — wide, meant for scrolling/zooming rather than an at-a-glance read. Solid arrows are
-`#include` dependencies; dashed arrows are C++20 module imports. Named modules now cover all
-of `Type/Abstract` (one module per `Abstract_*` interface), plus `Type/Status_code`,
-`Domain/IO_pins`, and `Support/Console`'s `Support.Console_service` — so most module pairs
-that touch `Type/Abstract` or `Type` show up as dashed rather than solid; a pair can have
-both kinds of edge at once (e.g. one file in a module still `#include`s a plain header from
-another module while a second file in the same module `import`s it). A module pair with
-edges in both directions (either kind) is flagged as a two-way dependency: both arrows
-render bold and red:
+`#include` dependencies; dashed arrows are C++20 module imports. Everything under `Type/` is now
+a named module — `Type/Abstract` (one module per `Abstract_*` interface), `Type/Basic`
+(`Type.Misc_type`, `Type.Status_code`) and `Type/Generic` (`Type.Transfer_request`) — plus
+`Domain/IO_pins` and `Support/Console`'s `Support.Console_service`, so every edge into `Type/*`
+is dashed. The other `import` edges are the consumers of those two: `Board/V71_EK` and
+`Type/Abstract` import `Domain.IO_pins`, `Application/Hello_world` imports both `Domain.IO_pins`
+and `Support.Console_service`, and `Platform/Common_platform` imports
+`Support.Console_service`. (`Type` itself has no files of its own any more, so it is not a node.)
+A module pair with edges in both directions (either kind) is flagged as a two-way dependency:
+both arrows render bold and red — there are currently none:
 
 ![Module dependency graph](doc/module_dependencies.svg)
 

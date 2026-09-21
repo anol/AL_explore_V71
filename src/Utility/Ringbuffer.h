@@ -4,8 +4,10 @@
 
 #pragma once
 
-#include "../Type/Misc_type.h"
+#include <cstdint>
 #include <cstring>
+
+import Type.Misc_type;
 
 template<class T, int Buffer_size>
 class Ringbuffer {

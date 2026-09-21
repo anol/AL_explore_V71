@@ -1,7 +1,7 @@
 #pragma once
 
 import Type.Abstract_SPI;
-#include "Transfer_request.h"
+import Type.Transfer_request;
 #include "FreeRTOS_queue.h"
 
 namespace SamV71 {

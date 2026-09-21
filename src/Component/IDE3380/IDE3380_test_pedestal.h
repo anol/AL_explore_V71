@@ -23,14 +23,17 @@
 
 #pragma once
 
-#include "Abstract_scenario.h"
+import Type.Abstract_scenario;
+
 #include "Histogram_storage.h"
 #include "IDE3380_interface.h"
+
+class Instruction_major;
 
 using namespace IDE3380;
 
 namespace Calibration {
-    class IDE3380_test_pedestal : public Abstract::Abstract_scenario {
+    class IDE3380_test_pedestal : public Abstract::Abstract_scenario<Instruction_major> {
         enum {
             Default_diag_code = 76,
             Readout_count = 100'000,

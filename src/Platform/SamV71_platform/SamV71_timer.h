@@ -5,8 +5,9 @@
 #ifndef TEST_EVAL_RH71_TIMER_H
 #define TEST_EVAL_RH71_TIMER_H
 
-#include "Abstract_timer.h"
 #include "component/tc.h"
+
+import Type.Abstract_timer;
 
 class SamV71_timer : public Abstract_timer
 {

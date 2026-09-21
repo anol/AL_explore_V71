@@ -1,13 +1,14 @@
-#pragma once
+module;
+#include <cstdint>
 
+export module Type.Abstract_timer;
 
-#include "Status_code.h"
-
-class Service_report;
+export import Type.Status_code;
+export import Type.Misc_type;
 
 namespace Abstract
 {
-    class Abstract_timer
+    export class Abstract_timer
     {
     public:
         enum Timer_function

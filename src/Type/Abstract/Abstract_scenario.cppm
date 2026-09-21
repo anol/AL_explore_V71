@@ -1,10 +1,11 @@
-#pragma once
+export module Type.Abstract_scenario;
 
-import Type.Status_code;
-
-class Instruction_major;
+export import Type.Status_code;
 
 namespace Abstract {
+    /// The Request type is opaque to this interface: it is whatever the caller uses to start (and later
+    /// acknowledge) a test. Keeping it a template parameter avoids any dependency from Type on the caller.
+    export template<class Request>
     class Abstract_scenario {
         bool is_trace_flag{};
 
@@ -13,7 +14,7 @@ namespace Abstract {
 
         [[nodiscard]] virtual bool is_active() const = 0;
 
-        [[nodiscard]] virtual Status_code start_test(Instruction_major *instruction) = 0;
+        [[nodiscard]] virtual Status_code start_test(Request *request) = 0;
 
         virtual void background_process() = 0;
 

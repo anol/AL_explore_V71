@@ -3,11 +3,12 @@
 //
 
 module;
-#include "Misc_type.h"
+#include <cstdint>
 
 export module Type.Abstract_UART;
 
 export import Type.Status_code;
+export import Type.Misc_type;
 
 namespace Abstract
 {
