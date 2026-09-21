@@ -25,7 +25,7 @@
 
 #include "Target_config.h"
 
-#include "../Support/Histogram_storage.h"
+#include "../../Component/IDE3380/Histogram_storage.h"
 #include "Mode_control_provider.h"
 #include <cstdio>
 #include "Spectroscopic_data_provider.h"

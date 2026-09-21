@@ -1,11 +1,11 @@
 #include <cstdio>
 
 #include "Abstract_SPI.h"
-#include "IDE3380_register_access.h"
-
 #include "FreeRTOS_semaphore.h"
-#include "IDE3380_register_decoder.h"
 #include "Transfer_request.h"
+
+#include "IDE3380_register_access.h"
+#include "IDE3380_register_decoder.h"
 
 
 namespace IDE3380 {

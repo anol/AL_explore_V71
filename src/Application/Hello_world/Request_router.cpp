@@ -22,7 +22,7 @@
 
 
 #include "Request_router.h"
-#include "Histogram_storage.h"
+#include "../../Component/IDE3380/Histogram_storage.h"
 #include <cstdio>
 #include "IDE3380_interface.h"
 

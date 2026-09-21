@@ -23,7 +23,6 @@
 
 #pragma once
 
-#include <cstdint>
 #include "IDE3380_definitions.h"
 
 namespace Abstract {

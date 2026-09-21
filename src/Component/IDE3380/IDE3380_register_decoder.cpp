@@ -20,10 +20,9 @@
 * @brief  
 */
 
+#include <cstdio>
 
 #include "IDE3380_register_decoder.h"
-
-#include <cstdio>
 
 namespace IDE3380 {
     void IDE3380_register_decoder::dump(uint32_t address, uint32_t value) {

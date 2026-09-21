@@ -13,8 +13,8 @@
 // #include "Component/MCU/STM32U575RG/U575xG_persistent_storage.h"
 #include "Configuration_repository.h"
 #include "IDE3380_interface.h"
-#include "Histogram_storage.h"
-#include "Event_counter.h"
+#include "../../Component/IDE3380/Histogram_storage.h"
+#include "../../Component/IDE3380/Event_counter.h"
 #include "Bias_calibration.h"
 #include "Mockup_persistent_storage.h"
 

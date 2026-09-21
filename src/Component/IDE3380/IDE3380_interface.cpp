@@ -8,14 +8,7 @@
 #include <cstdio>
 
 #include "IDE3380_interface.h"
-// #include "main.h"
-// #include "spi.h"
-// #include "tim.h"
-// #include "rtc.h"
-// #include "app_usbx_device.h"
 #include "IDE3380_register_decoder.h"
-// #include "System_clock.h"
-// #include "Component/MCU/STM32U575RG/U575xx_USB_serial.h"
 #include "Configuration_repository.h"
 
 

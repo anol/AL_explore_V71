@@ -23,7 +23,7 @@
 
 #include "Spectroscopic_data_provider.h"
 
-#include "../Support/Histogram_storage.h"
+#include "../../Component/IDE3380/Histogram_storage.h"
 #include <cstdio>
 #include "Configuration_repository.h"
 

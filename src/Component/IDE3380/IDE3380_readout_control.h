@@ -22,6 +22,7 @@
 
 
 #pragma once
+
 #include "IDE3380_definitions.h"
 
 namespace IDE3380 {

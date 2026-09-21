@@ -24,7 +24,6 @@
 #include <cstdint>
 #include <cstring>
 
-#include "gamma_peak_detector.h"
 #include "IDE3380_interface.h"
 #include "Persistent_parameter_id.h"
 #include "Status_code.h"
@@ -66,7 +65,6 @@ namespace Application {
         static_assert(static_cast<int>(Last_input_channel) == IDE3380_last_channel, "Channel count error");
         static_assert(static_cast<int>(Number_of_channels) == IDE3380_channel_count + 1, "Channel count error");
         static_assert(static_cast<int>(Histogram_width) == static_cast<int>(IDE3380_ADC_range), "Size missmatch");
-        static_assert(static_cast<int>(Histogram_width) == static_cast<int>(GPD_max_data_size), "Size missmatch");
 
         bool the_disable_trigger_flag{};
         bool the_check_zero_flag{};

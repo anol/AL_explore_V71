@@ -22,10 +22,9 @@
 
 #include <cstdio>
 
-
 #include "IDE3380_readout_control.h"
-
 #include "IDE3380_interface.h"
+
 // #include "spi.h"
 // #include "stm32u575xx.h"
 // #include "stm32u5xx_hal_tim.h"

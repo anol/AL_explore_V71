@@ -21,7 +21,8 @@
 */
 #pragma once
 
-#include "cstdint"
+#include <cstdint>
+
 #include "IDE3380_interface.h"
 
 namespace IDE3380 {

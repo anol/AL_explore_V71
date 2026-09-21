@@ -23,7 +23,7 @@
 
 #include "Configuration_manager_provider.h"
 
-#include "Persistent_parameter_id.h"
+#include "../../Domain/Persistent_parameter_id.h"
 #include "Configuration_repository.h"
 
 

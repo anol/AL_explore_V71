@@ -7,5 +7,4 @@ target_sources(${THE_TARGET_NAME} PUBLIC
         Default_configuration.h
         Hello_world.cpp
         Hello_world.h
-        Persistent_parameter_id.h
 )

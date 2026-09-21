@@ -21,16 +21,14 @@
 */
 
 #include <cstdio>
-
-#include "IDE3380_test_noise_floor.h"
-
 #include <cstring>
 
 #include "Instruction_major.h"
-#include "Calibration_analyzer.h"
-#include "Instruction_major.h"
 #include "Configuration_repository.h"
-#include "Persistent_parameter_id.h"
+#include "../../Domain/Persistent_parameter_id.h"
+
+#include "Calibration_analyzer.h"
+#include "IDE3380_test_noise_floor.h"
 
 void HAL_Delay(int milliseconds);
 
