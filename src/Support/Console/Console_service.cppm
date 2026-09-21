@@ -3,13 +3,13 @@
 //
 
 module;
-#include "Abstract_service.h"
-#include "Abstract_UART.h"
 #include "Abstract_provider.h"
 
 export module Support.Console_service;
 import :Console_receive_task;
 import :Console_transmit_task;
+import Type.Abstract_service;
+import Type.Abstract_UART;
 
 namespace Console
 {

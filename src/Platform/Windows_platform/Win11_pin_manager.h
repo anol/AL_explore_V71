@@ -3,9 +3,8 @@
 //
 
 #pragma once
-#include "Abstract_IO_pin.h"
-#include "IO_pins.h"
-#include "Status_code.h"
+import Type.Abstract_IO_pin;
+import Domain.IO_pins;
 
 namespace Win11
 {

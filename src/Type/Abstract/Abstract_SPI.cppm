@@ -1,9 +1,9 @@
-#pragma once
+export module Type.Abstract_SPI;
 
-#include "Abstract_request.h"
+export import Type.Abstract_request;
 
 namespace Abstract {
-    class Abstract_SPI {
+    export class Abstract_SPI {
     public:
         virtual ~Abstract_SPI() = default;
 

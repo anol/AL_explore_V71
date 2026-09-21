@@ -1,6 +1,8 @@
 #pragma once
 
-#include "Abstract_clock.h"
+#include <cstdint>
+
+import Type.Abstract_clock;
 
 namespace SamV71
 {

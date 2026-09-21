@@ -2,8 +2,8 @@
 
 #include <cstdint>
 
-#include "Abstract_request.h"
-#include "Abstract_semaphore.h"
+import Type.Abstract_request;
+import Type.Abstract_semaphore;
 
 namespace Generic
 {

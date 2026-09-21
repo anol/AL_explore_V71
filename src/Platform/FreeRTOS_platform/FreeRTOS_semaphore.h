@@ -1,5 +1,5 @@
 #pragma once
-#include "Abstract_semaphore.h"
+import Type.Abstract_semaphore;
 
 extern "C" {
 #include "FreeRTOS.h"

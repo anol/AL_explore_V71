@@ -22,7 +22,7 @@
 
 
 #pragma once
-#include "Status_code.h"
+import Type.Status_code;
 
 class Instruction_major;
 

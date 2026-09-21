@@ -6,11 +6,11 @@
  */
 
 #pragma once
-#include "Abstract_board.h"
+import Type.Abstract_board;
+import Type.Status_code;
 #include "IDE3380_definitions.h"
 #include "IDE3380_readout_control.h"
 #include "IDE3380_register_access.h"
-#include "Status_code.h"
 
 extern volatile uint8_t software_reset;
 

@@ -1,6 +1,7 @@
-#pragma once
+export module Type.Abstract_semaphore;
+
 namespace Abstract {
-    class Abstract_semaphore {
+    export class Abstract_semaphore {
     public:
         virtual ~Abstract_semaphore() = default;
 

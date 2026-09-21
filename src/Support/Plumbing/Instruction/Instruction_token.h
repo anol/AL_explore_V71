@@ -21,7 +21,7 @@
 #define TARGET_WINDOWS_INSTRUCTION_TOKEN_H
 
 #include "Token_type.h"
-#include "Status_code.h"
+import Type.Status_code;
 
 namespace Instruction {
 

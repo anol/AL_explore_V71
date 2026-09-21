@@ -4,7 +4,9 @@
 
 #pragma once
 
-#include "Abstract_UART.h"
+#include "Misc_type.h"
+
+import Type.Abstract_UART;
 
 namespace Win11
 {

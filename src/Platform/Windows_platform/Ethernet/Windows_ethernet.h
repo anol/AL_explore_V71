@@ -1,7 +1,9 @@
 #pragma once
 
-#include "Abstract_ethernet.h"
+import Type.Abstract_ethernet;
 
+#include <cstddef>
+#include <cstdint>
 #include <atomic>
 #include <deque>
 #include <mutex>

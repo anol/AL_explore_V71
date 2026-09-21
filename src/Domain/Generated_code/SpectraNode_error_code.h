@@ -21,7 +21,7 @@
 
 #include <cstdint>
 #include <type_traits>
-#include "Status_code.h"
+import Type.Status_code;
 
 namespace Dictionary
 {

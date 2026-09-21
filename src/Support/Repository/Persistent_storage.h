@@ -27,7 +27,7 @@
 #include <cstdint>
 
 #include "Repository_diagnostics.h"
-#include "Status_code.h"
+import Type.Status_code;
 
 namespace Repository {
     class Persistent_storage : public Repository_diagnostics {

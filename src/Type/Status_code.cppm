@@ -2,11 +2,11 @@
 // Created by aeols on 2026-09-10.
 //
 
-#pragma once
+export module Type.Status_code;
 
-enum class Status_value { Success, Failed };
+export enum class Status_value { Success, Failed };
 
-class Status_code
+export class Status_code
 {
     Status_value the_status;
 

@@ -1,9 +1,8 @@
 #pragma once
 
-#include "Abstract_IO_pin.h"
+import Type.Abstract_IO_pin;
 #include "../../Platform/SamV71_platform/SamV71_IO_pin.h"
 #include "V71_EK_pin_table.h"
-#include "Status_code.h"
 
 namespace SamV71
 {

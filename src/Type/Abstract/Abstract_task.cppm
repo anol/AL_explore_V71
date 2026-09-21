@@ -2,12 +2,14 @@
 // Created by aeols on 2026-09-09.
 //
 
-#pragma once
+module;
 #include <cstdint>
+
+export module Type.Abstract_task;
 
 namespace Abstract
 {
-    class Abstract_task
+    export class Abstract_task
     {
     public:
         virtual ~Abstract_task() = default;

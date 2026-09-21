@@ -23,7 +23,7 @@
 
 #include "Diagnostic.h"
 
-#include "Status_code.h"
+import Type.Status_code;
 
 namespace Error_handling
 {

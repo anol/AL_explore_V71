@@ -26,7 +26,7 @@
 #include "Instruction/Instruction_token.h"
 #include "Instruction_major.h"
 #include "CLI_tokenizer.h"
-#include "Status_code.h"
+import Type.Status_code;
 
 namespace Instruction {
     class CLI_parser {

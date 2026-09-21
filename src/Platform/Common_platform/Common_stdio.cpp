@@ -21,8 +21,7 @@
 
 #include "Common_stdio.h"
 
-#include "Abstract_UART.h"
-
+import Type.Abstract_UART;
 import Support.Console_service;
 
 extern "C" {

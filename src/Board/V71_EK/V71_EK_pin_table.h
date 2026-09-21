@@ -1,5 +1,5 @@
 #pragma once
-#include "IO_pins.h"
+import Domain.IO_pins;
 
 namespace SamV71 {
     template<typename IO_pin>

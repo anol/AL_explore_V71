@@ -2,11 +2,12 @@
 // Created by aeols on 2026-08-19.
 //
 
-#pragma once
-
+module;
 #include <cstdint>
 
-namespace Dictionary {
+export module Domain.IO_pins;
+
+export namespace Dictionary {
     enum Pin_id : std::uint8_t {
         Pin_not_used,
 

@@ -2,14 +2,16 @@
 // Created by anolsen on 23.08.2019.
 //
 
-#pragma once
-
+module;
 #include "Misc_type.h"
-#include "Status_code.h"
+
+export module Type.Abstract_UART;
+
+export import Type.Status_code;
 
 namespace Abstract
 {
-    class Abstract_UART
+    export class Abstract_UART
     {
     public:
         Abstract_UART() = default;

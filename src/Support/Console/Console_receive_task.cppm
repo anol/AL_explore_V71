@@ -7,11 +7,10 @@ module;
 #include "CLI_parser.h"
 #include "Instruction_major.h"
 #include "Ringbuffer.h"
-#include "Status_code.h"
-#include "Abstract_UART.h"
 #include "Abstract_provider.h"
 
 module Support.Console_service:Console_receive_task;
+import Type.Abstract_UART;
 
 namespace Console
 {

@@ -1,11 +1,12 @@
-#pragma once
-
+module;
 #include <cstdint>
 
 #include "Misc_type.h"
 
+export module Type.Abstract_clock;
+
 namespace Abstract {
-    class Abstract_clock {
+    export class Abstract_clock {
     public:
         Abstract_clock() = default;
 

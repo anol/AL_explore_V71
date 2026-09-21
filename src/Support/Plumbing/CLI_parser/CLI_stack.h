@@ -23,7 +23,7 @@
 #include <cstdint>
 
 #include "Instruction/Instruction_token.h"
-#include "Status_code.h"
+import Type.Status_code;
 
 namespace Instruction {
 

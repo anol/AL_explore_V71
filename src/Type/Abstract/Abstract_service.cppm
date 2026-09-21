@@ -2,11 +2,11 @@
 // Created by aeols on 2026-09-10.
 //
 
-#pragma once
+export module Type.Abstract_service;
 
 namespace Abstract
 {
-    class Abstract_service
+    export class Abstract_service
     {
     public:
         virtual ~Abstract_service() = default;

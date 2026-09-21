@@ -26,7 +26,7 @@
 #include "Abstract_configuration.h"
 #include "Persistent_storage.h"
 #include "Current_configuration.h"
-#include "Status_code.h"
+import Type.Status_code;
 
 namespace Repository {
     class Configuration_repository {

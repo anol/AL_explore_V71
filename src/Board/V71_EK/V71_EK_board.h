@@ -3,7 +3,7 @@
 //
 
 #pragma once
-#include "Abstract_board.h"
+import Type.Abstract_board;
 #include "Common_stdio.h"
 #include "SamV71_clock.h"
 #include "SamV71_SPI.h"

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Abstract_ethernet.h"
+import Type.Abstract_ethernet;
 
 #include <atomic>
 #include <cstddef>

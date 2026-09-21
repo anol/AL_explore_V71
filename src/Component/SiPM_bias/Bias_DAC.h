@@ -22,7 +22,7 @@
 #pragma once
 #include <cstdint>
 
-#include "Status_code.h"
+import Type.Status_code;
 
 namespace Calibration {
     class Bias_DAC {

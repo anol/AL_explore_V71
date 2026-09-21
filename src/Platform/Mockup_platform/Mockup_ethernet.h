@@ -4,7 +4,10 @@
 
 #pragma once
 
-#include "Abstract_ethernet.h"
+import Type.Abstract_ethernet;
+
+#include <cstddef>
+#include <cstdint>
 
 namespace Mockup
 {

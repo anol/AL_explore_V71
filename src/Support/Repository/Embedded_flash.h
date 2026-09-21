@@ -6,7 +6,7 @@
 #define REPOSITORY_EMBEDDED_FLASH_H
 #include <cstdint>
 
-#include "Status_code.h"
+import Type.Status_code;
 
 namespace Repository {
     class Embedded_flash {

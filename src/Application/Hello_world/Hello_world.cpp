@@ -5,7 +5,7 @@
 #include <cstdio>
 #include "Hello_world.h"
 
-#include "IO_pins.h"
+import Domain.IO_pins;
 
 namespace Application
 {

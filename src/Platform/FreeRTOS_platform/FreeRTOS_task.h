@@ -1,6 +1,8 @@
 #pragma once
 
-#include "Abstract_task.h"
+#include <cstdint>
+
+import Type.Abstract_task;
 
 extern "C" {
 #include "FreeRTOS.h"

@@ -1,5 +1,6 @@
 #pragma once
-#include "Abstract_queue.h"
+#include <cstdint>
+import Type.Abstract_queue;
 
 extern "C" {
 #include "FreeRTOS.h"

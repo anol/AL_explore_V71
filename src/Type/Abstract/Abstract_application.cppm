@@ -2,10 +2,10 @@
 // Created by aeols on 12.08.2026.
 //
 
-#pragma once
+export module Type.Abstract_application;
 
 namespace Abstract {
-    class Abstract_application {
+    export class Abstract_application {
     public:
         Abstract_application() = default;
 

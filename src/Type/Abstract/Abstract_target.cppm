@@ -2,13 +2,14 @@
 // Created by aeols on 12.08.2026.
 //
 
-#pragma once
-#include "Abstract_application.h"
-#include "Abstract_board.h"
+export module Type.Abstract_target;
+
+export import Type.Abstract_application;
+export import Type.Abstract_board;
 
 namespace Abstract
 {
-    class Abstract_target
+    export class Abstract_target
     {
         Abstract_application& use_application;
         Abstract_board& use_board;

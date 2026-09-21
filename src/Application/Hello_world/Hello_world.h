@@ -3,8 +3,8 @@
 //
 
 #pragma once
-#include "Abstract_application.h"
-#include "Abstract_board.h"
+import Type.Abstract_application;
+import Type.Abstract_board;
 
 #include "Cadence_control.h"
 #include "Request_router.h"

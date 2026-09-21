@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Abstract_SPI.h"
+import Type.Abstract_SPI;
 #include "Transfer_request.h"
 #include "FreeRTOS_queue.h"
 

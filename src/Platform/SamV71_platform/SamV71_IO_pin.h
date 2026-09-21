@@ -1,6 +1,8 @@
 #pragma once
 
-#include "Abstract_IO_pin.h"
+#include <cstdint>
+
+import Type.Abstract_IO_pin;
 #include "sam.h"
 #include "component/pio.h"
 

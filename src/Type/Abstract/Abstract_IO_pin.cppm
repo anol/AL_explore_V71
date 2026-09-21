@@ -1,13 +1,14 @@
-#pragma once
-
+module;
 #include <cstdint>
 
-#include "Status_code.h"
+export module Type.Abstract_IO_pin;
+
+export import Type.Status_code;
 
 namespace Abstract {
 
     /// Purpose: The Abstract_IO_pin is a hardware abstraction of the MCU peripheral IOs.
-    class Abstract_IO_pin {
+    export class Abstract_IO_pin {
     public:
         virtual ~Abstract_IO_pin() = default;
 

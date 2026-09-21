@@ -1,6 +1,6 @@
 #include <cstdio>
 
-#include "Abstract_SPI.h"
+import Type.Abstract_SPI;
 #include "FreeRTOS_semaphore.h"
 #include "Transfer_request.h"
 

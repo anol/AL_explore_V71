@@ -3,7 +3,7 @@
 //
 
 #pragma once
-#include "Abstract_board.h"
+import Type.Abstract_board;
 #include "Win11_pin_manager.h"
 #include "Win11_UART.h"
 

@@ -7,10 +7,10 @@ module;
 #include <cstdio>
 #include <cctype>
 
-#include "Abstract_task.h"
 #include "Instruction_major.h"
 
 module Support.Console_service;
+import Type.Abstract_task;
 
 namespace Console
 {

@@ -7,7 +7,7 @@
 
 #include <cstdint>
 
-#include "Status_code.h"
+import Type.Status_code;
 
 /// Purpose: Encoding and decoding of the CCITT 16-bit CRC-function.
 class CRC_16_CCITT {

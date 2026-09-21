@@ -3,7 +3,7 @@
 //
 
 #pragma once
-#include "Abstract_target.h"
+import Type.Abstract_target;
 
 namespace Target {
     class Windows_hello_world : public Abstract::Abstract_target{

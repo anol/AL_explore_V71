@@ -25,7 +25,7 @@
 
 #include "Instruction/Instruction_token.h"
 #include "CLI_stack.h"
-#include "Status_code.h"
+import Type.Status_code;
 
 namespace Instruction {
     typedef const char *(*func_get_keyword)(unsigned char key);

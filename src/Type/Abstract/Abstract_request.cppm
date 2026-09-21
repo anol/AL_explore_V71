@@ -2,13 +2,13 @@
 // Created by aeols on 2026-09-21.
 //
 
-#pragma once
+export module Type.Abstract_request;
+
+export import Type.Abstract_semaphore;
 
 namespace Abstract
 {
-    class Abstract_semaphore;
-
-    class Abstract_request
+    export class Abstract_request
     {
     public:
         virtual ~Abstract_request() = default;

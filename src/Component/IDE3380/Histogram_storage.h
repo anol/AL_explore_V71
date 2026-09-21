@@ -26,7 +26,7 @@
 
 #include "IDE3380_interface.h"
 #include "Persistent_parameter_id.h"
-#include "Status_code.h"
+import Type.Status_code;
 
 namespace Repository {
     class Configuration_repository;

@@ -25,9 +25,7 @@
 
 #include "IDE3380_definitions.h"
 
-namespace Abstract {
-    class Abstract_SPI;
-}
+import Type.Abstract_SPI;
 
 namespace IDE3380 {
     class IDE3380_register_access {

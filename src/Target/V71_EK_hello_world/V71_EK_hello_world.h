@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Abstract_target.h"
+import Type.Abstract_target;
 
 namespace Target {
     class V71_EK_hello_world : public Abstract::Abstract_target {

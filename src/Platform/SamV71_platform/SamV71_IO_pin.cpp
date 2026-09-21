@@ -2,7 +2,7 @@
 
 #include "SamV71_IO_pin.h"
 #include "core_cm7.h"
-#include "Status_code.h"
+import Type.Status_code;
 #include "samv71q21b.h"
 #include "SamV71_clock.h"
 

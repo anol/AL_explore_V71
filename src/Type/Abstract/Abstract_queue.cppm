@@ -1,8 +1,10 @@
-#pragma once
+module;
 #include <cstdint>
 
+export module Type.Abstract_queue;
+
 namespace Abstract {
-    template<typename T>
+    export template<typename T>
     class Abstract_queue {
     public:
         virtual ~Abstract_queue() = default;

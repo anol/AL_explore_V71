@@ -2,21 +2,16 @@
 // Created by aeols on 12.08.2026.
 //
 
-#pragma once
-#include <cstdint>
+export module Type.Abstract_board;
 
-#include "Abstract_IO_pin.h"
-#include "Abstract_SPI.h"
-#include "Abstract_UART.h"
-
-namespace Dictionary
-{
-    enum Pin_id : std::uint8_t;
-}
+export import Type.Abstract_IO_pin;
+export import Type.Abstract_SPI;
+export import Type.Abstract_UART;
+export import Domain.IO_pins;
 
 namespace Abstract
 {
-    class Abstract_board
+    export class Abstract_board
     {
     public:
         Abstract_board() = default;

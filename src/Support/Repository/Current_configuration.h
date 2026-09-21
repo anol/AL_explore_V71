@@ -26,7 +26,7 @@
 #include <cstdint>
 
 #include "Attribute_type.h"
-#include "Status_code.h"
+import Type.Status_code;
 
 namespace Repository {
     class Current_configuration {

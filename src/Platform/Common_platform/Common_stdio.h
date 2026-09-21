@@ -3,11 +3,7 @@
 //
 #pragma once
 
-
-namespace Abstract
-{
-    class Abstract_UART;
-}
+import Type.Abstract_UART;
 
 namespace Platform {
     class Common_stdio {

@@ -1,11 +1,13 @@
-#pragma once
+module;
 #include <cstddef>
 #include <cstdint>
 #include <functional>
 
+export module Type.Abstract_ethernet;
+
 namespace Abstract {
     // Status codes returned by every fallible operation on Ethernet_device.
-    enum class Ethernet_status : uint8_t {
+    export enum class Ethernet_status : uint8_t {
         Ok = 0,
         Not_initialized,      // called before initialize() succeeded
         Already_initialized,  // initialize() called twice without shutdown()
@@ -21,12 +23,12 @@ namespace Abstract {
 
     // Maximum standard (non-jumbo) Ethernet frame size, including the
     // 14-byte header and 4-byte FCS, without an 802.1Q VLAN tag.
-    inline constexpr size_t Max_ethernet_frame_size = 1518;
+    export inline constexpr size_t Max_ethernet_frame_size = 1518;
 
     // Invoked from within poll() when a complete frame has been received.
     // data/length are only valid for the duration of the call -- copy
     // anything you need to keep.
-    using Ethernet_frame_callback = std::function<void(const uint8_t *data, size_t length)>;
+    export using Ethernet_frame_callback = std::function<void(const uint8_t *data, size_t length)>;
 
     // Abstract interface for initializing and using an Ethernet (Layer 2 /
     // MAC) interface. Implementations exist for:
@@ -43,7 +45,7 @@ namespace Abstract {
     // thread/task). poll() is what actually invokes your callback, and it
     // always does so from the calling context of poll() itself -- never
     // from an ISR (SAMV71) or a capture thread (Windows).
-    class Abstract_ethernet {
+    export class Abstract_ethernet {
     public:
         virtual ~Abstract_ethernet() = default;
 
