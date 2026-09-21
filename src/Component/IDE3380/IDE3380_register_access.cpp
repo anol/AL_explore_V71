@@ -5,6 +5,7 @@
 
 #include "FreeRTOS_semaphore.h"
 #include "IDE3380_register_decoder.h"
+#include "Transfer_request.h"
 
 
 namespace IDE3380 {

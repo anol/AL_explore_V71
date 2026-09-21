@@ -25,8 +25,9 @@ headers excluded), restricted to what CMake actually builds for the `V71_hello_w
 boards, and platform variants are real directories in `src/` but aren't part of this build,
 so they're left out. One node per source directory (a "module"), clustered by top-level area
 — wide, meant for scrolling/zooming rather than an at-a-glance read. Solid arrows are
-`#include` dependencies; dashed arrows are C++20 module imports (currently just consumers of
-`Support/Console`'s `Support.Console_service` module). A module pair with edges in both
+`#include` dependencies; dashed arrows are C++20 module imports (currently just the two
+consumers of `Support/Console`'s `Support.Console_service` module: `Application/Hello_world`
+and `Platform/Common_platform`). A module pair with edges in both
 directions (either kind) is flagged as a two-way dependency: both arrows render bold and red:
 
 ![Module dependency graph](doc/module_dependencies.svg)

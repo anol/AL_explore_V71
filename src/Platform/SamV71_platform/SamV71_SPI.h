@@ -19,6 +19,6 @@ namespace SamV71 {
 
         void disable_SPI() const;
 
-        bool transfer(Generic::Transfer_request *request) override;
+        bool transfer(Abstract::Abstract_request *request) override;
     };
 } // SamV71

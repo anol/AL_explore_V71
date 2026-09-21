@@ -142,31 +142,36 @@
 // }
 
 extern "C" {
-void SPI0_handler() {
+void SPI0_handler()
+{
     NVIC_DisableIRQ(SPI0_IRQn);
 }
 }
 
-namespace SamV71 {
-    void SamV71_SPI::initialize() {
+namespace SamV71
+{
+    void SamV71_SPI::initialize()
+    {
         SamV71_clock::enable_peripheral_clock(SPI0_INSTANCE_ID);
         disable_SPI();
         setup_SPI_registers(SamV71_clock::get_frequency() / SPI_bitrate);
         enable_SPI();
     }
 
-    void SamV71_SPI::setup_SPI_registers(uint32_t bitrate_divider) const {
-        auto base        = SPI0_REGS;
+    void SamV71_SPI::setup_SPI_registers(uint32_t bitrate_divider) const
+    {
+        auto base = SPI0_REGS;
         base->SPI_CSR[0] =
-                SPI_CSR_SCBR(bitrate_divider) |
-                SPI_CSR_NCPHA(1) |  // Clock phase
-                SPI_CSR_DLYBS(0u) | // Delay before select
-                SPI_CSR_DLYBCT(0u); // Delay between consecutive transfers
+            SPI_CSR_SCBR(bitrate_divider) |
+            SPI_CSR_NCPHA(1) | // Clock phase
+            SPI_CSR_DLYBS(0u) | // Delay before select
+            SPI_CSR_DLYBCT(0u); // Delay between consecutive transfers
         base->SPI_MR = SPI_MR_MSTR(1);
     }
 
-    void SamV71_SPI::enable_SPI() const {
-        auto base    = SPI0_REGS;
+    void SamV71_SPI::enable_SPI() const
+    {
+        auto base = SPI0_REGS;
         base->SPI_CR |= SPI_CR_SPIEN(1);
         NVIC_DisableIRQ(SPI0_IRQn);
         base->SPI_IER = SPI_IER_RDRF(1) | SPI_IER_TDRE(1);
@@ -174,7 +179,8 @@ namespace SamV71 {
         NVIC_EnableIRQ(SPI0_IRQn);
     }
 
-    void SamV71_SPI::disable_SPI() const {
+    void SamV71_SPI::disable_SPI() const
+    {
         auto base = SPI0_REGS;
         NVIC_DisableIRQ(SPI0_IRQn);
         base->SPI_IDR = (
@@ -189,11 +195,14 @@ namespace SamV71 {
         NVIC_EnableIRQ(SPI0_IRQn);
     }
 
-    bool SamV71_SPI::transfer(Generic::Transfer_request *request) {
-        bool  success{};
-        auto *semaphore = request->get_semaphore();
-        if (request && semaphore) {
-            if (the_queue.send(request)) {
+    bool SamV71_SPI::transfer(Abstract::Abstract_request* request)
+    {
+        bool success{};
+        auto* semaphore = request->get_semaphore();
+        if (request && semaphore)
+        {
+            if (the_queue.send(request))
+            {
                 semaphore->take();
                 success = true;
             }

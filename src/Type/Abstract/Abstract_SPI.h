@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Transfer_request.h"
+#include "Abstract_request.h"
 
 namespace Abstract {
     class Abstract_SPI {
@@ -14,6 +14,6 @@ namespace Abstract {
           * @param request A pointer to a transfer reqeust instance.
           * @return true=success, false=failed.
           **/
-        virtual bool transfer(Generic::Transfer_request *request) = 0;
+        virtual bool transfer(Abstract_request *request) = 0;
     };
 } // Abstract
