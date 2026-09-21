@@ -29,7 +29,7 @@
 #include "Instruction_lookup.h"
 #include "Abstract_provider.h"
 
-using namespace Instruction;
+using namespace Abstract;
 
 namespace Transaction {
     class Transaction_major;

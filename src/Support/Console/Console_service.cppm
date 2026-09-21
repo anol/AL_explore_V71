@@ -5,7 +5,7 @@
 module;
 #include "Abstract_service.h"
 #include "Abstract_UART.h"
-#include "Request_router.h"
+#include "Abstract_provider.h"
 
 export module Support.Console_service;
 import :Console_receive_task;
@@ -19,7 +19,7 @@ namespace Console
         Console_transmit_task the_transmitter{};
 
     public:
-        Console_service(Abstract::Abstract_UART& UART, Request_router& router) :
+        Console_service(Abstract::Abstract_UART& UART, Abstract::Abstract_provider& router) :
             the_receiver(UART, router)
         {
         }

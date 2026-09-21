@@ -49,7 +49,7 @@ namespace Application
             });
     }
 
-    void Request_router::on_indication(Instruction_major& instruction)
+    bool Request_router::on_indication(Instruction_major& instruction)
     {
         bool executed = the_mode_control.on_indication(instruction);
         if (!executed) { executed = the_data_provider.on_indication(instruction); }
@@ -60,6 +60,7 @@ namespace Application
         {
             printf("ERROR: NO_SUCH COMMAND, DIAG=%d.\r\n", (int)instruction.get_command_id());
         }
+        return executed;
     }
 
     Status_code Request_router::update_mode()

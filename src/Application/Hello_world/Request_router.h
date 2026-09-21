@@ -1,7 +1,6 @@
-
-
 #pragma once
 
+#include "Abstract_provider.h"
 #include "Cadence_control.h"
 #include "Configuration_manager_provider.h"
 #include "Housekeeping_provider.h"
@@ -28,7 +27,7 @@ namespace Application
 {
     class Event_counter;
 
-    class Request_router
+    class Request_router : public Abstract_provider
     {
         Histogram_storage& use_histogram;
         IDE3380_interface& use_IDE3380;
@@ -58,14 +57,15 @@ namespace Application
         explicit Request_router(Histogram_storage& histogram, Event_counter& counter,
                                 IDE3380_interface& ASIC, Calibration::Bias_calibration& bias,
                                 Repository::Configuration_repository& repository, Cadence_control& cadence)
-            : use_histogram(histogram), use_IDE3380(ASIC), use_bias(bias),
+            : Abstract_provider(0),
+              use_histogram(histogram), use_IDE3380(ASIC), use_bias(bias),
               use_repository(repository), use_cadence(cadence), use_event_counter(counter)
         {
         }
 
         void initialize();
 
-        void on_indication(Instruction_major& instruction);
+        bool on_indication(Instruction_major& instruction) override;
 
         bool background_process()
         {

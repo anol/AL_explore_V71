@@ -3,17 +3,28 @@
 //
 
 #pragma once
+#include <cstdint>
 
-namespace Instruction {
-    class Abstract_provider {
+class Instruction_major;
+
+namespace Abstract
+{
+    class Abstract_provider
+    {
+        const uint8_t the_key;
+
     public:
-        explicit Abstract_provider(uint8_t) {
+        explicit Abstract_provider(const uint8_t key) : the_key(key)
+        {
         }
 
         virtual ~Abstract_provider() = default;
 
-        virtual bool on_indication(Instruction_major &) {
+        virtual bool on_indication(Instruction_major&)
+        {
             return false;
         }
+
+        [[nodiscard]] uint8_t get_key() const { return the_key; }
     };
 } // Request
