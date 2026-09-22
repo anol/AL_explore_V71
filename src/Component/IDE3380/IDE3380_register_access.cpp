@@ -99,9 +99,9 @@ namespace IDE3380 {
         uint32_t register_value{};
         if (register_address < IDE3380_register_count) {
             FreeRTOS::FreeRTOS_semaphore semaphore{};
-            Generic::Transfer_request    request{CS_ASIC1, IDE3380_data_width, &semaphore};
-            uint8_t                      data_tx[IDE3380_data_length]{};
-            uint8_t                      data_rx[IDE3380_data_length]{};
+ static           Generic::Transfer_request    request{CS_ASIC1, IDE3380_data_width, &semaphore};
+ static           uint8_t                      data_tx[IDE3380_data_length]{};
+ static           uint8_t                      data_rx[IDE3380_data_length]{};
             uint32_t                     valid_mask  = ~((~0) << IDE3380_register_width[register_address]);
             uint32_t                     data_masked = data & valid_mask;
             data_tx[0]                               = (register_address << 1) | 0x01; //write
@@ -121,9 +121,9 @@ namespace IDE3380 {
         uint32_t register_value{};
         if (register_address < IDE3380_register_count) {
             FreeRTOS::FreeRTOS_semaphore semaphore{};
-            Generic::Transfer_request    request{CS_ASIC1, IDE3380_data_width, &semaphore};
-            uint8_t                      data_tx[IDE3380_data_length]{};
-            uint8_t                      data_rx[IDE3380_data_length]{};
+   static         Generic::Transfer_request    request{CS_ASIC1, IDE3380_data_width, &semaphore};
+   static         uint8_t                      data_tx[IDE3380_data_length]{};
+   static         uint8_t                      data_rx[IDE3380_data_length]{};
             data_tx[0] = (register_address << 1) | 0x00; //read
             request.set_buffers(data_tx, data_rx);
             if (use_SPI.transfer(&request)) {

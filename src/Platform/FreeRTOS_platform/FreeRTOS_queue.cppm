@@ -22,13 +22,13 @@ export namespace FreeRTOS {
             configASSERT(optional_queue != nullptr);
         }
 
-        bool send(T item) override { return xQueueSend(optional_queue, item, eNoTasksWaitingTimeout) == pdPASS; }
+        bool send(T item) override { return xQueueSend(optional_queue, &item, eNoTasksWaitingTimeout) == pdPASS; }
 
         bool receive(T *item) override { return xQueueReceive(optional_queue, item, eNoTasksWaitingTimeout) == pdPASS; }
 
         bool ISR_send(T item) override {
             BaseType_t xHigherPriorityTaskWoken;
-            return xQueueSendFromISR(optional_queue, item, &xHigherPriorityTaskWoken) == pdPASS;
+            return xQueueSendFromISR(optional_queue, &item, &xHigherPriorityTaskWoken) == pdPASS;
         }
 
         bool ISR_receive(T *item) override {

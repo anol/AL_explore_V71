@@ -139,7 +139,7 @@ namespace SamV71 {
 
     void SamV71_SPI::execute_pending_transaction() {
         if (is_ready()) {
-            Abstract::Abstract_request *request;
+            Abstract::Abstract_request *request{};
             if (the_queue.receive(&request)) {
                 optional_request = static_cast<Generic::Transfer_request *>(request);
                 select_chip();
@@ -195,6 +195,7 @@ namespace SamV71 {
         auto *semaphore = request->get_semaphore();
         if (request && semaphore) {
             if (the_queue.send(request)) {
+                execute_pending_transaction();
                 semaphore->take();
                 success = true;
             }
