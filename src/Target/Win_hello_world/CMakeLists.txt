@@ -3,12 +3,17 @@ target_include_directories(${THE_TARGET_NAME} PUBLIC
 )
 
 target_sources(${THE_TARGET_NAME} PUBLIC
+#        Clock_thread.cpp
+#        Clock_thread.h
+        FreeRTOS_hooks.cpp
+        FreeRTOSConfig.h
+#        Target_interface.cpp
         Win_hello_world.cpp
         Win_hello_world.h
 )
 
-# C o n f i g u r a t i o n   f i l e
-configure_file(${PROJECT_NAME}_config.h.in ${PROJECT_BINARY_DIR}/Target_config.h)
+
+configure_file(Target_config.h.i ${PROJECT_BINARY_DIR}/Target_config.h)
 
 # C o m p i l e r   a n d   l i n k e r   f l a g s
 target_link_libraries(${THE_TARGET_NAME} wsock32 ws2_32)

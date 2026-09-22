@@ -31,7 +31,7 @@ namespace IDE3380 {
     void IDE3380_register_decoder::dump(uint32_t address, uint32_t value) {
         enum { Channel_count = 17 };
         the_value = value;
-        printf(" 0x02X\r\n", address);
+        printf(" 0x%02X\r\n", address);
         if (address == 0) {
             dump_field("cmis_detector_voffset", 18, 8, "AIN input voltage offset");
             dump_field("cmis_detector_ioffset", 15, 3, "AIN input current offset");

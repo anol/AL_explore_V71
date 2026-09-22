@@ -41,7 +41,7 @@
       },
       "vendor": {
         "jetbrains.com/clion": {
-          "toolchain": "MinGW 32"
+          "toolchain": "MinGW"
         }
       }
     },

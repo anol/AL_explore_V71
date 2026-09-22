@@ -6,10 +6,11 @@
 
 import Type.Abstract_UART;
 import Type.Misc_type;
+#include <cstdint>
 
 namespace Win11
 {
-    class Win11_UART : public Abstract_UART
+    class Win11_UART : public Abstract::Abstract_UART
     {
     public:
         void initialize() override
@@ -36,7 +37,7 @@ namespace Win11
             return 0;
         }
 
-        Status_code put(uint8_t data) override
+        Status_code put(std::uint8_t data) override
         {
             return Status_code::Failure();
         }
