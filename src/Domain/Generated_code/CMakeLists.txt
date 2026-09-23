@@ -10,6 +10,7 @@ target_sources(${THE_TARGET_NAME} PRIVATE
         SpectraNode_command_empty_help.cppm
         SpectraNode_command_help.cppm
         SpectraNode_command_lookup.cppm
+        SpectraNode_command_table.cppm
         SpectraNode_command_version.cppm
         SpectraNode_keyword_lookup.cppm
         SpectraNode_keyword_version.cppm

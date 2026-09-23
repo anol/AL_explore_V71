@@ -9,7 +9,7 @@ module;
 module Support.Console_service:Console_receive_task;
 import Utility.Ringbuffer;
 import Platform.FreeRTOS_task;
-import Domain.SpectraNode_command_lookup;
+import Support.Abstract_command_table;
 import Support.CLI_parser;
 import Support.Instruction_major;
 import Type.Abstract_provider;
@@ -34,9 +34,10 @@ namespace Console
         bool the_echo_flag{};
 
     public:
-        Console_receive_task(Abstract::Abstract_UART& UART, Abstract::Abstract_provider<Instruction_major>& router)
+        Console_receive_task(Abstract::Abstract_UART& UART, Abstract::Abstract_provider<Instruction_major>& router,
+                              Instruction::Abstract_command_table& command_table)
             : FreeRTOS_task("Console receive", Priority, Stack_size), use_console(UART), use_router(router),
-              the_parser(SpectraNode_interface::get_commands())
+              the_parser(command_table.get_commands())
         {
         }
 

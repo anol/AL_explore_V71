@@ -19,6 +19,7 @@ import Type.Abstract_board;
 import Application.Cadence_control;
 import Application.Default_configuration;
 import Application.Request_router;
+import Domain.SpectraNode_command_table;
 import Support.Configuration_repository;
 import Support.Mockup_persistent_storage;
 import Support.Console_service;
@@ -48,7 +49,8 @@ export namespace Application
         Request_router the_command_handler{
             the_histogram, the_event_counter, the_IDE3380, the_bias, the_repository, the_cadence_control
         };
-        Console::Console_service the_console_service{use_board.get_UART(), the_command_handler};
+        SpectraNode_interface::SpectraNode_command_table the_command_table{};
+        Console::Console_service the_console_service{use_board.get_UART(), the_command_handler, the_command_table};
         uint32_t the_background_count{};
 
     public:

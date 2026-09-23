@@ -1,0 +1,44 @@
+
+
+/*
+* Copyright (C) 2026 Integrated Detector Electronics AS
+* All Rights Reserved.
+*
+* NOTICE: All information contained herein is, and remains
+* the property of Integrated Detector Electronics AS and its suppliers,
+* if any. The intellectual and technical concepts contained
+* herein are proprietary to Integrated Detector Electronics AS
+* and its suppliers and may be covered by Norwegian, EU. or U.S. patents,
+* patents in process, and are protected by trade secret or copyright law.
+* Dissemination of this information or reproduction of this material
+* is strictly forbidden unless prior written permission is obtained
+* from Integrated Detector Electronics AS.
+*
+*/
+
+
+/*
+*    Please note: the content of this file was generated using XSLT.
+*
+*                 D O   N O T   E D I T
+*/
+
+module;
+
+export module Domain.SpectraNode_command_table;
+import Domain.SpectraNode_command_lookup;
+import Support.Abstract_command_table;
+
+export namespace SpectraNode_interface {
+
+    // Adapts SpectraNode_interface::get_commands() to Instruction::Abstract_command_table,
+    // so callers can depend on that interface instead of on this generated module.
+    class SpectraNode_command_table : public Instruction::Abstract_command_table {
+    public:
+        [[nodiscard]] const Instruction::Instruction_token *get_commands() const override
+        {
+            return SpectraNode_interface::get_commands();
+        }
+    };
+
+} // SpectraNode_interface

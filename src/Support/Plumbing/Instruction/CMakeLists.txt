@@ -5,6 +5,7 @@ target_sources(${THE_TARGET_NAME} PUBLIC
 )
 target_sources(${THE_TARGET_NAME} PRIVATE
         FILE_SET support_instruction_modules TYPE CXX_MODULES BASE_DIRS . FILES
+        Abstract_command_table.cppm
         Instruction_lookup.cppm
         Instruction_major.cppm
         Instruction_token.cppm

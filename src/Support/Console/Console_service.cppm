@@ -5,6 +5,7 @@
 export module Support.Console_service;
 import :Console_receive_task;
 import :Console_transmit_task;
+import Support.Abstract_command_table;
 import Support.Instruction_major;
 import Type.Abstract_provider;
 import Type.Abstract_service;
@@ -18,8 +19,9 @@ namespace Console
         Console_transmit_task the_transmitter{};
 
     public:
-        Console_service(Abstract::Abstract_UART& UART, Abstract::Abstract_provider<Instruction_major>& router) :
-            the_receiver(UART, router)
+        Console_service(Abstract::Abstract_UART& UART, Abstract::Abstract_provider<Instruction_major>& router,
+                         Instruction::Abstract_command_table& command_table) :
+            the_receiver(UART, router, command_table)
         {
         }
 

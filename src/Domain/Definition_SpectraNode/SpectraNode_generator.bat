@@ -33,6 +33,7 @@ set CMDTRG=%TARGET_DIR%\%CMDSRC%
 %XSLT% %CMDSRC%.xml %SCRIPT_DIR%\Command_to_version.xsl -o %CMDTRG%_version.cppm
 %XSLT% %CMDSRC%.xml %SCRIPT_DIR%\Command_to_lookup_header.xsl -o %CMDTRG%_lookup.cppm
 %XSLT% %CMDSRC%.xml %SCRIPT_DIR%\Command_to_lookup_source.xsl -o %CMDTRG%_lookup.cpp
+%XSLT% %CMDSRC%.xml %SCRIPT_DIR%\Command_to_command_table.xsl -o %CMDTRG%_table.cppm
 %XSLT% %CMDSRC%.xml %SCRIPT_DIR%\Command_to_HTML_AT_style.xsl -o %CMDTRG%.html  date="%DATE%"
 %XSLT% %CMDSRC%.xml %SCRIPT_DIR%\Command_to_help.xsl -o %CMDTRG%_help.cppm
 %XSLT% %CMDSRC%.xml %SCRIPT_DIR%\Command_to_empty_help.xsl -o %CMDTRG%_empty_help.cppm
