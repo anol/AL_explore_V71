@@ -1,6 +1,6 @@
 target_sources(${THE_TARGET_NAME} PUBLIC
         SpectraNode_command_lookup.cpp
-        SpectraNode_keyword.html
+        SpectraNode_keyword.md
         SpectraNode_keyword_lookup.cpp
         SpectraNode_provider_indication.cpp
 #        SpectraNode_structure.cpp

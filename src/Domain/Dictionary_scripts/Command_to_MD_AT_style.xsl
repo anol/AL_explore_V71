@@ -1,72 +1,53 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <xsl:output method="text" omit-xml-declaration="yes" encoding="US-ASCII"/>
 
     <xsl:param name="date" select="date"/>
 
     <xsl:template match="/command_definition">
-        <html>
-            <xsl:comment>
+        <xsl:text>&lt;!--
 
-                <xsl:variable name="path">
-                    <xsl:text>../Definition_IDEAS/Copyright.xml</xsl:text>
-                </xsl:variable>
-                <xsl:apply-templates select="document($path)"/>
+</xsl:text>
+        <xsl:variable name="path">
+            <xsl:text>../Definition_IDEAS/Copyright.xml</xsl:text>
+        </xsl:variable>
+        <xsl:apply-templates select="document($path)"/>
+        <xsl:text>
+--&gt;
 
-            </xsl:comment>
-            <head8>
-                <style>
-                    table {
-                    font-family: arial, sans-serif;
-                    border-collapse: collapse;
-                    width: 100%;
-                    }
+# </xsl:text>
+        <xsl:value-of select="@product_id"/>
+        <xsl:text> </xsl:text>
+        <xsl:value-of select="@name"/>
+        <xsl:text> command version </xsl:text>
+        <xsl:value-of select="@version"/>
+        <xsl:text>
 
-                    td, th {
-                    border: 1px solid #dddddd;
-                    text-align: left;
-                    padding: 8px;
-                    }
-                </style>
-                <title>
-                    <xsl:value-of select="@name"/>
-                </title>
-            </head8>
-            <body>
-                <h1>
-                    <xsl:value-of select="@product_id"/>
-                    <xsl:text> </xsl:text>
-                    <xsl:value-of select="@name"/>
-                    <xsl:text> command version </xsl:text>
-                    <xsl:value-of select="@version"/>
-                </h1>
-                <p>
-                    Date:
-                    <xsl:value-of select="$date"/>
-                </p>
-                <xsl:call-template name="All_commands"/>
-            </body>
-        </html>
+Date: </xsl:text>
+        <xsl:value-of select="$date"/>
+        <xsl:text>
+</xsl:text>
+        <xsl:call-template name="All_commands"/>
     </xsl:template>
 
     <xsl:template name="All_commands">
         <xsl:for-each select="commands">
             <xsl:for-each select="provider">
-                <h2>Provider:
-                    <xsl:value-of select="@key"/>
-                </h2>
-                <table>
-                    <tr>
-                        <th>Command</th>
-                        <th>Description</th>
-                    </tr>
-                    <xsl:for-each select="arg">
-                        <xsl:sort select="@key |  @integer | @float | @string"/>
-                        <xsl:call-template name="argument_rule">
-                            <xsl:with-param name="command"/>
-                            <xsl:with-param name="argument"/>
-                        </xsl:call-template>
-                    </xsl:for-each>
-                </table>
+                <xsl:text>
+## Provider: </xsl:text>
+                <xsl:value-of select="@key"/>
+                <xsl:text>
+
+| Command | Description |
+|---|---|
+</xsl:text>
+                <xsl:for-each select="arg">
+                    <xsl:sort select="@key |  @integer | @float | @string"/>
+                    <xsl:call-template name="argument_rule">
+                        <xsl:with-param name="command"/>
+                        <xsl:with-param name="argument"/>
+                    </xsl:call-template>
+                </xsl:for-each>
             </xsl:for-each>
         </xsl:for-each>
     </xsl:template>
@@ -175,14 +156,12 @@
             </xsl:for-each>
         </xsl:if>
         <xsl:if test="@brief != ''">
-            <tr>
-                <td>
-                    <xsl:value-of select="$Command_syntax"/>
-                </td>
-                <td>
-                    <xsl:value-of select="@brief"/>
-                </td>
-            </tr>
+            <xsl:text>| `</xsl:text>
+            <xsl:value-of select="$Command_syntax"/>
+            <xsl:text>` | </xsl:text>
+            <xsl:value-of select="@brief"/>
+            <xsl:text> |
+</xsl:text>
         </xsl:if>
     </xsl:template>
 
@@ -219,4 +198,3 @@
         <xsl:text>)&gt;</xsl:text>
     </xsl:template>
 </xsl:stylesheet>
-

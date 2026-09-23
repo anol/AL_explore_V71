@@ -1,63 +1,28 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!--
- Copyright (C) 2026 Integrated Detector Electronics AS
- All Rights Reserved.
-
- NOTICE: All information contained herein is, and remains
- the property of Integrated Detector Electronics AS and its suppliers,
- if any. The intellectual and technical concepts contained
- herein are proprietary to Integrated Detector Electronics AS
- and its suppliers and may be covered by Norwegian, EU. or U.S. patents,
- patents in process, and are protected by trade secret or copyright law.
- Dissemination of this information or reproduction of this material
- is strictly forbidden unless prior written permission is obtained
- from Integrated Detector Electronics AS.
- -->
 <xsl:transform version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-    <xsl:output method="html" omit-xml-declaration="yes" encoding="US-ASCII" indent="yes" media-type="text/html"/>
+    <xsl:output method="text" omit-xml-declaration="yes" encoding="US-ASCII"/>
 
     <xsl:template match="/structure">
-        <html lang="en">
-          <xsl:comment>
+        <xsl:text>&lt;!--
 
- Copyright (C) 2026 Integrated Detector Electronics AS
- All Rights Reserved.
+</xsl:text>
+        <xsl:variable name="path">
+            <xsl:text>../Definition_IDEAS/Copyright.xml</xsl:text>
+        </xsl:variable>
+        <xsl:apply-templates select="document($path)"/>
+        <xsl:text>
+--&gt;
 
- NOTICE: All information contained herein is, and remains
- the property of Integrated Detector Electronics AS and its suppliers,
- if any. The intellectual and technical concepts contained
- herein are proprietary to Integrated Detector Electronics AS
- and its suppliers and may be covered by Norwegian, EU. or U.S. patents,
- patents in process, and are protected by trade secret or copyright law.
- Dissemination of this information or reproduction of this material
- is strictly forbidden unless prior written permission is obtained
- from Integrated Detector Electronics AS.
+# </xsl:text>
+        <xsl:value-of select="@name"/>
+        <xsl:text>
 
-        </xsl:comment>
-            <head8>
-                <link rel="stylesheet" type="text/css" href="Script/Style_sheet.css"/>
-                <title>
-                    <xsl:value-of select="@name"/>
-                </title>
-            </head8>
-            <body>
-                <h1>
-                    <xsl:value-of select="@name"/>
-                </h1>
-                <table>
-                    <tr>
-                        <th>Identifier</th>
-                        <th>Type</th>
-                        <th>Default</th>
-<!--                        <th>Nature</th>-->
-                        <th>Description</th>
-                    </tr>
-                    <xsl:for-each select="primary">
-                        <xsl:call-template name="primary_rule"/>
-                    </xsl:for-each>
-                </table>
-            </body>
-        </html>
+| Identifier | Type | Default | Description |
+|---|---|---|---|
+</xsl:text>
+        <xsl:for-each select="primary">
+            <xsl:call-template name="primary_rule"/>
+        </xsl:for-each>
     </xsl:template>
 
     <xsl:template name="primary_rule">
@@ -138,31 +103,23 @@
 
     <xsl:template name="value_rule">
         <xsl:param name="quaternary_name"/>
-        <tr>
-            <td>
-                <xsl:value-of select="$quaternary_name"/>
-            </td>
-            <td>
-                <xsl:value-of select="@type"/>
-            </td>
-            <td>
-                <xsl:choose>
-                    <xsl:when test="(@default != '')">
-                        <xsl:value-of select="@default"/>
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <xsl:text>-</xsl:text>
-                    </xsl:otherwise>
-                </xsl:choose>
-            </td>
-<!--            <td>-->
-<!--                <xsl:value-of select="@nature"/>-->
-<!--            </td>-->
-            <td>
-                <xsl:value-of select="@brief"/>
-            </td>
-        </tr>
+        <xsl:text>| </xsl:text>
+        <xsl:value-of select="$quaternary_name"/>
+        <xsl:text> | </xsl:text>
+        <xsl:value-of select="@type"/>
+        <xsl:text> | </xsl:text>
+        <xsl:choose>
+            <xsl:when test="(@default != '')">
+                <xsl:value-of select="@default"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:text>-</xsl:text>
+            </xsl:otherwise>
+        </xsl:choose>
+        <xsl:text> | </xsl:text>
+        <xsl:value-of select="@brief"/>
+        <xsl:text> |
+</xsl:text>
     </xsl:template>
 
 </xsl:transform>
-
