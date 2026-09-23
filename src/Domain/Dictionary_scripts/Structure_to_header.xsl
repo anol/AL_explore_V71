@@ -56,7 +56,7 @@ export namespace <xsl:value-of select="@interface"/>
 
     const uint32_t* get_table_of_keys();
 
-    const uint32_t* get_table_of_defaults();
+    const int32_t* get_table_of_defaults();
 
 }
 

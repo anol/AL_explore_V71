@@ -143,65 +143,85 @@ don't need them).
 | Id | Name | Description |
 |---|---|---|
 | 0 | `"No key"` | Special purpose |
-| 1 | `ADC` |  |
-| 2 | `ALARM` |  |
-| 3 | `APPLY` |  |
-| 4 | `ASIC` |  |
-| 5 | `BIAS` |  |
-| 6 | `CADENCE` |  |
-| 7 | `CAL` |  |
-| 8 | `cal_35V` |  |
-| 9 | `cal_40V` |  |
-| 10 | `channel` |  |
-| 11 | `CHANNEL` |  |
-| 12 | `CLEAN` |  |
-| 13 | `CONFIG` |  |
-| 14 | `Configuration_manager` |  |
-| 15 | `CPS` |  |
-| 16 | `CSV` |  |
-| 17 | `DAC` |  |
-| 18 | `data16` |  |
-| 19 | `data32` |  |
-| 20 | `data8` |  |
-| 21 | `date` |  |
-| 22 | `DEMO` |  |
-| 23 | `DIAG` |  |
-| 24 | `DUMP` |  |
-| 25 | `FORMAT` |  |
-| 26 | `gain` |  |
-| 27 | `GET` |  |
-| 28 | `HELP` |  |
-| 29 | `Housekeeping` |  |
-| 30 | `IDLE` |  |
-| 31 | `INPUT` |  |
-| 32 | `Instrument_calibration` |  |
-| 33 | `LOAD` |  |
-| 34 | `micro_sievert` |  |
-| 35 | `millis` |  |
-| 36 | `MODE` |  |
-| 37 | `Mode_control` |  |
-| 38 | `N42` |  |
-| 39 | `NOISE` |  |
-| 40 | `NOMINAL` |  |
-| 41 | `offset` |  |
-| 42 | `OFFSET` |  |
-| 43 | `PEDESTAL` |  |
-| 44 | `R6` |  |
-| 45 | `REG` |  |
-| 46 | `reg_addr` |  |
-| 47 | `RESET` |  |
-| 48 | `SAVE` |  |
-| 49 | `seconds` |  |
-| 50 | `Spectroscopic_data` |  |
-| 51 | `STATUS` |  |
-| 52 | `TEST` |  |
-| 53 | `time` |  |
-| 54 | `TIME` |  |
-| 55 | `TRACE` |  |
-| 56 | `V35` |  |
-| 57 | `V40` |  |
-| 58 | `VBIAS` |  |
-| 59 | `VERSION` |  |
+| 1 | `a` |  |
+| 2 | `active` |  |
+| 3 | `adc` |  |
+| 4 | `ADC` |  |
+| 5 | `ALARM` |  |
+| 6 | `APPLY` |  |
+| 7 | `ASIC` |  |
+| 8 | `b` |  |
+| 9 | `bias` |  |
+| 10 | `BIAS` |  |
+| 11 | `CADENCE` |  |
+| 12 | `CAL` |  |
+| 13 | `cal_35V` |  |
+| 14 | `cal_40V` |  |
+| 15 | `calibration` |  |
+| 16 | `channel` |  |
+| 17 | `CHANNEL` |  |
+| 18 | `CLEAN` |  |
+| 19 | `CONFIG` |  |
+| 20 | `Configuration_manager` |  |
+| 21 | `CPS` |  |
+| 22 | `CSV` |  |
+| 23 | `dac` |  |
+| 24 | `DAC` |  |
+| 25 | `data16` |  |
+| 26 | `data32` |  |
+| 27 | `data8` |  |
+| 28 | `date` |  |
+| 29 | `demo` |  |
+| 30 | `DEMO` |  |
+| 31 | `device` |  |
+| 32 | `DIAG` |  |
+| 33 | `DUMP` |  |
+| 34 | `format` |  |
+| 35 | `FORMAT` |  |
+| 36 | `gain` |  |
+| 37 | `GET` |  |
+| 38 | `HELP` |  |
+| 39 | `Housekeeping` |  |
+| 40 | `idle` |  |
+| 41 | `IDLE` |  |
+| 42 | `INPUT` |  |
+| 43 | `Instrument_calibration` |  |
+| 44 | `integration_time` |  |
+| 45 | `LOAD` |  |
+| 46 | `micro_sievert` |  |
+| 47 | `millis` |  |
+| 48 | `MODE` |  |
+| 49 | `Mode_control` |  |
+| 50 | `N42` |  |
+| 51 | `NOISE` |  |
+| 52 | `nominal` |  |
+| 53 | `NOMINAL` |  |
+| 54 | `offset` |  |
+| 55 | `OFFSET` |  |
+| 56 | `parameter` |  |
+| 57 | `pedestal` |  |
+| 58 | `PEDESTAL` |  |
+| 59 | `R6` |  |
+| 60 | `readout_count` |  |
+| 61 | `REG` |  |
+| 62 | `reg_addr` |  |
+| 63 | `RESET` |  |
+| 64 | `SAVE` |  |
+| 65 | `seconds` |  |
+| 66 | `serial_number` |  |
+| 67 | `simple_R6` |  |
+| 68 | `Spectroscopic_data` |  |
+| 69 | `start_threshold` |  |
+| 70 | `STATUS` |  |
+| 71 | `stop_count` |  |
+| 72 | `TEST` |  |
+| 73 | `time` |  |
+| 74 | `TIME` |  |
+| 75 | `TRACE` |  |
+| 76 | `V35` |  |
+| 77 | `V40` |  |
+| 78 | `VBIAS` |  |
+| 79 | `VERSION` |  |
 | 255 | `"Wildcard"` | Special purpose, used in search |
 <!-- END:SpectraNode_keyword -->
 
@@ -213,9 +233,31 @@ don't need them).
 <!-- BEGIN:SpectraNode_structure -->
 | Identifier | Type | Default | Description |
 |---|---|---|---|
-
-_(Empty — the structure definition is currently commented out in its source XML and isn't
-part of the build.)_
+| device.serial_number | data32 | 0 | Device serial number. |
+| device.reg_addr.[0-29] | data32 | 0x0200'0323 | IDE3380 ASIC register default (channel 1-16 control register template; see IDE3380_register_decoder for the rest). |
+| MODE.active | idle\|nominal\|demo | Key_demo | Active operating mode at startup. |
+| CADENCE.DEMO | seconds | 2 | Telemetry cadence in Demo mode. |
+| CADENCE.NOMINAL | seconds | 2 | Telemetry cadence in Nominal mode. |
+| CADENCE.IDLE | seconds | 2 | Telemetry cadence in Idle mode. |
+| CHANNEL.DEMO | channel | 18 | Active channel in Demo mode, 0=inhibit, 1-16=input, 17=analog summing, 18=digital summing. |
+| CHANNEL.NOMINAL | channel | 18 | Active channel in Nominal mode. |
+| CHANNEL.IDLE | channel | 18 | Active channel in Idle mode. |
+| format.DEMO | no_data\|legacy_live_view\|simple_R6\|only_CPS\|complex_N42\|housekeeping | Key_simple_R6 | Data format in Demo mode. |
+| format.IDLE | no_data\|legacy_live_view\|simple_R6\|only_CPS\|complex_N42\|housekeeping | Key_simple_R6 | Data format in Idle mode. |
+| format.NOMINAL | no_data\|legacy_live_view\|simple_R6\|only_CPS\|complex_N42\|housekeeping | Key_simple_R6 | Data format in Nominal mode. |
+| calibration.parameter.a | data32 | 100000 | Calibration parameter A. |
+| calibration.parameter.b | data32 | 10000 | Calibration parameter B. |
+| calibration.BIAS | data32 | 0 | Bias voltage at 25 degC reference. |
+| calibration.adc.V35 | mV | -35000 | ADC calibration setpoint at -35V. |
+| calibration.adc.V40 | mV | -40000 | ADC calibration setpoint at -40V. |
+| calibration.dac.V35 | mV | -35000 | DAC calibration setpoint at -35V. |
+| calibration.dac.V40 | mV | -40000 | DAC calibration setpoint at -40V. |
+| calibration.integration_time | number | 100 | Calibration pulse integration time. |
+| calibration.start_threshold | number | 100 | Calibration start threshold. |
+| calibration.stop_count | number | 100 | Calibration stop count. |
+| calibration.readout_count | number | 100000 | Calibration readout count. |
+| calibration.pedestal.[1-16] | data32 | 50 | Per-channel pedestal offset. |
+| calibration.gain.[1-16] | data32 | 1 | Per-channel gain factor. |
 <!-- END:SpectraNode_structure -->
 
 </details>

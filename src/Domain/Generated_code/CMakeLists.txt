@@ -3,7 +3,7 @@ target_sources(${THE_TARGET_NAME} PUBLIC
         SpectraNode_keyword.md
         SpectraNode_keyword_lookup.cpp
         SpectraNode_provider_indication.cpp
-#        SpectraNode_structure.cpp
+        SpectraNode_structure.cpp
 )
 target_sources(${THE_TARGET_NAME} PRIVATE
         FILE_SET domain_generated_modules TYPE CXX_MODULES BASE_DIRS . FILES
@@ -15,6 +15,6 @@ target_sources(${THE_TARGET_NAME} PRIVATE
         SpectraNode_keyword_lookup.cppm
         SpectraNode_keyword_version.cppm
         SpectraNode_provider_indication.cppm
-#        SpectraNode_structure.cppm
-#        SpectraNode_structure_version.cppm
+        SpectraNode_structure.cppm
+        SpectraNode_structure_version.cppm
 )

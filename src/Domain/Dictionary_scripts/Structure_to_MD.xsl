@@ -106,20 +106,46 @@
         <xsl:text>| </xsl:text>
         <xsl:value-of select="$quaternary_name"/>
         <xsl:text> | </xsl:text>
-        <xsl:value-of select="@type"/>
+        <xsl:call-template name="escape_pipes">
+            <xsl:with-param name="text" select="@type"/>
+        </xsl:call-template>
         <xsl:text> | </xsl:text>
         <xsl:choose>
             <xsl:when test="(@default != '')">
-                <xsl:value-of select="@default"/>
+                <xsl:call-template name="escape_pipes">
+                    <xsl:with-param name="text" select="@default"/>
+                </xsl:call-template>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:text>-</xsl:text>
             </xsl:otherwise>
         </xsl:choose>
         <xsl:text> | </xsl:text>
-        <xsl:value-of select="@brief"/>
+        <xsl:call-template name="escape_pipes">
+            <xsl:with-param name="text" select="@brief"/>
+        </xsl:call-template>
         <xsl:text> |
 </xsl:text>
+    </xsl:template>
+
+    <!-- Markdown table cells can't contain a literal "|" (it would be read as a new
+         column), so escape it as "\|": this format's own type="a|b|c" enum convention
+         for value_rule's @type is exactly what needs it, but any free-text @brief could
+         end up with one too. -->
+    <xsl:template name="escape_pipes">
+        <xsl:param name="text"/>
+        <xsl:choose>
+            <xsl:when test="contains($text, '|')">
+                <xsl:value-of select="substring-before($text, '|')"/>
+                <xsl:text>\|</xsl:text>
+                <xsl:call-template name="escape_pipes">
+                    <xsl:with-param name="text" select="substring-after($text, '|')"/>
+                </xsl:call-template>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="$text"/>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
 
 </xsl:transform>

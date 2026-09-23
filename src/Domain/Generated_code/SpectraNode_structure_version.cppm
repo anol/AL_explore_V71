@@ -29,7 +29,7 @@ module;
 
 export module Domain.SpectraNode_structure_version;
 
-export namespace FW1038
+export namespace SpectraNode
 {
     namespace version
     {

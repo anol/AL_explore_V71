@@ -19,8 +19,8 @@ Copyright (C) 2023 Integrated Detector Electronics AS
 <keyword_definition product_id="FW1038" name="SpectraNode" version="1" interface="SpectraNode_interface">
     <keywords>
         <key name="ADC"/>
-        <key name="APPLY"/>
         <key name="ALARM"/>
+        <key name="APPLY"/>
         <key name="ASIC"/>
         <key name="BIAS"/>
         <key name="CADENCE"/>
@@ -42,8 +42,8 @@ Copyright (C) 2023 Integrated Detector Electronics AS
         <key name="LOAD"/>
         <key name="MODE"/>
         <key name="N42"/>
-        <key name="NOMINAL"/>
         <key name="NOISE"/>
+        <key name="NOMINAL"/>
         <key name="OFFSET"/>
         <key name="PEDESTAL"/>
         <key name="R6"/>
@@ -52,33 +52,53 @@ Copyright (C) 2023 Integrated Detector Electronics AS
         <key name="SAVE"/>
         <key name="STATUS"/>
         <key name="TEST"/>
-        <key name="TRACE"/>
         <key name="TIME"/>
+        <key name="TRACE"/>
         <key name="V35"/>
         <key name="V40"/>
         <key name="VBIAS"/>
         <key name="VERSION"/>
 
+        <key name="a"/>
+        <key name="active"/>
+        <key name="adc"/>
+        <key name="b"/>
+        <key name="bias"/>
         <key name="cal_35V"/>
         <key name="cal_40V"/>
+        <key name="calibration"/>
         <key name="channel"/>
-        <key name="data8"/>
+        <key name="dac"/>
         <key name="data16"/>
         <key name="data32"/>
+        <key name="data8"/>
         <key name="date"/>
+        <key name="demo"/>
+        <key name="device"/>
+        <key name="format"/>
         <key name="gain"/>
+        <key name="idle"/>
+        <key name="integration_time"/>
         <key name="micro_sievert"/>
         <key name="millis"/>
+        <key name="nominal"/>
         <key name="offset"/>
+        <key name="parameter"/>
+        <key name="pedestal"/>
+        <key name="readout_count"/>
         <key name="reg_addr"/>
         <key name="seconds"/>
+        <key name="serial_number"/>
+        <key name="simple_R6"/>
+        <key name="start_threshold"/>
+        <key name="stop_count"/>
         <key name="time"/>
 
-        <key name="Mode_control"/>
-        <key name="Spectroscopic_data"/>
-        <key name="Instrument_calibration"/>
         <key name="Configuration_manager"/>
         <key name="Housekeeping"/>
+        <key name="Instrument_calibration"/>
+        <key name="Mode_control"/>
+        <key name="Spectroscopic_data"/>
 
     </keywords>
 </keyword_definition>

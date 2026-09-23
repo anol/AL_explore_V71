@@ -59,7 +59,7 @@ namespace </xsl:text><xsl:value-of select="@interface"/><xsl:text>{
         <xsl:text>0xFFFFFFFF
 };</xsl:text>
 
-        static constexpr uint32_t the_defaults[] = {
+        static constexpr int32_t the_defaults[] = {
         <xsl:text>0,
         </xsl:text>
         <xsl:for-each select="primary">
@@ -142,7 +142,7 @@ const uint8_t* get_table_of_forms() { return the_forms; }
 
 const uint32_t* get_table_of_keys() { return the_keys; }
 
-const uint32_t* get_table_of_defaults() { return the_defaults; }
+const int32_t* get_table_of_defaults() { return the_defaults; }
 
         }</xsl:text>
 
