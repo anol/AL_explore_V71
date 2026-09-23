@@ -13,12 +13,12 @@ export namespace FreeRTOS {
     template<typename T, uint32_t Queue_size>
     class FreeRTOS_queue : public Abstract::Abstract_queue<T> {
         StaticQueue_t the_queue_structure{};
-        uint32_t      the_queue_storage[Queue_size]{};
+        T      the_queue_storage[Queue_size]{};
         QueueHandle_t optional_queue{};
 
     public:
         FreeRTOS_queue() {
-            optional_queue = xQueueCreateStatic(Queue_size, sizeof(void *), reinterpret_cast<uint8_t *>(the_queue_storage), &the_queue_structure);
+            optional_queue = xQueueCreateStatic(Queue_size, sizeof(T), reinterpret_cast<uint8_t *>(the_queue_storage), &the_queue_structure);
             configASSERT(optional_queue != nullptr);
         }
 

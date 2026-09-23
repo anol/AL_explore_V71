@@ -16,8 +16,6 @@ namespace Abstract
 
         virtual void initialize() = 0;
 
-        virtual bool has_input() = 0;
-
         virtual bool for_each_input(Optional_user, Optional_func) = 0;
 
         virtual bool is_ready() = 0;
