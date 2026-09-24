@@ -49,11 +49,11 @@ namespace Application {
         if (success.success()) {
             the_IDE3380.update_registers(the_repository, IDE3380_0);
         } else {
-            printf("<> Failed to load repository <>\n");
+            printf("<> Failed to load repository <>\r\n");
         }
         success = the_bias.update_setpoints(the_repository);
         if (success.failed()) {
-            printf("<> Failed to update bias setpoints <>\n");
+            printf("<> Failed to update bias setpoints <>\r\n");
         }
     }
 

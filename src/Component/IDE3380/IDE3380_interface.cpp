@@ -87,7 +87,7 @@ namespace IDE3380 {
     }
 
     Status_code IDE3380_interface::update_registers(Repository::Configuration_repository &repository,
-                                           const uint32_t base_id) {
+                                                    const uint32_t base_id) {
         auto success{true};
         for (uint8_t address = IDE3380_channel_1_reg; address <= IDE3380_sysclock_control_reg; address++) {
             const auto id = base_id + address;
@@ -101,6 +101,9 @@ namespace IDE3380 {
                 success = false;
                 the_get_error++;
             }
+        }
+        if (!success) {
+            printf("<> IDE3380 update registers failed. Error accum.: load=%d, get=%d <>\r\n", the_load_error, the_get_error);
         }
         return Status_code(success);
     }
