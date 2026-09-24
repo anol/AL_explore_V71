@@ -105,7 +105,7 @@ extern "C" void TWIHS0_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
 
 extern "C" void TWIHS1_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
 
-extern "C" void SPI0_Handler();// __attribute__ ((weak, alias("Dummy_Handler")));
+// extern "C" void SPI0_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
 
 extern "C" void SSC_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
 
@@ -244,14 +244,14 @@ const DeviceVectors exception_table = {
     .pfnPIOB_Handler       = (void *) PIOB_Handler,        /* 11 Parallel Input/Output Controller */
     .pfnPIOC_Handler       = (void *) PIOC_Handler,        /* 12 Parallel Input/Output Controller */
     .pfnUSART0_Handler     = (void *) USART0_Handler,      /* 13 Universal Synchronous Asynchronous Receiver Transmitter */
-    .pfnUSART1_Handler     = (void *) USART1_ISR,      /* 14 Universal Synchronous Asynchronous Receiver Transmitter */
+    .pfnUSART1_Handler     = (void *) ISR_USART1,      /* 14 Universal Synchronous Asynchronous Receiver Transmitter */
     .pfnUSART2_Handler     = (void *) USART2_Handler,      /* 15 Universal Synchronous Asynchronous Receiver Transmitter */
     .pfnPIOD_Handler       = (void *) PIOD_Handler,        /* 16 Parallel Input/Output Controller */
     .pfnPIOE_Handler       = (void *) PIOE_Handler,        /* 17 Parallel Input/Output Controller */
     .pfnHSMCI_Handler      = (void *) HSMCI_Handler,       /* 18 High Speed MultiMedia Card Interface */
     .pfnTWIHS0_Handler     = (void *) TWIHS0_Handler,      /* 19 Two-wire Interface High Speed */
     .pfnTWIHS1_Handler     = (void *) TWIHS1_Handler,      /* 20 Two-wire Interface High Speed */
-    .pfnSPI0_Handler       = (void *) SPI0_Handler,        /* 21 Serial Peripheral Interface */
+    .pfnSPI0_Handler       = (void *) ISR_SPI0,        /* 21 Serial Peripheral Interface */
     .pfnSSC_Handler        = (void *) SSC_Handler,         /* 22 Synchronous Serial Controller */
     .pfnTC0_CH0_Handler    = (void *) TC0_CH0_Handler,     /* 23 Timer/Counter 0 Channel 0 */
     .pfnTC0_CH1_Handler    = (void *) TC0_CH1_Handler,     /* 24 Timer/Counter 0 Channel 1 */

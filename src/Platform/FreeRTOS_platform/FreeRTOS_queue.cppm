@@ -1,5 +1,3 @@
-
-
 module;
 #include <cstdint>
 #include "FreeRTOS.h"
@@ -13,7 +11,7 @@ export namespace FreeRTOS {
     template<typename T, uint32_t Queue_size>
     class FreeRTOS_queue : public Abstract::Abstract_queue<T> {
         StaticQueue_t the_queue_structure{};
-        T      the_queue_storage[Queue_size]{};
+        T the_queue_storage[Queue_size]{};
         QueueHandle_t optional_queue{};
 
     public:
@@ -22,18 +20,26 @@ export namespace FreeRTOS {
             configASSERT(optional_queue != nullptr);
         }
 
-        bool send(T item) override { return xQueueSend(optional_queue, &item, eNoTasksWaitingTimeout) == pdPASS; }
-
-        bool receive(T *item) override { return xQueueReceive(optional_queue, item, eNoTasksWaitingTimeout) == pdPASS; }
-
-        bool ISR_send(T item) override {
-            BaseType_t xHigherPriorityTaskWoken;
-            return xQueueSendFromISR(optional_queue, &item, &xHigherPriorityTaskWoken) == pdPASS;
+        bool send(T item) override {
+            return xQueueSend(optional_queue, &item, eNoTasksWaitingTimeout) == pdPASS;
         }
 
-        bool ISR_receive(T *item) override {
+        bool receive(T *item) override {
+            return xQueueReceive(optional_queue, item, eNoTasksWaitingTimeout) == pdPASS;
+        }
+
+        bool ISR_send(T item, bool &context_switch) override {
             BaseType_t xHigherPriorityTaskWoken;
-            return xQueueReceiveFromISR(optional_queue, item, &xHigherPriorityTaskWoken) == pdPASS;
+            auto success = xQueueSendFromISR(optional_queue, &item, &xHigherPriorityTaskWoken) == pdPASS;
+            context_switch = xHigherPriorityTaskWoken == pdTRUE;
+            return success;
+        }
+
+        bool ISR_receive(T *item, bool &context_switch) override {
+            BaseType_t xHigherPriorityTaskWoken;
+            auto success = xQueueReceiveFromISR(optional_queue, item, &xHigherPriorityTaskWoken) == pdPASS;
+            context_switch = xHigherPriorityTaskWoken == pdTRUE;
+            return success;
         }
     };
 } // FreeRTOS

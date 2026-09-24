@@ -1,5 +1,6 @@
 module;
-#include <cstdint>
+
+#include "FreeRTOS.h"
 
 export module Platform.SamV71_SPI;
 import Type.Abstract_SPI;
@@ -18,7 +19,20 @@ export namespace SamV71 {
         bool the_busy_flag{};
         Generic::Transfer_request *optional_request{};
         FreeRTOS::FreeRTOS_queue<Abstract::Abstract_request *, Queue_size> the_queue{};
-        static SamV71_SPI *optional_SPI0_driver;
+
+    public:
+        void ISR();
+
+    private:
+        void ISR_pending_transaction(bool &context_switch);
+
+        bool ISR_check_progress(bool &context_switch);
+
+        void ISR_transfer_complete(bool &context_switch) const;
+
+        [[nodiscard]] bool ISR_RX_ready(uint8_t data, bool &context_switch) const;
+
+        [[nodiscard]] bool ISR_TX_ready(uint8_t *data,bool &context_switch) const;
 
     public:
         SamV71_SPI(uint8_t id, Abstract::Abstract_IO_pin &chip_select);
@@ -33,24 +47,23 @@ export namespace SamV71 {
 
         bool transfer(Abstract::Abstract_request *request) override;
 
-        void on_interrupt();
-
-        static SamV71_SPI *get_SPI0() { return optional_SPI0_driver; }
-
     private:
-        bool is_transaction_complete();
+        void pending_transaction();
 
-        void execute_pending_transaction();
+        [[nodiscard]] bool is_ready() const {
+            return !optional_request;
+        }
 
-        void end_transaction() const;
+        void set_ready() {
+            optional_request = nullptr;
+        };
 
-        [[nodiscard]] bool on_rx_ready(uint8_t data) const;
+        void select_chip() const {
+            use_chip_select.clear();
+        }
 
-        [[nodiscard]] bool on_tx_ready(uint8_t *data) const;
-
-        [[nodiscard]] bool is_ready() const { return !optional_request; }
-        void set_ready() { optional_request = nullptr; };
-        void select_chip() const { use_chip_select.clear(); }
-        void unselect_chip() const { use_chip_select.set(); }
+        void unselect_chip() const {
+            use_chip_select.set();
+        }
     };
 } // SamV71

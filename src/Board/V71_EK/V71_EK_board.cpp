@@ -11,7 +11,7 @@ module Board.V71_EK_board;
 import Platform.Common_stdio;
 import Platform.SamV71_clock;
 import Platform.SamV71_SPI;
-import Platform.SamV71_USART1;
+import Platform.SamV71_USART;
 import Type.Abstract_board;
 import Board.V71_EK_pin_table;
 

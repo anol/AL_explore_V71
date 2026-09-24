@@ -5,6 +5,8 @@ module;
 #include "samv71q21b.h"
 #include <component/spi.h>
 
+#include "FreeRTOS.h"
+
 module Platform.SamV71_SPI;
 import Type.Abstract_SPI;
 import Type.Transfer_request;
@@ -12,18 +14,8 @@ import Platform.FreeRTOS_queue;
 import Platform.SamV71_clock;
 import Platform.SamV71_IO_pin;
 
-extern "C" {
-void SPI0_Handler() {
-    if (auto *driver = SamV71::SamV71_SPI::get_SPI0()) {
-        driver->on_interrupt();
-    } else {
-        NVIC_DisableIRQ(SPI0_IRQn);
-    }
-}
-}
-
-namespace SamV71 {
-    SamV71_SPI *SamV71_SPI::optional_SPI0_driver{};
+namespace SamV71_SPI_definition {
+    static SamV71::SamV71_SPI *optional_SPI0{};
 
     namespace {
         struct Definition {
@@ -37,11 +29,24 @@ namespace SamV71 {
     static void *get_definition(const uint8_t id) { return id == 0 ? static_cast<void *>(&Definition_SPI0) : nullptr; }
 }
 
+extern "C" {
+void ISR_SPI0() {
+    if (auto *driver = SamV71_SPI_definition::optional_SPI0) {
+        driver->ISR();
+    } else {
+        NVIC_DisableIRQ(SPI0_IRQn);
+    }
+}
+}
+
 namespace SamV71 {
-    SamV71_SPI::SamV71_SPI(const uint8_t id, Abstract::Abstract_IO_pin& chip_select)
+    using namespace SamV71_SPI_definition;
+
+    SamV71_SPI::SamV71_SPI(const uint8_t id, Abstract::Abstract_IO_pin &chip_select)
         : the_id(id), use_chip_select(chip_select), optional_definition(get_definition(id)) {
+        configASSERT(optional_definition != nullptr);
         if (the_id == 0) {
-            optional_SPI0_driver = this;
+            optional_SPI0 = this;
         }
     }
 
@@ -50,18 +55,19 @@ namespace SamV71 {
         disable_SPI();
         setup_SPI_registers(SamV71_clock::get_frequency() / SPI_bitrate);
         if (the_id == 0) {
-            optional_SPI0_driver = this;
+            optional_SPI0 = this;
         }
         enable_SPI();
     }
 
-    void SamV71_SPI::on_interrupt() {
+    void SamV71_SPI::ISR() {
         if (optional_definition) {
             auto *base = static_cast<Definition *>(optional_definition)->the_base;
+            bool context_switch{};
             uint32_t interrupt_mask = base->SPI_IMR;
             if ((interrupt_mask & SPI_IMR_TDRE_Msk) && (base->SPI_SR & SPI_SR_TDRE_Msk)) {
                 uint8_t data;
-                if (on_tx_ready(&data)) {
+                if (ISR_TX_ready(&data, context_switch)) {
                     base->SPI_TDR = SPI_TDR_TD(data);
                 } else {
                     base->SPI_IDR = SPI_IDR_TDRE(1);
@@ -69,16 +75,17 @@ namespace SamV71 {
             }
             if ((interrupt_mask & SPI_IMR_RDRF_Msk) && (base->SPI_SR & SPI_SR_RDRF_Msk)) {
                 uint8_t data = SPI_RDR_RD_Msk & base->SPI_RDR;
-                if (on_rx_ready(data)) {
+                if (ISR_RX_ready(data, context_switch)) {
                 } else {
                     base->SPI_IDR = SPI_IDR_RDRF(1);
                 }
             }
-            is_transaction_complete();
+            ISR_check_progress(context_switch);
+            portYIELD_FROM_ISR(context_switch ? pdTRUE : pdFALSE);
         }
     }
 
-    bool SamV71_SPI::on_rx_ready(const uint8_t data) const {
+    bool SamV71_SPI::ISR_RX_ready(const uint8_t data, bool &context_switch) const {
         if (optional_request) {
             const auto size = optional_request->get_transfer_size();
             const auto count = optional_request->get_transfer_count();
@@ -93,7 +100,7 @@ namespace SamV71 {
         return false;
     }
 
-    bool SamV71_SPI::on_tx_ready(uint8_t *data) const {
+    bool SamV71_SPI::ISR_TX_ready(uint8_t *data, bool &context_switch) const {
         if (optional_request && data) {
             const auto size = optional_request->get_transfer_size();
             const auto count = optional_request->get_transfer_count();
@@ -112,35 +119,45 @@ namespace SamV71 {
         return false;
     }
 
-    bool SamV71_SPI::is_transaction_complete() {
+    bool SamV71_SPI::ISR_check_progress(bool &context_switch) {
         if (optional_request) {
             auto size = optional_request->get_transfer_size();
             auto count = optional_request->get_transfer_count();
             if (count >= size) {
                 unselect_chip();
                 disable_SPI();
-                end_transaction();
+                ISR_transfer_complete(context_switch);
                 set_ready();
-                execute_pending_transaction();
+                ISR_pending_transaction(context_switch);
                 return true;
             }
         }
         return false;
     }
 
-    void SamV71_SPI::end_transaction() const {
+    void SamV71_SPI::ISR_transfer_complete(bool &context_switch) const {
         if (optional_request) {
-            auto *semaphore = optional_request->get_semaphore();
-            if (semaphore) {
-                semaphore->give();
+            if (auto *semaphore = optional_request->get_semaphore()) {
+                semaphore->ISR_give(context_switch);
             }
         }
     }
 
-    void SamV71_SPI::execute_pending_transaction() {
+    void SamV71_SPI::pending_transaction() {
         if (is_ready()) {
             Abstract::Abstract_request *request{};
             if (the_queue.receive(&request)) {
+                optional_request = static_cast<Generic::Transfer_request *>(request);
+                select_chip();
+                enable_SPI();
+            }
+        }
+    }
+
+    void SamV71_SPI::ISR_pending_transaction(bool &context_switch) {
+        if (is_ready()) {
+            Abstract::Abstract_request *request{};
+            if (the_queue.ISR_receive(&request, context_switch)) {
                 optional_request = static_cast<Generic::Transfer_request *>(request);
                 select_chip();
                 enable_SPI();
@@ -195,7 +212,7 @@ namespace SamV71 {
         auto *semaphore = request->get_semaphore();
         if (request && semaphore) {
             if (the_queue.send(request)) {
-                execute_pending_transaction();
+                pending_transaction();
                 semaphore->take();
                 success = true;
             }

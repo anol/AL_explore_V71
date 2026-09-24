@@ -12,8 +12,8 @@ namespace Abstract {
 
         virtual bool receive(T *) = 0;
 
-        virtual bool ISR_send(T) = 0;
+        virtual bool ISR_send(T, bool& context_switch) = 0;
 
-        virtual bool ISR_receive(T *) = 0;
+        virtual bool ISR_receive(T *, bool& context_switch) = 0;
     };
 } // Abstract

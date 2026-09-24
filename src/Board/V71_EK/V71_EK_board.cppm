@@ -9,7 +9,7 @@ export module Board.V71_EK_board;
 import Platform.Common_stdio;
 import Platform.SamV71_clock;
 import Platform.SamV71_SPI;
-import Platform.SamV71_USART1;
+import Platform.SamV71_USART;
 import Type.Abstract_board;
 import Board.V71_EK_pin_table;
 import Domain.IO_pins;
@@ -25,7 +25,7 @@ export namespace Board
         SamV71_clock the_clock{};
         V71_EK_pin_table the_pin_table{};
         SamV71_SPI the_SPI{0, the_pin_table.get_pin(Domain::Pin_SPI_CS_ASIC1)};
-        SamV71_USART1 the_UART{};
+        SamV71_USART the_UART{1};
         Platform::Common_stdio the_console{&the_UART};
 
     public:
