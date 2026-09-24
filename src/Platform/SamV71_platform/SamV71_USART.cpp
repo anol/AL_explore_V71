@@ -99,18 +99,18 @@ namespace SamV71 {
                 base->US_IDR = // Disable Overrun, Parity and Framing error interrupts
                         (US_IDR_USART_FRAME_Msk | US_IDR_USART_PARE_Msk | US_IDR_USART_OVRE_Msk);
             }
-            bool context_switch{};
+            uint32_t context_switch{};
             if (status & US_CSR_USART_RXRDY_Msk) {
                 ISR_RX_ready(context_switch);
             }
             if (status & (US_CSR_USART_TXRDY_Msk | US_CSR_USART_TXEMPTY_Msk)) {
                 ISR_TX_ready(context_switch);
             }
-            portYIELD_FROM_ISR(context_switch ? pdTRUE : pdFALSE);
+            portYIELD_FROM_ISR(context_switch);
         }
     }
 
-    void SamV71_USART::ISR_RX_ready(bool &context_switch) {
+    void SamV71_USART::ISR_RX_ready(uint32_t &context_switch) {
         if (optional_definition) {
             auto *base = static_cast<Definition *>(optional_definition)->the_base;
             while (base->US_CSR & US_CSR_USART_RXRDY_Msk) {
@@ -124,7 +124,7 @@ namespace SamV71 {
         }
     }
 
-    void SamV71_USART::ISR_TX_ready(bool &context_switch) {
+    void SamV71_USART::ISR_TX_ready(uint32_t &context_switch) {
         if (optional_definition) {
             auto *base = static_cast<Definition *>(optional_definition)->the_base;
             uint8_t data;

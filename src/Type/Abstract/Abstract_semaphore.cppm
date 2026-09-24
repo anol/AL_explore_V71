@@ -1,5 +1,7 @@
 module;
 
+#include <cstdint>
+
 export module Type.Abstract_semaphore;
 
 namespace Abstract {
@@ -11,8 +13,8 @@ namespace Abstract {
 
         virtual bool give() = 0;
 
-        virtual bool ISR_take(bool& context_switch) = 0;
+        virtual bool ISR_take(uint32_t& context_switch) = 0;
 
-        virtual bool ISR_give(bool& context_switch) = 0;
+        virtual bool ISR_give(uint32_t& context_switch) = 0;
     };
 } // Abstract

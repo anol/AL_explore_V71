@@ -19,9 +19,9 @@ export namespace SamV71 {
         void ISR();
 
     private:
-        void ISR_RX_ready(bool &context_switch);
+        void ISR_RX_ready(uint32_t &context_switch);
 
-        void ISR_TX_ready(bool &context_switch);
+        void ISR_TX_ready(uint32_t &context_switch);
 
     public:
         explicit SamV71_USART(uint8_t id);

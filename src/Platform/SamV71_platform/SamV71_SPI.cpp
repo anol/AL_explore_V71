@@ -3,7 +3,7 @@ module;
 #include <cstdint>
 #include "sam.h"
 #include "samv71q21b.h"
-#include <component/spi.h>
+#include "component/spi.h"
 
 #include "FreeRTOS.h"
 
@@ -63,7 +63,7 @@ namespace SamV71 {
     void SamV71_SPI::ISR() {
         if (optional_definition) {
             auto *base = static_cast<Definition *>(optional_definition)->the_base;
-            bool context_switch{};
+            uint32_t context_switch{};
             uint32_t interrupt_mask = base->SPI_IMR;
             if ((interrupt_mask & SPI_IMR_TDRE_Msk) && (base->SPI_SR & SPI_SR_TDRE_Msk)) {
                 uint8_t data;
@@ -81,11 +81,11 @@ namespace SamV71 {
                 }
             }
             ISR_check_progress(context_switch);
-            portYIELD_FROM_ISR(context_switch ? pdTRUE : pdFALSE);
+            portYIELD_FROM_ISR(context_switch);
         }
     }
 
-    bool SamV71_SPI::ISR_RX_ready(const uint8_t data, bool &context_switch) const {
+    bool SamV71_SPI::ISR_RX_ready(const uint8_t data, uint32_t &context_switch) const {
         if (optional_request) {
             const auto size = optional_request->get_transfer_size();
             const auto count = optional_request->get_transfer_count();
@@ -100,7 +100,7 @@ namespace SamV71 {
         return false;
     }
 
-    bool SamV71_SPI::ISR_TX_ready(uint8_t *data, bool &context_switch) const {
+    bool SamV71_SPI::ISR_TX_ready(uint8_t *data, uint32_t &context_switch) const {
         if (optional_request && data) {
             const auto size = optional_request->get_transfer_size();
             const auto count = optional_request->get_transfer_count();
@@ -119,7 +119,7 @@ namespace SamV71 {
         return false;
     }
 
-    bool SamV71_SPI::ISR_check_progress(bool &context_switch) {
+    bool SamV71_SPI::ISR_check_progress(uint32_t &context_switch) {
         if (optional_request) {
             auto size = optional_request->get_transfer_size();
             auto count = optional_request->get_transfer_count();
@@ -135,7 +135,7 @@ namespace SamV71 {
         return false;
     }
 
-    void SamV71_SPI::ISR_transfer_complete(bool &context_switch) const {
+    void SamV71_SPI::ISR_transfer_complete(uint32_t &context_switch) const {
         if (optional_request) {
             if (auto *semaphore = optional_request->get_semaphore()) {
                 semaphore->ISR_give(context_switch);
@@ -154,7 +154,7 @@ namespace SamV71 {
         }
     }
 
-    void SamV71_SPI::ISR_pending_transaction(bool &context_switch) {
+    void SamV71_SPI::ISR_pending_transaction(uint32_t &context_switch) {
         if (is_ready()) {
             Abstract::Abstract_request *request{};
             if (the_queue.ISR_receive(&request, context_switch)) {

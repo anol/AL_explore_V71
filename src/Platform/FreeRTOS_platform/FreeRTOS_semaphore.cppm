@@ -1,4 +1,5 @@
 module;
+
 #include "FreeRTOS.h"
 #include "semphr.h"
 
@@ -25,18 +26,14 @@ export namespace FreeRTOS {
             return xSemaphoreGive(optional_semaphore) == pdTRUE;
         }
 
-        bool ISR_take(bool &context_switch) override {
-            BaseType_t xHigherPriorityTaskWoken;
-            auto success = xSemaphoreTakeFromISR(optional_semaphore, &xHigherPriorityTaskWoken) == pdTRUE;
-            context_switch = xHigherPriorityTaskWoken == pdTRUE;
-            return success;
+        bool ISR_take(uint32_t &context_switch) override {
+            return xSemaphoreTakeFromISR(
+                optional_semaphore, reinterpret_cast<BaseType_t *>(&context_switch)) == pdTRUE;
         }
 
-        bool ISR_give(bool &context_switch) override {
-            BaseType_t xHigherPriorityTaskWoken;
-            auto success = xSemaphoreGiveFromISR(optional_semaphore, &xHigherPriorityTaskWoken) == pdTRUE;
-            context_switch = xHigherPriorityTaskWoken == pdTRUE;
-            return success;
+        bool ISR_give(uint32_t &context_switch) override {
+            return xSemaphoreGiveFromISR(
+                optional_semaphore, reinterpret_cast<BaseType_t *>(&context_switch)) == pdTRUE;
         }
     };
 } // FreeRTOS

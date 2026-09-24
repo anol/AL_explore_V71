@@ -1,4 +1,5 @@
 module;
+
 #include <cstdint>
 #include "FreeRTOS.h"
 #include "queue.h"
@@ -28,18 +29,14 @@ export namespace FreeRTOS {
             return xQueueReceive(optional_queue, item, eNoTasksWaitingTimeout) == pdPASS;
         }
 
-        bool ISR_send(T item, bool &context_switch) override {
-            BaseType_t xHigherPriorityTaskWoken;
-            auto success = xQueueSendFromISR(optional_queue, &item, &xHigherPriorityTaskWoken) == pdPASS;
-            context_switch = xHigherPriorityTaskWoken == pdTRUE;
-            return success;
+        bool ISR_send(T item, uint32_t &context_switch) override {
+            return xQueueSendFromISR(
+                optional_queue, &item, reinterpret_cast<BaseType_t *>(&context_switch)) == pdPASS;
         }
 
-        bool ISR_receive(T *item, bool &context_switch) override {
-            BaseType_t xHigherPriorityTaskWoken;
-            auto success = xQueueReceiveFromISR(optional_queue, item, &xHigherPriorityTaskWoken) == pdPASS;
-            context_switch = xHigherPriorityTaskWoken == pdTRUE;
-            return success;
+        bool ISR_receive(T *item, uint32_t &context_switch) override {
+            return xQueueReceiveFromISR(
+                       optional_queue, item, reinterpret_cast<BaseType_t *>(&context_switch)) == pdPASS;
         }
     };
 } // FreeRTOS

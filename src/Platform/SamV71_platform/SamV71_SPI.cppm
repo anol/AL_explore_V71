@@ -24,15 +24,15 @@ export namespace SamV71 {
         void ISR();
 
     private:
-        void ISR_pending_transaction(bool &context_switch);
+        void ISR_pending_transaction(uint32_t &context_switch);
 
-        bool ISR_check_progress(bool &context_switch);
+        bool ISR_check_progress(uint32_t &context_switch);
 
-        void ISR_transfer_complete(bool &context_switch) const;
+        void ISR_transfer_complete(uint32_t &context_switch) const;
 
-        [[nodiscard]] bool ISR_RX_ready(uint8_t data, bool &context_switch) const;
+        [[nodiscard]] bool ISR_RX_ready(uint8_t data, uint32_t &context_switch) const;
 
-        [[nodiscard]] bool ISR_TX_ready(uint8_t *data, bool &context_switch) const;
+        [[nodiscard]] bool ISR_TX_ready(uint8_t *data, uint32_t &context_switch) const;
 
     public:
         SamV71_SPI(uint8_t id, Abstract::Abstract_IO_pin &chip_select);
