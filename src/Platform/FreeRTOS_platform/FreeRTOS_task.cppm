@@ -20,7 +20,7 @@ export namespace FreeRTOS {
         TickType_t   last_wake_time{};
 
     public:
-        FreeRTOS_task(const char *name, UBaseType_t priority = Default_priority, StackType_t stack_size = Default_stack_size) {
+        explicit FreeRTOS_task(const char *name, UBaseType_t priority = Default_priority, StackType_t stack_size = Default_stack_size) {
             xTaskCreate(task_entry, name, stack_size, this, priority, &optional_task);
         }
 
