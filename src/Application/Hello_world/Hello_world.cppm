@@ -38,12 +38,12 @@ export namespace Application
         TaskHandle_t the_task{};
         bool the_toggle_flag{};
 
-        const Default_configuration the_attribute_types;
+        const Default_configuration the_default_configuration;
         Cadence_control the_cadence_control{};
         IDE3380_interface the_IDE3380;
         Calibration::Bias_calibration the_bias{};
         MOCKUP::Mockup_persistent_storage the_storage{};
-        Repository::Configuration_repository the_repository{the_attribute_types, the_storage};
+        Repository::Configuration_repository the_repository{the_default_configuration, the_storage};
         Event_counter the_event_counter{};
         Histogram_storage the_histogram{the_event_counter, the_IDE3380};
         Request_router the_command_handler{

@@ -28,12 +28,10 @@ import Application.Housekeeping_provider;
 
 using namespace IDE3380;
 
-namespace Application
-{
-    void Hello_world::initialize()
-    {
+namespace Application {
+    void Hello_world::initialize() {
         constexpr UBaseType_t priority = tskIDLE_PRIORITY + 1;
-        constexpr StackType_t stack_size =1024 * 2;
+        constexpr StackType_t stack_size = 1024 * 2;
         xTaskCreate(task_entry, "HelloWorld", stack_size, this, priority, &the_task);
 
         the_cadence_control.initialize();
@@ -45,40 +43,44 @@ namespace Application
         the_command_handler.initialize();
         // the_histogram.disable_trigger_flag(true);
         // the_cadence_control.set_cadence_callback(nullptr, nullptr);
+        the_repository.initialize();
+        auto success = the_repository.load();
+        the_command_handler.update_mode();
+        if (success.success()) {
+            the_IDE3380.update_registers(the_repository, IDE3380_0);
+        } else {
+            printf("<> Failed to load repository <>\n");
+        }
+        success = the_bias.update_setpoints(the_repository);
+        if (success.failed()) {
+            printf("<> Failed to update bias setpoints <>\n");
+        }
     }
 
-    void Hello_world::run()
-    {
+    void Hello_world::run() {
         vTaskStartScheduler();
     }
 
-    void Hello_world::task_entry(void* object)
-    {
-        static_cast<Hello_world*>(object)->task_loop();
+    void Hello_world::task_entry(void *object) {
+        static_cast<Hello_world *>(object)->task_loop();
     }
 
-    void Hello_world::toggle_LED()
-    {
+    void Hello_world::toggle_LED() {
         the_toggle_flag = !the_toggle_flag;
-        if (the_toggle_flag)
-        {
+        if (the_toggle_flag) {
             use_board.get_pin(Domain::Pin_LED0).set();
             use_board.get_pin(Domain::Pin_LED1).clear();
-        }
-        else
-        {
+        } else {
             use_board.get_pin(Domain::Pin_LED0).clear();
             use_board.get_pin(Domain::Pin_LED1).set();
         }
     }
 
-    void Hello_world::task_loop()
-    {
+    void Hello_world::task_loop() {
         constexpr TickType_t period = pdMS_TO_TICKS(1000);
         TickType_t last_wake_time = xTaskGetTickCount();
         Housekeeping_provider::print_version();
-        while (true)
-        {
+        while (true) {
             vTaskDelayUntil(&last_wake_time, period);
             toggle_LED();
         }
