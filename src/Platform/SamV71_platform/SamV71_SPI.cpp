@@ -14,69 +14,96 @@ import Platform.FreeRTOS_queue;
 import Platform.SamV71_clock;
 import Platform.SamV71_IO_pin;
 
-namespace SamV71_SPI_definition {
-    static SamV71::SamV71_SPI *optional_SPI0{};
+namespace SamV71_SPI_definition
+{
+    static SamV71::SamV71_SPI* optional_SPI0{};
 
-    namespace {
-        struct Definition {
-            spi_registers_t *the_base;
-            IRQn_Type the_irq_number;
+    namespace
+    {
+        struct Definition
+        {
+            spi_registers_t* the_base;
+            IRQn_Type the_IRQ_number;
+            uint32_t the_IRQ_priority;
         };
     }
 
-    static Definition Definition_SPI0{.the_base = SPI0_REGS, .the_irq_number = SPI0_IRQn};
+    static Definition Definition_SPI0{
+        .the_base = SPI0_REGS,
+        .the_IRQ_number = SPI0_IRQn,
+        .the_IRQ_priority = configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY,
+    };
 
-    static void *get_definition(const uint8_t id) { return id == 0 ? static_cast<void *>(&Definition_SPI0) : nullptr; }
+    static void* get_definition(const uint8_t id) { return id == 0 ? static_cast<void*>(&Definition_SPI0) : nullptr; }
 }
 
 extern "C" {
-void ISR_SPI0() {
-    if (auto *driver = SamV71_SPI_definition::optional_SPI0) {
+void ISR_SPI0()
+{
+    if (auto* driver = SamV71_SPI_definition::optional_SPI0)
+    {
         driver->ISR();
-    } else {
+    }
+    else
+    {
         NVIC_DisableIRQ(SPI0_IRQn);
     }
 }
 }
 
-namespace SamV71 {
+namespace SamV71
+{
     using namespace SamV71_SPI_definition;
 
-    SamV71_SPI::SamV71_SPI(const uint8_t id, Abstract::Abstract_IO_pin &chip_select)
-        : the_id(id), use_chip_select(chip_select), optional_definition(get_definition(id)) {
+    SamV71_SPI::SamV71_SPI(const uint8_t id, Abstract::Abstract_IO_pin& chip_select)
+        : the_id(id), use_chip_select(chip_select), optional_definition(get_definition(id))
+    {
         configASSERT(optional_definition != nullptr);
-        if (the_id == 0) {
+        if (the_id == 0)
+        {
             optional_SPI0 = this;
         }
     }
 
-    void SamV71_SPI::initialize() {
+    void SamV71_SPI::initialize()
+    {
         SamV71_clock::enable_peripheral_clock(SPI0_INSTANCE_ID);
         disable_SPI();
         setup_SPI_registers(SamV71_clock::get_frequency() / SPI_bitrate);
-        if (the_id == 0) {
+        if (the_id == 0)
+        {
             optional_SPI0 = this;
         }
         enable_SPI();
     }
 
-    void SamV71_SPI::ISR() {
-        if (optional_definition) {
-            auto *base = static_cast<Definition *>(optional_definition)->the_base;
+    void SamV71_SPI::ISR()
+    {
+        if (optional_definition)
+        {
+            auto* base = static_cast<Definition*>(optional_definition)->the_base;
             uint32_t context_switch{};
             uint32_t interrupt_mask = base->SPI_IMR;
-            if ((interrupt_mask & SPI_IMR_TDRE_Msk) && (base->SPI_SR & SPI_SR_TDRE_Msk)) {
+            if ((interrupt_mask & SPI_IMR_TDRE_Msk) && (base->SPI_SR & SPI_SR_TDRE_Msk))
+            {
                 uint8_t data;
-                if (ISR_TX_ready(&data, context_switch)) {
+                if (ISR_TX_ready(&data, context_switch))
+                {
                     base->SPI_TDR = SPI_TDR_TD(data);
-                } else {
+                }
+                else
+                {
                     base->SPI_IDR = SPI_IDR_TDRE(1);
                 }
             }
-            if ((interrupt_mask & SPI_IMR_RDRF_Msk) && (base->SPI_SR & SPI_SR_RDRF_Msk)) {
+            if ((interrupt_mask & SPI_IMR_RDRF_Msk) && (base->SPI_SR & SPI_SR_RDRF_Msk))
+            {
                 uint8_t data = SPI_RDR_RD_Msk & base->SPI_RDR;
-                if (ISR_RX_ready(data, context_switch)) {
-                } else {
+                if (ISR_RX_ready(data, context_switch))
+                {
+                }
+                else
+                {
                     base->SPI_IDR = SPI_IDR_RDRF(1);
                 }
             }
@@ -85,13 +112,17 @@ namespace SamV71 {
         }
     }
 
-    bool SamV71_SPI::ISR_RX_ready(const uint8_t data, uint32_t &context_switch) const {
-        if (optional_request) {
+    bool SamV71_SPI::ISR_RX_ready(const uint8_t data, uint32_t& context_switch) const
+    {
+        if (optional_request)
+        {
             const auto size = optional_request->get_transfer_size();
             const auto count = optional_request->get_transfer_count();
-            if (auto *buffer = optional_request->get_receive_buffer()) {
+            if (auto* buffer = optional_request->get_receive_buffer())
+            {
                 const bool is_more = count < size;
-                if (is_more) {
+                if (is_more)
+                {
                     *(buffer + count) = data;
                 }
                 return is_more;
@@ -100,30 +131,38 @@ namespace SamV71 {
         return false;
     }
 
-    bool SamV71_SPI::ISR_TX_ready(uint8_t *data, uint32_t &context_switch) const {
-        if (optional_request && data) {
+    bool SamV71_SPI::ISR_TX_ready(uint8_t* data, uint32_t& context_switch) const
+    {
+        if (optional_request && data)
+        {
             const auto size = optional_request->get_transfer_size();
             const auto count = optional_request->get_transfer_count();
-            if (auto *buffer = optional_request->get_transmit_buffer()) {
+            if (auto* buffer = optional_request->get_transmit_buffer())
+            {
                 const bool is_more = count < size;
-                if (is_more) {
+                if (is_more)
+                {
                     *data = *(buffer + count);
                 }
                 optional_request->increment_count();
                 return is_more;
             }
         }
-        if (data) {
+        if (data)
+        {
             *data = 0u;
         }
         return false;
     }
 
-    bool SamV71_SPI::ISR_check_progress(uint32_t &context_switch) {
-        if (optional_request) {
+    bool SamV71_SPI::ISR_check_progress(uint32_t& context_switch)
+    {
+        if (optional_request)
+        {
             auto size = optional_request->get_transfer_size();
             auto count = optional_request->get_transfer_count();
-            if (count >= size) {
+            if (count >= size)
+            {
                 unselect_chip();
                 disable_SPI();
                 ISR_transfer_complete(context_switch);
@@ -135,64 +174,81 @@ namespace SamV71 {
         return false;
     }
 
-    void SamV71_SPI::ISR_transfer_complete(uint32_t &context_switch) const {
-        if (optional_request) {
-            if (auto *semaphore = optional_request->get_semaphore()) {
+    void SamV71_SPI::ISR_transfer_complete(uint32_t& context_switch) const
+    {
+        if (optional_request)
+        {
+            if (auto* semaphore = optional_request->get_semaphore())
+            {
                 semaphore->ISR_give(context_switch);
             }
         }
     }
 
-    void SamV71_SPI::pending_transaction() {
-        if (is_ready()) {
-            Abstract::Abstract_request *request{};
-            if (the_queue.receive(&request)) {
-                optional_request = static_cast<Generic::Transfer_request *>(request);
+    void SamV71_SPI::pending_transaction()
+    {
+        if (is_ready())
+        {
+            Abstract::Abstract_request* request{};
+            if (the_queue.receive(&request))
+            {
+                optional_request = static_cast<Generic::Transfer_request*>(request);
                 select_chip();
                 enable_SPI();
             }
         }
     }
 
-    void SamV71_SPI::ISR_pending_transaction(uint32_t &context_switch) {
-        if (is_ready()) {
-            Abstract::Abstract_request *request{};
-            if (the_queue.ISR_receive(&request, context_switch)) {
-                optional_request = static_cast<Generic::Transfer_request *>(request);
+    void SamV71_SPI::ISR_pending_transaction(uint32_t& context_switch)
+    {
+        if (is_ready())
+        {
+            Abstract::Abstract_request* request{};
+            if (the_queue.ISR_receive(&request, context_switch))
+            {
+                optional_request = static_cast<Generic::Transfer_request*>(request);
                 select_chip();
                 enable_SPI();
             }
         }
     }
 
-    void SamV71_SPI::setup_SPI_registers(const uint32_t bitrate_divider) const {
-        if (optional_definition) {
-            auto *base = static_cast<Definition *>(optional_definition)->the_base;
+    void SamV71_SPI::setup_SPI_registers(const uint32_t bitrate_divider) const
+    {
+        if (optional_definition)
+        {
+            auto* base = static_cast<Definition*>(optional_definition)->the_base;
             base->SPI_CSR[0] =
-                    SPI_CSR_SCBR(bitrate_divider) |
-                    SPI_CSR_NCPHA(1) |  // Clock phase
-                    SPI_CSR_DLYBS(0u) | // Delay before select
-                    SPI_CSR_DLYBCT(0u); // Delay between consecutive transfers
+                SPI_CSR_SCBR(bitrate_divider) |
+                SPI_CSR_NCPHA(1) | // Clock phase
+                SPI_CSR_DLYBS(0u) | // Delay before select
+                SPI_CSR_DLYBCT(0u); // Delay between consecutive transfers
             base->SPI_MR = SPI_MR_MSTR(1);
         }
     }
 
-    void SamV71_SPI::enable_SPI() const {
-        if (optional_definition) {
-            auto *base = static_cast<Definition *>(optional_definition)->the_base;
-            auto irq_number = static_cast<Definition *>(optional_definition)->the_irq_number;
+    void SamV71_SPI::enable_SPI() const
+    {
+        if (optional_definition)
+        {
+            auto* base = static_cast<Definition*>(optional_definition)->the_base;
+            const auto irq_number = static_cast<Definition*>(optional_definition)->the_IRQ_number;
+            const auto priority = static_cast<Definition*>(optional_definition)->the_IRQ_priority;
             base->SPI_CR |= SPI_CR_SPIEN(1);
             NVIC_DisableIRQ(irq_number);
+            NVIC_SetPriority(irq_number, priority);
             base->SPI_IER = SPI_IER_RDRF(1) | SPI_IER_TDRE(1);
             NVIC_ClearPendingIRQ(irq_number);
             NVIC_EnableIRQ(irq_number);
         }
     }
 
-    void SamV71_SPI::disable_SPI() const {
-        if (optional_definition) {
-            auto *base = static_cast<Definition *>(optional_definition)->the_base;
-            auto irq_number = static_cast<Definition *>(optional_definition)->the_irq_number;
+    void SamV71_SPI::disable_SPI() const
+    {
+        if (optional_definition)
+        {
+            auto* base = static_cast<Definition*>(optional_definition)->the_base;
+            auto irq_number = static_cast<Definition*>(optional_definition)->the_IRQ_number;
             NVIC_DisableIRQ(irq_number);
             base->SPI_IDR = (
                 SPI_IDR_RDRF(1) |
@@ -207,11 +263,14 @@ namespace SamV71 {
         }
     }
 
-    bool SamV71_SPI::transfer(Abstract::Abstract_request *request) {
+    bool SamV71_SPI::transfer(Abstract::Abstract_request* request)
+    {
         bool success{};
-        auto *semaphore = request->get_semaphore();
-        if (request && semaphore) {
-            if (the_queue.send(request)) {
+        auto* semaphore = request->get_semaphore();
+        if (request && semaphore)
+        {
+            if (the_queue.send(request))
+            {
                 pending_transaction();
                 semaphore->take();
                 success = true;
