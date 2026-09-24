@@ -32,23 +32,23 @@ export namespace SamV71 {
 
         [[nodiscard]] bool ISR_RX_ready(uint8_t data, bool &context_switch) const;
 
-        [[nodiscard]] bool ISR_TX_ready(uint8_t *data,bool &context_switch) const;
+        [[nodiscard]] bool ISR_TX_ready(uint8_t *data, bool &context_switch) const;
 
     public:
         SamV71_SPI(uint8_t id, Abstract::Abstract_IO_pin &chip_select);
 
         void initialize() override;
 
+        bool transfer(Abstract::Abstract_request *request) override;
+
+    private:
+        void pending_transaction();
+
         void setup_SPI_registers(uint32_t bitrate_divider) const;
 
         void enable_SPI() const;
 
         void disable_SPI() const;
-
-        bool transfer(Abstract::Abstract_request *request) override;
-
-    private:
-        void pending_transaction();
 
         [[nodiscard]] bool is_ready() const {
             return !optional_request;
