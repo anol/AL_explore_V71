@@ -11,7 +11,7 @@ import Type.Abstract_provider;
 import Type.Abstract_service;
 import Type.Abstract_UART;
 
-namespace Console
+namespace Support
 {
     export class Console_service : public Abstract::Abstract_service
     {
@@ -27,4 +27,4 @@ namespace Console
 
         void initialize() override;
     };
-} // Console
+} // Support

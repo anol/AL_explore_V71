@@ -15,15 +15,20 @@ import Support.Instruction_major;
 import Type.Abstract_provider;
 import Type.Abstract_UART;
 
-namespace Console
-{
-    class Console_receive_task : public FreeRTOS::FreeRTOS_task
-    {
-        enum { Queue_size = 16, Command_buffer_size = 100, Priority = Default_priority, Stack_size = 4096 * 2 };
+#include "Target_config.h"
+
+namespace Support {
+    class Console_receive_task : public FreeRTOS::FreeRTOS_task {
+        enum {
+            Priority            = Target_config::Console_receive_task_priority,
+            Stack_size          = Target_config::Console_receive_task_stack_size,
+            Queue_size          = Target_config::Console_receive_task_queue_size,
+            Command_buffer_size = Target_config::Console_receive_task_buffer_size,
+        };
 
         using Command_queue = Ringbuffer<Instruction_major, Queue_size>;
-        Abstract::Abstract_UART& use_console;
-        Abstract::Abstract_provider<Instruction_major>& use_router;
+        Abstract::Abstract_UART &use_console;
+        Abstract::Abstract_provider<Instruction_major> &use_router;
         Instruction::CLI_parser the_parser;
         Command_queue the_queue{};
         int escape_received{};
@@ -34,15 +39,13 @@ namespace Console
         bool the_echo_flag{};
 
     public:
-        Console_receive_task(Abstract::Abstract_UART& UART, Abstract::Abstract_provider<Instruction_major>& router,
-                              Instruction::Abstract_command_table& command_table)
+        Console_receive_task(Abstract::Abstract_UART &UART, Abstract::Abstract_provider<Instruction_major> &router,
+                             Instruction::Abstract_command_table &command_table)
             : FreeRTOS_task("Console receive", Priority, Stack_size), use_console(UART), use_router(router),
-              the_parser(command_table.get_commands())
-        {
+              the_parser(command_table.get_commands()) {
         }
 
-        void initialize() override
-        {
+        void initialize() override {
         }
 
         void set_echo(bool echo) { the_echo_flag = echo; };
@@ -50,7 +53,7 @@ namespace Console
         void task_loop() override;
 
     private:
-        Status_code get_command(Instruction_major& instruction);
+        Status_code get_command(Instruction_major &instruction);
 
         void on_data(uint8_t data);
 
@@ -58,4 +61,4 @@ namespace Console
 
         [[nodiscard]] bool is_echo() const { return the_echo_flag; }
     };
-} // Console
+} // Support

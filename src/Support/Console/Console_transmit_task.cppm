@@ -7,10 +7,17 @@ module;
 module Support.Console_service:Console_transmit_task;
 import Platform.FreeRTOS_task;
 
-namespace Console {
+#include "Target_config.h"
+
+namespace Support {
     class Console_transmit_task : public FreeRTOS::FreeRTOS_task {
+        enum {
+            Priority            = Target_config::Console_transmit_task_priority,
+            Stack_size          = Target_config::Console_transmit_task_stack_size,
+         };
+
     public:
-        Console_transmit_task() : FreeRTOS_task("Console transmit") {
+        Console_transmit_task() : FreeRTOS_task("Console transmit", Priority, Stack_size) {
         }
 
         void initialize() override {
@@ -18,4 +25,4 @@ namespace Console {
 
         void task_loop() override;
     };
-} // Console
+} // Support

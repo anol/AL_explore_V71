@@ -13,7 +13,7 @@ module Support.Console_service;
 import Support.Instruction_major;
 import Type.Abstract_task;
 
-namespace Console
+namespace Support
 {
     void Console_receive_task::task_loop()
     {
@@ -154,4 +154,4 @@ namespace Console
         }
         return complete;
     }
-} // Console
+} // Support

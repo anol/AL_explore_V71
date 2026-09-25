@@ -9,4 +9,24 @@
 #define IDEAS_PRODUCT_ID "@APP@"
 #define ARCH_NAME "@ARCH_NAME@"
 
+namespace Target_config{
+    enum{
+        Default_priority = 1,
+        Default_stack_size = 256,
+        //
+        Heartbeat_task_priority = Default_priority,
+        Heartbeat_task_stack_size = Default_stack_size,
+        //
+        Console_transmit_task_priority = Default_priority,
+        Console_transmit_task_stack_size = Default_stack_size,
+        //
+        Console_receive_task_priority = 2,
+        Console_receive_task_stack_size = Default_stack_size,
+        Console_receive_task_queue_size = 16,
+        Console_receive_task_buffer_size = 128,
+        //
+        Primary_task_priority = Default_priority,
+        Primary_task_stack_size = Default_stack_size,
+    };
+}
 #endif // TARGET_CONFIG_H
