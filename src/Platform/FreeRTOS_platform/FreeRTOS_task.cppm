@@ -26,7 +26,7 @@ export namespace FreeRTOS {
 
         virtual void task_loop() = 0;
 
-        static void run() {
+        static void start_scheduler() {
             vTaskStartScheduler();
         }
 

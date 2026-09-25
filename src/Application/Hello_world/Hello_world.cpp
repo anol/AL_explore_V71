@@ -5,21 +5,23 @@
 module;
 
 module Application.Hello_world;
-import Component.Histogram_storage;
-import Component.IDE3380_interface;
+
 import Component.Event_counter;
-import Component.Bias_calibration;
-import Type.Abstract_application;
-import Type.Abstract_board;
 import Application.Cadence_control;
-import Application.Default_configuration;
-import Application.Request_router;
-import Support.Configuration_repository;
-import Support.Mockup_persistent_storage;
 import Support.Console_service;
-import Domain.IO_pins;
-import Application.Housekeeping_provider;
 import Platform.FreeRTOS_task;
+
+//import Component.Histogram_storage;
+//import Component.IDE3380_interface;
+//import Component.Bias_calibration;
+//import Type.Abstract_application;
+//import Type.Abstract_board;
+//import Application.Default_configuration;
+//import Application.Request_router;
+//import Support.Configuration_repository;
+//import Support.Mockup_persistent_storage;
+//import Domain.IO_pins;
+//import Application.Housekeeping_provider;
 
 using namespace IDE3380;
 
@@ -38,7 +40,7 @@ namespace Application
 
     void Hello_world::run()
     {
-        FreeRTOS::FreeRTOS_task::run();
+        FreeRTOS::FreeRTOS_task::start_scheduler();
     }
 
 }
