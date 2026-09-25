@@ -13,6 +13,8 @@ import Type.Abstract_IO_pin;
 import Type.Status_code;
 import Platform.SamV71_clock;
 
+#include "FreeRTOS.h"
+
 namespace SamV71
 {
     static pio_registers_t* const pio_of_port[] = {PIOA_REGS, PIOB_REGS, PIOC_REGS, PIOD_REGS, PIOE_REGS};
@@ -32,6 +34,7 @@ namespace SamV71
           the_strength(strength),
           the_default_state(default_state)
     {
+        configASSERT(optional_base != nullptr);
     }
 
     Status_code SamV71_IO_pin::initialize(const uint8_t id, const Pin_phase phase)

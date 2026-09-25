@@ -76,11 +76,11 @@ namespace Application
         {
             instruction.print_trace(SpectraNode_interface::get_keyword);
         }
-        bool executed = the_mode_control.on_indication(instruction);
-        if (!executed) { executed = the_data_provider.on_indication(instruction); }
+        bool executed = use_mode_control.on_indication(instruction);
+        if (!executed) { executed = use_data_provider.on_indication(instruction); }
         if (!executed) { executed = the_instrument_calibration.on_indication(instruction); }
         if (!executed) { executed = the_configuration_manager.on_indication(instruction); }
-        if (!executed) { executed = the_housekeeper.on_indication(instruction); }
+        if (!executed) { executed = use_housekeeper.on_indication(instruction); }
         if (!executed)
         {
             printf("ERROR: NO_SUCH COMMAND, DIAG=%d.\r\n", (int)instruction.get_command_id());
@@ -98,13 +98,13 @@ namespace Application
         default:
             mode = Mode_idle;
         case Mode_idle:
-            the_mode_control.set_mode(mode, Channel_idle, Format_idle, Cadence_idle);
+            use_mode_control.set_mode(mode, Channel_idle, Format_idle, Cadence_idle);
             break;
         case Mode_nominal:
-            the_mode_control.set_mode(mode, Channel_nominal, Format_nominal, Cadence_nominal);
+            use_mode_control.set_mode(mode, Channel_nominal, Format_nominal, Cadence_nominal);
             break;
         case Mode_demo:
-            the_mode_control.set_mode(mode, Channel_demo, Format_demo, Cadence_demo);
+            use_mode_control.set_mode(mode, Channel_demo, Format_demo, Cadence_demo);
             break;
         }
         return success;
