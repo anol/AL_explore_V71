@@ -38,6 +38,8 @@ namespace Application {
     }
 
     void Primary_task::task_loop() {
+        enum { Start_delay_millis = 100, Delay_millis = 999 };
+        delay_until(Start_delay_millis);
         Housekeeping_provider::print_version();
         use_repository.initialize();
         auto success = use_repository.load();
@@ -51,7 +53,6 @@ namespace Application {
         if (success.failed()) {
             printf("<> Failed to update bias setpoints <>\r\n");
         }
-        enum { Delay_millis = 999 };
         while (true) {
             delay_until(Delay_millis);
         }

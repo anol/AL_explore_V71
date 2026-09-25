@@ -21,7 +21,7 @@ namespace Target_config{
         Console_transmit_task_stack_size = Default_stack_size,
         //
         Console_receive_task_priority = 2,
-        Console_receive_task_stack_size = Default_stack_size,
+        Console_receive_task_stack_size = 1024,
         Console_receive_task_queue_size = 16,
         Console_receive_task_buffer_size = 128,
         //

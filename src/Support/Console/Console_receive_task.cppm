@@ -41,7 +41,7 @@ namespace Support {
     public:
         Console_receive_task(Abstract::Abstract_UART &UART, Abstract::Abstract_provider<Instruction_major> &router,
                              Instruction::Abstract_command_table &command_table)
-            : FreeRTOS_task("Console receive", Priority, Stack_size), use_console(UART), use_router(router),
+            : FreeRTOS_task("Console receiver", Priority, Stack_size), use_console(UART), use_router(router),
               the_parser(command_table.get_commands()) {
         }
 

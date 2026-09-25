@@ -17,7 +17,7 @@ namespace Support {
          };
 
     public:
-        Console_transmit_task() : FreeRTOS_task("Console transmit", Priority, Stack_size) {
+        Console_transmit_task() : FreeRTOS_task("Console transmitter", Priority, Stack_size) {
         }
 
         void initialize() override {

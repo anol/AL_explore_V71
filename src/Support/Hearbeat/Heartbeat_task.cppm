@@ -21,7 +21,7 @@ namespace Support {
 
     public:
         Heartbeat_task(Abstract_IO_pin &A, Abstract_IO_pin &B)
-            : FreeRTOS_task("Console receive", Priority, Stack_size),
+            : FreeRTOS_task("Heartbeat task", Priority, Stack_size),
               use_pin_A(A), use_pin_B(B) {
         };
 
