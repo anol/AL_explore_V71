@@ -96,6 +96,7 @@ void Housekeeping_provider::v_DIAG(Instruction_major& instruction)
 void Housekeeping_provider::v_TEST(Instruction_major&)
 {
     printf("Test_utility_provider::v_TEST:\r\n");
+    use_board.print_diagnostics();
 }
 
 void Housekeeping_provider::v_HELP(Instruction_major& instruction)

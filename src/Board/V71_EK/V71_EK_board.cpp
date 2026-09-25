@@ -35,6 +35,6 @@ namespace Board
 
     void V71_EK_board::print_diagnostics()
     {
-        // the_pin_table.print_diagnostics();
+        the_pin_table.print_diagnostics();
     }
 } // Board

@@ -24,7 +24,7 @@ export namespace Board
     {
         SamV71_clock the_clock{};
         V71_EK_pin_table the_pin_table{};
-        SamV71_SPI the_SPI{0, the_pin_table.get_pin(Domain::Pin_SPI_CS_ASIC2)};
+        SamV71_SPI the_SPI{0, the_pin_table.get_pin(Domain::Pin_FPGA_CS_N)};
         SamV71_USART the_UART{1};
         Platform::Common_stdio the_console{&the_UART};
 

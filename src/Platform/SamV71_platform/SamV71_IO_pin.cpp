@@ -1,5 +1,3 @@
-
-
 module;
 #include <cstdint>
 #include "sam.h"
@@ -215,7 +213,15 @@ namespace SamV71
 
     void SamV71_IO_pin::print_diagnostics() const
     {
-        printf("Port %d, pin %d, type %d, %s\r\n", the_port, the_pin, the_type, the_name);
+        if (the_mode)
+        {
+            printf("Pin %d.%d, mode %d, %s\r\n", the_port, the_pin, the_mode, the_name);
+        }
+        else
+        {
+            printf("Pin %d.%d, type %d, %s=%d\r\n",
+                   the_port, the_pin, the_type, the_name, get() ? 1 : 0);
+        }
     }
 
     void SamV71_IO_pin::initialize_clocks()

@@ -37,16 +37,17 @@ import Application.Mode_control_provider;
 import Application.Spectroscopic_data_provider;
 import Support.Configuration_repository;
 import Support.Instruction_major;
+import Type.Abstract_board;
 
 using namespace IDE3380;
 
 using namespace SpectraNode_interface;
 
 
-
 export class Housekeeping_provider : public Abstract_Housekeeping_provider
 {
     Instruction::CLI_help the_help{Key_HELP, get_commands(), get_keyword};
+    Abstract::Abstract_board& use_board;
     Application::Histogram_storage& use_histogram;
     IDE3380::IDE3380_interface& use_IDE3380;
     Calibration::Bias_calibration& use_bias;
@@ -57,13 +58,15 @@ export class Housekeeping_provider : public Abstract_Housekeeping_provider
     static bool the_trace_flag;
 
 public:
-    Housekeeping_provider(Application::Histogram_storage& histogram,
+    Housekeeping_provider(Abstract::Abstract_board& board, Application::Histogram_storage& histogram,
                           IDE3380::IDE3380_interface& ASIC, Calibration::Bias_calibration& bias,
                           Repository::Configuration_repository& repository,
                           Application::Cadence_control& cadence,
                           Spectroscopic_data_provider& data_provider,
                           Mode_control_provider& mode_control)
-        : use_histogram(histogram), use_IDE3380(ASIC),
+        : use_board(board),
+          use_histogram(histogram),
+          use_IDE3380(ASIC),
           use_bias(bias),
           use_repository(repository),
           use_cadence(cadence),

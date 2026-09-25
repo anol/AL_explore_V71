@@ -58,10 +58,7 @@ export namespace Application
         Spectroscopic_data_provider the_data_provider{
             the_histogram, the_repository, the_cadence_control, the_IDE3380
         };
-        Housekeeping_provider the_housekeeper{
-            the_histogram, the_IDE3380, the_bias, the_repository, the_cadence_control, the_data_provider,
-            the_mode_control
-        };
+        Housekeeping_provider the_housekeeper;
         Request_router the_command_handler{
             the_histogram, the_event_counter, the_IDE3380, the_bias, the_repository, the_cadence_control,
             the_housekeeper, the_mode_control, the_data_provider
@@ -75,7 +72,12 @@ export namespace Application
         uint32_t the_background_count{};
 
     public:
-        explicit Hello_world(Abstract::Abstract_board& board) : use_board(board), the_IDE3380(board)
+        explicit Hello_world(Abstract::Abstract_board& board)
+            : use_board(board), the_IDE3380(board),
+              the_housekeeper(board,
+                              the_histogram, the_IDE3380, the_bias, the_repository,
+                              the_cadence_control, the_data_provider, the_mode_control
+              )
         {
         }
 
