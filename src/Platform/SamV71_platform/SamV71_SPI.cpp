@@ -223,7 +223,7 @@ namespace SamV71
                 SPI_CSR_NCPHA(1) | // Clock phase
                 SPI_CSR_DLYBS(0u) | // Delay before select
                 SPI_CSR_DLYBCT(0u); // Delay between consecutive transfers
-            base->SPI_MR = SPI_MR_MSTR(1);
+            base->SPI_MR = SPI_MR_MSTR(1) | SPI_MR_MODFDIS(1);
         }
     }
 
