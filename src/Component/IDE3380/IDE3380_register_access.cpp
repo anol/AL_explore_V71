@@ -98,7 +98,7 @@ namespace IDE3380 {
     uint32_t IDE3380_register_access::SPI_write_register(uint8_t register_address, uint32_t data) {
         uint32_t register_value{};
         if (register_address < IDE3380_register_count) {
-            FreeRTOS::FreeRTOS_semaphore semaphore{};
+ static           FreeRTOS::FreeRTOS_semaphore semaphore{};
  static           Generic::Transfer_request    request{CS_ASIC1, IDE3380_data_width, &semaphore};
  static           uint8_t                      data_tx[IDE3380_data_length]{};
  static           uint8_t                      data_rx[IDE3380_data_length]{};
@@ -120,7 +120,7 @@ namespace IDE3380 {
     uint32_t IDE3380_register_access::SPI_read_register(uint8_t register_address) {
         uint32_t register_value{};
         if (register_address < IDE3380_register_count) {
-            FreeRTOS::FreeRTOS_semaphore semaphore{};
+   static         FreeRTOS::FreeRTOS_semaphore semaphore{};
    static         Generic::Transfer_request    request{CS_ASIC1, IDE3380_data_width, &semaphore};
    static         uint8_t                      data_tx[IDE3380_data_length]{};
    static         uint8_t                      data_rx[IDE3380_data_length]{};

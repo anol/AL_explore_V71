@@ -266,14 +266,16 @@ namespace SamV71
     bool SamV71_SPI::transfer(Abstract::Abstract_request* request)
     {
         bool success{};
-        auto* semaphore = request->get_semaphore();
-        if (request && semaphore)
+        if (request)
         {
-            if (the_queue.send(request))
+            if (auto* semaphore = request->get_semaphore())
             {
-                pending_transaction();
-                semaphore->take();
-                success = true;
+                if (the_queue.send(request))
+                {
+                    pending_transaction();
+                    semaphore->take();
+                    success = true;
+                }
             }
         }
         return success;
