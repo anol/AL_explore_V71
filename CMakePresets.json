@@ -62,10 +62,10 @@
       }
     },
     {
-      "name": "V71_hello_world",
+      "name": "V71_EK_hello_world",
       "inherits": "base",
-      "displayName": "V71_hello_world",
-      "description": "V71_hello_world",
+      "displayName": "V71_EK_hello_world",
+      "description": "V71_EK_hello_world",
       "cacheVariables": {
         "APP": "Hello_world",
         "TARGET": "V71_EK_hello_world",
@@ -103,8 +103,8 @@
       "configurePreset": "Win_ethernet_test"
     },
     {
-      "name": "V71_hello_world",
-      "configurePreset": "V71_ethernet_test"
+      "name": "V71_EK_hello_world",
+      "configurePreset": "V71_EK_hello_world"
     },
     {
       "name": "V71_ethernet_test",
