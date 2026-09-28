@@ -24,8 +24,8 @@ export namespace IDE3380 {
         Abstract::Abstract_board &use_board;
         IDE3380_register_access   the_register_access;
         IDE3380_readout_control   the_readout_control{};
-        uint32_t                  the_load_error{};
-        uint32_t                  the_get_error{};
+        uint32_t                  the_readback_error{};
+        uint32_t                  the_repository_error{};
         bool                      the_enable_external_hold{};
         bool                      the_raise_external_hold{};
 

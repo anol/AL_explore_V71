@@ -149,7 +149,7 @@ namespace SamV71
 
     void SamV71_SPI::ISR_check_progress(uint32_t& context_switch)
     {
-        if (optional_request && optional_request->is_more_to_receive())
+        if (optional_request && !optional_request->is_more_to_receive())
         {
             ISR_transfer_complete(context_switch);
             ISR_pending_transaction(context_switch);
@@ -205,9 +205,10 @@ namespace SamV71
             auto* base = static_cast<Definition*>(optional_definition)->the_base;
             base->SPI_CSR[0] =
                 SPI_CSR_SCBR(bitrate_divider) |
+                SPI_CSR_CPOL(1) | // Clock polarity
                 SPI_CSR_NCPHA(1) | // Clock phase
-                SPI_CSR_DLYBS(0u) | // Delay before select
-                SPI_CSR_DLYBCT(0u); // Delay between consecutive transfers
+                SPI_CSR_DLYBS(0) | // Delay before select
+                SPI_CSR_DLYBCT(0); // Delay between consecutive transfers
             base->SPI_MR = SPI_MR_MSTR(1) | SPI_MR_MODFDIS(1);
         }
     }

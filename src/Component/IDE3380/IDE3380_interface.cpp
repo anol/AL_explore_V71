@@ -42,12 +42,14 @@ volatile uint8_t software_reset = 0;
 //     }
 // }
 
-namespace IDE3380 {
-    void *IDE3380_interface::optional_IDE3380_user{};
+namespace IDE3380
+{
+    void* IDE3380_interface::optional_IDE3380_user{};
     wakeup_func IDE3380_interface::optional_user_wakeup_func{};
-    IDE3380_readout_control *IDE3380_interface::optional_readout_controller{};
+    IDE3380_readout_control* IDE3380_interface::optional_readout_controller{};
 
-    void IDE3380_interface::initialize(void *user, const wakeup_func wakeup, const readout_func readout) {
+    void IDE3380_interface::initialize(void* user, const wakeup_func wakeup, const readout_func readout)
+    {
         optional_IDE3380_user = user;
         optional_user_wakeup_func = wakeup;
         optional_readout_controller = &the_readout_control;
@@ -55,55 +57,75 @@ namespace IDE3380 {
         the_register_access.initialize();
     }
 
-    void IDE3380_interface::dump(const char *title) {
+    void IDE3380_interface::dump(const char* title)
+    {
         printf("%s\r\n", title);
         the_register_access.dump();
     }
 
-    void IDE3380_interface::print_diag() {
-        printf("ASIC: get_err=%d, load_err=%d\r\n", the_get_error, the_load_error);
+    void IDE3380_interface::print_diag()
+    {
+        printf("ASIC: get_err=%d, load_err=%d\r\n", the_repository_error, the_readback_error);
         the_readout_control.print_diag();
         the_register_access.print_diag();
     }
 
-    void IDE3380_interface::enable_external_hold() {
+    void IDE3380_interface::enable_external_hold()
+    {
         the_register_access.SPI_update_register(IDE3380_readout_mode_reg, IDE3380_write_read, Enable_external_hold);
         the_enable_external_hold = true;
     }
 
-    void IDE3380_interface::disable_external_hold() {
+    void IDE3380_interface::disable_external_hold()
+    {
         the_register_access.SPI_update_register(IDE3380_readout_mode_reg, IDE3380_write_read, Disable_external_hold);
         the_enable_external_hold = false;
     }
 
-    void IDE3380_interface::raise_external_hold() {
+    void IDE3380_interface::raise_external_hold()
+    {
         // HAL_GPIO_WritePin(IDE3380_HOLD_GPIO_Port, IDE3380_HOLD_Pin, GPIO_PIN_SET);
         the_raise_external_hold = true;
     }
 
-    void IDE3380_interface::cease_external_hold() {
+    void IDE3380_interface::cease_external_hold()
+    {
         // HAL_GPIO_WritePin(IDE3380_HOLD_GPIO_Port, IDE3380_HOLD_Pin, GPIO_PIN_RESET);
         the_raise_external_hold = false;
     }
 
-    Status_code IDE3380_interface::update_registers(Repository::Configuration_repository &repository,
-                                                    const uint32_t base_id) {
+    Status_code IDE3380_interface::update_registers(Repository::Configuration_repository& repository,
+                                                    const uint32_t base_id)
+    {
         auto success{true};
-        for (uint8_t address = IDE3380_channel_1_reg; address <= IDE3380_sysclock_control_reg; address++) {
+        for (uint8_t address = IDE3380_channel_1_reg; address <= IDE3380_sysclock_control_reg; address++)
+        {
             const auto id = base_id + address;
-            if (int32_t value; repository.get(id, value).success()) {
-                if (value != static_cast<int32_t>(
-                        the_register_access.SPI_update_register(address, IDE3380_write_read, value))) {
-                    success = false;
-                    the_load_error++;
+            if (int32_t value; repository.get(id, value).success())
+            {
+                const auto readback = static_cast<int32_t>(
+                    the_register_access.SPI_update_register(address, IDE3380_write_read, value));
+                if (value != readback)
+                {
+                    if (success)
+                    {
+                        success = false;
+                        printf("<> IDE3380 readback error. Diag: expected=0x%08X, actual=0x%08X .....\r\n",
+                               value, readback);
+                    }
+                    the_readback_error++;
                 }
-            } else {
+            }
+            else
+            {
                 success = false;
-                the_get_error++;
+                the_repository_error++;
             }
         }
-        if (!success) {
-            printf("<> IDE3380 update registers failed. Error accum.: load=%d, get=%d <>\r\n", the_load_error, the_get_error);
+        if (!success)
+        {
+            printf("<> IDE3380 update registers failed. Error accum.: readback=%d, repository=%d <>\r\n",
+                   the_readback_error, the_repository_error);
         }
         return Status_code(success);
     }

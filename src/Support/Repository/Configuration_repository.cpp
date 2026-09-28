@@ -38,8 +38,7 @@ namespace Repository {
         the_current_config.clean();
         for (uint32_t index = 0; index < use_default_config.get_count(); index++) {
             auto &attribute = use_default_config.get_attribute(index);
-            auto *name = attribute.get_name();
-            if (name) {
+            if (auto *name = attribute.get_name()) {
                 if (!the_current_config.define_attribute(
                     attribute.get_id(), name, State_default, attribute.get_value()).success()) {
                     success = false;
@@ -55,7 +54,7 @@ namespace Repository {
     }
 
     Status_code Configuration_repository::clean() {
-        auto success = use_store.clean();
+        const auto success = use_store.clean();
         initialize();
         return success;
     }

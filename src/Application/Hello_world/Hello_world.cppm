@@ -32,10 +32,6 @@ import Application.Spectroscopic_data_provider;
 
 using namespace IDE3380;
 
-
-// #include "Component/MCU/STM32U575RG/U575xG_embedded_flash.h"
-// #include "Component/MCU/STM32U575RG/U575xG_persistent_storage.h"
-
 export namespace Application
 {
     class Hello_world : public Abstract::Abstract_application
