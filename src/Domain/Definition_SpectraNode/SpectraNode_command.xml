@@ -127,7 +127,7 @@ Copyright (C) 2026 Integrated Detector Electronics AS
                     <arg integer="data32" brief="Set configuration attribute value."/>
                 </arg>
             </arg>
-            <arg key="ASIC">
+            <arg key="ASIC" brief="Show current ASIC selection.">
                 <arg integer="asic_nbr" brief="Select ASIC 1-5."/>
                 <arg key="REG">
                     <arg integer="reg_addr" brief="Read the ASIC register.">
