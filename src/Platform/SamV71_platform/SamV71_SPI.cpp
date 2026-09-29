@@ -189,8 +189,8 @@ namespace SamV71 {
             Abstract::Abstract_request *request{};
             if (the_queue.ISR_receive(&request, context_switch)) {
                 optional_request = static_cast<Generic::SPI_transfer_request *>(request);
-                enable_SPI();
                 optional_request->get_chip_select().clear();
+                enable_SPI();
             }
         }
     }
@@ -200,8 +200,8 @@ namespace SamV71 {
             Abstract::Abstract_request *request{};
             if (the_queue.receive(&request)) {
                 optional_request = static_cast<Generic::SPI_transfer_request *>(request);
-                enable_SPI();
                 optional_request->get_chip_select().clear();
+                enable_SPI();
             }
         }
     }

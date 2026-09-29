@@ -14,11 +14,11 @@ export namespace SamV71 {
     class SamV71_SPI : public Abstract::Abstract_SPI {
         enum {
             Queue_size             = 64,
-            SPI_CR_clock_polarity  = SPI_CSR_CPOL(1),
+            SPI_CR_clock_polarity  = SPI_CSR_CPOL(0),
             SPI_CR_clock_phase     = SPI_CSR_NCPHA(1),
             SPI_MR_host_mode       = SPI_MR_MSTR(1),
             SPI_MR_fault_detection = SPI_MR_MODFDIS(1),
-            SPI_bitrate            = 100'000,
+            SPI_bitrate            = 2'000'000,
         };
 
         const uint8_t the_id;
