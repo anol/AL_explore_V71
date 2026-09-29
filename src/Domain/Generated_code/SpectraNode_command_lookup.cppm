@@ -63,6 +63,7 @@ export namespace SpectraNode_interface{
         Cmd_ASIC_LOAD,
         Cmd_ASIC_REG_reg_addr_data32,
         Cmd_ASIC_REG_reg_addr,
+        Cmd_ASIC,
         Cmd_CONFIG_offset_data32,
         Cmd_CONFIG_offset,
         Cmd_CONFIG_APPLY,

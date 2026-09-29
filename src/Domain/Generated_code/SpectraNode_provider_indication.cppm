@@ -141,12 +141,14 @@ export namespace SpectraNode_interface {
         virtual void v_ASIC_LOAD(Instruction_major &) = 0;
         virtual void v_ASIC_REG_reg_addr_data32(Instruction_major &, int reg_addr_2, int data32_3) = 0;
         virtual void v_ASIC_REG_reg_addr(Instruction_major &, int reg_addr_2) = 0;
+        virtual void v_ASIC(Instruction_major &) = 0;
     public:
         void p_ASIC_asic_nbr(Instruction_major &);
         void p_ASIC_DUMP(Instruction_major &);
         void p_ASIC_LOAD(Instruction_major &);
         void p_ASIC_REG_reg_addr_data32(Instruction_major &);
         void p_ASIC_REG_reg_addr(Instruction_major &);
+        void p_ASIC(Instruction_major &);
         void p_CONFIG_offset_data32(Instruction_major &);
         void p_CONFIG_offset(Instruction_major &);
         void p_CONFIG_APPLY(Instruction_major &);

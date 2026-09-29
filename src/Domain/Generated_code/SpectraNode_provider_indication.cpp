@@ -211,6 +211,7 @@ template<> const Abstract_Configuration_manager_provider::Lookup_table::Instruct
     {&Abstract_Configuration_manager_provider::p_ASIC_LOAD, Cmd_ASIC_LOAD},
     {&Abstract_Configuration_manager_provider::p_ASIC_REG_reg_addr_data32, Cmd_ASIC_REG_reg_addr_data32},
     {&Abstract_Configuration_manager_provider::p_ASIC_REG_reg_addr, Cmd_ASIC_REG_reg_addr},
+    {&Abstract_Configuration_manager_provider::p_ASIC, Cmd_ASIC},
     {&Abstract_Configuration_manager_provider::p_CONFIG_offset_data32, Cmd_CONFIG_offset_data32},
     {&Abstract_Configuration_manager_provider::p_CONFIG_offset, Cmd_CONFIG_offset},
     {&Abstract_Configuration_manager_provider::p_CONFIG_APPLY, Cmd_CONFIG_APPLY},
@@ -294,6 +295,10 @@ namespace SpectraNode_interface{
     void Abstract_Configuration_manager_provider::p_ASIC_REG_reg_addr(Instruction_major &transaction){
         int reg_addr_2{transaction.get_token_integer(2)};
         v_ASIC_REG_reg_addr(transaction, reg_addr_2);
+    }
+            
+    void Abstract_Configuration_manager_provider::p_ASIC(Instruction_major &transaction){
+        v_ASIC(transaction);
     }
             
 }

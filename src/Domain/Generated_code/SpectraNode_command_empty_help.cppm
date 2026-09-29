@@ -57,6 +57,7 @@ export namespace SpectraNode_interface{
     constexpr auto* help_ASIC_LOAD{""};
     constexpr auto* help_ASIC_REG_reg_addr_data32{""};
     constexpr auto* help_ASIC_REG_reg_addr{""};
+    constexpr auto* help_ASIC{""};
     constexpr auto* help_CONFIG_offset_data32{""};
     constexpr auto* help_CONFIG_offset{""};
     constexpr auto* help_CONFIG_APPLY{""};

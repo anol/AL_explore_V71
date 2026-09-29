@@ -57,6 +57,7 @@ export namespace SpectraNode_interface{
     constexpr auto* help_ASIC_LOAD{"Update all ASIC registers from current configuration."};
     constexpr auto* help_ASIC_REG_reg_addr_data32{"Write the ASIC register."};
     constexpr auto* help_ASIC_REG_reg_addr{"Read the ASIC register."};
+    constexpr auto* help_ASIC{"Show current ASIC selection."};
     constexpr auto* help_CONFIG_offset_data32{"Set configuration attribute value."};
     constexpr auto* help_CONFIG_offset{"Get configuration attribute value."};
     constexpr auto* help_CONFIG_APPLY{"Apply the current configuration."};

@@ -307,6 +307,7 @@ namespace SpectraNode_interface{
         {Keyword_token, "DUMP", Key_DUMP, (uint32_t)0, token_ASIC_DUMP},
         {Keyword_token, "LOAD", Key_LOAD, (uint32_t)0, token_ASIC_LOAD},
         {Keyword_token, "REG", Key_REG, (uint32_t)0, token_ASIC_REG},
+        {help_ASIC, Cmd_ASIC, Key_Configuration_manager},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 

@@ -97,12 +97,16 @@ void Configuration_manager_provider::v_CONFIG_LOAD(Instruction_major &instructio
     }
 }
 
+void Configuration_manager_provider::v_ASIC(Instruction_major &instruction) {
+    instruction.print_ack(use_IDE3380.get_register_access().get_ASIC());
+}
+
 void Configuration_manager_provider::v_ASIC_asic_nbr(Instruction_major &instruction, int asic_nbr_1) {
     asic_nbr_1--;
     if (use_IDE3380.get_register_access().set_ASIC(asic_nbr_1)) {
         instruction.print_ack(use_IDE3380.get_register_access().get_ASIC());
     } else {
-        instruction.print_nack(use_repository.get_diag_code());
+        instruction.print_nack(99);
     }
 }
 

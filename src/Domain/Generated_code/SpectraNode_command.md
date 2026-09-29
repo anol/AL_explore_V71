@@ -80,6 +80,7 @@ Date: 29.09.2026
 | `AT+ASIC_LOAD` | Update all ASIC registers from current configuration. |
 | `AT+ASIC_REG=<reg_addr(int 0..32)>,<data32(int 0..0x7FFFFFFF)>` | Write the ASIC register. |
 | `AT+ASIC_REG=<reg_addr(int 0..32)>` | Read the ASIC register. |
+| `AT+ASIC` | Show current ASIC selection. |
 | `AT+CONFIG_APPLY` | Apply the current configuration. |
 | `AT+CONFIG_ASIC=<asic_nbr(int 1..5)>,<reg_addr(int 0..32)>,<data32(int 0..0x7FFFFFFF)>` | Set the current configuration register value. |
 | `AT+CONFIG_ASIC=<asic_nbr(int 1..5)>,<reg_addr(int 0..32)>` | Get the current configuration register value. |

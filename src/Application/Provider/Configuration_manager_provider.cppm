@@ -67,6 +67,8 @@ protected:
 
     void v_CONFIG_ASIC_asic_nbr_reg_addr(Instruction_major &, int asic_nbr_2, int reg_addr_3) override;
 
+    void v_ASIC(Instruction_major &) override;
+
     void v_ASIC_asic_nbr(Instruction_major &, int asic_nbr_1) override;
 
     void v_ASIC_DUMP(Instruction_major &) override;
