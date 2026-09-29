@@ -47,8 +47,8 @@ export namespace SamV71
             {Tag::Pin_RMII_RXD1},
             {Tag::Pin_RMII_MDC},
             {Tag::Pin_RMII_MDIO},
-            {Tag::Pin_SPI_MISO, "SPI0_MISO", Pin::Start_up, Pin::Port_D, 20, Pin::Mode_B, Pin::Input_normal}, // 65
-            {Tag::Pin_SPI_MOSI, "SPI0_MOSI", Pin::Start_up, Pin::Port_D, 21, Pin::Mode_B, Pin::Out_normal}, // 63
+            {Tag::Pin_SPI_MISO, "SPI0_MISO", Pin::Start_up, Pin::Port_D, 20, Pin::Mode_B, Pin::Input_pull_up}, // 65
+            {Tag::Pin_SPI_MOSI, "SPI0_MOSI", Pin::Start_up, Pin::Port_D, 21, Pin::Mode_B, Pin::Input_pull_up}, // 63
             {Tag::Pin_SPI_SCK, "SPI0_SCK", Pin::Start_up, Pin::Port_D, 22, Pin::Mode_B, Pin::Out_normal}, // 60
             {Tag::Pin_EOUT_MON},
             {Tag::Pin_UART_RXD1, "USART1_RXD", Pin::Start_up, Pin::Port_A, 21, Pin::Mode_A, Pin::Input_normal}, // 32
