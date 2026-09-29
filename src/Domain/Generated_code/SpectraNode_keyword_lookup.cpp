@@ -36,6 +36,7 @@ namespace SpectraNode_interface {
         "ALARM", // Key_ALARM
         "APPLY", // Key_APPLY
         "ASIC", // Key_ASIC
+        "asic_nbr", // Key_asic_nbr
         "b", // Key_b
         "bias", // Key_bias
         "BIAS", // Key_BIAS

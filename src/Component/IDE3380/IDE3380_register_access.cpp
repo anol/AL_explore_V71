@@ -1,5 +1,3 @@
-
-
 module;
 #include <cstdint>
 #include <cstdio>
@@ -18,14 +16,22 @@ namespace IDE3380 {
         optional_one_and_only = this;
     }
 
+    bool IDE3380_register_access::set_ASIC(uint8_t ASIC) {
+        auto success{ASIC < Number_of_ASICs};
+        if (success) { the_ASIC = ASIC; }
+        return success;
+    }
+
     void IDE3380_register_access::dump() {
+        printf("ASIC%d:\r\n", the_ASIC + 1);
         for (uint8_t address = 0; address < IDE3380_register_count; address++) {
             auto value = SPI_read_register(address);
             printf("0x%02X=0x%08X\r\n", address, value);
         }
     }
 
-    void IDE3380_register_access::print_diag() {
+    void IDE3380_register_access::print_diagnostics() {
+        printf("ASIC%d:\r\n", the_ASIC + 1);
         uint32_t value[IDE3380_register_count]{};
         for (uint8_t address = 0; address < IDE3380_register_count; address++) {
             value[address] = SPI_read_register(address);
@@ -39,7 +45,7 @@ namespace IDE3380 {
         }
         for (uint8_t index = 0; index < IDE3380_channel_count; index++) {
             auto new_value = the_channel_restore_cache[index];
-            new_value      |= QC_threshold_mask; // Set max threshold
+            new_value |= QC_threshold_mask; // Set max threshold
             SPI_update_register(index, IDE3380_write_only, new_value);
         }
     }
@@ -98,17 +104,16 @@ namespace IDE3380 {
     uint32_t IDE3380_register_access::SPI_write_register(uint8_t register_address, uint32_t data) {
         uint32_t register_value{};
         if (register_address < IDE3380_register_count) {
- static           FreeRTOS::FreeRTOS_semaphore semaphore{};
- static           Generic::Transfer_request    request{CS_ASIC1, IDE3380_data_width, &semaphore};
- static           uint8_t                      data_tx[IDE3380_data_length]{};
- static           uint8_t                      data_rx[IDE3380_data_length]{};
-            uint32_t                     valid_mask  = ~((~0) << IDE3380_register_width[register_address]);
-            uint32_t                     data_masked = data & valid_mask;
-            data_tx[0]                               = (register_address << 1) | 0x01; //write
-            data_tx[1]                               = data_masked >> 24 & 0xFF;
-            data_tx[2]                               = data_masked >> 16 & 0xFF;
-            data_tx[3]                               = data_masked >> 8 & 0xFF;
-            data_tx[4]                               = data_masked & 0xFF;
+            auto &request = the_request[the_ASIC];
+            uint8_t data_tx[IDE3380_data_size]{};
+            uint8_t data_rx[IDE3380_data_size]{};
+            uint32_t valid_mask = ~((~0) << IDE3380_register_width[register_address]);
+            uint32_t data_masked = data & valid_mask;
+            data_tx[0] = (register_address << 1) | 0x01; //write
+            data_tx[1] = data_masked >> 24 & 0xFF;
+            data_tx[2] = data_masked >> 16 & 0xFF;
+            data_tx[3] = data_masked >> 8 & 0xFF;
+            data_tx[4] = data_masked & 0xFF;
             request.set_buffers(data_tx, data_rx);
             if (use_SPI.transfer(&request)) {
                 register_value = (data_rx[1] << 24 | data_rx[2] << 16 | data_rx[3] << 8 | data_rx[4]) & valid_mask;
@@ -120,15 +125,14 @@ namespace IDE3380 {
     uint32_t IDE3380_register_access::SPI_read_register(uint8_t register_address) {
         uint32_t register_value{};
         if (register_address < IDE3380_register_count) {
-   static         FreeRTOS::FreeRTOS_semaphore semaphore{};
-   static         Generic::Transfer_request    request{CS_ASIC1, IDE3380_data_width, &semaphore};
-   static         uint8_t                      data_tx[IDE3380_data_length]{};
-   static         uint8_t                      data_rx[IDE3380_data_length]{};
+            auto &request = the_request[the_ASIC];
+            uint8_t data_tx[IDE3380_data_size]{};
+            uint8_t data_rx[IDE3380_data_size]{};
             data_tx[0] = (register_address << 1) | 0x00; //read
             request.set_buffers(data_tx, data_rx);
             if (use_SPI.transfer(&request)) {
                 uint32_t valid_mask = ~((~0) << IDE3380_register_width[register_address]);
-                register_value      = (data_rx[1] << 24 | data_rx[2] << 16 | data_rx[3] << 8 | data_rx[4]) & valid_mask;
+                register_value = (data_rx[1] << 24 | data_rx[2] << 16 | data_rx[3] << 8 | data_rx[4]) & valid_mask;
             }
         }
         return register_value;

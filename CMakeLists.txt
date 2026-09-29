@@ -18,7 +18,7 @@ execute_process(
         OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
-set(IDE_SW_VERSION "1.2.1")
+set(IDE_SW_VERSION "1.2.2")
 
 project(${TARGET} VERSION ${IDE_SW_VERSION})
 

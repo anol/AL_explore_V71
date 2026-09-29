@@ -72,11 +72,36 @@ void Configuration_manager_provider::v_CONFIG_APPLY(Instruction_major &instructi
     instruction.print_ack();
 }
 
+void Configuration_manager_provider::v_CONFIG_ASIC_asic_nbr_reg_addr_data32(Instruction_major &instruction, int asic_nbr_2, int reg_addr_3, int data32_4) {
+    if (!use_repository.set(Application::IDE3380_0 + reg_addr_3, data32_4).success()) {
+        instruction.print_nack(use_repository.get_diag_code());
+    } else {
+        instruction.print_ack(reg_addr_3, data32_4);
+    }
+}
+
+void Configuration_manager_provider::v_CONFIG_ASIC_asic_nbr_reg_addr(Instruction_major &instruction, int asic_nbr_2, int reg_addr_3) {
+    int32_t data{};
+    if (!use_repository.get(Application::IDE3380_0 + reg_addr_3, data).success()) {
+        instruction.print_nack(use_repository.get_diag_code());
+    } else {
+        instruction.print_ack(reg_addr_3, data);
+    }
+}
+
 void Configuration_manager_provider::v_CONFIG_LOAD(Instruction_major &instruction) {
     if (use_repository.load().success()) {
         instruction.print_ack();
     } else {
         instruction.print_nack(88);
+    }
+}
+
+void Configuration_manager_provider::v_ASIC_asic_nbr(Instruction_major &instruction, int asic_nbr_1) {
+    if (use_IDE3380.get_register_access().set_ASIC(asic_nbr_1)) {
+        instruction.print_ack(use_IDE3380.get_register_access().get_ASIC());
+    } else {
+        instruction.print_nack(use_repository.get_diag_code());
     }
 }
 
@@ -91,22 +116,18 @@ void Configuration_manager_provider::v_ASIC_LOAD(Instruction_major &instruction)
 }
 
 void Configuration_manager_provider::v_ASIC_REG_reg_addr(Instruction_major &instruction, int reg_addr_2) {
-    int32_t SPI_data{};
-    if (!use_repository.get(Application::IDE3380_0 + reg_addr_2, SPI_data).success()) {
-        instruction.print_nack(use_repository.get_diag_code());
-    } else {
-        instruction.print_ack(reg_addr_2, SPI_data);
-    }
+    const int SPI_data = use_IDE3380_register.SPI_read_register(reg_addr_2);
+    instruction.print_ack(reg_addr_2, SPI_data);
 }
 
 void Configuration_manager_provider::v_ASIC_REG_reg_addr_data32(Instruction_major &instruction,
                                                                 int reg_addr_1, int data32_2) {
-    uint32_t SPI_data = use_IDE3380_register.SPI_update_register(
+    const int SPI_data = use_IDE3380_register.SPI_update_register(
         reg_addr_1, IDE3380::IDE3380_write_read, data32_2);
-    if (!use_repository.set(Application::IDE3380_0 + reg_addr_1, data32_2).success()) {
-        instruction.print_nack(use_repository.get_diag_code());
-    } else {
+    if (SPI_data == data32_2) {
         instruction.print_ack(reg_addr_1, SPI_data);
+    } else {
+        instruction.print_nack(SPI_data);
     }
 }
 

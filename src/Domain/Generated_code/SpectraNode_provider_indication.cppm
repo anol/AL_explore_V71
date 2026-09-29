@@ -130,15 +130,19 @@ export namespace SpectraNode_interface {
         virtual void v_CONFIG_offset_data32(Instruction_major &, int offset_1, int data32_2) = 0;
         virtual void v_CONFIG_offset(Instruction_major &, int offset_1) = 0;
         virtual void v_CONFIG_APPLY(Instruction_major &) = 0;
+        virtual void v_CONFIG_ASIC_asic_nbr_reg_addr_data32(Instruction_major &, int asic_nbr_2, int reg_addr_3, int data32_4) = 0;
+        virtual void v_CONFIG_ASIC_asic_nbr_reg_addr(Instruction_major &, int asic_nbr_2, int reg_addr_3) = 0;
         virtual void v_CONFIG_CLEAN(Instruction_major &) = 0;
         virtual void v_CONFIG_DUMP(Instruction_major &) = 0;
         virtual void v_CONFIG_LOAD(Instruction_major &) = 0;
         virtual void v_CONFIG_SAVE(Instruction_major &) = 0;
+        virtual void v_ASIC_asic_nbr(Instruction_major &, int asic_nbr_1) = 0;
         virtual void v_ASIC_DUMP(Instruction_major &) = 0;
         virtual void v_ASIC_LOAD(Instruction_major &) = 0;
         virtual void v_ASIC_REG_reg_addr_data32(Instruction_major &, int reg_addr_2, int data32_3) = 0;
         virtual void v_ASIC_REG_reg_addr(Instruction_major &, int reg_addr_2) = 0;
     public:
+        void p_ASIC_asic_nbr(Instruction_major &);
         void p_ASIC_DUMP(Instruction_major &);
         void p_ASIC_LOAD(Instruction_major &);
         void p_ASIC_REG_reg_addr_data32(Instruction_major &);
@@ -146,6 +150,8 @@ export namespace SpectraNode_interface {
         void p_CONFIG_offset_data32(Instruction_major &);
         void p_CONFIG_offset(Instruction_major &);
         void p_CONFIG_APPLY(Instruction_major &);
+        void p_CONFIG_ASIC_asic_nbr_reg_addr_data32(Instruction_major &);
+        void p_CONFIG_ASIC_asic_nbr_reg_addr(Instruction_major &);
         void p_CONFIG_CLEAN(Instruction_major &);
         void p_CONFIG_DUMP(Instruction_major &);
         void p_CONFIG_LOAD(Instruction_major &);

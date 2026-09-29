@@ -52,6 +52,7 @@ export namespace SpectraNode_interface{
     constexpr auto* help_CAL_TEST_OFFSET{""};
     constexpr auto* help_CAL_TEST_PEDESTAL{""};
     constexpr auto* help_CAL_TRACE{""};
+    constexpr auto* help_ASIC_asic_nbr{""};
     constexpr auto* help_ASIC_DUMP{""};
     constexpr auto* help_ASIC_LOAD{""};
     constexpr auto* help_ASIC_REG_reg_addr_data32{""};
@@ -59,6 +60,8 @@ export namespace SpectraNode_interface{
     constexpr auto* help_CONFIG_offset_data32{""};
     constexpr auto* help_CONFIG_offset{""};
     constexpr auto* help_CONFIG_APPLY{""};
+    constexpr auto* help_CONFIG_ASIC_asic_nbr_reg_addr_data32{""};
+    constexpr auto* help_CONFIG_ASIC_asic_nbr_reg_addr{""};
     constexpr auto* help_CONFIG_CLEAN{""};
     constexpr auto* help_CONFIG_DUMP{""};
     constexpr auto* help_CONFIG_LOAD{""};

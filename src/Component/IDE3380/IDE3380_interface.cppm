@@ -35,7 +35,7 @@ export namespace IDE3380 {
         static void *      optional_IDE3380_user;
         static wakeup_func optional_user_wakeup_func;
 
-        explicit IDE3380_interface(Abstract::Abstract_board &board) : use_board(board), the_register_access(board.get_SPI()) {
+        explicit IDE3380_interface(Abstract::Abstract_board &board) : use_board(board), the_register_access(board) {
         }
 
         void initialize(void *user, wakeup_func wakeup, readout_func readout);

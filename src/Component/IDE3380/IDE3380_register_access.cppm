@@ -26,35 +26,49 @@ module;
 export module Component.IDE3380_register_access;
 export import Component.IDE3380_definitions;
 import Type.Abstract_SPI;
-
+import Platform.FreeRTOS_semaphore;
+import Type.Transfer_request;
+import Type.Abstract_board;
+import Domain.IO_pins;
 
 
 export namespace IDE3380 {
     class IDE3380_register_access {
+        Abstract::Abstract_board &use_board;
         Abstract::Abstract_SPI &use_SPI;
-        uint32_t                the_channel_restore_cache[IDE3380_channel_count]{};
-        volatile bool           the_transfer_complete_flag{true};
+        uint8_t the_ASIC{};
+        uint32_t the_channel_restore_cache[IDE3380_channel_count]{};
 
     public:
         static IDE3380_register_access *optional_one_and_only;
 
     private:
         enum {
+            Number_of_ASICs = 5,
             CS_ASIC1, CS_ASIC2, CS_ASIC3, CS_ASIC4, CS_ASIC5,
-            IDE3380_data_width = 40, Bits_per_byte = 8, IDE3380_data_length = IDE3380_data_width / Bits_per_byte
+            IDE3380_data_width = 40, Bits_per_byte = 8, IDE3380_data_size = IDE3380_data_width / Bits_per_byte
         };
 
+        FreeRTOS::FreeRTOS_semaphore the_semaphore[Number_of_ASICs]{};
+        Generic::SPI_transfer_request the_request[Number_of_ASICs];
+
     public:
-        explicit IDE3380_register_access(Abstract::Abstract_SPI &SPI) : use_SPI(SPI) {
+        explicit IDE3380_register_access(Abstract::Abstract_board &board)
+            : use_board(board), use_SPI(board.get_SPI()),
+              the_request{
+                  {use_board.get_pin(Domain::Pin_SPI_CS_ASIC1), the_semaphore[0], IDE3380_data_size},
+                  {use_board.get_pin(Domain::Pin_SPI_CS_ASIC2), the_semaphore[1], IDE3380_data_size},
+                  {use_board.get_pin(Domain::Pin_SPI_CS_ASIC3), the_semaphore[2], IDE3380_data_size},
+                  {use_board.get_pin(Domain::Pin_SPI_CS_ASIC4), the_semaphore[3], IDE3380_data_size},
+                  {use_board.get_pin(Domain::Pin_SPI_CS_ASIC5), the_semaphore[4], IDE3380_data_size},
+              } {
         }
 
         void initialize();
 
-        uint32_t SPI_read_register(uint8_t register_address);
+        bool set_ASIC(uint8_t ASIC);
 
-        uint32_t SPI_update_register(uint8_t register_address, uint8_t nRead_Write, uint32_t data);
-
-        uint32_t SPI_write_register(uint8_t register_address, uint32_t data);
+        [[nodiscard]] uint8_t get_ASIC() const { return the_ASIC; }
 
         void override_all_thresholds();
 
@@ -70,8 +84,12 @@ export namespace IDE3380 {
 
         void dump();
 
-        void print_diag();
+        void print_diagnostics();
 
-        void transfer_complete() { the_transfer_complete_flag = true; }
+        uint32_t SPI_read_register(uint8_t register_address);
+
+        uint32_t SPI_update_register(uint8_t register_address, uint8_t nRead_Write, uint32_t data);
+
+        uint32_t SPI_write_register(uint8_t register_address, uint32_t data);
     };
 }

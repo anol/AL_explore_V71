@@ -72,8 +72,8 @@ namespace SamV71 {
         if (the_id == 0) {
             optional_SPI0 = this;
         }
+        optional_request = nullptr;
         enable_SPI();
-        set_ready();
     }
 
     void SamV71_SPI::setup_SPI_registers() const {
@@ -175,23 +175,22 @@ namespace SamV71 {
     }
 
     void SamV71_SPI::ISR_transfer_complete(uint32_t &context_switch) {
-        unselect_chip();
-        disable_SPI();
         if (optional_request) {
-            if (auto *semaphore = optional_request->get_semaphore()) {
-                semaphore->ISR_give(context_switch);
-            }
+            auto *request = optional_request;
+            optional_request = nullptr;
+            request->get_chip_select().set();
+            request->get_semaphore().ISR_give(context_switch);
         }
-        set_ready();
+        disable_SPI();
     }
 
     void SamV71_SPI::ISR_pending_transaction(uint32_t &context_switch) {
         if (is_ready()) {
             Abstract::Abstract_request *request{};
             if (the_queue.ISR_receive(&request, context_switch)) {
-                optional_request = static_cast<Generic::Transfer_request *>(request);
+                optional_request = static_cast<Generic::SPI_transfer_request *>(request);
                 enable_SPI();
-                select_chip();
+                optional_request->get_chip_select().clear();
             }
         }
     }
@@ -200,9 +199,9 @@ namespace SamV71 {
         if (is_ready()) {
             Abstract::Abstract_request *request{};
             if (the_queue.receive(&request)) {
-                optional_request = static_cast<Generic::Transfer_request *>(request);
+                optional_request = static_cast<Generic::SPI_transfer_request *>(request);
                 enable_SPI();
-                select_chip();
+                optional_request->get_chip_select().clear();
             }
         }
     }
@@ -210,12 +209,10 @@ namespace SamV71 {
     bool SamV71_SPI::transfer(Abstract::Abstract_request *request) {
         bool success{};
         if (request) {
-            if (auto *semaphore = request->get_semaphore()) {
-                if (the_queue.send(request)) {
-                    pending_transaction();
-                    semaphore->take();
-                    success = true;
-                }
+            if (the_queue.send(request)) {
+                pending_transaction();
+                request->get_semaphore().take();
+                success = true;
             }
         }
         return success;

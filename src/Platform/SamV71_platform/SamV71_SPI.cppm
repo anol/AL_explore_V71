@@ -25,22 +25,8 @@ export namespace SamV71 {
         Abstract::Abstract_IO_pin &use_chip_select;
         void *optional_definition;
         bool the_busy_flag{};
-        Generic::Transfer_request *optional_request{};
+        Generic::SPI_transfer_request *optional_request{};
         FreeRTOS::FreeRTOS_queue<Abstract::Abstract_request *, Queue_size> the_queue{};
-
-    public:
-        void ISR();
-
-    private:
-        void ISR_pending_transaction(uint32_t &context_switch);
-
-        void ISR_check_progress(uint32_t &context_switch);
-
-        void ISR_transfer_complete(uint32_t &context_switch);
-
-        void ISR_RX_ready() const;
-
-        void ISR_TX_ready() const;
 
     public:
         SamV71_SPI(uint8_t id, Abstract::Abstract_IO_pin &chip_select);
@@ -64,16 +50,18 @@ export namespace SamV71 {
             return !optional_request;
         }
 
-        void set_ready() {
-            optional_request = nullptr;
-        }
+    public:
+        void ISR();
 
-        void select_chip() const {
-            use_chip_select.clear();
-        }
+    private:
+        void ISR_pending_transaction(uint32_t &context_switch);
 
-        void unselect_chip() const {
-            use_chip_select.set();
-        }
+        void ISR_check_progress(uint32_t &context_switch);
+
+        void ISR_transfer_complete(uint32_t &context_switch);
+
+        void ISR_RX_ready() const;
+
+        void ISR_TX_ready() const;
     };
 } // SamV71

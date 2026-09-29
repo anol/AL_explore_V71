@@ -67,7 +67,7 @@ namespace IDE3380
     {
         printf("ASIC: get_err=%d, load_err=%d\r\n", the_repository_error, the_readback_error);
         the_readout_control.print_diag();
-        the_register_access.print_diag();
+        the_register_access.print_diagnostics();
     }
 
     void IDE3380_interface::enable_external_hold()

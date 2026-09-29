@@ -42,6 +42,7 @@ export namespace SpectraNode_interface {
         Key_ALARM,
         Key_APPLY,
         Key_ASIC,
+        Key_asic_nbr,
         Key_b,
         Key_bias,
         Key_BIAS,

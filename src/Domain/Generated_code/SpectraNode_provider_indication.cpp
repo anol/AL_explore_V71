@@ -206,6 +206,7 @@ namespace SpectraNode_interface{
 
 template<> const Abstract_Configuration_manager_provider::Lookup_table::Instruction_entry
     Abstract_Configuration_manager_provider::Lookup_table::instruction_table[] = {
+    {&Abstract_Configuration_manager_provider::p_ASIC_asic_nbr, Cmd_ASIC_asic_nbr},
     {&Abstract_Configuration_manager_provider::p_ASIC_DUMP, Cmd_ASIC_DUMP},
     {&Abstract_Configuration_manager_provider::p_ASIC_LOAD, Cmd_ASIC_LOAD},
     {&Abstract_Configuration_manager_provider::p_ASIC_REG_reg_addr_data32, Cmd_ASIC_REG_reg_addr_data32},
@@ -213,6 +214,8 @@ template<> const Abstract_Configuration_manager_provider::Lookup_table::Instruct
     {&Abstract_Configuration_manager_provider::p_CONFIG_offset_data32, Cmd_CONFIG_offset_data32},
     {&Abstract_Configuration_manager_provider::p_CONFIG_offset, Cmd_CONFIG_offset},
     {&Abstract_Configuration_manager_provider::p_CONFIG_APPLY, Cmd_CONFIG_APPLY},
+    {&Abstract_Configuration_manager_provider::p_CONFIG_ASIC_asic_nbr_reg_addr_data32, Cmd_CONFIG_ASIC_asic_nbr_reg_addr_data32},
+    {&Abstract_Configuration_manager_provider::p_CONFIG_ASIC_asic_nbr_reg_addr, Cmd_CONFIG_ASIC_asic_nbr_reg_addr},
     {&Abstract_Configuration_manager_provider::p_CONFIG_CLEAN, Cmd_CONFIG_CLEAN},
     {&Abstract_Configuration_manager_provider::p_CONFIG_DUMP, Cmd_CONFIG_DUMP},
     {&Abstract_Configuration_manager_provider::p_CONFIG_LOAD, Cmd_CONFIG_LOAD},
@@ -240,6 +243,19 @@ namespace SpectraNode_interface{
         v_CONFIG_APPLY(transaction);
     }
             
+    void Abstract_Configuration_manager_provider::p_CONFIG_ASIC_asic_nbr_reg_addr_data32(Instruction_major &transaction){
+        int asic_nbr_2{transaction.get_token_integer(2)};
+        int reg_addr_3{transaction.get_token_integer(3)};
+        int data32_4{transaction.get_token_integer(4)};
+        v_CONFIG_ASIC_asic_nbr_reg_addr_data32(transaction, asic_nbr_2, reg_addr_3, data32_4);
+    }
+            
+    void Abstract_Configuration_manager_provider::p_CONFIG_ASIC_asic_nbr_reg_addr(Instruction_major &transaction){
+        int asic_nbr_2{transaction.get_token_integer(2)};
+        int reg_addr_3{transaction.get_token_integer(3)};
+        v_CONFIG_ASIC_asic_nbr_reg_addr(transaction, asic_nbr_2, reg_addr_3);
+    }
+            
     void Abstract_Configuration_manager_provider::p_CONFIG_CLEAN(Instruction_major &transaction){
         v_CONFIG_CLEAN(transaction);
     }
@@ -254,6 +270,11 @@ namespace SpectraNode_interface{
             
     void Abstract_Configuration_manager_provider::p_CONFIG_SAVE(Instruction_major &transaction){
         v_CONFIG_SAVE(transaction);
+    }
+            
+    void Abstract_Configuration_manager_provider::p_ASIC_asic_nbr(Instruction_major &transaction){
+        int asic_nbr_1{transaction.get_token_integer(1)};
+        v_ASIC_asic_nbr(transaction, asic_nbr_1);
     }
             
     void Abstract_Configuration_manager_provider::p_ASIC_DUMP(Instruction_major &transaction){

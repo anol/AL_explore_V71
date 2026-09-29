@@ -37,7 +37,6 @@ using namespace IDE3380;
 using namespace SpectraNode_interface;
 
 
-
 export class Configuration_manager_provider : public Abstract_Configuration_manager_provider {
     Repository::Configuration_repository &use_repository;
     IDE3380::IDE3380_interface &use_IDE3380;
@@ -63,6 +62,12 @@ protected:
     void v_CONFIG_DUMP(Instruction_major &) override;
 
     void v_CONFIG_APPLY(Instruction_major &) override;
+
+    void v_CONFIG_ASIC_asic_nbr_reg_addr_data32(Instruction_major &, int asic_nbr_2, int reg_addr_3, int data32_4) override;
+
+    void v_CONFIG_ASIC_asic_nbr_reg_addr(Instruction_major &, int asic_nbr_2, int reg_addr_3) override;
+
+    void v_ASIC_asic_nbr(Instruction_major &, int asic_nbr_1) override;
 
     void v_ASIC_DUMP(Instruction_major &) override;
 

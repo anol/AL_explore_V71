@@ -9,6 +9,6 @@ namespace Abstract
     {
     public:
         virtual ~Abstract_request() = default;
-        [[nodiscard]] virtual Abstract_semaphore* get_semaphore() const = 0;
+        [[nodiscard]] virtual Abstract_semaphore& get_semaphore() const = 0;
     };
 } // Abstract

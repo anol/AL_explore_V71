@@ -271,6 +271,11 @@ namespace SpectraNode_interface{
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
+    const Instruction_token token_ASIC_asic_nbr[] = {
+        {help_ASIC_asic_nbr, Cmd_ASIC_asic_nbr, Key_Configuration_manager},
+        {End_token, "", No_key, (uint32_t)0, nullptr}
+    };
+
     const Instruction_token token_ASIC_DUMP[] = {
         {help_ASIC_DUMP, Cmd_ASIC_DUMP, Key_Configuration_manager},
         {End_token, "", No_key, (uint32_t)0, nullptr}
@@ -298,6 +303,7 @@ namespace SpectraNode_interface{
     };
 
     const Instruction_token token_ASIC[] = {
+        {Integer_token, Key_asic_nbr, token_ASIC_asic_nbr, 1, static_cast<int32_t>(5)},
         {Keyword_token, "DUMP", Key_DUMP, (uint32_t)0, token_ASIC_DUMP},
         {Keyword_token, "LOAD", Key_LOAD, (uint32_t)0, token_ASIC_LOAD},
         {Keyword_token, "REG", Key_REG, (uint32_t)0, token_ASIC_REG},
@@ -317,6 +323,27 @@ namespace SpectraNode_interface{
 
     const Instruction_token token_CONFIG_APPLY[] = {
         {help_CONFIG_APPLY, Cmd_CONFIG_APPLY, Key_Configuration_manager},
+        {End_token, "", No_key, (uint32_t)0, nullptr}
+    };
+
+    const Instruction_token token_CONFIG_ASIC_asic_nbr_reg_addr_data32[] = {
+        {help_CONFIG_ASIC_asic_nbr_reg_addr_data32, Cmd_CONFIG_ASIC_asic_nbr_reg_addr_data32, Key_Configuration_manager},
+        {End_token, "", No_key, (uint32_t)0, nullptr}
+    };
+
+    const Instruction_token token_CONFIG_ASIC_asic_nbr_reg_addr[] = {
+        {Integer_token, Key_data32, token_CONFIG_ASIC_asic_nbr_reg_addr_data32, 0, static_cast<int32_t>(0x7FFFFFFF)},
+        {help_CONFIG_ASIC_asic_nbr_reg_addr, Cmd_CONFIG_ASIC_asic_nbr_reg_addr, Key_Configuration_manager},
+        {End_token, "", No_key, (uint32_t)0, nullptr}
+    };
+
+    const Instruction_token token_CONFIG_ASIC_asic_nbr[] = {
+        {Integer_token, Key_reg_addr, token_CONFIG_ASIC_asic_nbr_reg_addr, 0, static_cast<int32_t>(32)},
+        {End_token, "", No_key, (uint32_t)0, nullptr}
+    };
+
+    const Instruction_token token_CONFIG_ASIC[] = {
+        {Integer_token, Key_asic_nbr, token_CONFIG_ASIC_asic_nbr, 1, static_cast<int32_t>(5)},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
@@ -343,6 +370,7 @@ namespace SpectraNode_interface{
     const Instruction_token token_CONFIG[] = {
         {Integer_token, Key_offset, token_CONFIG_offset, 0, static_cast<int32_t>(4095)},
         {Keyword_token, "APPLY", Key_APPLY, (uint32_t)0, token_CONFIG_APPLY},
+        {Keyword_token, "ASIC", Key_ASIC, (uint32_t)0, token_CONFIG_ASIC},
         {Keyword_token, "CLEAN", Key_CLEAN, (uint32_t)0, token_CONFIG_CLEAN},
         {Keyword_token, "DUMP", Key_DUMP, (uint32_t)0, token_CONFIG_DUMP},
         {Keyword_token, "LOAD", Key_LOAD, (uint32_t)0, token_CONFIG_LOAD},

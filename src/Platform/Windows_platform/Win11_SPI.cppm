@@ -27,7 +27,7 @@ import Type.Abstract_SPI;
 import Platform.FreeRTOS_queue;
 
 namespace Generic {
-    class Transfer_request;
+    class SPI_transfer_request;
 }
 
 namespace Abstract {

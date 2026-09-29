@@ -52,6 +52,7 @@ export namespace SpectraNode_interface{
     constexpr auto* help_CAL_TEST_OFFSET{"Find channel offset voltage using fixed source."};
     constexpr auto* help_CAL_TEST_PEDESTAL{"Find channel pedestal using forced readout."};
     constexpr auto* help_CAL_TRACE{"Toggle diagnostic trace on/off."};
+    constexpr auto* help_ASIC_asic_nbr{"Select ASIC 1-5."};
     constexpr auto* help_ASIC_DUMP{"Dump all the ASIC registers."};
     constexpr auto* help_ASIC_LOAD{"Update all ASIC registers from current configuration."};
     constexpr auto* help_ASIC_REG_reg_addr_data32{"Write the ASIC register."};
@@ -59,6 +60,8 @@ export namespace SpectraNode_interface{
     constexpr auto* help_CONFIG_offset_data32{"Set configuration attribute value."};
     constexpr auto* help_CONFIG_offset{"Get configuration attribute value."};
     constexpr auto* help_CONFIG_APPLY{"Apply the current configuration."};
+    constexpr auto* help_CONFIG_ASIC_asic_nbr_reg_addr_data32{"Set the current configuration register value."};
+    constexpr auto* help_CONFIG_ASIC_asic_nbr_reg_addr{"Get the current configuration register value."};
     constexpr auto* help_CONFIG_CLEAN{"Clean the persistent storage and set the default configuration."};
     constexpr auto* help_CONFIG_DUMP{"Dump the current configuration."};
     constexpr auto* help_CONFIG_LOAD{"Load the current configuration from the persistent storage."};
