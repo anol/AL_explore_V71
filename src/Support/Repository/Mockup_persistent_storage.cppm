@@ -15,7 +15,7 @@ export namespace MOCKUP {
 
         [[nodiscard]] Status_code open_reading() override { return Status_code::Success(); }
 
-        [[nodiscard]] Status_code read(uint32_t id, int32_t &value) override { return Status_code::Success(); }
+        [[nodiscard]] Status_code read(uint32_t id, int32_t &value) override { return Status_code::Failure(); }
 
         [[nodiscard]] Status_code open_writing(int dirty_count) override { return Status_code::Success(); }
 

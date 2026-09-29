@@ -43,11 +43,13 @@ namespace Application {
         Housekeeping_provider::print_version();
         use_repository.initialize();
         auto success = use_repository.load();
-        use_command_handler.update_mode();
-        if (success.success()) {
-            use_IDE3380.update_registers(use_repository, IDE3380_0);
-        } else {
-            printf("<> Failed to load repository <>\r\n");
+        success = use_command_handler.update_mode();
+        if (success.failed()) {
+            printf("<> Failed to update mode controller <>\r\n");
+        }
+        success = use_IDE3380.update_registers(use_repository, IDE3380_0);
+        if (success.failed()) {
+            printf("<> Failed to update IDE3380 registers <>\r\n");
         }
         success = use_bias.update_setpoints(use_repository);
         if (success.failed()) {
