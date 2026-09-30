@@ -3,23 +3,58 @@
 Build using GCC and C++20.
 Using FreeRTOS (FreeRTOSv202604.01-LTS).
 
+Current firmware version: **1.3.0** (`IDE_SW_VERSION` in `CMakeLists.txt`).
+
+## Building
+
+The build is driven by `CMakePresets.json` (Ninja, output in `build/<preset>/`,
+executables in `bin/`). Each preset selects four cache variables that pick which source
+directories are compiled in:
+
+| Preset | `APP` | `TARGET` | `BOARD` | `PLATFORM` |
+|---|---|---|---|---|
+| `V71_EK_hello_world` | `Hello_world` | `V71_EK_hello_world` | `V71_EK` | `SamV71` (produces `.elf`) |
+| `Win_hello_world` | `Hello_world` | `Win_hello_world` | `Win11` | `Windows` |
+| `Unit_test` | — | `Unit_test` | `Win11` | `Mockup` |
+| `Win_ethernet_test` / `V71_ethernet_test` | — | (on hold) | `Win11` / `V71_EK` | `Windows` / `SamV71` |
+
+```sh
+cmake --preset V71_EK_hello_world
+cmake --build build/V71_EK_hello_world
+```
+
+## SPI (IDE3380 ASIC interface, V1.3)
+
+`SamV71_SPI` (`src/Platform/SamV71_platform/`) talks to up to five IDE3380 ASICs:
+
+- **Bitrate** 2 Mbps (was 100 kbps in V1.2).
+- **Mode** CPOL=0 (clock idles low), NCPHA=1 (data captured on the leading edge, changed
+  on the trailing edge).
+- **Chip select** is asserted *before* the SPI peripheral is enabled for each transfer.
+- **Pins** (`V71_EK_pin_table.cppm`): MISO has a pull-down, MOSI a pull-up.
+- **ASIC selection** is 1-based on the console: `AT+ASIC=<1..5>` selects, `AT+ASIC`
+  reports the current selection (both acknowledge with the 1-based number).
+
 ## Top-level modules
 
 - **`Application/`** — the app itself: `Hello_world` (composition root, wired up in
   `main()`), `Provider` (the data providers it routes requests to) and `Support` (C helper
   code, e.g. the gamma peak detector and isotope table).
-- **`Board/`** — board support packages, one per physical board (currently `V71_EK`),
-  wiring together the platform, components and pin table for that board.
+- **`Board/`** — board support packages, one per board (`V71_EK` evaluation kit,
+  `Win11` host simulation; `AL_EM` holds only a pin table/config so far), wiring together
+  the platform, components and pin table for that board.
 - **`Component/`** — drivers for discrete hardware parts (`IDE3380`, `SiPM_bias`,
   `STTS22H`), independent of any one board.
 - **`Domain/`** — application-domain types and the generated command/keyword dictionary
   (`Domain/Generated_code`) that ties the console/CLI layer to those types.
 - **`Platform/`** — MCU- and RTOS-facing code: `SamV71_platform` (and its `SAMV71Q21B`
-  startup/SDK layer), `Common_platform` and `FreeRTOS_platform`.
+  startup/SDK layer), `Windows_platform` and `Mockup_platform` (host builds),
+  `Common_platform` and `FreeRTOS_platform`.
 - **`Support/`** — cross-cutting infrastructure: the console service, the CLI parser and
   instruction dispatch (`Plumbing/`), and the configuration/attribute repository.
 - **`Target/`** — top-level build targets that assemble an application, board and platform
-  into one firmware image (currently `V71_EK_hello_world`).
+  into one firmware image (`V71_EK_hello_world`, `Win_hello_world`; inactive targets live
+  in `Target/On_hold/`).
 - **`Type/`** — shared type definitions: abstract hardware interfaces (`Abstract/`), basic
   value/status types (`Basic/`) and generic transfer-request types (`Generic/`).
 - **`Utility/`** — small, dependency-free helpers (ring buffer, simple string/math) used
@@ -32,6 +67,14 @@ The graph above collapses every source directory into its top-level `src/` area
 `Type/`, `Utility/`). The full, per-source-directory graph it's rolled up from:
 
 ## Dependencies
+
+Covers both `#include` edges (solid) and C++20 module `import` edges (dashed), for the
+directories CMake actually builds with the `V71_EK_hello_world` preset. Almost every
+module is now a named C++20 module, so `import` dominates: the only remaining `#include`
+edges are the plain `Domain/Dictionary.h` / `Persistent_parameter_id.h` headers (from
+`Application/*`, `Component/IDE3380`, `Component/SiPM_bias`) and `Component/SiPM_bias` →
+`Component/STTS22H` (`Sensor_STTS22H.h`). A module pair with edges in both directions
+would be drawn bold red; there are currently none.
 
 ![Module dependency graph](doc/module_dependencies.svg)
 
@@ -48,13 +91,12 @@ What `V71_EK_board` (the board) owns and references:
 
 ![V71_EK_board aggregation graph](doc/v71_ek_board_aggregation.svg)
 
-Graphviz source (larger/editable version): [`doc/hello_world_wiring_A4.dot`](doc/hello_world_wiring_A4.dot)
-
 ## SpectraNode command & keyword dictionary
 
 `src/Domain/Generated_code/` is generated from `src/Domain/Definition_SpectraNode/*.xml`
-via `SpectraNode_generator.bat` (XSLT stylesheets in `src/Domain/Dictionary_scripts/`),
-which also re-splices the tables below (via `Update_readme_dictionary.ps1`) from
+via `src/Domain/Definition_SpectraNode/SpectraNode_generator.bat` (XSLT stylesheets in
+`src/Domain/Dictionary_scripts/`), which also re-splices the tables below (via
+`Update_readme_dictionary.ps1`, next to the generator) from
 [`SpectraNode_command.md`](src/Domain/Generated_code/SpectraNode_command.md),
 [`SpectraNode_keyword.md`](src/Domain/Generated_code/SpectraNode_keyword.md) and
 [`SpectraNode_structure.md`](src/Domain/Generated_code/SpectraNode_structure.md) every
