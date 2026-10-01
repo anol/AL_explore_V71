@@ -2,16 +2,18 @@ target_include_directories(${THE_TARGET_NAME} PUBLIC
         .
 )
 target_sources(${THE_TARGET_NAME} PUBLIC
+        #        SamV71_ethernet.cpp
+        #        SamV71_ethernet.h
+        #        SamV71_timer.cpp
+        #        SamV71_timer.h
+        #        SamV71_watchdog.cpp
+        #        SamV71_watchdog.h
+        SamV71_ADC.cpp
         SamV71_clock.cpp
-#        SamV71_ethernet.cpp
-#        SamV71_ethernet.h
+        SamV71_DAC.cpp
         SamV71_IO_pin.cpp
         SamV71_SPI.cpp
- #        SamV71_timer.cpp
-#        SamV71_timer.h
         SamV71_USART.cpp
-#        SamV71_watchdog.cpp
-#        SamV71_watchdog.h
 )
 target_sources(${THE_TARGET_NAME} PRIVATE
         FILE_SET platform_samv71_modules TYPE CXX_MODULES BASE_DIRS . FILES
