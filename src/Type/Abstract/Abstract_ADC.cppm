@@ -3,8 +3,8 @@ module;
 export module Type.Abstract_ADC;
 #include <cstdint>
 
-namespace Abstract {
-    export class Abstract_ADC {
+export namespace Abstract {
+     class Abstract_ADC {
     public:
         virtual ~Abstract_ADC() = default;
 

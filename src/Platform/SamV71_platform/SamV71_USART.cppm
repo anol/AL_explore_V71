@@ -1,4 +1,5 @@
 module;
+
 #include <cstdint>
 
 export module Platform.SamV71_USART;

@@ -33,7 +33,9 @@ export namespace Board {
 
         Abstract_UART &get_UART() override { return the_UART; }
         Abstract_SPI &get_SPI() override { return the_SPI; }
-        Abstract_IO_pin &get_pin(const Abstract::Abstract_pin_id id) override { return the_pin_table.get_pin(id); }
+        Abstract_ADC &get_ADC() override { return the_ADC; }
+        Abstract_DAC &get_DAC() override { return the_DAC; }
+        Abstract_IO_pin &get_pin(const Abstract_pin_id id) override { return the_pin_table.get_pin(id); }
 
     private:
         static void enable_cache();

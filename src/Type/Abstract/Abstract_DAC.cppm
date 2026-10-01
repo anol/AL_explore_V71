@@ -3,8 +3,8 @@ module;
 export module Type.Abstract_DAC;
 #include <cstdint>
 
-namespace Abstract {
-    export class Abstract_DAC {
+export namespace Abstract {
+    class Abstract_DAC {
     public:
         virtual ~Abstract_DAC() = default;
 
