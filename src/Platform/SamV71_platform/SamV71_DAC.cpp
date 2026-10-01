@@ -1,30 +1,12 @@
-/*
-* Copyright (C) 2026 Integrated Detector Electronics AS
-* All Rights Reserved.
-*
-* NOTICE: All information contained herein is, and remains
-* the property of Integrated Detector Electronics AS and its suppliers,
-* if any. The intellectual and technical concepts contained
-* herein are proprietary to Integrated Detector Electronics AS
-* and its suppliers and may be covered by Norwegian, EU. or U.S. patents,
-* patents in process, and are protected by trade secret or copyright law.
-* Dissemination of this information or reproduction of this material
-* is strictly forbidden unless prior written permission is obtained
-* from Integrated Detector Electronics AS.
-*/
-
-/**
-* @file   SamV71_DAC.cpp
-* @author AndersEmilOlsen, IDEAS
-* @date   01.10.2026
-* @brief  
-*/
+module;
 
 #include <cstdint>
-#include "SamV71_DAC.h"
 
 #include "sam.h"
 #include "component/dacc.h"
+
+module Platform.SamV71_DAC;
+import Type.Abstract_DAC;
 
 #define wave_to_dacc(wave, amplitude, max_digital, max_amplitude) \
 	(((int)(wave) * (amplitude) / (max_digital)) + (max_amplitude / 2))
@@ -89,15 +71,6 @@ namespace SamV71 {
         p_dacc->DACC_CDR[channel] = ul_data;
     }
 
-    void SamV71_DAC_initialize() {
-        // configure IO
-        // sysclk_enable_peripheral_clock(DACC_ID);
-        dacc_reset(DACC_BASE);
-        dacc_set_transfer_mode(DACC_BASE, 0);
-        dacc_enable_channel(DACC_BASE, DACC_CHANNEL);
-        dacc_set_analog_control(DACC_BASE, DACC_ANALOG_CONTROL);
-    }
-
     void on() {
         static int32_t g_l_amplitude = 0;
         static uint32_t g_ul_index_sample = 0;
@@ -115,5 +88,21 @@ namespace SamV71 {
                                        MAX_DIGITAL * 2, MAX_AMPLITUDE);
             dacc_write_conversion_data(DACC_BASE, dac_val, DACC_CHANNEL);
         }
+    }
+
+    SamV71_DAC::SamV71_DAC() {
+    }
+
+    void SamV71_DAC::initialize() {
+        // configure IO
+        // sysclk_enable_peripheral_clock(DACC_ID);
+        dacc_reset(DACC_BASE);
+        dacc_set_transfer_mode(DACC_BASE, 0);
+        dacc_enable_channel(DACC_BASE, DACC_CHANNEL);
+        dacc_set_analog_control(DACC_BASE, DACC_ANALOG_CONTROL);
+    }
+
+    bool SamV71_DAC::set(uint32_t value) {
+        return true;
     }
 } // SamV71
