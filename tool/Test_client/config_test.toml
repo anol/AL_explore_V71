@@ -1,0 +1,292 @@
+[GENERAL]
+
+#VBIAS = 0  #positive value, used to override the vbias regulator, 0 = use the regulator
+
+IDLE_CADENCE = 2 #update update_intervalin seconds
+
+NOMINAL_CADENCE  = 2 #update update_intervalin seconds
+
+DEMO_CADENCE  = 2 #update update_intervalin seconds
+DEMO_CHANNEL = 18 #1 to 17     0 to disable 17=summing channel 18=all channel summing
+
+#A = 1169336 #Ax + B calibration number multiplied by 1 000 000 without alu tape
+#B = -114270 #Ax + B calibration number multiplied by 1 000 without alu tape
+#A = 923913 #Ax + B calibration number multiplied by 1 000 000 with alu tape
+#B = -114086 #Ax + B calibration number multiplied by 1 000 without alu tape
+
+CAL_DAC_V35 = -35000
+CAL_DAC_V40 = -40000
+
+CAL_ADC_V35 = -35000
+CAL_ADC_V40 = -40000
+
+
+[REG.ctrl_ch_01]
+cmis_detector_voffset = 64
+cmis_detector_ioffset = 0
+cmis_impedance_reduction = 0
+cal_select_channel = 0
+qc_threshold = 25
+qc_hysteresis = 0
+pu_channel = 1
+enable_triggering = 1
+
+[REG.ctrl_ch_02]
+cmis_detector_voffset = 64
+cmis_detector_ioffset = 0
+cmis_impedance_reduction = 0
+cal_select_channel = 0
+qc_threshold = 25
+qc_hysteresis = 0
+pu_channel = 1
+enable_triggering = 1
+
+[REG.ctrl_ch_03]
+cmis_detector_voffset = 64
+cmis_detector_ioffset = 0
+cmis_impedance_reduction = 0
+cal_select_channel = 0
+qc_threshold = 25
+qc_hysteresis = 0
+pu_channel = 1
+enable_triggering = 1
+
+[REG.ctrl_ch_04]
+cmis_detector_voffset = 64
+cmis_detector_ioffset = 0
+cmis_impedance_reduction = 0
+cal_select_channel = 0
+qc_threshold = 25
+qc_hysteresis = 0
+pu_channel = 1
+enable_triggering = 1
+
+[REG.ctrl_ch_05]
+cmis_detector_voffset = 64
+cmis_detector_ioffset = 0
+cmis_impedance_reduction = 0
+cal_select_channel = 0
+qc_threshold = 25
+qc_hysteresis = 0
+pu_channel = 1
+enable_triggering = 1
+
+[REG.ctrl_ch_06]
+cmis_detector_voffset = 64
+cmis_detector_ioffset = 0
+cmis_impedance_reduction = 0
+cal_select_channel = 0
+qc_threshold = 25
+qc_hysteresis = 0
+pu_channel = 1
+enable_triggering = 1
+
+[REG.ctrl_ch_07]
+cmis_detector_voffset = 64
+cmis_detector_ioffset = 0
+cmis_impedance_reduction = 0
+cal_select_channel = 0
+qc_threshold = 25
+qc_hysteresis = 0
+pu_channel = 1
+enable_triggering = 1
+
+[REG.ctrl_ch_08]
+cmis_detector_voffset = 64
+cmis_detector_ioffset = 0
+cmis_impedance_reduction = 0
+cal_select_channel = 0
+qc_threshold = 25
+qc_hysteresis = 0
+pu_channel = 1
+enable_triggering = 1
+
+[REG.ctrl_ch_09]
+cmis_detector_voffset = 64
+cmis_detector_ioffset = 0
+cmis_impedance_reduction = 0
+cal_select_channel = 0
+qc_threshold = 25
+qc_hysteresis = 0
+pu_channel = 1
+enable_triggering = 1
+
+[REG.ctrl_ch_10]
+cmis_detector_voffset = 64
+cmis_detector_ioffset = 0
+cmis_impedance_reduction = 0
+cal_select_channel = 0
+qc_threshold = 25
+qc_hysteresis = 0
+pu_channel = 1
+enable_triggering = 1
+
+[REG.ctrl_ch_11]
+cmis_detector_voffset = 64
+cmis_detector_ioffset = 0
+cmis_impedance_reduction = 0
+cal_select_channel = 0
+qc_threshold = 25
+qc_hysteresis = 0
+pu_channel = 1
+enable_triggering = 1
+
+[REG.ctrl_ch_12]
+cmis_detector_voffset = 64
+cmis_detector_ioffset = 0
+cmis_impedance_reduction = 0
+cal_select_channel = 0
+qc_threshold = 25
+qc_hysteresis = 0
+pu_channel = 1
+enable_triggering = 1
+
+[REG.ctrl_ch_13]
+cmis_detector_voffset = 64
+cmis_detector_ioffset = 0
+cmis_impedance_reduction = 0
+cal_select_channel = 0
+qc_threshold = 25
+qc_hysteresis = 0
+pu_channel = 1
+enable_triggering = 1
+
+[REG.ctrl_ch_14]
+cmis_detector_voffset = 64
+cmis_detector_ioffset = 0
+cmis_impedance_reduction = 0
+cal_select_channel = 0
+qc_threshold = 25
+qc_hysteresis = 0
+pu_channel = 1
+enable_triggering = 1
+
+[REG.ctrl_ch_15]
+cmis_detector_voffset = 64
+cmis_detector_ioffset = 0
+cmis_impedance_reduction = 0
+cal_select_channel = 0
+qc_threshold = 25
+qc_hysteresis = 0
+pu_channel = 1
+enable_triggering = 1
+
+[REG.ctrl_ch_16]
+cmis_detector_voffset = 64
+cmis_detector_ioffset = 0
+cmis_impedance_reduction = 0
+cal_select_channel = 0
+qc_threshold = 25
+qc_hysteresis = 0
+pu_channel = 1
+enable_triggering = 1
+
+[REG.ctrl_ch_17]
+cal_select_channel = 0
+qc_threshold = 30
+qc_hysteresis = 0
+pu_channel = 1
+enable_triggering = 1
+
+[REG.channel_config]
+cmis_gain = 0 # set to 7 when cal pulses are used
+ci_gain = 0 
+ci_compmode = 0
+shaper_bias = 6
+shaper_feedback_cap = 5
+shaper_feedback_res = 1
+shaper_hold_cap = 1 
+shaper_input_cap = 4
+
+[REG.channel_control]
+ci_feedback_dac = 0
+ci_use_reset = 0
+th_select_input = 0
+cb_select_input = 0
+ms_select_input = 0
+cc_enable_dcc = 0
+cc_threshold = 20
+pt100_enable_excitation = 0
+
+[REG.adc_config]
+analog_readout_mode = 0
+adc_sample_duration = 4
+adc_mode = 1
+
+[REG.cal_dac]
+cal_dac = 0
+
+[REG.pd_modules]
+pu_sum_cc = 1
+pu_sum_ci = 1
+pu_sum_sha = 1
+pu_sum_th = 1
+pu_sum_qc = 1
+pu_sum_cb = 1
+pu_cmis = 1
+pu_cc = 1
+pu_ci_fb_dac = 1
+pu_ci = 1
+pu_sha = 1
+pu_th = 1
+pu_qc = 1
+pu_cb = 0
+pu_trigger_output_enable = 1
+pu_adc_ref = 1
+pu_pt100 = 0
+pu_mb = 1
+
+[REG.cal_ctrl]
+cal_cv_range_low = 0
+cal_cv_range_mid = 0
+cal_cv_range_high = 1
+cal_trigger_select = 0
+cal_mode = 0 # set this to enable cal pulses
+
+[REG.readout_fixed_list]
+ADC_IN = 0
+SUM_CH = 1
+CH_16 = 1
+CH_15 = 1
+CH_14 = 1
+CH_13 = 1
+CH_12 = 1
+CH_11 = 1
+CH_10 = 1
+CH_9 = 1
+CH_8 = 1
+CH_7 = 1
+CH_6 = 1
+CH_5 = 1
+CH_4 = 1
+CH_3 = 1
+CH_2 = 1
+CH_1 = 1
+ADC_PT100_SENSE = 0
+
+[REG.readout_mode]
+int_hold_tune = 31
+int_hold_delay = 5
+int_hold_source = 2
+readout_list_mode = 0
+readout_en_spi_forced_start = 0
+readout_en_ext_hold_start = 0 #finding the offset
+readout_en_int_hold_start = 1 #normal opperation
+
+[REG.amux_ctrl]
+adc_source_select = 0
+adc_enable_manual_selection = 0
+
+[REG.adc_clk_div_factor]
+adc_clk_div_factor = 0
+
+[REG.sysclock_ctrl]
+sysclk_disable = 0
+sysclk_standby = 0
+
+[REG.cmd_dcal]
+cmd_dcal = 0
+
+[REG.cmd_readout]
+cmd_readout = 0
+

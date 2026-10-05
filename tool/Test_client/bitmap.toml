@@ -1,0 +1,358 @@
+[[REG.ctrl_ch_01]]
+address = 0
+bits = [
+    {name = "cmis_detector_voffset", length = 8},
+    {name = "cmis_detector_ioffset", length = 3},
+    {name = "cmis_impedance_reduction", length = 1},
+    {name = "cal_select_channel", length = 1},
+    {name = "qc_threshold", length = 8},
+    {name = "qc_hysteresis", length = 3},
+    {name = "pu_channel", length = 1},
+    {name = "enable_triggering", length = 1}
+]
+
+[[REG.ctrl_ch_02]]
+address = 1
+bits = [
+    {name = "cmis_detector_voffset", length = 8},
+    {name = "cmis_detector_ioffset", length = 3},
+    {name = "cmis_impedance_reduction", length = 1},
+    {name = "cal_select_channel", length = 1},
+    {name = "qc_threshold", length = 8},
+    {name = "qc_hysteresis", length = 3},
+    {name = "pu_channel", length = 1},
+    {name = "enable_triggering", length = 1}
+]
+
+[[REG.ctrl_ch_03]]
+address = 2
+bits = [
+    {name = "cmis_detector_voffset", length = 8},
+    {name = "cmis_detector_ioffset", length = 3},
+    {name = "cmis_impedance_reduction", length = 1},
+    {name = "cal_select_channel", length = 1},
+    {name = "qc_threshold", length = 8},
+    {name = "qc_hysteresis", length = 3},
+    {name = "pu_channel", length = 1},
+    {name = "enable_triggering", length = 1}
+]
+
+[[REG.ctrl_ch_04]]
+address = 3
+bits = [
+    {name = "cmis_detector_voffset", length = 8},
+    {name = "cmis_detector_ioffset", length = 3},
+    {name = "cmis_impedance_reduction", length = 1},
+    {name = "cal_select_channel", length = 1},
+    {name = "qc_threshold", length = 8},
+    {name = "qc_hysteresis", length = 3},
+    {name = "pu_channel", length = 1},
+    {name = "enable_triggering", length = 1}
+]
+
+[[REG.ctrl_ch_05]]
+address = 4
+bits = [
+    {name = "cmis_detector_voffset", length = 8},
+    {name = "cmis_detector_ioffset", length = 3},
+    {name = "cmis_impedance_reduction", length = 1},
+    {name = "cal_select_channel", length = 1},
+    {name = "qc_threshold", length = 8},
+    {name = "qc_hysteresis", length = 3},
+    {name = "pu_channel", length = 1},
+    {name = "enable_triggering", length = 1}
+]
+
+[[REG.ctrl_ch_06]]
+address = 5
+bits = [
+    {name = "cmis_detector_voffset", length = 8},
+    {name = "cmis_detector_ioffset", length = 3},
+    {name = "cmis_impedance_reduction", length = 1},
+    {name = "cal_select_channel", length = 1},
+    {name = "qc_threshold", length = 8},
+    {name = "qc_hysteresis", length = 3},
+    {name = "pu_channel", length = 1},
+    {name = "enable_triggering", length = 1}
+]
+
+[[REG.ctrl_ch_07]]
+address = 6
+bits = [
+    {name = "cmis_detector_voffset", length = 8},
+    {name = "cmis_detector_ioffset", length = 3},
+    {name = "cmis_impedance_reduction", length = 1},
+    {name = "cal_select_channel", length = 1},
+    {name = "qc_threshold", length = 8},
+    {name = "qc_hysteresis", length = 3},
+    {name = "pu_channel", length = 1},
+    {name = "enable_triggering", length = 1}
+]
+
+[[REG.ctrl_ch_08]]
+address = 7
+bits = [
+    {name = "cmis_detector_voffset", length = 8},
+    {name = "cmis_detector_ioffset", length = 3},
+    {name = "cmis_impedance_reduction", length = 1},
+    {name = "cal_select_channel", length = 1},
+    {name = "qc_threshold", length = 8},
+    {name = "qc_hysteresis", length = 3},
+    {name = "pu_channel", length = 1},
+    {name = "enable_triggering", length = 1}
+]
+
+[[REG.ctrl_ch_09]]
+address = 8
+bits = [
+    {name = "cmis_detector_voffset", length = 8},
+    {name = "cmis_detector_ioffset", length = 3},
+    {name = "cmis_impedance_reduction", length = 1},
+    {name = "cal_select_channel", length = 1},
+    {name = "qc_threshold", length = 8},
+    {name = "qc_hysteresis", length = 3},
+    {name = "pu_channel", length = 1},
+    {name = "enable_triggering", length = 1}
+]
+
+[[REG.ctrl_ch_10]]
+address = 9
+bits = [
+    {name = "cmis_detector_voffset", length = 8},
+    {name = "cmis_detector_ioffset", length = 3},
+    {name = "cmis_impedance_reduction", length = 1},
+    {name = "cal_select_channel", length = 1},
+    {name = "qc_threshold", length = 8},
+    {name = "qc_hysteresis", length = 3},
+    {name = "pu_channel", length = 1},
+    {name = "enable_triggering", length = 1}
+]
+
+[[REG.ctrl_ch_11]]
+address = 10
+bits = [
+    {name = "cmis_detector_voffset", length = 8},
+    {name = "cmis_detector_ioffset", length = 3},
+    {name = "cmis_impedance_reduction", length = 1},
+    {name = "cal_select_channel", length = 1},
+    {name = "qc_threshold", length = 8},
+    {name = "qc_hysteresis", length = 3},
+    {name = "pu_channel", length = 1},
+    {name = "enable_triggering", length = 1}
+]
+
+[[REG.ctrl_ch_12]]
+address = 11
+bits = [
+    {name = "cmis_detector_voffset", length = 8},
+    {name = "cmis_detector_ioffset", length = 3},
+    {name = "cmis_impedance_reduction", length = 1},
+    {name = "cal_select_channel", length = 1},
+    {name = "qc_threshold", length = 8},
+    {name = "qc_hysteresis", length = 3},
+    {name = "pu_channel", length = 1},
+    {name = "enable_triggering", length = 1}
+]
+
+[[REG.ctrl_ch_13]]
+address = 12
+bits = [
+    {name = "cmis_detector_voffset", length = 8},
+    {name = "cmis_detector_ioffset", length = 3},
+    {name = "cmis_impedance_reduction", length = 1},
+    {name = "cal_select_channel", length = 1},
+    {name = "qc_threshold", length = 8},
+    {name = "qc_hysteresis", length = 3},
+    {name = "pu_channel", length = 1},
+    {name = "enable_triggering", length = 1}
+]
+
+[[REG.ctrl_ch_14]]
+address = 13
+bits = [
+    {name = "cmis_detector_voffset", length = 8},
+    {name = "cmis_detector_ioffset", length = 3},
+    {name = "cmis_impedance_reduction", length = 1},
+    {name = "cal_select_channel", length = 1},
+    {name = "qc_threshold", length = 8},
+    {name = "qc_hysteresis", length = 3},
+    {name = "pu_channel", length = 1},
+    {name = "enable_triggering", length = 1}
+]
+
+[[REG.ctrl_ch_15]]
+address = 14
+bits = [
+    {name = "cmis_detector_voffset", length = 8},
+    {name = "cmis_detector_ioffset", length = 3},
+    {name = "cmis_impedance_reduction", length = 1},
+    {name = "cal_select_channel", length = 1},
+    {name = "qc_threshold", length = 8},
+    {name = "qc_hysteresis", length = 3},
+    {name = "pu_channel", length = 1},
+    {name = "enable_triggering", length = 1}
+]
+
+[[REG.ctrl_ch_16]]
+address = 15
+bits = [
+    {name = "cmis_detector_voffset", length = 8},
+    {name = "cmis_detector_ioffset", length = 3},
+    {name = "cmis_impedance_reduction", length = 1},
+    {name = "cal_select_channel", length = 1},
+    {name = "qc_threshold", length = 8},
+    {name = "qc_hysteresis", length = 3},
+    {name = "pu_channel", length = 1},
+    {name = "enable_triggering", length = 1}
+]
+
+[[REG.ctrl_ch_17]]
+address = 16
+bits = [
+    {name = "cal_select_channel", length = 1},
+    {name = "qc_threshold", length = 8},
+    {name = "qc_hysteresis", length = 3},
+    {name = "pu_channel", length = 1},
+    {name = "enable_triggering", length = 1}
+]
+
+[[REG.channel_config]]
+address = 17
+bits = [
+    {name = "cmis_gain", length = 3},
+    {name = "ci_gain", length = 2},
+    {name = "ci_compmode", length = 1},
+    {name = "shaper_bias", length = 4},
+    {name = "shaper_feedback_cap", length = 4},
+    {name = "shaper_feedback_res", length = 3},
+    {name = "shaper_hold_cap", length = 3},
+    {name = "shaper_input_cap", length = 4}
+]
+
+[[REG.channel_control]]
+address = 18
+bits = [
+    {name = "ci_feedback_dac", length = 8},
+    {name = "ci_use_reset", length = 1},
+    {name = "th_select_input", length = 1},
+    {name = "cb_select_input", length = 2},
+    {name = "ms_select_input", length = 1},
+    {name = "cc_enable_dcc", length = 1},
+    {name = "cc_threshold", length = 8},
+    {name = "pt100_enable_excitation", length = 1}
+]
+
+[[REG.adc_config]]
+address = 19
+bits = [
+    {name = "analog_readout_mode", length = 1},
+    {name = "adc_sample_duration", length = 4},
+    {name = "adc_mode", length = 1}
+]
+
+[[REG.cal_dac]]
+address = 20
+bits = [
+    {name = "cal_dac", length = 8}
+]
+
+[[REG.pd_modules]]
+address = 21
+bits = [
+    {name = "pu_sum_cc", length = 1},
+    {name = "pu_sum_ci", length = 1},
+    {name = "pu_sum_sha", length = 1},
+    {name = "pu_sum_th", length = 1},
+    {name = "pu_sum_qc", length = 1},
+    {name = "pu_sum_cb", length = 1},
+    {name = "pu_cmis", length = 1},
+    {name = "pu_cc", length = 1},
+    {name = "pu_ci_fb_dac", length = 1},
+    {name = "pu_ci", length = 1},
+    {name = "pu_sha", length = 1},
+    {name = "pu_th", length = 1},
+    {name = "pu_qc", length = 1},
+    {name = "pu_cb", length = 1},
+    {name = "pu_trigger_output_enable", length = 1},
+    {name = "pu_adc_ref", length = 1},
+    {name = "pu_pt100", length = 1},
+    {name = "pu_mb", length = 1}
+]
+
+[[REG.cal_ctrl]]
+address = 22
+bits = [
+    {name = "cal_cv_range_low", length = 1},
+    {name = "cal_cv_range_mid", length = 1},
+    {name = "cal_cv_range_high", length = 1},
+    {name = "cal_trigger_select", length = 1},
+    {name = "cal_mode", length = 2}
+]
+
+[[REG.readout_fixed_list]]
+address = 23
+bits = [
+    {name = "ADC_IN", length = 1},
+    {name = "SUM_CH", length = 1},
+    {name = "CH_16", length = 1},
+    {name = "CH_15", length = 1},
+    {name = "CH_14", length = 1},
+    {name = "CH_13", length = 1},
+    {name = "CH_12", length = 1},
+    {name = "CH_11", length = 1},
+    {name = "CH_10", length = 1},
+    {name = "CH_9", length = 1},
+    {name = "CH_8", length = 1},
+    {name = "CH_7", length = 1},
+    {name = "CH_6", length = 1},
+    {name = "CH_5", length = 1},
+    {name = "CH_4", length = 1},
+    {name = "CH_3", length = 1},
+    {name = "CH_2", length = 1},
+    {name = "CH_1", length = 1},
+    {name = "ADC_PT100_SENSE", length = 1}
+]
+
+[[REG.readout_mode]]
+address = 24
+bits = [
+    {name = "int_hold_tune", length = 5},
+    {name = "int_hold_delay", length = 4},
+    {name = "int_hold_source", length = 2},
+    {name = "readout_list_mode", length = 1},
+    {name = "readout_en_spi_forced_start", length = 1},
+    {name = "readout_en_ext_hold_start", length = 1},
+    {name = "readout_en_int_hold_start", length = 1}
+]
+
+[[REG.amux_ctrl]]
+address = 25
+bits = [
+    {name = "adc_source_select", length = 5},
+    {name = "adc_enable_manual_selection", length = 1}
+]
+
+[[REG.adc_clk_div_factor]]
+address = 26
+bits = [
+    {name = "adc_clk_div_factor", length = 2}
+]
+
+[[REG.sysclock_ctrl]]
+address = 27
+bits = [
+    {name = "sysclk_disable", length = 1},
+    {name = "sysclk_standby", length = 1}
+]
+
+[[REG.cmd_dcal]]
+address = 28
+bits = [
+    {name = "cmd_dcal", length = 1}
+]
+
+[[REG.cmd_readout]]
+address = 29
+bits = [
+    {name = "cmd_readout", length = 1}
+]
