@@ -1,4 +1,3 @@
-
 export module Domain.IO_pins;
 import Type.Abstract_IO_pin;
 
@@ -36,10 +35,17 @@ export namespace Domain {
         Pin_SPI_MOSI,
         Pin_SPI_SCK,
         Pin_EOUT_MON,
-        Pin_UART_RXD1,
-        Pin_UART_TXD1,
+        Pin_USART1_RXD,
+        Pin_USART1_TXD,
         Pin_LED0,
         Pin_LED1,
+        Pin_DAC0,
+        Pin_ADC0_0,
+        Pin_USART2_RXD,
+        Pin_USART2_TXD,
+        Pin_USART2_SCK,
+        Pin_USART2_RTS,
+        Pin_USART2_CTS,
         Pin_ALT_WKUP6,
         Pin_TEMP_ALERT,
 

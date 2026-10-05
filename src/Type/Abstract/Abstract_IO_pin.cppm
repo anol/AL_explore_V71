@@ -25,7 +25,7 @@ namespace Abstract {
 
         /// Purpose: The Pin_mux setting is used to select which peripheral is controlling the pin
         enum Pin_mode : uint8_t {
-            Mode_GPIO, Mode_A, Mode_B, Mode_C, Mode_D,
+            Mode_GPIO, Mode_A, Mode_B, Mode_C, Mode_D, Mode_alternate
         };
 
         /// Purpose: The Pin_type specifies the pin electric configuration

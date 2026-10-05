@@ -44,8 +44,6 @@ export namespace SamV71
 
         void print_diagnostics() const;
 
-        static void initialize_clocks();
-
     private:
         static void pin_configure(Pin_port, uint8_t pin, Pin_mode, Pin_type);
 

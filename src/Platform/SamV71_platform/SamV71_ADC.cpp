@@ -7,6 +7,7 @@ module;
 
 module Platform.SamV71_ADC;
 import Type.Abstract_ADC;
+import Platform.SamV71_clock;
 
 #define SAMV71 true
 #define AFEC0 AFEC0_REGS
@@ -191,6 +192,7 @@ namespace SamV71 {
         /* Enable peripheral clock. */
         // pmc_enable_periph_clk(pid);
         // sleepmgr_lock_mode(SLEEPMGR_SLEEP_WFI);
+        SamV71_clock::enable_peripheral_clock(pid);
     }
 
     void afec_get_config_defaults(afec_config *const cfg) {

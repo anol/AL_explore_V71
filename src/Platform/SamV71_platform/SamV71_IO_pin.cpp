@@ -115,6 +115,14 @@ namespace SamV71 {
         /* Peripheral mux: claim pin for GPIO, or route it to peripheral A/B/C/D */
         if (mode == Mode_GPIO) {
             pio->PIO_PER = mask;
+        } else if (mode == Mode_alternate) {
+
+
+
+            // ADC and DAC
+
+
+
         } else {
             uint32_t abcdsr0 = pio->PIO_ABCDSR[0];
             uint32_t abcdsr1 = pio->PIO_ABCDSR[1];
@@ -187,13 +195,5 @@ namespace SamV71 {
             printf("Pin %d.%d: type=%d, %s=%d\r\n",
                    the_port, the_pin, the_type, the_name, get() ? 1 : 0);
         }
-    }
-
-    void SamV71_IO_pin::initialize_clocks() {
-        SamV71_clock::enable_peripheral_clock(ID_PIOA);
-        SamV71_clock::enable_peripheral_clock(ID_PIOB);
-        SamV71_clock::enable_peripheral_clock(ID_PIOC);
-        SamV71_clock::enable_peripheral_clock(ID_PIOD);
-        SamV71_clock::enable_peripheral_clock(ID_PIOE);
     }
 } // SamV71

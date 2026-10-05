@@ -12,6 +12,7 @@ target_sources(${THE_TARGET_NAME} PUBLIC
         SamV71_clock.cpp
         SamV71_DAC.cpp
         SamV71_IO_pin.cpp
+        SamV71_platform.cpp
         SamV71_SPI.cpp
         SamV71_USART.cpp
 )
@@ -21,6 +22,7 @@ target_sources(${THE_TARGET_NAME} PRIVATE
         SamV71_clock.cppm
         SamV71_DAC.cppm
         SamV71_IO_pin.cppm
+        SamV71_platform.cppm
         SamV71_SPI.cppm
         SamV71_USART.cppm
 )

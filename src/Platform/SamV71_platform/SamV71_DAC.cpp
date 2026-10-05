@@ -7,6 +7,7 @@ module;
 
 module Platform.SamV71_DAC;
 import Type.Abstract_DAC;
+import Platform.SamV71_clock;
 
 #define wave_to_dacc(wave, amplitude, max_digital, max_amplitude) \
 	(((int)(wave) * (amplitude) / (max_digital)) + (max_amplitude / 2))
@@ -94,8 +95,7 @@ namespace SamV71 {
     }
 
     void SamV71_DAC::initialize() {
-        // configure IO
-        // sysclk_enable_peripheral_clock(DACC_ID);
+        SamV71_clock::enable_peripheral_clock(ID_DACC);
         dacc_reset(DACC_BASE);
         dacc_set_transfer_mode(DACC_BASE, 0);
         dacc_enable_channel(DACC_BASE, DACC_CHANNEL);
