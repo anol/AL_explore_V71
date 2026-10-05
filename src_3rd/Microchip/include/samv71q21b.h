@@ -307,7 +307,7 @@ void TC1_CH0_Handler               ( void );
 void TC1_CH1_Handler               ( void );
 void TC1_CH2_Handler               ( void );
 void AFEC0_Handler                 ( void );
-void DACC_Handler                  ( void );
+void ISR_DACC                  ( void );
 void PWM0_Handler                  ( void );
 void ICM_Handler                   ( void );
 void ACC_Handler                   ( void );

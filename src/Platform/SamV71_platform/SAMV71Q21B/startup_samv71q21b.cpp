@@ -244,14 +244,14 @@ const DeviceVectors exception_table = {
     .pfnPIOB_Handler       = (void *) PIOB_Handler,        /* 11 Parallel Input/Output Controller */
     .pfnPIOC_Handler       = (void *) PIOC_Handler,        /* 12 Parallel Input/Output Controller */
     .pfnUSART0_Handler     = (void *) USART0_Handler,      /* 13 Universal Synchronous Asynchronous Receiver Transmitter */
-    .pfnUSART1_Handler     = (void *) ISR_USART1,      /* 14 Universal Synchronous Asynchronous Receiver Transmitter */
+    .pfnUSART1_Handler     = (void *) ISR_USART1,          /* 14 Universal Synchronous Asynchronous Receiver Transmitter */
     .pfnUSART2_Handler     = (void *) USART2_Handler,      /* 15 Universal Synchronous Asynchronous Receiver Transmitter */
     .pfnPIOD_Handler       = (void *) PIOD_Handler,        /* 16 Parallel Input/Output Controller */
     .pfnPIOE_Handler       = (void *) PIOE_Handler,        /* 17 Parallel Input/Output Controller */
     .pfnHSMCI_Handler      = (void *) HSMCI_Handler,       /* 18 High Speed MultiMedia Card Interface */
     .pfnTWIHS0_Handler     = (void *) TWIHS0_Handler,      /* 19 Two-wire Interface High Speed */
     .pfnTWIHS1_Handler     = (void *) TWIHS1_Handler,      /* 20 Two-wire Interface High Speed */
-    .pfnSPI0_Handler       = (void *) ISR_SPI0,        /* 21 Serial Peripheral Interface */
+    .pfnSPI0_Handler       = (void *) ISR_SPI0,            /* 21 Serial Peripheral Interface */
     .pfnSSC_Handler        = (void *) SSC_Handler,         /* 22 Synchronous Serial Controller */
     .pfnTC0_CH0_Handler    = (void *) TC0_CH0_Handler,     /* 23 Timer/Counter 0 Channel 0 */
     .pfnTC0_CH1_Handler    = (void *) TC0_CH1_Handler,     /* 24 Timer/Counter 0 Channel 1 */
@@ -260,7 +260,7 @@ const DeviceVectors exception_table = {
     .pfnTC1_CH1_Handler    = (void *) TC1_CH1_Handler,     /* 27 Timer/Counter 1 Channel 1 */
     .pfnTC1_CH2_Handler    = (void *) TC1_CH2_Handler,     /* 28 Timer/Counter 1 Channel 2 */
     .pfnAFEC0_Handler      = (void *) AFEC0_Handler,       /* 29 Analog Front-End Controller */
-    .pfnDACC_Handler       = (void *) DACC_Handler,        /* 30 Digital-to-Analog Converter Controller */
+    .pfnDACC_Handler       = (void *) ISR_DACC,            /* 30 Digital-to-Analog Converter Controller */
     .pfnPWM0_Handler       = (void *) PWM0_Handler,        /* 31 Pulse Width Modulation Controller */
     .pfnICM_Handler        = (void *) ICM_Handler,         /* 32 Integrity Check Monitor */
     .pfnACC_Handler        = (void *) ACC_Handler,         /* 33 Analog Comparator Controller */
@@ -310,7 +310,7 @@ const DeviceVectors exception_table = {
 static inline void tcm_disable() {
     __asm volatile ("dsb"); // Data Synchronization Barrier
     __asm volatile ("isb"); // Instruction Synchronization Barrier
-    SCB->ITCMCR &= ~(uint32_t)(1UL);
+    SCB->ITCMCR &= ~(uint32_t) (1UL);
     SCB->DTCMCR &= ~(uint32_t) SCB_DTCMCR_EN_Msk;
     __asm volatile ("dsb"); // Data Synchronization Barrier
     __asm volatile ("isb"); // Instruction Synchronization Barrier
@@ -323,14 +323,14 @@ static inline void tcm_disable() {
 extern "C" void Reset_Handler() {
     uint32_t *pSrc, *pDest;
 
-    WDT_REGS->WDT_MR = WDT_MR_WDDIS_Msk; // Disable the watchdog
+    WDT_REGS->WDT_MR = WDT_MR_WDDIS_Msk;       // Disable the watchdog
     RSWDT_REGS->RSWDT_MR = RSWDT_MR_WDDIS_Msk; // Disable RSWDT
     //
     // SCB_DisableICache();
     // SCB_DisableDCache();
 
     /* Initialize the relocate segment */
-    pSrc  = &_etext;
+    pSrc = &_etext;
     pDest = &_srelocate;
 
     if (pSrc != pDest) {
@@ -352,7 +352,7 @@ extern "C" void Reset_Handler() {
     // tcm_disable();
 
     /* Set the vector table base address */
-    pSrc      = (uint32_t *) &_sfixed;
+    pSrc = (uint32_t *) &_sfixed;
     SCB->VTOR = ((uint32_t) pSrc & SCB_VTOR_TBLOFF_Msk);
 
     /* Enable the UsageFault_Handler */
@@ -393,28 +393,28 @@ static volatile uint32_t hfsr = 0;
 static volatile uint32_t abfsr = 0;
 static volatile uint32_t mmfar = 0;
 static volatile uint32_t bfar = 0;
-static volatile uint32_t frame_r0  = 0;
-static volatile uint32_t frame_r1  = 0;
-static volatile uint32_t frame_r2  = 0;
-static volatile uint32_t frame_r3  = 0;
+static volatile uint32_t frame_r0 = 0;
+static volatile uint32_t frame_r1 = 0;
+static volatile uint32_t frame_r2 = 0;
+static volatile uint32_t frame_r3 = 0;
 static volatile uint32_t frame_r12 = 0;
-static volatile uint32_t frame_lr  = 0;
-static volatile uint32_t frame_pc  = 0;
+static volatile uint32_t frame_lr = 0;
+static volatile uint32_t frame_pc = 0;
 static volatile uint32_t frame_psr = 0;
 
 extern "C" void capture_stack_frame(uint32_t *frame) {
-    cfsr      = SCB->CFSR;
-    hfsr      = SCB->HFSR;
-    abfsr     = SCB->ABFSR;
-    mmfar     = SCB->MMFAR;
-    bfar      = SCB->BFAR;
-    frame_r0  = frame[0];
-    frame_r1  = frame[1];
-    frame_r2  = frame[2];
-    frame_r3  = frame[3];
+    cfsr = SCB->CFSR;
+    hfsr = SCB->HFSR;
+    abfsr = SCB->ABFSR;
+    mmfar = SCB->MMFAR;
+    bfar = SCB->BFAR;
+    frame_r0 = frame[0];
+    frame_r1 = frame[1];
+    frame_r2 = frame[2];
+    frame_r3 = frame[3];
     frame_r12 = frame[4];
-    frame_lr  = frame[5];
-    frame_pc  = frame[6];
+    frame_lr = frame[5];
+    frame_pc = frame[6];
     frame_psr = frame[7];
     __asm volatile ("bkpt #0");
     while (true) {
@@ -433,6 +433,7 @@ void HardFault_Handler() {
         "b capture_stack_frame \n"
     );
 }
+
 __attribute__((naked))
 void BusFault_Handler() {
     __asm volatile
@@ -446,11 +447,11 @@ void BusFault_Handler() {
 }
 
 void Dummy_Handler() {
-    cfsr  = SCB->CFSR;
-    hfsr  = SCB->HFSR;
+    cfsr = SCB->CFSR;
+    hfsr = SCB->HFSR;
     abfsr = SCB->ABFSR;
     mmfar = SCB->MMFAR;
-    bfar  = SCB->BFAR;
+    bfar = SCB->BFAR;
     __asm volatile ("bkpt #0");
     while (true) {
         __NOP();
@@ -458,11 +459,11 @@ void Dummy_Handler() {
 }
 
 void NonMaskableInt_Handler() {
-    cfsr  = SCB->CFSR;
-    hfsr  = SCB->HFSR;
+    cfsr = SCB->CFSR;
+    hfsr = SCB->HFSR;
     abfsr = SCB->ABFSR;
     mmfar = SCB->MMFAR;
-    bfar  = SCB->BFAR;
+    bfar = SCB->BFAR;
     __asm volatile ("bkpt #0");
     while (true) {
         __NOP();
@@ -470,11 +471,11 @@ void NonMaskableInt_Handler() {
 }
 
 void MemoryManagement_Handler() {
-    cfsr  = SCB->CFSR;
-    hfsr  = SCB->HFSR;
+    cfsr = SCB->CFSR;
+    hfsr = SCB->HFSR;
     abfsr = SCB->ABFSR;
     mmfar = SCB->MMFAR;
-    bfar  = SCB->BFAR;
+    bfar = SCB->BFAR;
     __asm volatile ("bkpt #0");
     while (true) {
         __NOP();
@@ -482,10 +483,10 @@ void MemoryManagement_Handler() {
 }
 
 void UsageFault_Handler() {
-    cfsr  = SCB->CFSR;
-    hfsr  = SCB->HFSR;
+    cfsr = SCB->CFSR;
+    hfsr = SCB->HFSR;
     mmfar = SCB->MMFAR;
-    bfar  = SCB->BFAR;
+    bfar = SCB->BFAR;
     __asm volatile ("bkpt #0");
     while (true) {
         __NOP();
@@ -493,15 +494,16 @@ void UsageFault_Handler() {
 }
 
 void DebugMonitor_Handler() {
-    cfsr  = SCB->CFSR;
-    hfsr  = SCB->HFSR;
+    cfsr = SCB->CFSR;
+    hfsr = SCB->HFSR;
     mmfar = SCB->MMFAR;
-    bfar  = SCB->BFAR;
+    bfar = SCB->BFAR;
     __asm volatile ("bkpt #0");
     while (true) {
         __NOP();
     }
 }
+
 //
 // void Dummy_SysTick_Handler() {
 //     __NOP();

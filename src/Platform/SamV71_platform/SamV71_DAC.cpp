@@ -2,6 +2,7 @@ module;
 
 #include <cstdint>
 
+#include "FreeRTOSConfig.h"
 #include "sam.h"
 #include "component/dacc.h"
 
@@ -9,100 +10,131 @@ module Platform.SamV71_DAC;
 import Type.Abstract_DAC;
 import Platform.SamV71_clock;
 
-#define wave_to_dacc(wave, amplitude, max_digital, max_amplitude) \
-	(((int)(wave) * (amplitude) / (max_digital)) + (max_amplitude / 2))
+namespace SamV71_DAC_definition {
+    static SamV71::SamV71_DAC *optional_DAC{};
 
-#define MAX_DIGITAL   (0x7ff)
+    namespace {
+        struct Definition {
+            dacc_registers_t *the_base;
+            IRQn_Type the_IRQ_number;
+            uint32_t the_IRQ_priority;
+            uint32_t the_channel;
+        };
+    }
 
-#define MAX_AMPLITUDE (DACC_MAX_DATA)
+    static Definition Definition_DACC{
+        .the_base         = DACC_REGS,
+        .the_IRQ_number   = DACC_IRQn,
+        .the_IRQ_priority = configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY,
+        .the_channel      = 0,
+    };
 
-#define DACC_CHANNEL 0
-#define DACC_WP_KEY     (0x444143)
-#define DACC_RESOLUTION     12
-#define DACC_MAX_DATA       ((1 << DACC_RESOLUTION) - 1)
-#define MAX_CH_NB        1
-#define SAMPLES (100)
-#define DACC_BASE DACC_REGS
-#define DACC_ANALOG_CONTROL (DACC_ACR_IBCTLCH0(0x02) | DACC_ACR_IBCTLCH1(0x02))
-/** Waveform selector */
-uint8_t g_uc_wave_sel = 0;
+    enum {
+        DACC_WP_KEY    = (0x444143),
+        Analog_control = (DACC_ACR_IBCTLCH0(0x02) | DACC_ACR_IBCTLCH1(0x02)),
+    };
 
-/** 100 points of sinewave samples, amplitude is MAX_DIGITAL*2 */
-const int16_t gc_us_sine_data[SAMPLES] = {
-    0x0, 0x080, 0x100, 0x17f, 0x1fd, 0x278, 0x2f1, 0x367, 0x3da, 0x449,
-    0x4b3, 0x519, 0x579, 0x5d4, 0x629, 0x678, 0x6c0, 0x702, 0x73c, 0x76f,
-    0x79b, 0x7bf, 0x7db, 0x7ef, 0x7fb, 0x7ff, 0x7fb, 0x7ef, 0x7db, 0x7bf,
-    0x79b, 0x76f, 0x73c, 0x702, 0x6c0, 0x678, 0x629, 0x5d4, 0x579, 0x519,
-    0x4b3, 0x449, 0x3da, 0x367, 0x2f1, 0x278, 0x1fd, 0x17f, 0x100, 0x080,
+    static void *get_definition(const uint8_t id) { return id == 0 ? static_cast<void *>(&Definition_DACC) : nullptr; }
+}
 
-    -0x0, -0x080, -0x100, -0x17f, -0x1fd, -0x278, -0x2f1, -0x367, -0x3da, -0x449,
-    -0x4b3, -0x519, -0x579, -0x5d4, -0x629, -0x678, -0x6c0, -0x702, -0x73c, -0x76f,
-    -0x79b, -0x7bf, -0x7db, -0x7ef, -0x7fb, -0x7ff, -0x7fb, -0x7ef, -0x7db, -0x7bf,
-    -0x79b, -0x76f, -0x73c, -0x702, -0x6c0, -0x678, -0x629, -0x5d4, -0x579, -0x519,
-    -0x4b3, -0x449, -0x3da, -0x367, -0x2f1, -0x278, -0x1fd, -0x17f, -0x100, -0x080
-};
+namespace SamV71_DACC_test_data {
+    constexpr int16_t Sin_table[] = {
+        0x0, 0x080, 0x100, 0x17f, 0x1fd, 0x278, 0x2f1, 0x367, 0x3da, 0x449,
+        0x4b3, 0x519, 0x579, 0x5d4, 0x629, 0x678, 0x6c0, 0x702, 0x73c, 0x76f,
+        0x79b, 0x7bf, 0x7db, 0x7ef, 0x7fb, 0x7ff, 0x7fb, 0x7ef, 0x7db, 0x7bf,
+        0x79b, 0x76f, 0x73c, 0x702, 0x6c0, 0x678, 0x629, 0x5d4, 0x579, 0x519,
+        0x4b3, 0x449, 0x3da, 0x367, 0x2f1, 0x278, 0x1fd, 0x17f, 0x100, 0x080,
+
+        -0x0, -0x080, -0x100, -0x17f, -0x1fd, -0x278, -0x2f1, -0x367, -0x3da, -0x449,
+        -0x4b3, -0x519, -0x579, -0x5d4, -0x629, -0x678, -0x6c0, -0x702, -0x73c, -0x76f,
+        -0x79b, -0x7bf, -0x7db, -0x7ef, -0x7fb, -0x7ff, -0x7fb, -0x7ef, -0x7db, -0x7bf,
+        -0x79b, -0x76f, -0x73c, -0x702, -0x6c0, -0x678, -0x629, -0x5d4, -0x579, -0x519,
+        -0x4b3, -0x449, -0x3da, -0x367, -0x2f1, -0x278, -0x1fd, -0x17f, -0x100, -0x080
+    };
+
+    enum : uint32_t {
+        Sample_count     = sizeof(Sin_table) / sizeof(Sin_table[0]),
+        DAC_resolution   = 12,
+        Max_data         = ((1 << DAC_resolution) - 1),
+        Amplitude_offset = Max_data / 2,
+        Max_digital      = 0x7ff * 2,
+    };
+
+    static uint8_t the_wave_type{};
+    static int32_t the_amplitude{1};
+    static uint32_t the_sample_index{};
+
+    static void next_sample() {
+        the_sample_index++;
+        if (the_sample_index >= Sample_count) {
+            the_sample_index = 0;
+        }
+    }
+
+    static uint32_t sin_wave() {
+        auto wave = Sin_table[the_sample_index];
+        return static_cast<int>(wave) * the_amplitude / Max_digital + Amplitude_offset;
+    }
+
+    static uint32_t square_wave() {
+        return ((the_sample_index > Sample_count / 2) ? 0 : Amplitude_offset);
+    }
+}
+
+extern "C" {
+void ISR_DACC() {
+    if (auto *driver = SamV71_DAC_definition::optional_DAC) {
+        driver->ISR();
+    } else {
+        NVIC_DisableIRQ(DACC_IRQn);
+        NVIC_ClearPendingIRQ(DACC_IRQn);
+    }
+}
+}
 
 namespace SamV71 {
-    void dacc_reset(dacc_registers_t *p_dacc) {
-        p_dacc->DACC_CR = DACC_CR_SWRST(1);
-    }
+    using namespace SamV71_DAC_definition;
 
-    void dacc_set_transfer_mode(dacc_registers_t *p_dacc, uint32_t ul_mode) {
-        if (ul_mode) {
-            p_dacc->DACC_MR = ul_mode;
-        } else {
-            p_dacc->DACC_MR = ul_mode;
-        }
-    }
-
-    void dacc_enable_channel(dacc_registers_t *p_dacc, uint32_t ul_channel) {
-        if (ul_channel > MAX_CH_NB) return;
-        p_dacc->DACC_CHER = DACC_CHER_CH0(ul_channel);
-    }
-
-    void dacc_set_analog_control(dacc_registers_t *p_dacc, uint32_t ul_analog_control) {
-        p_dacc->DACC_ACR = ul_analog_control;
-    }
-
-    uint32_t dacc_get_interrupt_status(dacc_registers_t *p_dacc) {
-        return p_dacc->DACC_ISR;
-    }
-
-    void dacc_write_conversion_data(dacc_registers_t *p_dacc, uint32_t ul_data, uint32_t channel) {
-        p_dacc->DACC_CDR[channel] = ul_data;
-    }
-
-    void on() {
-        static int32_t g_l_amplitude = 0;
-        static uint32_t g_ul_index_sample = 0;
-        uint32_t status = dacc_get_interrupt_status(DACC_BASE);
-        if ((status & DACC_ISR_TXRDY0_Msk) == DACC_ISR_TXRDY0(1)) {
-            g_ul_index_sample++;
-            if (g_ul_index_sample >= SAMPLES) {
-                g_ul_index_sample = 0;
-            }
-            uint32_t dac_val =
-                    g_uc_wave_sel
-                        ? ((g_ul_index_sample > SAMPLES / 2) ? 0 : MAX_AMPLITUDE)
-                        : wave_to_dacc(gc_us_sine_data[g_ul_index_sample],
-                                       g_l_amplitude,
-                                       MAX_DIGITAL * 2, MAX_AMPLITUDE);
-            dacc_write_conversion_data(DACC_BASE, dac_val, DACC_CHANNEL);
-        }
-    }
-
-    SamV71_DAC::SamV71_DAC() {
+    SamV71_DAC::SamV71_DAC() : optional_definition(get_definition(0)) {
+        configASSERT(optional_definition != nullptr);
     }
 
     void SamV71_DAC::initialize() {
-        SamV71_clock::enable_peripheral_clock(ID_DACC);
-        dacc_reset(DACC_BASE);
-        dacc_set_transfer_mode(DACC_BASE, 0);
-        dacc_enable_channel(DACC_BASE, DACC_CHANNEL);
-        dacc_set_analog_control(DACC_BASE, DACC_ANALOG_CONTROL);
+        if (optional_definition) {
+            auto *base = static_cast<Definition *>(optional_definition)->the_base;
+            auto channel = static_cast<Definition *>(optional_definition)->the_channel;
+            auto peripheral_id = static_cast<Definition *>(optional_definition)->the_IRQ_number;
+            SamV71_clock::enable_peripheral_clock(peripheral_id);
+            base->DACC_CR = DACC_CR_SWRST(1);         // Reset
+            base->DACC_MR = 0;                        // Transfer mode
+            base->DACC_CHER = DACC_CHER_CH0(channel); // Enable channel
+            base->DACC_ACR = Analog_control;
+        }
     }
 
-    bool SamV71_DAC::set(uint32_t value) {
+    bool SamV71_DAC::set(const uint32_t value) {
+        if (optional_definition) {
+            auto *base = static_cast<Definition *>(optional_definition)->the_base;
+            auto channel = static_cast<Definition *>(optional_definition)->the_channel;
+            base->DACC_CDR[channel] = value;
+        }
         return true;
+    }
+
+    void SamV71_DAC::ISR() {
+        if (optional_definition) {
+            auto *base = static_cast<Definition *>(optional_definition)->the_base;
+            auto status = base->DACC_ISR;
+            if ((status & DACC_ISR_TXRDY0_Msk) == DACC_ISR_TXRDY0(1)) {
+                ISR_ready();
+            }
+        }
+    }
+
+    void SamV71_DAC::ISR_ready() {
+        using namespace SamV71_DACC_test_data;
+        next_sample();
+        auto dac_val = the_wave_type ? square_wave() : sin_wave();
+        SamV71_DAC::set(dac_val);
     }
 } // SamV71
