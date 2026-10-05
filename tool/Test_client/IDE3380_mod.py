@@ -128,31 +128,6 @@ def IDE3380_serial_setup_f(ser):
             return_command_bytes = return_command.encode()
             if send_command(ser, command_bytes, return_command_bytes) == 0:
                 return
-    # Process GENERAL category
-    category_name = "GENERAL"
-    if category_name in data:
-        for section_name, section_data in data[category_name].items():
-            command = f"AT+{section_name}={section_data}\n"
-            command_bytes = command.encode()
-            return_command = f"OK={section_data}"
-            return_command_bytes = return_command.encode()
-            if send_command(ser, command_bytes, return_command_bytes) == 0:
-                return
-
-    # Test calibration
-    c = 200  # number of pulses
-    for i in range(0, 1, 1):
-        v = 200  # Dac value
-        command = f"AT+CAL={v},{c}\n"
-        command_bytes = command.encode()
-        return_command = f"OK={v},{c}"
-        return_command_bytes = return_command.encode()
-        if send_command(ser, command_bytes, return_command_bytes) == 0:
-            return
-
-    ser.readline().strip()
-    # output_type = data['GENERAL']['OUTPUT']
-    # return output_type
 
 
 def IDE3380_serial_loop(ser):
