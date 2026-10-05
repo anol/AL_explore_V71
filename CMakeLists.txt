@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 4.3)
 set(CMAKE_CXX_STANDARD 20)
 set(SOURCE_ROOT_DIR ${CMAKE_SOURCE_DIR}/src)
 
-include(${SOURCE_ROOT_DIR}/Platform/${PLATFORM}_platform/${PLATFORM}_toolchain.cmake)
+include(${SOURCE_ROOT_DIR}/Host/Win11/${PLATFORM}_win11_toolchain.cmake)
 
 # Get the repository and the current working branch
 execute_process(
