@@ -61,7 +61,7 @@ namespace SamV71_DACC_test_data {
     };
 
     static uint8_t the_wave_type{};
-    static int32_t the_amplitude{1};
+    static int32_t the_amplitude { Amplitude_offset };
     static uint32_t the_sample_index{};
 
     static void next_sample() {
