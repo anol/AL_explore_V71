@@ -53,8 +53,6 @@ export namespace Calibration {
 
         [[nodiscard]] int32_t get_voltage() const { return the_bias_volt; }
 
-        [[nodiscard]] int32_t get_DAC_raw() const { return the_DAC.get_DAC_raw(); }
-
         [[nodiscard]] uint32_t get_DAC_setting() const { return the_DAC.get_DAC_setting(); }
 
         [[nodiscard]] Status_code update_setpoints(Repository::Configuration_repository &repository);

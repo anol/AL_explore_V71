@@ -47,9 +47,9 @@ export namespace Calibration {
 
         int32_t calibrate(int32_t raw, int32_t cal35, int32_t cal45);
 
-        [[nodiscard]] int32_t get_raw_DAC() const { return use_DAC.get(); }
+        [[nodiscard]] uint32_t get_raw_DAC() const { return use_DAC.get(); }
 
-        [[nodiscard]] bool set_raw_DAC(const int32_t value) const { return use_DAC.set(value); }
+        [[nodiscard]] bool set_raw_DAC(const uint32_t value) const { return use_DAC.set(value); }
 
         void set_dac_test(int32_t value);
 
@@ -61,7 +61,7 @@ export namespace Calibration {
 
         void set_cal_45V(int32_t cal) { the_cal_45V = cal; }
 
-        [[nodiscard]] int32_t get_DAC_raw() const { return the_DAC_pre_cal; }
+        [[nodiscard]] int32_t get_pre_cal() const { return the_DAC_pre_cal; }
 
         [[nodiscard]] uint32_t get_DAC_setting() const { return the_DAC_setting; }
 
