@@ -12,6 +12,7 @@ export namespace SamV71 {
         enum { RX_queue_size = 128, TX_queue_size = 4096 };
 
         const uint8_t the_id;
+        bool the_echo_flag{};
         void *optional_definition;
         FreeRTOS::FreeRTOS_queue<uint8_t, RX_queue_size> the_RX_queue{};
         FreeRTOS::FreeRTOS_queue<uint8_t, TX_queue_size> the_TX_queue{};
@@ -43,7 +44,11 @@ export namespace SamV71 {
 
         int print(const char *data, int len) override;
 
+        bool toggle_echo() override { return the_echo_flag = !the_echo_flag; }
+
     private:
+        [[nodiscard]] bool is_echo() const { return the_echo_flag; }
+
         void init_USART();
 
         void init_interrupt();

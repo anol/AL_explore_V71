@@ -63,6 +63,7 @@ namespace SpectraNode_interface {
         "device", // Key_device
         "DIAG", // Key_DIAG
         "DUMP", // Key_DUMP
+        "ECHO", // Key_ECHO
         "format", // Key_format
         "FORMAT", // Key_FORMAT
         "gain", // Key_gain

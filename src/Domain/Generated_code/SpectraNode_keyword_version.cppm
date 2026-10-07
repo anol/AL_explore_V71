@@ -33,7 +33,7 @@ export namespace FW1038
 {
     namespace version
     {
-        using keyword = std::integral_constant<uint8_t, 1>;
-        constexpr const char *keyword_string = "1";
+        using keyword = std::integral_constant<uint8_t, 2>;
+        constexpr const char *keyword_string = "2";
     }
 }

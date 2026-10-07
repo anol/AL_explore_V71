@@ -93,6 +93,9 @@ void Housekeeping_provider::v_DIAG(Instruction_major& instruction)
     instruction.print_ack();
 }
 
+void Housekeeping_provider::v_ECHO(Instruction_major &) {
+}
+
 void Housekeeping_provider::v_TEST(Instruction_major&)
 {
     printf("Test_utility_provider::v_TEST:\r\n");

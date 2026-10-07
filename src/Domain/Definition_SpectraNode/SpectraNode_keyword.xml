@@ -16,7 +16,7 @@ Copyright (C) 2023 Integrated Detector Electronics AS
  -->
 
 <?xml-stylesheet type="text/xsl" href="commands_to_html.xsl"?>
-<keyword_definition product_id="FW1038" name="SpectraNode" version="1" interface="SpectraNode_interface">
+<keyword_definition product_id="FW1038" name="SpectraNode" version="2" interface="SpectraNode_interface">
     <keywords>
         <key name="ADC"/>
         <key name="ALARM"/>
@@ -34,6 +34,7 @@ Copyright (C) 2023 Integrated Detector Electronics AS
         <key name="DEMO"/>
         <key name="DIAG"/>
         <key name="DUMP"/>
+        <key name="ECHO"/>
         <key name="FORMAT"/>
         <key name="GET"/>
         <key name="HELP"/>

@@ -79,6 +79,10 @@ void Instrument_calibration_provider::v_CAL_DAC_V40_cal_40V(Instruction_major &i
     }
 }
 
+void Instrument_calibration_provider::v_CAL_DAC_data16(Instruction_major &, int data16_2) {
+    use_bias.get_DAC().set_dac_test(data16_2);
+}
+
 void Instrument_calibration_provider::v_CAL_TEST_BIAS(Instruction_major &instruction) {
     if (int32_t value; use_repository.get(Application::Active_mode, value).success() && Application::Mode_idle == value) {
         instruction.print_nack("NOT IMPLEMENTED");

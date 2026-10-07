@@ -32,18 +32,16 @@ import Application.Spectroscopic_data_provider;
 
 using namespace IDE3380;
 
-export namespace Application
-{
-    class Hello_world : public Abstract::Abstract_application
-    {
-        Abstract::Abstract_board& use_board;
+export namespace Application {
+    class Hello_world : public Abstract::Abstract_application {
+        Abstract::Abstract_board &use_board;
         TaskHandle_t the_task{};
         bool the_toggle_flag{};
 
         const Default_configuration the_default_configuration;
         Cadence_control the_cadence_control{};
         IDE3380_interface the_IDE3380;
-        Calibration::Bias_calibration the_bias{};
+        Calibration::Bias_calibration the_bias;
         MOCKUP::Mockup_persistent_storage the_storage{};
         Repository::Configuration_repository the_repository{the_default_configuration, the_storage};
         Event_counter the_event_counter{};
@@ -68,13 +66,12 @@ export namespace Application
         uint32_t the_background_count{};
 
     public:
-        explicit Hello_world(Abstract::Abstract_board& board)
-            : use_board(board), the_IDE3380(board),
+        explicit Hello_world(Abstract::Abstract_board &board)
+            : use_board(board), the_IDE3380(board), the_bias(board),
               the_housekeeper(board,
                               the_histogram, the_IDE3380, the_bias, the_repository,
                               the_cadence_control, the_data_provider, the_mode_control
-              )
-        {
+              ) {
         }
 
         void initialize() override;

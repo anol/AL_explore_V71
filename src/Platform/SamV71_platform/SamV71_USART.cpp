@@ -223,6 +223,9 @@ namespace SamV71
         uint8_t data;
         while (the_RX_queue.receive(&data))
         {
+            if (is_echo()) {
+                the_TX_queue.send(data);
+            }
             if (func)
             {
                 func(user, data);

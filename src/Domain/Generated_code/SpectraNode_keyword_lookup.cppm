@@ -28,7 +28,7 @@ import Support.Token_type;
 
 export namespace SpectraNode_interface {
 
-    constexpr int get_keyword_version() { return 1; }
+    constexpr int get_keyword_version() { return 2; }
 
     const char *get_keyword(unsigned char key);
 
@@ -69,6 +69,7 @@ export namespace SpectraNode_interface {
         Key_device,
         Key_DIAG,
         Key_DUMP,
+        Key_ECHO,
         Key_format,
         Key_FORMAT,
         Key_gain,

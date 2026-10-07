@@ -42,7 +42,6 @@ using namespace IDE3380;
 using namespace SpectraNode_interface;
 
 
-
 export class Instrument_calibration_provider : public Abstract_Instrument_calibration_provider {
     Calibration::Bias_calibration &use_bias;
     Repository::Configuration_repository &use_repository;
@@ -83,6 +82,8 @@ protected:
     void v_CAL_DAC_V35_cal_35V(Instruction_major &, int cal_35V_3) override;
 
     void v_CAL_DAC_V40_cal_40V(Instruction_major &, int cal_40V_3) override;
+
+    void v_CAL_DAC_data16(Instruction_major &, int data16_2) override;
 
     void v_CAL_TEST_BIAS(Instruction_major &) override;
 

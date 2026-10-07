@@ -12,7 +12,7 @@ export module Component.Bias_calibration;
 import Component.Bias_ADC;
 import Component.Bias_DAC;
 import Support.Configuration_repository;
-
+import Type.Abstract_board;
 
 
 export namespace Calibration {
@@ -22,10 +22,13 @@ export namespace Calibration {
         volatile int32_t the_bias_volt{};
         float gamma_param_A = 1;
         float gamma_param_B = 0;
-        Bias_DAC the_DAC{};
+        Bias_DAC the_DAC;
         Bias_ADC the_ADC{};
 
     public:
+        explicit Bias_calibration(Abstract::Abstract_board &board) : the_DAC(board.get_DAC()) {
+        }
+
         void initialize();
 
         void bias_temperature_control();
