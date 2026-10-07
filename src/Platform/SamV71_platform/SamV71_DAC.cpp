@@ -117,20 +117,17 @@ namespace SamV71 {
         if (optional_definition) {
             auto *base = static_cast<Definition *>(optional_definition)->the_base;
             auto channel = static_cast<Definition *>(optional_definition)->the_channel;
-            base->DACC_CDR[channel] = value;
-            success = true;
+            if ((base->DACC_CHER & DACC_CHSR_DACRDY0(channel) && base->DACC_CHER & DACC_CHSR_CH(channel))) {
+                base->DACC_CDR[channel] = value; // Write-only FIFO register
+                the_DAC_setting = value; // Save most recent setting
+                success = true;
+            }
         }
         return success;
     }
 
     uint32_t SamV71_DAC::get() const {
-        uint32_t value{};
-        if (optional_definition) {
-            auto *base = static_cast<Definition *>(optional_definition)->the_base;
-            auto channel = static_cast<Definition *>(optional_definition)->the_channel;
-            value = base->DACC_CDR[channel];
-        }
-        return value;
+        return the_DAC_setting;
     }
 
     void SamV71_DAC::ISR() {

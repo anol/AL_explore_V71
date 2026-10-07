@@ -9,6 +9,7 @@ import Type.Abstract_DAC;
 export namespace SamV71 {
     class SamV71_DAC : public Abstract::Abstract_DAC {
         void *optional_definition{};
+        uint32_t the_DAC_setting{};
 
     public:
         SamV71_DAC();
