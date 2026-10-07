@@ -139,6 +139,7 @@ don't need them).
 |---|---|
 | `AT+CAL_ADC_V35=<cal_35V(int -100000..-1)>` | Set bias ADC calibration 35V setpoint. |
 | `AT+CAL_ADC_V40=<cal_40V(int -100000..-1)>` | Set bias ADC calibration 40V setpoint. |
+| `AT+CAL_DAC=<data16(int 0..0xFFFF)>` | Set raw DAC value. |
 | `AT+CAL_DAC_V35=<cal_35V(int -100000..-1)>` | Set bias DAC calibration 35V setpoint. |
 | `AT+CAL_DAC_V40=<cal_40V(int -100000..-1)>` | Set bias DAC calibration 40V setpoint. |
 | `AT+CAL_DIAG` | Misc. diagnostic information wrt. calibration. |
@@ -173,6 +174,7 @@ don't need them).
 | Command | Description |
 |---|---|
 | `AT+DIAG` | Send miscellaneous diagnostic information. |
+| `AT+ECHO` | Toggle console echo on/off. |
 | `AT+HELP` | Show commands. |
 | `AT+STATUS` | Send mode and other system data. |
 | `AT+TEST` | Initiate a self-test sequence. |

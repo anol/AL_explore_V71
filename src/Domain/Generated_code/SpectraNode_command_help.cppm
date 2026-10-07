@@ -44,6 +44,7 @@ export namespace SpectraNode_interface{
     constexpr auto* help_TIME_date_time{"Set date and time."};
     constexpr auto* help_CAL_ADC_V35_cal_35V{"Set bias ADC calibration 35V setpoint."};
     constexpr auto* help_CAL_ADC_V40_cal_40V{"Set bias ADC calibration 40V setpoint."};
+    constexpr auto* help_CAL_DAC_data16{"Set raw DAC value."};
     constexpr auto* help_CAL_DAC_V35_cal_35V{"Set bias DAC calibration 35V setpoint."};
     constexpr auto* help_CAL_DAC_V40_cal_40V{"Set bias DAC calibration 40V setpoint."};
     constexpr auto* help_CAL_DIAG{"Misc. diagnostic information wrt. calibration."};
@@ -68,6 +69,7 @@ export namespace SpectraNode_interface{
     constexpr auto* help_CONFIG_LOAD{"Load the current configuration from the persistent storage."};
     constexpr auto* help_CONFIG_SAVE{"Save the current configuration to the persistent storage."};
     constexpr auto* help_DIAG{"Send miscellaneous diagnostic information."};
+    constexpr auto* help_ECHO{"Toggle console echo on/off."};
     constexpr auto* help_HELP{"Show commands."};
     constexpr auto* help_STATUS{"Send mode and other system data."};
     constexpr auto* help_TEST{"Initiate a self-test sequence."};

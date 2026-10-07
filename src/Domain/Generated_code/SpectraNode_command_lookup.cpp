@@ -198,6 +198,11 @@ namespace SpectraNode_interface{
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
+    const Instruction_token token_CAL_DAC_data16[] = {
+        {help_CAL_DAC_data16, Cmd_CAL_DAC_data16, Key_Instrument_calibration},
+        {End_token, "", No_key, (uint32_t)0, nullptr}
+    };
+
     const Instruction_token token_CAL_DAC_V35_cal_35V[] = {
         {help_CAL_DAC_V35_cal_35V, Cmd_CAL_DAC_V35_cal_35V, Key_Instrument_calibration},
         {End_token, "", No_key, (uint32_t)0, nullptr}
@@ -219,6 +224,7 @@ namespace SpectraNode_interface{
     };
 
     const Instruction_token token_CAL_DAC[] = {
+        {Integer_token, Key_data16, token_CAL_DAC_data16, 0, static_cast<int32_t>(0xFFFF)},
         {Keyword_token, "V35", Key_V35, (uint32_t)0, token_CAL_DAC_V35},
         {Keyword_token, "V40", Key_V40, (uint32_t)0, token_CAL_DAC_V40},
         {End_token, "", No_key, (uint32_t)0, nullptr}
@@ -384,6 +390,11 @@ namespace SpectraNode_interface{
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
+    const Instruction_token token_ECHO[] = {
+        {help_ECHO, Cmd_ECHO, Key_Housekeeping},
+        {End_token, "", No_key, (uint32_t)0, nullptr}
+    };
+
     const Instruction_token token_HELP[] = {
         {help_HELP, Cmd_HELP, Key_Housekeeping},
         {End_token, "", No_key, (uint32_t)0, nullptr}
@@ -421,6 +432,7 @@ namespace SpectraNode_interface{
         {Keyword_token, "ASIC", Key_ASIC, (uint32_t)0, token_ASIC},
         {Keyword_token, "CONFIG", Key_CONFIG, (uint32_t)0, token_CONFIG},
         {Keyword_token, "DIAG", Key_DIAG, (uint32_t)0, token_DIAG},
+        {Keyword_token, "ECHO", Key_ECHO, (uint32_t)0, token_ECHO},
         {Keyword_token, "HELP", Key_HELP, (uint32_t)0, token_HELP},
         {Keyword_token, "STATUS", Key_STATUS, (uint32_t)0, token_STATUS},
         {Keyword_token, "TEST", Key_TEST, (uint32_t)0, token_TEST},

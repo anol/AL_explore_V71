@@ -30,7 +30,7 @@
 
 # SpectraNode version 1
 
-Date: 29.09.2026
+Date: 07.10.2026
 
 | Id | Name | Description |
 |---|---|---|

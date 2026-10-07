@@ -92,6 +92,7 @@ Copyright (C) 2026 Integrated Detector Electronics AS
                     </arg>
                 </arg>
                 <arg key="DAC">
+                    <arg integer="data16" brief="Set raw DAC value."/>
                     <arg key="V35">
                         <arg integer="cal_35V" brief="Set bias DAC calibration 35V setpoint."/>
                     </arg>
@@ -139,12 +140,13 @@ Copyright (C) 2026 Integrated Detector Electronics AS
             </arg>
         </provider>
         <provider key="Housekeeping">
-            <arg key="VERSION" brief="Send version and other build information."/>
-            <arg key="STATUS" brief="Send mode and other system data."/>
             <arg key="DIAG" brief="Send miscellaneous diagnostic information."/>
-            <arg key="TEST" brief="Initiate a self-test sequence."/>
+            <arg key="ECHO" brief="Toggle console echo on/off."/>
             <arg key="HELP" brief="Show commands."/>
+            <arg key="STATUS" brief="Send mode and other system data."/>
+            <arg key="TEST" brief="Initiate a self-test sequence."/>
             <arg key="TRACE" brief="Toggle trace on/off."/>
+            <arg key="VERSION" brief="Send version and other build information."/>
         </provider>
     </commands>
 </command_definition>

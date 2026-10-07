@@ -141,6 +141,7 @@ template<> const Abstract_Instrument_calibration_provider::Lookup_table::Instruc
     Abstract_Instrument_calibration_provider::Lookup_table::instruction_table[] = {
     {&Abstract_Instrument_calibration_provider::p_CAL_ADC_V35_cal_35V, Cmd_CAL_ADC_V35_cal_35V},
     {&Abstract_Instrument_calibration_provider::p_CAL_ADC_V40_cal_40V, Cmd_CAL_ADC_V40_cal_40V},
+    {&Abstract_Instrument_calibration_provider::p_CAL_DAC_data16, Cmd_CAL_DAC_data16},
     {&Abstract_Instrument_calibration_provider::p_CAL_DAC_V35_cal_35V, Cmd_CAL_DAC_V35_cal_35V},
     {&Abstract_Instrument_calibration_provider::p_CAL_DAC_V40_cal_40V, Cmd_CAL_DAC_V40_cal_40V},
     {&Abstract_Instrument_calibration_provider::p_CAL_DIAG, Cmd_CAL_DIAG},
@@ -165,6 +166,11 @@ namespace SpectraNode_interface{
     void Abstract_Instrument_calibration_provider::p_CAL_ADC_V40_cal_40V(Instruction_major &transaction){
         int cal_40V_3{transaction.get_token_integer(3)};
         v_CAL_ADC_V40_cal_40V(transaction, cal_40V_3);
+    }
+            
+    void Abstract_Instrument_calibration_provider::p_CAL_DAC_data16(Instruction_major &transaction){
+        int data16_2{transaction.get_token_integer(2)};
+        v_CAL_DAC_data16(transaction, data16_2);
     }
             
     void Abstract_Instrument_calibration_provider::p_CAL_DAC_V35_cal_35V(Instruction_major &transaction){
@@ -307,6 +313,7 @@ namespace SpectraNode_interface{
 template<> const Abstract_Housekeeping_provider::Lookup_table::Instruction_entry
     Abstract_Housekeeping_provider::Lookup_table::instruction_table[] = {
     {&Abstract_Housekeeping_provider::p_DIAG, Cmd_DIAG},
+    {&Abstract_Housekeeping_provider::p_ECHO, Cmd_ECHO},
     {&Abstract_Housekeeping_provider::p_HELP, Cmd_HELP},
     {&Abstract_Housekeeping_provider::p_STATUS, Cmd_STATUS},
     {&Abstract_Housekeeping_provider::p_TEST, Cmd_TEST},
@@ -320,28 +327,32 @@ namespace SpectraNode_interface{
         return Abstract_Housekeeping_provider::Lookup_table::lookup(this, transaction);
     }
 
-    void Abstract_Housekeeping_provider::p_VERSION(Instruction_major &transaction){
-        v_VERSION(transaction);
-    }
-            
-    void Abstract_Housekeeping_provider::p_STATUS(Instruction_major &transaction){
-        v_STATUS(transaction);
-    }
-            
     void Abstract_Housekeeping_provider::p_DIAG(Instruction_major &transaction){
         v_DIAG(transaction);
     }
             
-    void Abstract_Housekeeping_provider::p_TEST(Instruction_major &transaction){
-        v_TEST(transaction);
+    void Abstract_Housekeeping_provider::p_ECHO(Instruction_major &transaction){
+        v_ECHO(transaction);
     }
             
     void Abstract_Housekeeping_provider::p_HELP(Instruction_major &transaction){
         v_HELP(transaction);
     }
             
+    void Abstract_Housekeeping_provider::p_STATUS(Instruction_major &transaction){
+        v_STATUS(transaction);
+    }
+            
+    void Abstract_Housekeeping_provider::p_TEST(Instruction_major &transaction){
+        v_TEST(transaction);
+    }
+            
     void Abstract_Housekeeping_provider::p_TRACE(Instruction_major &transaction){
         v_TRACE(transaction);
+    }
+            
+    void Abstract_Housekeeping_provider::p_VERSION(Instruction_major &transaction){
+        v_VERSION(transaction);
     }
             
 }
