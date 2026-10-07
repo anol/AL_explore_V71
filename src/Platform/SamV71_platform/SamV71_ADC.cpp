@@ -20,55 +20,24 @@ import Platform.SamV71_clock;
 #define MAX_DIGITAL     (4095UL)
 
 namespace {
-    enum afec_resolution {
-        AFEC_12_BITS = AFEC_EMR_RES_NO_AVERAGE, /* AFEC 12-bit resolution */
-        AFEC_13_BITS = AFEC_EMR_RES_OSR4,       /* AFEC 13-bit resolution */
-        AFEC_14_BITS = AFEC_EMR_RES_OSR16,      /* AFEC 14-bit resolution */
-        AFEC_15_BITS = AFEC_EMR_RES_OSR64,      /* AFEC 15-bit resolution */
-        AFEC_16_BITS = AFEC_EMR_RES_OSR256      /* AFEC 16-bit resolution */
-    };
-
-    /** Definitions for AFEC Start Up Time */
-    enum afec_startup_time {
-        AFEC_STARTUP_TIME_0  = AFEC_MR_STARTUP_SUT0,
-        AFEC_STARTUP_TIME_1  = AFEC_MR_STARTUP_SUT8,
-        AFEC_STARTUP_TIME_2  = AFEC_MR_STARTUP_SUT16,
-        AFEC_STARTUP_TIME_3  = AFEC_MR_STARTUP_SUT24,
-        AFEC_STARTUP_TIME_4  = AFEC_MR_STARTUP_SUT64,
-        AFEC_STARTUP_TIME_5  = AFEC_MR_STARTUP_SUT80,
-        AFEC_STARTUP_TIME_6  = AFEC_MR_STARTUP_SUT96,
-        AFEC_STARTUP_TIME_7  = AFEC_MR_STARTUP_SUT112,
-        AFEC_STARTUP_TIME_8  = AFEC_MR_STARTUP_SUT512,
-        AFEC_STARTUP_TIME_9  = AFEC_MR_STARTUP_SUT576,
-        AFEC_STARTUP_TIME_10 = AFEC_MR_STARTUP_SUT640,
-        AFEC_STARTUP_TIME_11 = AFEC_MR_STARTUP_SUT704,
-        AFEC_STARTUP_TIME_12 = AFEC_MR_STARTUP_SUT768,
-        AFEC_STARTUP_TIME_13 = AFEC_MR_STARTUP_SUT832,
-        AFEC_STARTUP_TIME_14 = AFEC_MR_STARTUP_SUT896,
-        AFEC_STARTUP_TIME_15 = AFEC_MR_STARTUP_SUT960
-    };
-
     enum afec_trigger {
         /* Starting a conversion is only possible by software. */
-        AFEC_TRIG_SW               = AFEC_MR_TRGEN_DIS,
+        AFEC_TRIG_SW                = AFEC_MR_TRGEN_DIS,
         /* External trigger */
-        AFEC_TRIG_EXT              = AFEC_MR_TRGSEL_AFEC_TRIG0 | AFEC_MR_TRGEN_Msk,
+        AFEC_TRIG_EXT               = AFEC_MR_TRGSEL_AFEC_TRIG0 | AFEC_MR_TRGEN_Msk,
         /* TIO Output of the Timer Counter Channel 0 */
-        AFEC_TRIG_TIO_CH_0         = AFEC_MR_TRGSEL_AFEC_TRIG1 | AFEC_MR_TRGEN_Msk,
+        AFEC_TRIG_TIO_CH_0          = AFEC_MR_TRGSEL_AFEC_TRIG1 | AFEC_MR_TRGEN_Msk,
         /* TIO Output of the Timer Counter Channel 1 */
-        AFEC_TRIG_TIO_CH_1         = AFEC_MR_TRGSEL_AFEC_TRIG2 | AFEC_MR_TRGEN_Msk,
+        AFEC_TRIG_TIO_CH_1          = AFEC_MR_TRGSEL_AFEC_TRIG2 | AFEC_MR_TRGEN_Msk,
         /* TIO Output of the Timer Counter Channel 2 */
-        AFEC_TRIG_TIO_CH_2         = AFEC_MR_TRGSEL_AFEC_TRIG3 | AFEC_MR_TRGEN_Msk,
+        AFEC_TRIG_TIO_CH_2          = AFEC_MR_TRGSEL_AFEC_TRIG3 | AFEC_MR_TRGEN_Msk,
         /* PWM Event Line 0 */
-        AFEC_TRIG_PWM_EVENT_LINE_0 = AFEC_MR_TRGSEL_AFEC_TRIG4 | AFEC_MR_TRGEN_Msk,
+        AFEC_TRIG_PWM_EVENT_LINE_0  = AFEC_MR_TRGSEL_AFEC_TRIG4 | AFEC_MR_TRGEN_Msk,
         /* PWM Event Line 1 */
-        AFEC_TRIG_PWM_EVENT_LINE_1 = AFEC_MR_TRGSEL_AFEC_TRIG5 | AFEC_MR_TRGEN_Msk,
-#if (SAMV71 || SAMV70 || SAME70 || SAMS70)
-        /*Analog Comparator*/
+        AFEC_TRIG_PWM_EVENT_LINE_1  = AFEC_MR_TRGSEL_AFEC_TRIG5 | AFEC_MR_TRGEN_Msk,
         AFEC_TRIG_ANALOG_COMPARATOR = AFEC_MR_TRGSEL_AFEC_TRIG6 | AFEC_MR_TRGEN_Msk,
-#endif
         /* Freerun mode conversion. */
-        AFEC_TRIG_FREERUN = 0xFF,
+        AFEC_TRIG_FREERUN           = 0xFF,
     };
 
     enum afec_interrupt_source {
@@ -108,21 +77,21 @@ namespace {
         AFEC_CHANNEL_ALL = 0x0FFF,
     };
 
-#define NUM_OF_AFEC    (2UL)
+    constexpr uint32_t NUM_OF_AFEC = 2UL;
 
-    typedef void (*afec_callback_t)(void);
+    typedef void (*afec_callback_t)();
 
     afec_callback_t afec_callback_pointer[NUM_OF_AFEC][_AFEC_NUM_OF_INTERRUPT_SOURCE];
 
     struct afec_config {
         /** Resolution */
-        enum afec_resolution resolution;
+        unsigned long resolution;
         /** Master Clock */
         uint32_t mck;
         /** AFEC Clock */
         uint32_t afec_clock;
         /** Start Up Time */
-        enum afec_startup_time startup_time;
+        unsigned long startup_time;
         /** Tracking Time = tracktim / AFEC clock */
         uint8_t tracktim;
         /** Transfer Period = (transfer * 2 + 3) / AFEC clock */
@@ -174,6 +143,11 @@ namespace {
         /** Temperature High Threshold */
         uint16_t high_threshold;
     };
+
+    /* The interrupt source number of temperature sensor */
+    constexpr uint32_t AFEC_TEMP_INT_SOURCE_NUM = (11UL);
+    constexpr uint32_t AFEC_INTERRUPT_GAP1 = (12UL);
+    constexpr uint32_t AFEC_INTERRUPT_GAP2 = (3UL);
 }
 
 namespace SamV71 {
@@ -189,17 +163,14 @@ namespace SamV71 {
 
     void afec_enable(afec_registers_t *const afec) {
         uint32_t pid = afec_find_pid(afec);
-        /* Enable peripheral clock. */
-        // pmc_enable_periph_clk(pid);
-        // sleepmgr_lock_mode(SLEEPMGR_SLEEP_WFI);
         SamV71_clock::enable_peripheral_clock(pid);
     }
 
     void afec_get_config_defaults(afec_config *const cfg) {
-        cfg->resolution = AFEC_12_BITS;
-        cfg->mck = 150'000'000; // sysclk_get_cpu_hz();
+        cfg->resolution = AFEC_EMR_RES_NO_AVERAGE; // AFEC_12_BITS;
+        cfg->mck = 150'000'000;                    // sysclk_get_cpu_hz();
         cfg->afec_clock = 6000000UL;
-        cfg->startup_time = AFEC_STARTUP_TIME_4;
+        cfg->startup_time = AFEC_MR_STARTUP_SUT64;
         cfg->tracktim = 2;
         cfg->transfer = 1;
         cfg->anach = true;
@@ -256,18 +227,14 @@ namespace SamV71 {
     }
 
     static void afec_set_trigger(afec_registers_t *const afec,
-                                 const enum afec_trigger trigger) {
-        uint32_t reg;
-
-        reg = afec->AFEC_MR;
-
+                                 const uint32_t trigger) {
+        uint32_t reg = afec->AFEC_MR;
         if (trigger == AFEC_TRIG_FREERUN) {
             reg |= AFEC_MR_FREERUN_ON;
         } else {
             reg &= ~(AFEC_MR_TRGSEL_Msk | AFEC_MR_TRGEN_Msk | AFEC_MR_FREERUN_ON);
             reg |= trigger;
         }
-
         afec->AFEC_MR = reg;
     }
 
@@ -322,11 +289,6 @@ namespace SamV71 {
         }
         return 0;
     }
-
-    /* The interrupt source number of temperature sensor */
-#define AFEC_TEMP_INT_SOURCE_NUM             (11UL)
-#define AFEC_INTERRUPT_GAP1                  (12UL)
-#define AFEC_INTERRUPT_GAP2                  (3UL)
 
     void afec_enable_interrupt(afec_registers_t *const afec,
                                enum afec_interrupt_source interrupt_source) {
@@ -401,7 +363,7 @@ namespace SamV71 {
         afec_config afec_cfg{};
         afec_get_config_defaults(&afec_cfg);
         afec_init(AFEC0, &afec_cfg);
-        afec_set_trigger(AFEC0, AFEC_TRIG_SW);
+        afec_set_trigger(AFEC0, AFEC_MR_TRGEN_DIS); // AFEC_TRIG_SW
         afec_ch_config afec_ch_cfg{};
         afec_ch_get_config_defaults(&afec_ch_cfg);
         afec_ch_cfg.gain = AFEC_GAINVALUE_0;

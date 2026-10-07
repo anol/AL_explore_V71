@@ -22,20 +22,24 @@
 
 module;
 #include <cstdint>
+import Type.Abstract_ADC;
 
 export module Component.Bias_ADC;
 
 
 export namespace Calibration {
     class Bias_ADC {
+        Abstract::Abstract_ADC &use_ADC;
         int32_t the_ADC_cal_val_35{-35000};
         int32_t the_ADC_cal_val_45{-40700};
         double ADC_to_mV_A{};
         double ADC_to_mV_B{};
         static volatile int32_t the_last_sense;
-        bool is_initialized{};
 
     public:
+        explicit Bias_ADC(Abstract::Abstract_ADC &ADC) : use_ADC(ADC) {
+        }
+
         void initialize();
 
         void print_diag();
@@ -46,7 +50,7 @@ export namespace Calibration {
 
         static int32_t get_last_sense() { return the_last_sense; }
 
-        static int32_t read_ADC();
+        int32_t read_ADC();
 
         void set_cal_35V(int32_t cal) { the_ADC_cal_val_35 = cal; }
 

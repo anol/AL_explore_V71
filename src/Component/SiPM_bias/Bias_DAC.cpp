@@ -30,29 +30,28 @@ import Type.Status_code;
 // #include "dac.h"
 
 namespace Calibration {
-    uint32_t cnt_out_of_range{};
-    uint32_t cnt_busy_in_cal{};
-    uint8_t in_calibration = 0;
+    static uint32_t cnt_out_of_range{};
+    static uint32_t cnt_busy_in_cal{};
+    static uint8_t in_calibration = 0;
 
     volatile uint32_t Bias_DAC::the_DAC_setting{};
 
     void Bias_DAC::initialize() {
         enum { Initial_DAC_setting = 0, };
-        // HAL_DAC_Start(&hdac1,DAC_CHANNEL_1);
-        // HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, Initial_DAC_setting);
-        is_initialized_flag = true;
+        use_DAC.initialize();
+        use_DAC.set(Initial_DAC_setting);
     }
 
     void Bias_DAC::print_diag() {
         printf("DAC: out-of-range=%d, busy=%d\r\n", cnt_out_of_range, cnt_busy_in_cal);
     }
 
-    int32_t Bias_DAC::calibrate(int32_t raw, int32_t cal35, int32_t cal45) {
-        double m = ((double) (-40700.0 + 35000.0)) / ((double) (cal45 - cal35)); // slope: 10000/9970 ≈ 1.00301
-        return (int32_t) (-40700.0 + m * (raw - cal45));
+    int32_t Bias_DAC::calibrate(const int32_t raw, const int32_t cal35, const int32_t cal45) {
+        double m = (-40700.0 + 35000.0) / static_cast<double>(cal45 - cal35); // slope: 10000/9970 ≈ 1.00301
+        return static_cast<int32_t>(-40700.0 + m * (raw - cal45));
     }
 
-    void Bias_DAC::set_dac_test(int32_t value) {
+    void Bias_DAC::set_dac_test(const int32_t value) {
         //-30000 = 0V and -50000 = 3.3V
         //convert -30000 to 0 and -50000 to 4095
         //convert value to dac value
@@ -70,11 +69,10 @@ namespace Calibration {
         if (temp < 0) {
             temp = 0;
         }
-
-        // HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, temp);
+        use_DAC.set(temp);
     }
 
-    void Bias_DAC::set_dac_cal_test(int32_t value) {
+    void Bias_DAC::set_dac_cal_test(const int32_t value) {
         //-30000 = 0V and -50000 = 3.3V
         //convert -30000 to 0 and -50000 to 4095
         //convert value to dac value
@@ -92,10 +90,10 @@ namespace Calibration {
         if (temp < 0) {
             temp = 0;
         }
-        // HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, temp);
+        use_DAC.set(temp);
     }
 
-    Status_code Bias_DAC::set_dac_value_with_calibration(int32_t value) {
+    Status_code Bias_DAC::set_dac_value_with_calibration(const int32_t value) {
         the_DAC_pre_cal = value;
         //-30000 = 0V and -50000 = 3.3V
         //convert -30000 to 0 and -50000 to 4095
@@ -119,7 +117,7 @@ namespace Calibration {
             temp = 0.0f;
         }
         the_DAC_setting = static_cast<uint32_t>(temp);
-        // HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, the_DAC_setting);
+        use_DAC.set(the_DAC_setting);
         return Status_code::Success();
     }
 } // Calibration

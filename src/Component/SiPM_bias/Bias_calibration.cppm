@@ -23,10 +23,10 @@ export namespace Calibration {
         float gamma_param_A = 1;
         float gamma_param_B = 0;
         Bias_DAC the_DAC;
-        Bias_ADC the_ADC{};
+        Bias_ADC the_ADC;
 
     public:
-        explicit Bias_calibration(Abstract::Abstract_board &board) : the_DAC(board.get_DAC()) {
+        explicit Bias_calibration(Abstract::Abstract_board &board) : the_DAC(board.get_DAC()), the_ADC(board.get_ADC()) {
         }
 
         void initialize();

@@ -26,13 +26,11 @@ module;
 
 module Component.Bias_ADC;
 
-// #include "adc.h"
-
 // Define ADC and calibration parameters
-#define ADC_FULL_SCALE   16383.0f  // 14-bit ADC max count
-#define VREF             3.3f      // Reference voltage in volts
-#define CAL_SLOPE        18018.02f // Slope in mV per volt (derived from calibration)
-#define CAL_INTERCEPT    (-56126.13f) // Intercept in mV (derived from calibration)
+constexpr float ADC_FULL_SCALE = 16383.0f;    // 14-bit ADC max count
+constexpr float VREF = 3.3f;                  // Reference voltage in volts
+constexpr float CAL_SLOPE = 18018.02f;        // Slope in mV per volt (derived from calibration)
+constexpr float CAL_INTERCEPT = (-56126.13f); // Intercept in mV (derived from calibration)
 
 namespace Calibration {
     constexpr static float constant_35{-35'000.0};
@@ -41,13 +39,11 @@ namespace Calibration {
     volatile int32_t Bias_ADC::the_last_sense{};
 
     void Bias_ADC::initialize() {
-        // HAL_ADC_Init(&hadc1);
-        // HAL_ADCEx_Calibration_Start(&hadc1, ADC_CALIB_OFFSET_LINEARITY, ADC_SINGLE_ENDED);
-        is_initialized = true;
+        use_ADC.initialize();
     }
 
     void Bias_ADC::print_diag() {
-        // printf("ADC: range=%d, busy=%d\r\n", 0, 0);
+        printf("ADC: range=%d, busy=%d\r\n", 0, 0);
     }
 
     void Bias_ADC::calibrate() {
@@ -78,14 +74,9 @@ namespace Calibration {
     }
 
     int32_t Bias_ADC::read_ADC() {
-        uint32_t adc_val = 0;
-        // HAL_ADCEx_Calibration_Start(&hadc1, ADC_CALIB_OFFSET_LINEARITY, ADC_SINGLE_ENDED);
-        // for (int i = 0; i < 256; i++) {
-        //     HAL_ADC_Start(&hadc1);
-        //     HAL_ADC_PollForConversion(&hadc1, 100);
-        //     adc_val += HAL_ADC_GetValue(&hadc1);
-        //     HAL_ADC_Stop(&hadc1);
-        // }
-        return convertADCtoSensorValue(adc_val / 256);
+        if (uint32_t value{}; use_ADC.get(value)) {
+            return convertADCtoSensorValue(value / 256);
+        }
+        return 0;
     }
 } // Temperature

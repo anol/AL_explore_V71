@@ -35,7 +35,6 @@ export namespace Calibration {
         int32_t the_cal_45V{-40700};
         int32_t the_DAC_pre_cal{};
         static volatile uint32_t the_DAC_setting;
-        bool is_initialized_flag{};
 
     public:
         explicit Bias_DAC(Abstract::Abstract_DAC &DAC) : use_DAC(DAC) {
