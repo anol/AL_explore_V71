@@ -1,23 +1,26 @@
 import argparse
-import serial
-import time
-import tomllib
-import sys
-import crcmod.predefined
-import struct
-import numpy as np
-import readchar
-import msvcrt
+
+# import msvcrt
 import csv
-import threading
 import datetime
+import os
+import struct
+import sys
+import threading
+import time
+
+import crcmod.predefined
 
 # For Plotly Dash
 import dash
-from dash import dcc, html, Input, Output
+import numpy as np
 import plotly.graph_objs as go
+import readchar
+import serial
+import tomllib
+from dash import Input, Output, dcc, html
 
-crc32_fn = crcmod.predefined.mkPredefinedCrcFun('crc-32')
+crc32_fn = crcmod.predefined.mkPredefinedCrcFun("crc-32")
 serial_update = 0
 
 # Global synchronization objects for test mode
@@ -26,13 +29,13 @@ stop_event = threading.Event()  # Signals when test mode should end
 
 
 class bcolors:
-    OKBLUE = '\033[94m'
-    OKCYAN = '\033[96m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
+    OKBLUE = "\033[94m"
+    OKCYAN = "\033[96m"
+    OKGREEN = "\033[92m"
+    WARNING = "\033[93m"
+    FAIL = "\033[91m"
+    ENDC = "\033[0m"
+    BOLD = "\033[1m"
 
 
 def pack_register_data_from_toml(bitmap, config_data):
@@ -50,7 +53,9 @@ def pack_register_data_from_toml(bitmap, config_data):
                 bit_length = bit_def["length"]
                 value = reg_values.get(var_name, 0)
                 if value >= (1 << bit_length):
-                    raise ValueError(f"Value {value} for {var_name} exceeds {bit_length} bits.")
+                    raise ValueError(
+                        f"Value {value} for {var_name} exceeds {bit_length} bits."
+                    )
                 packed_value = (packed_value << bit_length) | value
                 current_bit_position += bit_length
             packed_data[register_index] = packed_value
@@ -70,14 +75,22 @@ def send_command(ser, sent_data, expected_response):
             return 0
 
         # Normalization of valyes ensuring any and all prefix of '0' is stripped.
-        normalized_expected = expected_response.decode().lstrip('0').replace(',0', ',').encode()
-        normalized_response = response.decode().lstrip('0').replace(',0', ',').encode()
+        normalized_expected = (
+            expected_response.decode().lstrip("0").replace(",0", ",").encode()
+        )
+        normalized_response = response.decode().lstrip("0").replace(",0", ",").encode()
 
         if response == expected_response:
-            print(bcolors.OKGREEN + f"{sent_data} -> {response} command successful" + bcolors.ENDC)
+            print(
+                bcolors.OKGREEN
+                + f"{sent_data} -> {response} command successful"
+                + bcolors.ENDC
+            )
             return 1
 
-    print(bcolors.FAIL + f"Expected {expected_response} but got {response}" + bcolors.ENDC)
+    print(
+        bcolors.FAIL + f"Expected {expected_response} but got {response}" + bcolors.ENDC
+    )
     return 0
 
 
@@ -86,21 +99,26 @@ def send_command_nak(ser, sent_data, expected_response):
     time.sleep(0.2)
     response = ser.readline().strip()
     if response == expected_response:
-        print(bcolors.OKGREEN + f"{sent_data} -> {response} command successful" + bcolors.ENDC)
+        print(
+            bcolors.OKGREEN
+            + f"{sent_data} -> {response} command successful"
+            + bcolors.ENDC
+        )
     else:
         print(bcolors.FAIL + f"{sent_data} command failed")
 
 
 def IDE3380_serial_setup_f(ser):
-    toml_file_path = 'config_test.toml'
-    bitmap_toml_file_path = 'bitmap.toml'
-    with open(toml_file_path, 'rb') as file:
+    script_dir = os.path.dirname(__file__)  # Filepath for this script
+    toml_file_path = os.path.join(script_dir, "config_test.toml")
+    bitmap_toml_file_path = os.path.join(script_dir, "bitmap.toml")
+    with open(toml_file_path, "rb") as file:
         data = tomllib.load(file)
-    with open(bitmap_toml_file_path, 'rb') as file:
+    with open(bitmap_toml_file_path, "rb") as file:
         bitmap = tomllib.load(file)
 
     # Process REG category
-    category_name = 'REG'
+    category_name = "REG"
     if category_name in data:
         packed_data, bit_mask = pack_register_data_from_toml(bitmap, data)
         for reg, value in packed_data.items():
@@ -110,31 +128,6 @@ def IDE3380_serial_setup_f(ser):
             return_command_bytes = return_command.encode()
             if send_command(ser, command_bytes, return_command_bytes) == 0:
                 return
-    # Process GENERAL category
-    category_name = 'GENERAL'
-    if category_name in data:
-        for section_name, section_data in data[category_name].items():
-            command = f"AT+{section_name}={section_data}\n"
-            command_bytes = command.encode()
-            return_command = f"OK={section_data}"
-            return_command_bytes = return_command.encode()
-            if send_command(ser, command_bytes, return_command_bytes) == 0:
-                return
-
-    # Test calibration
-    c = 200  # number of pulses
-    for i in range(0, 1, 1):
-        v = 200  # Dac value
-        command = f"AT+CAL={v},{c}\n"
-        command_bytes = command.encode()
-        return_command = f"OK={v},{c}"
-        return_command_bytes = return_command.encode()
-        if send_command(ser, command_bytes, return_command_bytes) == 0:
-            return
-
-    ser.readline().strip()
-    # output_type = data['GENERAL']['OUTPUT']
-    # return output_type
 
 
 def IDE3380_serial_loop(ser):
@@ -146,20 +139,22 @@ def IDE3380_serial_loop(ser):
             serial_update = 0
         response = ser.readline().strip()
         try:
-            data_str = response.decode('utf-8').strip('\n')
-            data_list_str = data_str.split(',')
+            data_str = response.decode("utf-8").strip("\n")
+            data_list_str = data_str.split(",")
             data_list_int = [int(num.strip()) for num in data_list_str if num.strip()]
             if not data_list_int:
-                print('.', end='', flush=True)
+                print(".", end="", flush=True)
                 continue
-            if len(data_list_int) != 4096 + 1 + 2:  # 4096 data + CRC + Vbias + Temperature
+            if (
+                len(data_list_int) != 4096 + 1 + 2
+            ):  # 4096 data + CRC + Vbias + Temperature
                 print(f"Expected 4096 numbers, but received {len(data_list_int)}.")
                 continue
         except ValueError:
             print("IN DEEPSLEEP")
             continue
         # Return only the first (4096+2) numbers (ignoring CRC checking here)
-        return data_list_int[0:(4096 + 2)], 0
+        return data_list_int[0 : (4096 + 2)], 0
 
 
 def IDE3380_serial_setup():
@@ -193,16 +188,17 @@ def print_help():
     print(" y: Run a long test sequence")
     print(" q: Quit\n")
 
+
 def set_output_format(format_number):
     print("Output format: ", format_number)
-    command = 'AT+OUTPUT=' + str(format_number) + '\n'
-    expected = 'OK=' + str(format_number)
+    command = "AT+OUTPUT=" + str(format_number) + "\n"
+    expected = "OK=" + str(format_number)
     send_command(ser, command.encode("utf-8"), expected.encode("utf-8"))
     now = datetime.datetime.now()
     yymmdd = now.strftime("%y%m%d")
     hhmm = now.strftime("%H%M")
-    command = f"AT+DEEPSLEEP={yymmdd},{hhmm}\n".encode('utf-8')
-    command_ok = f"OK={yymmdd},{hhmm}".encode('utf-8')
+    command = f"AT+DEEPSLEEP={yymmdd},{hhmm}\n".encode("utf-8")
+    command_ok = f"OK={yymmdd},{hhmm}".encode("utf-8")
     send_command(ser, command, command_ok)
     while True:
         line = ser.readline().decode(errors="ignore").strip()
@@ -210,51 +206,56 @@ def set_output_format(format_number):
             break
         print("  ", line)
 
+
 def next_channel():
-    next_channel.number = next_channel.number +1
+    next_channel.number = next_channel.number + 1
     if next_channel.number > 18:
         next_channel.number = 0
     print("Channel: ", next_channel.number)
-    command = 'AT+PRINTF_CHANNEL=' + str(next_channel.number) + '\n'
-    expected = 'OK=' + str(next_channel.number)
+    command = "AT+PRINTF_CHANNEL=" + str(next_channel.number) + "\n"
+    expected = "OK=" + str(next_channel.number)
     send_command(ser, command.encode("utf-8"), expected.encode("utf-8"))
 
+
 next_channel.number = 0
+
 
 def toggle_printing():
     if toggle_printing.on_off > 0:
         toggle_printing.on_off = 0
         print("Stop printing\n")
-        command = 'AT+OUTPUT=' + str(toggle_printing.on_off) + '\n'
-        expected = 'OK=' + str(toggle_printing.on_off)
+        command = "AT+OUTPUT=" + str(toggle_printing.on_off) + "\n"
+        expected = "OK=" + str(toggle_printing.on_off)
         send_command(ser, command.encode("utf-8"), expected.encode("utf-8"))
     else:
         toggle_printing.on_off = 1
         print("Start printing\n")
-        command = 'AT+OUTPUT=' + str(toggle_printing.on_off) + '\n'
-        expected = 'OK=' + str(toggle_printing.on_off)
+        command = "AT+OUTPUT=" + str(toggle_printing.on_off) + "\n"
+        expected = "OK=" + str(toggle_printing.on_off)
         send_command(ser, command.encode("utf-8"), expected.encode("utf-8"))
         now = datetime.datetime.now()
         yymmdd = now.strftime("%y%m%d")
         hhmm = now.strftime("%H%M")
-        command = f"AT+DEEPSLEEP={yymmdd},{hhmm}\n".encode('utf-8')
-        command_ok = f"OK={yymmdd},{hhmm}".encode('utf-8')
+        command = f"AT+DEEPSLEEP={yymmdd},{hhmm}\n".encode("utf-8")
+        command_ok = f"OK={yymmdd},{hhmm}".encode("utf-8")
         send_command(ser, command, command_ok)
 
+
 toggle_printing.on_off = 0
+
 
 def test_sequence_X():
     print("Run a short test sequence\n")
     for gpc in range(20):
-        command = 'AT+A=' + str(gpc) + '\n'
-        expected = 'OK=' + str(gpc)
+        command = "AT+A=" + str(gpc) + "\n"
+        expected = "OK=" + str(gpc)
         send_command(ser, command.encode("utf-8"), expected.encode("utf-8"))
-        command = 'AT+B=' + str(gpc) + '\n'
-        expected = 'OK=' + str(gpc)
+        command = "AT+B=" + str(gpc) + "\n"
+        expected = "OK=" + str(gpc)
         send_command(ser, command.encode("utf-8"), expected.encode("utf-8"))
-        if send_command(ser, b'AT+SAVE\n', b'OK') == 0:
+        if send_command(ser, b"AT+SAVE\n", b"OK") == 0:
             break
-        send_command(ser, b'AT+STATUS\n', b'OK')
+        send_command(ser, b"AT+STATUS\n", b"OK")
         while True:
             line = ser.readline().decode(errors="ignore").strip()
             if not line:
@@ -269,13 +270,13 @@ def test_sequence_Y():
     old_time = time.time_ns()
     for gpc in range(1000):
         print(gpc)
-        command = 'AT+A=' + str(gpc) + '\n'
-        expected = 'OK=' + str(gpc)
+        command = "AT+A=" + str(gpc) + "\n"
+        expected = "OK=" + str(gpc)
         send_command(ser, command.encode("utf-8"), expected.encode("utf-8"))
-        command = 'AT+B=' + str(gpc) + '\n'
-        expected = 'OK=' + str(gpc)
+        command = "AT+B=" + str(gpc) + "\n"
+        expected = "OK=" + str(gpc)
         send_command(ser, command.encode("utf-8"), expected.encode("utf-8"))
-        failed = send_command(ser, b'AT+SAVE\n', b'OK') == 0
+        failed = send_command(ser, b"AT+SAVE\n", b"OK") == 0
         new_time = time.time_ns()
         delta_time = (new_time - old_time) / 1000000000
         print(delta_time)
@@ -288,9 +289,9 @@ print("Test sequence completed\n")
 
 
 def command_handler(key):
-    if key == '0':  # Request miscellaneous status information
+    if key == "0":  # Request miscellaneous status information
         print("Get status\n")
-        send_command(ser, b'AT+STATUS\n', b'OK')
+        send_command(ser, b"AT+STATUS\n", b"OK")
         while True:
             line = ser.readline().decode(errors="ignore").strip()
             if not line:
@@ -298,67 +299,82 @@ def command_handler(key):
             print("  ", line)
         return True
 
-    if key == '1':  # Update values
+    if key == "1":  # Update values
         print("Updating values\n")
         IDE3380_serial_setup_f(ser)
         print(bcolors.OKGREEN + bcolors.BOLD + "Update Done!\n" + bcolors.ENDC)
         return True
 
-    if key == '2':  # Live Gamma View
-        send_command(ser, b'AT+MODE_DEMO\n', b'OK')
+    if key == "2":  # Live Gamma View
+        send_command(ser, b"AT+MODE_DEMO\n", b"OK")
         print("Output demo for Gamma MCA ('https://spectrum.nuclearphoenix.xyz/')")
         now = datetime.datetime.now()
         yymmdd = now.strftime("%y%m%d")
         hhmm = now.strftime("%H%M")
-        command = f"AT+TIME={yymmdd},{hhmm}\n".encode('utf-8')
-        command_ok = f"OK={yymmdd},{hhmm}".encode('utf-8')
+        command = f"AT+TIME={yymmdd},{hhmm}\n".encode("utf-8")
+        command_ok = f"OK={yymmdd},{hhmm}".encode("utf-8")
         send_command(ser, command, command_ok)
         ser.close()
         exit(1)
 
-    if key == '3':  # Isotope Identification
-        send_command(ser, b'AT+OUTPUT=2\n', b'OK=2')
+    if key == "3":  # Isotope Identification
+        send_command(ser, b"AT+OUTPUT=2\n", b"OK=2")
         print("Output made for Gamma source identification\n")
         now = datetime.datetime.now()
         yymmdd = now.strftime("%y%m%d")
         hhmm = now.strftime("%H%M")
-        command = f"AT+DEEPSLEEP={yymmdd},{hhmm}\n".encode('utf-8')
-        command_ok = f"OK={yymmdd},{hhmm}".encode('utf-8')
+        command = f"AT+DEEPSLEEP={yymmdd},{hhmm}\n".encode("utf-8")
+        command_ok = f"OK={yymmdd},{hhmm}".encode("utf-8")
         send_command(ser, command, command_ok)
         print("Please wait: creating file on sd card")
         try:
             while True:
                 line = ser.readline()
-                decoded_line = line.decode('utf-8')
+                decoded_line = line.decode("utf-8")
                 if decoded_line.strip():  # Check if there's any non-whitespace content
-                    print(decoded_line, end='')
+                    print(decoded_line, end="")
         except KeyboardInterrupt:
-            print(bcolors.WARNING + "\nUser stopped isotope identification.\n" + bcolors.ENDC)
+            print(
+                bcolors.WARNING
+                + "\nUser stopped isotope identification.\n"
+                + bcolors.ENDC
+            )
             ser.close()
             exit(0)
         return True
 
-    if key == '4':  # Deep sleep
+    if key == "4":  # Deep sleep
         print("\nEntering Deep Sleep Mode...\n")
         # Step 1: Stop any active output stream
-        if not send_command(ser, b'AT+OUTPUT=0\n', b'OK=0'):
-            print(bcolors.WARNING + "\nWarning: Could not confirm OUTPUT=0, continuing anyway.\n" + bcolors.ENDC)
+        if not send_command(ser, b"AT+OUTPUT=0\n", b"OK=0"):
+            print(
+                bcolors.WARNING
+                + "\nWarning: Could not confirm OUTPUT=0, continuing anyway.\n"
+                + bcolors.ENDC
+            )
             # This is a consideration due to the possible firmware limitation with serial communcation.
             # Device may not actually be able to recieve commands whilst data is still streaming.
         # Step 2: Prepare timestamped deep-sleep command
         now = datetime.datetime.now()
         yymmdd = now.strftime("%y%m%d")
         hhmm = now.strftime("%H%M")
-        command = f"AT+DEEPSLEEP={yymmdd},{hhmm}\n".encode('utf-8')
-        command_ok = f"OK={yymmdd},{hhmm}".encode('utf-8')
+        command = f"AT+DEEPSLEEP={yymmdd},{hhmm}\n".encode("utf-8")
+        command_ok = f"OK={yymmdd},{hhmm}".encode("utf-8")
         # Step 3: Attempt to send the command gracefully
         try:
             success = send_command(ser, command, command_ok)
             if success:
-                print(bcolors.OKGREEN + "\nDevice acknowledged deep sleep entry.\n" + bcolors.ENDC)
+                print(
+                    bcolors.OKGREEN
+                    + "\nDevice acknowledged deep sleep entry.\n"
+                    + bcolors.ENDC
+                )
             else:
                 print(
-                    bcolors.WARNING + "\nNo explicit OK received, device may have already entered sleep.\n" + bcolors.ENDC)
+                    bcolors.WARNING
+                    + "\nNo explicit OK received, device may have already entered sleep.\n"
+                    + bcolors.ENDC
+                )
 
             # Step 4: Allow the MCU to finish shutting down
             print("\nAllowing device to finalize deep sleep...\n")
@@ -366,9 +382,16 @@ def command_handler(key):
 
         except serial.SerialTimeoutException:
             print(
-                bcolors.WARNING + "\nSerial write timed out, device likely entered deep sleep before response.\n" + bcolors.ENDC)
+                bcolors.WARNING
+                + "\nSerial write timed out, device likely entered deep sleep before response.\n"
+                + bcolors.ENDC
+            )
         except Exception as e:
-            print(bcolors.FAIL + f"\nUnexpected serial error during deep sleep.\n: {e}" + bcolors.ENDC)
+            print(
+                bcolors.FAIL
+                + f"\nUnexpected serial error during deep sleep.\n: {e}"
+                + bcolors.ENDC
+            )
         finally:
             # Step 5: Clean up regardless of success/failure
             try:
@@ -378,43 +401,47 @@ def command_handler(key):
             except Exception:
                 pass
 
-            print(bcolors.OKBLUE + "\nSerial port closed. Device is now in deep sleep." + bcolors.ENDC)
+            print(
+                bcolors.OKBLUE
+                + "\nSerial port closed. Device is now in deep sleep."
+                + bcolors.ENDC
+            )
             print("To wake it, press the external reset button.\n")
             exit(0)
 
-    if key == '5':  # Test mode using Plotly Dash
+    if key == "5":  # Test mode using Plotly Dash
         # Send test commands
-        send_command(ser, b'AT+TEST=2\n', b'OK')
+        send_command(ser, b"AT+TEST=2\n", b"OK")
         while True:
             line = ser.readline()
-            decoded_line = line.decode('utf-8')
+            decoded_line = line.decode("utf-8")
             if decoded_line.strip():  # Check if there's any non-whitespace content
-                print(decoded_line, end='')
+                print(decoded_line, end="")
         return True
 
-    if key == '6':  # Get Device status
-        send_command(ser, b'AT+TEST=4\n', b'OK')
+    if key == "6":  # Get Device status
+        send_command(ser, b"AT+TEST=4\n", b"OK")
         return True
 
-    if key == '7':  # Get Device status
-        send_command(ser, b'AT+TEST=5\n', b'OK')
+    if key == "7":  # Get Device status
+        send_command(ser, b"AT+TEST=5\n", b"OK")
         return True
 
-    if key == '8':  # Test mode using Plotly Dash
+    if key == "8":  # Test mode using Plotly Dash
         # Send test commands
-        send_command(ser, b'AT+TEST=6\n', b'OK')
+        send_command(ser, b"AT+TEST=6\n", b"OK")
         try:
             while True:
                 line = ser.readline()
-                decoded_line = line.decode('utf-8')
+                decoded_line = line.decode("utf-8")
                 if decoded_line.strip():  # Check if there's any non-whitespace content
-                    print(decoded_line, end='')
+                    print(decoded_line, end="")
         except KeyboardInterrupt:
             print(bcolors.WARNING + "\nUser stopped Max-Readout mode.\n" + bcolors.ENDC)
             ser.close()
             exit(0)
 
-    if key == '9':  # GETFILE test
+    if key == "9":  # GETFILE test
         print("\n--- GETFILE Test ---")
 
         # Ask user which file to request
@@ -425,7 +452,7 @@ def command_handler(key):
         local_filename = "received_" + filename
 
         # Send the AT command
-        cmd = f"AT+GETFILE={filename}\n".encode('utf-8')
+        cmd = f"AT+GETFILE={filename}\n".encode("utf-8")
         ser.write(cmd)
         time.sleep(0.2)
 
@@ -467,9 +494,9 @@ def command_handler(key):
         print(f"File saved successfully as {local_filename}\n")
         return True
 
-    if key == 'a' or key == 'A':  # ASIC register dump
+    if key == "a" or key == "A":  # ASIC register dump
         print("Dump ASIC registers\n")
-        send_command(ser, b'AT+ASIC_DUMP\n', b'OK')
+        send_command(ser, b"AT+ASIC_DUMP\n", b"OK")
         while True:
             line = ser.readline().decode(errors="ignore").strip()
             if not line:
@@ -477,14 +504,14 @@ def command_handler(key):
             print("  ", line)
         return True
 
-    if key == 'c' or key == 'C':  # Clean: default setup and erase storage
+    if key == "c" or key == "C":  # Clean: default setup and erase storage
         print("Clean device\n")
-        send_command(ser, b'AT+CONFIG_CLEAN\n', b'OK')
+        send_command(ser, b"AT+CONFIG_CLEAN\n", b"OK")
         return True
 
-    if key == 'd' or key == 'D':  # Dump: get the current setup
+    if key == "d" or key == "D":  # Dump: get the current setup
         print("Dump settings\n")
-        send_command(ser, b'AT+CONFIG_DUMP\n', b'OK')
+        send_command(ser, b"AT+CONFIG_DUMP\n", b"OK")
         while True:
             line = ser.readline().decode(errors="ignore").strip()
             if not line:
@@ -492,58 +519,57 @@ def command_handler(key):
             print("  ", line)
         return True
 
-    if key == 'l' or key == 'L':  # load: load setup from storage
+    if key == "l" or key == "L":  # load: load setup from storage
         print("Load settings from flash\n")
-        send_command(ser, b'AT+CONFIG_LOAD\n', b'OK')
+        send_command(ser, b"AT+CONFIG_LOAD\n", b"OK")
         return True
 
-    if key == 'n' or key == 'N':  # Next channel
+    if key == "n" or key == "N":  # Next channel
         next_channel()
         return True
 
-    if key == 'h' or key == 'H' or key == '?':  # Help: display list of commands
+    if key == "h" or key == "H" or key == "?":  # Help: display list of commands
         print_help()
         return True
 
-    if key == 'q' or key == 'Q':  # Quit
+    if key == "q" or key == "Q":  # Quit
         print(bcolors.BOLD + "\nInterface Terminated\n" + bcolors.ENDC)
         ser.close()
         exit(1)
 
-    if key == 's' or key == 'S':  # Save: save current setup to storage
+    if key == "s" or key == "S":  # Save: save current setup to storage
         print("Save settings to flash\n")
-        send_command(ser, b'AT+CONFIG_SAVE\n', b'OK')
+        send_command(ser, b"AT+CONFIG_SAVE\n", b"OK")
         return True
 
-    if key == 't':  # Debug test mode
+    if key == "t":  # Debug test mode
         pass
 
-    if key == 'u' or key == 'U':
+    if key == "u" or key == "U":
         set_output_format(3)
         return True
 
-    if key == 'v' or key == 'V':
+    if key == "v" or key == "V":
         set_output_format(4)
         return True
 
-    if key == 'w' or key == 'W':
+    if key == "w" or key == "W":
         set_output_format(1)
         return True
 
-    if key == 'x' or key == 'X':
+    if key == "x" or key == "X":
         test_sequence_X()
         return True
 
-    if key == 'y' or key == 'Y':
+    if key == "y" or key == "Y":
         test_sequence_Y()
         return True
 
-    if key == ' ':
+    if key == " ":
         toggle_printing()
         return True
 
     return False
-
 
 
 # Thread function for reading serial data, updating the accumulator and logging CSV,
@@ -565,13 +591,15 @@ def serial_read_thread(ser, accum_data, data_lock, csv_writer, stop_event):
             temperature = float(data[4097]) / 100
             Vbias = float(data[4096]) / 1000
             Vbias_setpoint = -40.7 - (0.034 * (temperature - 25))
-            Vbias_offset = (Vbias_setpoint - Vbias)
+            Vbias_offset = Vbias_setpoint - Vbias
             print("Total accumulated:", current_total)
-            print("Temperature: %0.2f and Vbias: %0.3f | Setpoint: %0.3f | Vbias_offset: %0.3f" %
-                  (temperature, Vbias, Vbias_setpoint, Vbias_offset))
+            print(
+                "Temperature: %0.2f and Vbias: %0.3f | Setpoint: %0.3f | Vbias_offset: %0.3f"
+                % (temperature, Vbias, Vbias_setpoint, Vbias_offset)
+            )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print("\nInterface Started")
     parser = argparse.ArgumentParser()
     parser.add_argument("com_port", help="COM port of the device")
@@ -588,7 +616,9 @@ if __name__ == '__main__':
                 print_help()
 
     except serial.SerialException:
-        print(bcolors.FAIL + "\nDevice disconnected or serial port lost." + bcolors.ENDC)
+        print(
+            bcolors.FAIL + "\nDevice disconnected or serial port lost." + bcolors.ENDC
+        )
         try:
             ser.close()
         except Exception:

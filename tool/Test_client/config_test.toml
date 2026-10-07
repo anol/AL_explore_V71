@@ -1,25 +1,25 @@
-[GENERAL]
+# [GENERAL]
 
 #VBIAS = 0  #positive value, used to override the vbias regulator, 0 = use the regulator
 
-IDLE_CADENCE = 2 #update update_intervalin seconds
+# IDLE_CADENCE = 2 #update update_intervalin seconds
 
-NOMINAL_CADENCE  = 2 #update update_intervalin seconds
+# NOMINAL_CADENCE  = 2 #update update_intervalin seconds
 
-DEMO_CADENCE  = 2 #update update_intervalin seconds
-DEMO_CHANNEL = 18 #1 to 17     0 to disable 17=summing channel 18=all channel summing
+# DEMO_CADENCE  = 2 #update update_intervalin seconds
+# DEMO_CHANNEL = 18 #1 to 17     0 to disable 17=summing channel 18=all channel summing
 
 #A = 1169336 #Ax + B calibration number multiplied by 1 000 000 without alu tape
 #B = -114270 #Ax + B calibration number multiplied by 1 000 without alu tape
 #A = 923913 #Ax + B calibration number multiplied by 1 000 000 with alu tape
 #B = -114086 #Ax + B calibration number multiplied by 1 000 without alu tape
 
-CAL_DAC_V35 = -35000
-CAL_DAC_V40 = -40000
-
-CAL_ADC_V35 = -35000
-CAL_ADC_V40 = -40000
-
+# CAL_DAC_V35 = -35000
+# CAL_DAC_V40 = -40000
+#
+# CAL_ADC_V35 = -35000
+# CAL_ADC_V40 = -40000
+#
 
 [REG.ctrl_ch_01]
 cmis_detector_voffset = 64
