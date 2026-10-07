@@ -79,8 +79,14 @@ void Instrument_calibration_provider::v_CAL_DAC_V40_cal_40V(Instruction_major &i
     }
 }
 
-void Instrument_calibration_provider::v_CAL_DAC_data16(Instruction_major &, int data16_2) {
-    use_bias.get_DAC().set_dac_test(data16_2);
+void Instrument_calibration_provider::v_CAL_DAC(Instruction_major &instruction) {
+    auto value = use_bias.get_DAC().get_raw_DAC();
+    instruction.print_ack(value);
+}
+
+void Instrument_calibration_provider::v_CAL_DAC_data16(Instruction_major &instruction, int data16_2) {
+    use_bias.get_DAC().set_raw_DAC(data16_2);
+    instruction.print_ack();
 }
 
 void Instrument_calibration_provider::v_CAL_TEST_BIAS(Instruction_major &instruction) {

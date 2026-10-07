@@ -17,7 +17,8 @@ export namespace SamV71 {
 
         bool set(uint32_t value) override;
 
-    public:
+        [[nodiscard]] uint32_t get() const override;
+
         void ISR();
 
     private:

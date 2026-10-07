@@ -11,5 +11,7 @@ export namespace Abstract {
         virtual void initialize() = 0;
 
         virtual bool set(uint32_t value) = 0;
+
+        [[nodiscard]] virtual uint32_t get() const = 0;
     };
 } // Abstract

@@ -61,7 +61,7 @@ namespace SamV71_DACC_test_data {
     };
 
     static uint8_t the_wave_type{};
-    static int32_t the_amplitude { Amplitude_offset };
+    static int32_t the_amplitude{Amplitude_offset};
     static uint32_t the_sample_index{};
 
     static void next_sample() {
@@ -113,12 +113,24 @@ namespace SamV71 {
     }
 
     bool SamV71_DAC::set(const uint32_t value) {
+        auto success{false};
         if (optional_definition) {
             auto *base = static_cast<Definition *>(optional_definition)->the_base;
             auto channel = static_cast<Definition *>(optional_definition)->the_channel;
             base->DACC_CDR[channel] = value;
+            success = true;
         }
-        return true;
+        return success;
+    }
+
+    uint32_t SamV71_DAC::get() const {
+        uint32_t value{};
+        if (optional_definition) {
+            auto *base = static_cast<Definition *>(optional_definition)->the_base;
+            auto channel = static_cast<Definition *>(optional_definition)->the_channel;
+            value = base->DACC_CDR[channel];
+        }
+        return value;
     }
 
     void SamV71_DAC::ISR() {

@@ -102,6 +102,7 @@ export namespace SpectraNode_interface {
         virtual void v_CAL_DAC_data16(Instruction_major &, int data16_2) = 0;
         virtual void v_CAL_DAC_V35_cal_35V(Instruction_major &, int cal_35V_3) = 0;
         virtual void v_CAL_DAC_V40_cal_40V(Instruction_major &, int cal_40V_3) = 0;
+        virtual void v_CAL_DAC(Instruction_major &) = 0;
         virtual void v_CAL_DIAG(Instruction_major &) = 0;
         virtual void v_CAL_TEST_BIAS(Instruction_major &) = 0;
         virtual void v_CAL_TEST_NOISE(Instruction_major &) = 0;
@@ -114,6 +115,7 @@ export namespace SpectraNode_interface {
         void p_CAL_DAC_data16(Instruction_major &);
         void p_CAL_DAC_V35_cal_35V(Instruction_major &);
         void p_CAL_DAC_V40_cal_40V(Instruction_major &);
+        void p_CAL_DAC(Instruction_major &);
         void p_CAL_DIAG(Instruction_major &);
         void p_CAL_TEST_BIAS(Instruction_major &);
         void p_CAL_TEST_NOISE(Instruction_major &);

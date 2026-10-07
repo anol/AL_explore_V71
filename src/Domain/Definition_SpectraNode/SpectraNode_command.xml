@@ -91,7 +91,7 @@ Copyright (C) 2026 Integrated Detector Electronics AS
                         <arg integer="cal_40V" brief="Set bias ADC calibration 40V setpoint."/>
                     </arg>
                 </arg>
-                <arg key="DAC">
+                <arg key="DAC" brief="Get the raw DAC setting.">
                     <arg integer="data16" brief="Set raw DAC value."/>
                     <arg key="V35">
                         <arg integer="cal_35V" brief="Set bias DAC calibration 35V setpoint."/>

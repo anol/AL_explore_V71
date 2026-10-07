@@ -53,6 +53,7 @@ export namespace SpectraNode_interface{
         Cmd_CAL_DAC_data16,
         Cmd_CAL_DAC_V35_cal_35V,
         Cmd_CAL_DAC_V40_cal_40V,
+        Cmd_CAL_DAC,
         Cmd_CAL_DIAG,
         Cmd_CAL_TEST_BIAS,
         Cmd_CAL_TEST_NOISE,

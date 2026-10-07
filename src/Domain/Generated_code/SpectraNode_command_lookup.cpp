@@ -227,6 +227,7 @@ namespace SpectraNode_interface{
         {Integer_token, Key_data16, token_CAL_DAC_data16, 0, static_cast<int32_t>(0xFFFF)},
         {Keyword_token, "V35", Key_V35, (uint32_t)0, token_CAL_DAC_V35},
         {Keyword_token, "V40", Key_V40, (uint32_t)0, token_CAL_DAC_V40},
+        {help_CAL_DAC, Cmd_CAL_DAC, Key_Instrument_calibration},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 

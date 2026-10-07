@@ -47,6 +47,7 @@ export namespace SpectraNode_interface{
     constexpr auto* help_CAL_DAC_data16{""};
     constexpr auto* help_CAL_DAC_V35_cal_35V{""};
     constexpr auto* help_CAL_DAC_V40_cal_40V{""};
+    constexpr auto* help_CAL_DAC{""};
     constexpr auto* help_CAL_DIAG{""};
     constexpr auto* help_CAL_TEST_BIAS{""};
     constexpr auto* help_CAL_TEST_NOISE{""};

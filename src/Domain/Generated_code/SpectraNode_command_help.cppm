@@ -47,6 +47,7 @@ export namespace SpectraNode_interface{
     constexpr auto* help_CAL_DAC_data16{"Set raw DAC value."};
     constexpr auto* help_CAL_DAC_V35_cal_35V{"Set bias DAC calibration 35V setpoint."};
     constexpr auto* help_CAL_DAC_V40_cal_40V{"Set bias DAC calibration 40V setpoint."};
+    constexpr auto* help_CAL_DAC{"Get the raw DAC setting."};
     constexpr auto* help_CAL_DIAG{"Misc. diagnostic information wrt. calibration."};
     constexpr auto* help_CAL_TEST_BIAS{"Find common bias voltage using dark count rate."};
     constexpr auto* help_CAL_TEST_NOISE{"Find channel noise floor using threshold scan."};

@@ -142,6 +142,7 @@ don't need them).
 | `AT+CAL_DAC=<data16(int 0..0xFFFF)>` | Set raw DAC value. |
 | `AT+CAL_DAC_V35=<cal_35V(int -100000..-1)>` | Set bias DAC calibration 35V setpoint. |
 | `AT+CAL_DAC_V40=<cal_40V(int -100000..-1)>` | Set bias DAC calibration 40V setpoint. |
+| `AT+CAL_DAC` | Get the raw DAC setting. |
 | `AT+CAL_DIAG` | Misc. diagnostic information wrt. calibration. |
 | `AT+CAL_TEST_BIAS` | Find common bias voltage using dark count rate. |
 | `AT+CAL_TEST_NOISE` | Find channel noise floor using threshold scan. |
