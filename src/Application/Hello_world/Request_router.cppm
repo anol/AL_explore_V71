@@ -16,6 +16,7 @@ import Application.Mode_control_provider;
 import Application.Spectroscopic_data_provider;
 import Support.Configuration_repository;
 import Support.Instruction_major;
+import Type.Abstract_board;
 
 using namespace IDE3380;
 
@@ -30,29 +31,29 @@ export namespace Application
         Repository::Configuration_repository& use_repository;
         Cadence_control& use_cadence;
         Event_counter& use_event_counter;
-        Housekeeping_provider& use_housekeeper;
         Mode_control_provider& use_mode_control;
         Spectroscopic_data_provider& use_data_provider;
         Instrument_calibration_provider the_instrument_calibration{
             use_bias, use_repository, use_IDE3380, use_histogram, use_event_counter
         };
         Configuration_manager_provider the_configuration_manager{use_repository, use_IDE3380};
+        Housekeeping_provider the_housekeeper;
         int deepsleep_active{};
         int prevent_sleep{};
         int send_debug_data{};
         int deepsleep_enable{};
 
     public:
-        explicit Request_router(Histogram_storage& histogram, Event_counter& counter,
+        explicit Request_router(Abstract::Abstract_board &board, Histogram_storage& histogram, Event_counter& counter,
                                 IDE3380_interface& ASIC, Calibration::Bias_calibration& bias,
                                 Repository::Configuration_repository& repository, Cadence_control& cadence,
-                                Housekeeping_provider& housekeeper,
                                 Mode_control_provider& mode_control,
                                 Spectroscopic_data_provider& data_provider)
             : Abstract_provider(0),
               use_histogram(histogram), use_IDE3380(ASIC), use_bias(bias),
               use_repository(repository), use_cadence(cadence), use_event_counter(counter),
-              use_housekeeper(housekeeper), use_mode_control(mode_control), use_data_provider(data_provider)
+              use_mode_control(mode_control), use_data_provider(data_provider),
+              the_housekeeper(board, histogram, ASIC, bias, repository, cadence, data_provider, mode_control)
         {
         }
 

@@ -24,7 +24,6 @@ module;
 #include <cstdint>
 #include <cstdio>
 #include "Target_config.h"
-#include "Persistent_parameter_id.h"
 
 module Application.Housekeeping_provider;
 import Component.Histogram_storage;
@@ -90,7 +89,7 @@ void Housekeeping_provider::v_DIAG(Instruction_major &instruction) {
 }
 
 void Housekeeping_provider::v_ECHO(Instruction_major &) {
-    auto echo = use_board.get_UART().toggle_echo();
+    const auto echo = use_board.get_UART().toggle_echo();
     printf("The console echo is %s\r\n", echo ? "ON" : "OFF");
 }
 
@@ -106,7 +105,7 @@ void Housekeeping_provider::v_HELP(Instruction_major &instruction) {
         the_help.print(instruction.get_token_type(1) == Question_mark,
                        number_of_keys);
     } else if (instruction.get_token_type(1) == Question_mark) {
-        the_help.print((uint32_t) instruction.get_token_id(0));
+        the_help.print(static_cast<uint32_t>(instruction.get_token_id(0)));
     } else {
         the_help.print(false, number_of_keys);
     }

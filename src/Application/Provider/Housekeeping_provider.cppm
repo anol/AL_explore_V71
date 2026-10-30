@@ -48,7 +48,7 @@ export class Housekeeping_provider : public Abstract_Housekeeping_provider {
     Instruction::CLI_help the_help{Key_HELP, get_commands(), get_keyword};
     Abstract::Abstract_board &use_board;
     Application::Histogram_storage &use_histogram;
-    IDE3380::IDE3380_interface &use_IDE3380;
+    IDE3380_interface &use_IDE3380;
     Calibration::Bias_calibration &use_bias;
     Repository::Configuration_repository &use_repository;
     Application::Cadence_control &use_cadence;

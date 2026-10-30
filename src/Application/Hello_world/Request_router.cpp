@@ -80,7 +80,7 @@ namespace Application
         if (!executed) { executed = use_data_provider.on_indication(instruction); }
         if (!executed) { executed = the_instrument_calibration.on_indication(instruction); }
         if (!executed) { executed = the_configuration_manager.on_indication(instruction); }
-        if (!executed) { executed = use_housekeeper.on_indication(instruction); }
+        if (!executed) { executed = the_housekeeper.on_indication(instruction); }
         if (!executed)
         {
             printf("ERROR: NO_SUCH COMMAND, DIAG=%d.\r\n", (int)instruction.get_command_id());
