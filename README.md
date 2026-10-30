@@ -3,7 +3,7 @@
 Build using GCC and C++20.
 Using FreeRTOS (FreeRTOSv202604.01-LTS).
 
-Current firmware version: **1.4.0** (`IDE_SW_VERSION` in `CMakeLists.txt`).
+Current firmware version: **1.4.1** (`IDE_SW_VERSION` in `CMakeLists.txt`).
 
 ## Building
 
@@ -53,8 +53,9 @@ cmake --build build/V71_EK_hello_world
 ## Top-level modules
 
 - **`Application/`** — the app itself: `Hello_world` (composition root, wired up in
-  `main()`), `Provider` (the data providers it routes requests to) and `Support` (cadence
-  control plus C helper code, e.g. the gamma peak detector and isotope table).
+  `main()`), `Provider` (the data providers its `Service_provider` routes requests to) and
+  `Support` (cadence control plus C helper code, e.g. the gamma peak detector and isotope
+  table).
 - **`Board/`** — board support packages, one per board (`V71_EK` evaluation kit,
   `Win11` host simulation; `AL_EM` holds only a pin table/config so far), wiring together
   the platform, components and pin table for that board.
@@ -66,7 +67,7 @@ cmake --build build/V71_EK_hello_world
   startup/SDK layer), `Windows_platform` and `Mockup_platform` (host builds),
   `Common_platform` and `FreeRTOS_platform`. `STM32U575RG` and `WIN32_mockup` are also
   here, but no preset builds them.
-- **`Support/`** — cross-cutting infrastructure: the console service, the heartbeat task
+- **`Support/`** — cross-cutting infrastructure: the console support, the heartbeat task
   (`Hearbeat/`), the CLI parser and instruction dispatch (`Plumbing/`), and the
   configuration/attribute repository.
 - **`Target/`** — top-level build targets that assemble an application, board and platform
@@ -350,18 +351,18 @@ header/source pairs. A quick primer:
 - **Module interface unit** — declares and exports the module's public API. File
   extension is `.cppm`:
   ```cpp
-  export module Support.Console_service;   // module name (dots are just part of the name)
+  export module Support.Console_support;   // module name (dots are just part of the name)
 
   import Type.Abstract_service;            // pull in another module
 
-  export class Console_service : public Abstract_service { // exported: visible to importers
+  export class Console_support : public Abstract_service { // exported: visible to importers
       ...
   };
 
   void log_internal(...);                  // not exported: module-private
   ```
 - **Module implementation unit** — provides definitions for a module declared elsewhere,
-  without re-exporting its interface: `module Support.Console_service;` (no `export`) at
+  without re-exporting its interface: `module Support.Console_support;` (no `export`) at
   the top of a `.cpp` file. Counts as depending on whatever module it implements.
 - **Importing a module** — `import Some.Module.Name;` (or `export import ...;` to
   re-export it through the importing module) instead of `#include`-ing a header. No
@@ -370,7 +371,7 @@ header/source pairs. A quick primer:
   `export module Foo:Partition_name;` / `import :Partition_name;`; partitions are only
   visible to other pieces of the same module, never to importers of `Foo`.
 - **Naming convention used in this repo** — module names mirror their source directory,
-  dotted (e.g. `Support/Console/Console_service.cppm` exports `Support.Console_service`),
+  dotted (e.g. `Support/Console/Console_support.cppm` exports `Support.Console_support`),
   which is why the dependency graphs above draw `import` edges (dashed) between the same
   directory nodes as `#include` edges (solid).
 

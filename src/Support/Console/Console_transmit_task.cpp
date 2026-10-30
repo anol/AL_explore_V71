@@ -4,7 +4,7 @@
 
 module;
 
-module Support.Console_service;
+module Support.Console_support;
 
 namespace Support {
     void Console_transmit_task::task_loop() {

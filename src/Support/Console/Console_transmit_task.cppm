@@ -4,7 +4,7 @@
 
 module;
 
-module Support.Console_service:Console_transmit_task;
+module Support.Console_support:Console_transmit_task;
 import Platform.FreeRTOS_task;
 
 #include "Target_config.h"

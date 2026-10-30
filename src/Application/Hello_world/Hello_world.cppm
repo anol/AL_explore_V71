@@ -18,11 +18,11 @@ import Type.Abstract_application;
 import Type.Abstract_board;
 import Application.Cadence_control;
 import Application.Default_configuration;
-import Application.Request_router;
+import Application.Service_provider;
 import Domain.SpectraNode_command_table;
 import Support.Configuration_repository;
 import Support.Mockup_persistent_storage;
-import Support.Console_service;
+import Support.Console_support;
 import Support.Heartbeat_task;
 import Domain.IO_pins;
 import Application.Primary_task;
@@ -47,28 +47,18 @@ export namespace Application
         Cadence_control the_cadence_control{};
         IDE3380_interface the_IDE3380;
         Calibration::Bias_calibration the_bias;
-        MOCKUP::Mockup_persistent_storage the_storage{};
-        Repository::Configuration_repository the_repository{the_default_configuration, the_storage};
         Event_counter the_event_counter{};
         Histogram_storage the_histogram{the_event_counter, the_IDE3380};
-        Mode_control_provider the_mode_control{
-            the_histogram, the_IDE3380, the_bias, the_repository, the_cadence_control, the_data_provider
+        Service_provider the_command_handler{
+            use_UART, the_default_configuration, the_histogram, the_event_counter, the_IDE3380, the_bias, the_cadence_control
         };
-        Spectroscopic_data_provider the_data_provider{
-            the_histogram, the_repository, the_cadence_control, the_IDE3380
-        };
-        Request_router the_command_handler{
-            use_UART, the_histogram, the_event_counter, the_IDE3380, the_bias, the_repository, the_cadence_control,
-            the_mode_control, the_data_provider
-        };
-        Primary_task the_primary_task{the_IDE3380, the_bias, the_repository, the_command_handler};
-        Support::Console_service the_console_service{use_UART, the_command_handler, the_command_table};
+        Support::Console_support the_console_support{use_UART, the_command_handler, the_command_table};
         Support::Heartbeat_task the_heartbeat_task{use_LED0, use_LED1};
         uint32_t the_background_count{};
 
     public:
         explicit Hello_world(Abstract::Abstract_board& board)
-            : use_UART(board.get_UART()), use_LED0(board.get_pin(Domain::Pin_LED0)), use_LED1(board.get_pin(Domain::Pin_LED0)),
+            : use_UART(board.get_UART()), use_LED0(board.get_pin(Domain::Pin_LED0)), use_LED1(board.get_pin(Domain::Pin_LED1)),
               the_IDE3380(board), the_bias(board)
         {
         }

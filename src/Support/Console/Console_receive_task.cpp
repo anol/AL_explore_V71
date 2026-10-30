@@ -9,7 +9,7 @@ module;
 #include <cctype>
 
 
-module Support.Console_service;
+module Support.Console_support;
 import Support.Instruction_major;
 import Type.Abstract_task;
 

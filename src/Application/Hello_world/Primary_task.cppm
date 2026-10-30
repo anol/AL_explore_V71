@@ -22,8 +22,6 @@
 
 module;
 
-#include <complex.h>
-
 #include "Target_config.h"
 
 export module Application.Primary_task;
@@ -31,32 +29,36 @@ import Platform.FreeRTOS_task;
 import Component.IDE3380_interface;
 import Component.Bias_calibration;
 import Support.Configuration_repository;
-import Application.Request_router;
+import Application.Command_handler;
 
-namespace Application {
-    export class Primary_task : public FreeRTOS::FreeRTOS_task {
-        enum {
-            Priority   = Target_config::Primary_task_priority,
+namespace Application
+{
+    export class Primary_task : public FreeRTOS::FreeRTOS_task
+    {
+        enum
+        {
+            Priority = Target_config::Primary_task_priority,
             Stack_size = Target_config::Primary_task_stack_size
         };
 
-        IDE3380::IDE3380_interface &use_IDE3380;
-        Calibration::Bias_calibration &use_bias;
-        Repository::Configuration_repository &use_repository;
-        Request_router &use_command_handler;
+        IDE3380::IDE3380_interface& use_IDE3380;
+        Calibration::Bias_calibration& use_bias;
+        Repository::Configuration_repository& use_repository;
+        Command_handler& use_command_handler;
 
     public:
         Primary_task(
-            IDE3380::IDE3380_interface &IDE3380,
-            Calibration::Bias_calibration &bias,
-            Repository::Configuration_repository &repository,
-            Request_router &command_handler
+            IDE3380::IDE3380_interface& IDE3380,
+            Calibration::Bias_calibration& bias,
+            Repository::Configuration_repository& repository,
+            Command_handler& command_handler
         )
             : FreeRTOS_task("Primary task", Priority, Stack_size),
               use_IDE3380(IDE3380),
               use_bias(bias),
               use_repository(repository),
-              use_command_handler(command_handler) {
+              use_command_handler(command_handler)
+        {
         };
 
         void initialize() override;

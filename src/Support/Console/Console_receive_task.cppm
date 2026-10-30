@@ -6,7 +6,7 @@ module;
 #include <cstdint>
 #include <cstddef>
 
-module Support.Console_service:Console_receive_task;
+module Support.Console_support:Console_receive_task;
 import Utility.Ringbuffer;
 import Platform.FreeRTOS_task;
 import Support.Abstract_command_table;

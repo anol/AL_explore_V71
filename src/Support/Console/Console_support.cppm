@@ -2,7 +2,7 @@
 // Created by aeols on 2026-09-10.
 //
 
-export module Support.Console_service;
+export module Support.Console_support;
 import :Console_receive_task;
 import :Console_transmit_task;
 import Support.Abstract_command_table;
@@ -13,13 +13,13 @@ import Type.Abstract_UART;
 
 namespace Support
 {
-    export class Console_service : public Abstract::Abstract_service
+    export class Console_support : public Abstract::Abstract_service
     {
         Console_receive_task the_receiver;
         Console_transmit_task the_transmitter{};
 
     public:
-        Console_service(Abstract::Abstract_UART& UART, Abstract::Abstract_provider<Instruction_major>& router,
+        Console_support(Abstract::Abstract_UART& UART, Abstract::Abstract_provider<Instruction_major>& router,
                         const Instruction::Abstract_command_table& command_table) :
             the_receiver(UART, router, command_table)
         {
