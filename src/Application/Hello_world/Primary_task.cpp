@@ -34,7 +34,7 @@ import Component.IDE3380_interface;
 namespace Application {
     void Primary_task::initialize() {
         use_bias.initialize();
-        use_command_handler.initialize();
+        the_command_handler.initialize();
     }
 
     void Primary_task::task_loop() {
@@ -43,7 +43,7 @@ namespace Application {
         Housekeeping_provider::print_version();
         use_repository.initialize();
         auto success = use_repository.load();
-        success = use_command_handler.update_mode();
+        success = the_command_handler.update_mode();
         if (success.failed()) {
             printf("<> Failed to update mode controller <>\r\n");
         }

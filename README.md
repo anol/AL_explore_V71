@@ -53,7 +53,8 @@ cmake --build build/V71_EK_hello_world
 ## Top-level modules
 
 - **`Application/`** — the app itself: `Hello_world` (composition root, wired up in
-  `main()`), `Provider` (the data providers its `Service_provider` routes requests to) and
+  `main()`, owning `Detector`, `Service_provider`, `SpectraNode_console` and the heartbeat
+  task), `Provider` (the data providers its `Service_provider` routes requests to) and
   `Support` (cadence control plus C helper code, e.g. the gamma peak detector and isotope
   table).
 - **`Board/`** — board support packages, one per board (`V71_EK` evaluation kit,
@@ -101,7 +102,9 @@ pair with edges in both directions would be drawn bold red; there are currently 
 
 The two concrete objects wired together in `main()` (`V71_EK_hello_world.cpp`), first as
 composition-only overviews showing just what each one owns, then as the detailed
-aggregation graphs that add the non-owning references.
+aggregation graphs that add the non-owning references. `Hello_world` is too large for one
+readable aggregation graph, so it has one each for `Service_provider` and
+`SpectraNode_console`, two of the four objects it owns.
 
 What `Hello_world` (the application) owns:
 
@@ -111,9 +114,13 @@ What `V71_EK_board` (the board) owns:
 
 ![V71_EK_board composition graph](doc/v71_ek_board_composition.svg)
 
-What `Hello_world` (the application) owns and references:
+What `Service_provider` (request routing and the data providers) owns and references:
 
-![Hello_world aggregation graph](doc/hello_world_aggregation.svg)
+![Service_provider aggregation graph](doc/service_provider_aggregation.svg)
+
+What `SpectraNode_console` (the console and its command table) owns and references:
+
+![SpectraNode_console aggregation graph](doc/spectranode_console_aggregation.svg)
 
 What `V71_EK_board` (the board) owns and references:
 

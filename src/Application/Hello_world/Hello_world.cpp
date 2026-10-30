@@ -5,20 +5,15 @@
 module;
 
 module Application.Hello_world;
-import Component.Event_counter;
-import Application.Cadence_control;
-import Support.Console_support;
 import Platform.FreeRTOS_task;
-
-using namespace IDE3380;
 
 namespace Application
 {
     void Hello_world::initialize()
     {
-        the_cadence_control.initialize();
-        the_event_counter.initialize();
-        the_console_support.initialize();
+        the_service_provider.initialize();
+        the_detector.initialize();
+        the_console.initialize();
         // the_histogram.disable_trigger_flag(true);
         // the_cadence_control.set_cadence_callback(nullptr, nullptr);
 
