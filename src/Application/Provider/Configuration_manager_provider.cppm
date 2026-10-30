@@ -40,12 +40,11 @@ using namespace SpectraNode_interface;
 export class Configuration_manager_provider : public Abstract_Configuration_manager_provider {
     Repository::Configuration_repository &use_repository;
     IDE3380::IDE3380_interface &use_IDE3380;
-    IDE3380::IDE3380_register_access &use_IDE3380_register;
 
 public:
     Configuration_manager_provider(Repository::Configuration_repository &repository,
                                    IDE3380::IDE3380_interface &IDE3380)
-        : use_repository(repository), use_IDE3380(IDE3380), use_IDE3380_register(IDE3380.get_register_access()) {
+        : use_repository(repository), use_IDE3380(IDE3380) {
     }
 
 protected:

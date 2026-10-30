@@ -45,11 +45,16 @@ export namespace Application
                                 the_cadence_control, detector.get_IDE3380()),
               the_configuration_manager(the_configuration_store.get_repository(), detector.get_IDE3380()),
               the_housekeeper(UART, detector.get_histogram(), detector.get_IDE3380(), detector.get_bias(),
-                              the_configuration_store.get_repository(), the_cadence_control, the_data_provider,
-                              the_mode_control),
-              the_primary_task(detector.get_IDE3380(), detector.get_bias(), the_configuration_store.get_repository(),
-                               detector.get_histogram(), the_mode_control)
+                              the_configuration_store.get_repository(), the_cadence_control, this,
+                              [](void* user) { static_cast<Service_provider*>(user)->print_status(); }),
+              the_primary_task(detector, the_configuration_store.get_repository(), the_mode_control)
         {
+        }
+
+        void print_status() const
+        {
+            the_mode_control.print_status();
+            the_data_provider.print_status();
         }
 
         void initialize()

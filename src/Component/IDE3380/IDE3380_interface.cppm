@@ -59,6 +59,18 @@ export namespace IDE3380
 
         [[nodiscard]] bool is_deepsleep_ready() const { return the_readout_control.is_TXD_idle(); }
 
+        void set_ignore_trigger(const bool flag) { the_readout_control.set_ignore_trigger(flag); }
+
+        uint32_t SPI_read_register(const uint8_t register_address)
+        {
+            return the_register_access.SPI_read_register(register_address);
+        }
+
+        uint32_t SPI_update_register(const uint8_t register_address, const uint8_t nRead_Write, const uint32_t data)
+        {
+            return the_register_access.SPI_update_register(register_address, nRead_Write, data);
+        }
+
         void enable_external_hold();
 
         void disable_external_hold();

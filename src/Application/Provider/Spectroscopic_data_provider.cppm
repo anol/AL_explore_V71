@@ -26,7 +26,6 @@ module;
 
 export module Application.Spectroscopic_data_provider;
 import Component.IDE3380_interface;
-import Component.IDE3380_readout_control;
 import Component.Histogram_storage;
 import Domain.SpectraNode_keyword_lookup;
 import Domain.SpectraNode_command_lookup;
@@ -45,7 +44,7 @@ export class Spectroscopic_data_provider : public Abstract_Spectroscopic_data_pr
     Application::Histogram_storage &use_histogram;
     Repository::Configuration_repository &use_repository;
     Application::Cadence_control &use_cadence;
-    IDE3380::IDE3380_readout_control &use_readout_control;
+    IDE3380::IDE3380_interface &use_IDE3380;
     Application::Data_format the_format{};
     int the_channel{};
 
@@ -53,7 +52,7 @@ public:
     Spectroscopic_data_provider(Application::Histogram_storage &histogram, Repository::Configuration_repository &repository,
                                 Application::Cadence_control &cadence, IDE3380::IDE3380_interface &ASIC)
         : use_histogram(histogram), use_repository(repository), use_cadence(cadence),
-          use_readout_control(ASIC.get_readout_control()) {
+          use_IDE3380(ASIC) {
     }
 
     void set_format(const Application::Data_format format) {
@@ -62,7 +61,7 @@ public:
 
     void set_channel(const int channel) {
         the_channel = channel;
-        use_readout_control.set_ignore_trigger(channel == 0);
+        use_IDE3380.set_ignore_trigger(channel == 0);
     }
 
     void send_science_data(uint32_t cadence) const;

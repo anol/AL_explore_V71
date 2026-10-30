@@ -70,6 +70,25 @@ Status_code Mode_control_provider::set_mode(const Operation_mode mode, const Par
     return Status_code(success);
 }
 
+Status_code Mode_control_provider::update_mode() {
+    int32_t value;
+    const auto success{use_repository.get(Active_mode, value)};
+    switch (auto mode = static_cast<Operation_mode>(value)) {
+        default:
+            mode = Mode_idle;
+        case Mode_idle:
+            set_mode(mode, Channel_idle, Format_idle, Cadence_idle);
+            break;
+        case Mode_nominal:
+            set_mode(mode, Channel_nominal, Format_nominal, Cadence_nominal);
+            break;
+        case Mode_demo:
+            set_mode(mode, Channel_demo, Format_demo, Cadence_demo);
+            break;
+    }
+    return success;
+}
+
 void Mode_control_provider::v_MODE_DEMO(Instruction_major &instruction) {
     if (set_mode(Mode_demo, Channel_demo, Format_demo, Cadence_demo).success()) {
         instruction.print_ack();

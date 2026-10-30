@@ -26,11 +26,8 @@ module;
 
 export module Application.Primary_task;
 import Platform.FreeRTOS_task;
-import Component.IDE3380_interface;
-import Component.Bias_calibration;
-import Component.Histogram_storage;
 import Support.Configuration_repository;
-import Application.Command_handler;
+import Application.Detector;
 import Application.Mode_control_provider;
 
 namespace Application
@@ -43,24 +40,20 @@ namespace Application
             Stack_size = Target_config::Primary_task_stack_size
         };
 
-        IDE3380::IDE3380_interface& use_IDE3380;
-        Calibration::Bias_calibration& use_bias;
+        Detector& use_detector;
         Repository::Configuration_repository& use_repository;
-        Command_handler the_command_handler;
+        Mode_control_provider& use_mode_control;
 
     public:
         Primary_task(
-            IDE3380::IDE3380_interface& IDE3380,
-            Calibration::Bias_calibration& bias,
+            Detector& detector,
             Repository::Configuration_repository& repository,
-            Histogram_storage& histogram,
             Mode_control_provider& mode_control
         )
             : FreeRTOS_task("Primary task", Priority, Stack_size),
-              use_IDE3380(IDE3380),
-              use_bias(bias),
+              use_detector(detector),
               use_repository(repository),
-              the_command_handler(histogram, IDE3380, mode_control, repository)
+              use_mode_control(mode_control)
         {
         };
 

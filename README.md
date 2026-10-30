@@ -92,9 +92,10 @@ directories CMake actually builds with the `V71_EK_hello_world` preset. Almost e
 module is now a named C++20 module, so `import` dominates: the only remaining `#include`
 edges are the plain `Domain/Persistent_parameter_id.h` header (from
 `Application/Hello_world`, `Application/Provider`, `Component/IDE3380`,
-`Component/SiPM_bias`), `Component/SiPM_bias` → `Component/STTS22H` (`Sensor_STTS22H.h`)
-and `Platform/SamV71_platform` → `Target/V71_EK_hello_world` (`FreeRTOSConfig.h`). A module
-pair with edges in both directions would be drawn bold red; there are currently none.
+`Component/SiPM_bias`) and `Component/SiPM_bias` → `Component/STTS22H`
+(`Sensor_STTS22H.h`). A module pair with edges in both directions would be drawn bold red,
+and a dependency loop through three or more modules would be drawn bold purple and listed
+in the graph's caption; there are currently none of either.
 
 ![Module dependency graph](doc/module_dependencies.svg)
 

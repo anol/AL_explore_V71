@@ -122,13 +122,13 @@ void Configuration_manager_provider::v_ASIC_LOAD(Instruction_major &instruction)
 }
 
 void Configuration_manager_provider::v_ASIC_REG_reg_addr(Instruction_major &instruction, int reg_addr_2) {
-    const int SPI_data = use_IDE3380_register.SPI_read_register(reg_addr_2);
+    const int SPI_data = use_IDE3380.SPI_read_register(reg_addr_2);
     instruction.print_ack(reg_addr_2, SPI_data);
 }
 
 void Configuration_manager_provider::v_ASIC_REG_reg_addr_data32(Instruction_major &instruction,
                                                                 int reg_addr_1, int data32_2) {
-    const int SPI_data = use_IDE3380_register.SPI_update_register(
+    const int SPI_data = use_IDE3380.SPI_update_register(
         reg_addr_1, IDE3380::IDE3380_write_read, data32_2);
     if (SPI_data == data32_2) {
         instruction.print_ack(reg_addr_1, SPI_data);

@@ -50,7 +50,7 @@ export namespace Calibration {
             Channels_done, Completed, Error_state,
         };
 
-        IDE3380_register_access &use_IDE3380;
+        IDE3380_register_access &use_register_access;
         Application::Event_counter &use_event_counter;
         Repository::Configuration_repository &use_repository;
         Iteration_state the_iteration{};
@@ -67,7 +67,7 @@ export namespace Calibration {
     public:
         IDE3380_test_noise_floor(IDE3380_interface &IDE3380, Application::Event_counter &event_counter,
                                  Repository::Configuration_repository &repository)
-            : use_IDE3380(IDE3380.get_register_access()), use_event_counter(event_counter), use_repository(repository) {
+            : use_register_access(IDE3380.get_register_access()), use_event_counter(event_counter), use_repository(repository) {
         }
 
         [[nodiscard]] bool is_active() const override { return Stopped != the_iteration; }

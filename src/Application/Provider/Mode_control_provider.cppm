@@ -51,6 +51,7 @@ private:
     Calibration::Bias_calibration &use_bias;
     Repository::Configuration_repository &use_repository;
     Cadence_control &use_cadence;
+    // The only provider-to-provider link: a mode change sets the channel and format of the data provider.
     Spectroscopic_data_provider &use_data_provider;
     Operation_mode the_mode{};
 
@@ -81,6 +82,8 @@ public:
     };
 
     Status_code set_mode(Operation_mode mode, Parameter_id channel, Parameter_id format, Parameter_id cadence);
+
+    [[nodiscard]] Status_code update_mode();
 
 protected:
     void v_MODE_DEMO(Instruction_major &) override;

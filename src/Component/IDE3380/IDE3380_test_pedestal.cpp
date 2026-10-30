@@ -38,29 +38,29 @@ namespace Calibration {
     void IDE3380_test_pedestal::test_prolog(const int32_t count) {
         the_readout_countdown = count;
         use_register_access.override_all_thresholds();
-        use_io_control.enable_external_hold();
+        use_IDE3380.enable_external_hold();
         use_readout_control.set_ignore_trigger(true);
         use_histogram.clear_histogram_buffer();
         use_histogram.clear_channel_pedestal();
-        use_io_control.raise_external_hold();
-        use_io_control.start_readout();
+        use_IDE3380.raise_external_hold();
+        use_IDE3380.start_readout();
     }
 
     bool IDE3380_test_pedestal::test_loop() const {
-        const auto readout_done{use_io_control.continue_readout()};
+        const auto readout_done{use_IDE3380.continue_readout()};
         if (readout_done) {
-            if (use_io_control.is_external_hold()) {
-                use_io_control.cease_external_hold();
+            if (use_IDE3380.is_external_hold()) {
+                use_IDE3380.cease_external_hold();
             } else {
-                use_io_control.raise_external_hold();
-                use_io_control.start_readout();
+                use_IDE3380.raise_external_hold();
+                use_IDE3380.start_readout();
             }
         }
         return readout_done;
     }
 
     void IDE3380_test_pedestal::test_epilog() {
-        use_io_control.disable_external_hold();
+        use_IDE3380.disable_external_hold();
         use_register_access.restore_all_channels();
         use_readout_control.set_ignore_trigger(false);
         test_result();

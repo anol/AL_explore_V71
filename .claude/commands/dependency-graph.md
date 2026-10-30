@@ -123,6 +123,13 @@ Component/IDE3380`, `Application/Hello_world ↔ Component/SiPM_bias`,
 `Application/Hello_world ↔ Support/Console`, `Application/Support ↔ Component/IDE3380`,
 `Board/V71_EK ↔ Platform/SamV71_platform`, and `Domain ↔ Domain/Generated_code`.
 
+Then check the same combined edge set for **dependency loops through 3 or more modules**:
+every simple cycle, each listed once (e.g. `Board/V71_EK → Platform/SamV71_platform →
+Target/V71_EK_hello_world → Board/V71_EK`). A two-way pair is not reported here again. Report
+each loop to the user, naming the file-level edge that closes it when it stands out. Run this
+on the per-directory graph only: the top-level rollup in `doc/top_level_dependencies.svg`
+merges directories, so it shows many loops that don't exist between real modules.
+
 ## 4. Render with Graphviz — match the existing style
 
 - `rankdir=LR`, natural size (no forced `size`/`ratio=fill` — this is a browse/zoom
@@ -135,7 +142,11 @@ Component/IDE3380`, `Application/Hello_world ↔ Component/SiPM_bias`,
   *both* directions solid, `color="#c0392b", penwidth=2.2` (bold red), regardless of which
   edge kind(s) produced them — the point is to flag the module pair as mutually dependent,
   so the red/bold treatment takes priority over the normal solid/dashed distinction for
-  just those edges. Every other edge keeps its normal styling.
+  just those edges.
+- Every edge on a **loop through 3 or more modules** (flagged in step 3) gets
+  `color="#8e24aa", penwidth=2.2` (bold purple). Unlike a two-way pair it keeps its
+  solid/dashed kind, because that shows which edge is the `#include` and which are `import`s.
+  Every other edge keeps its normal styling.
 - Group nodes into `subgraph cluster_N { ... }` blocks by **current top-level `src/`
   directory** — re-derive this list from the actual tree each run (see step 1's warning
   about stale layout) rather than trusting a remembered list; as of this writing that's
@@ -159,8 +170,9 @@ Component/IDE3380`, `Application/Hello_world ↔ Component/SiPM_bias`,
   solid/dashed distinction is explained only in the graph `label` text (below); don't
   re-add a legend unless asked.
 - Graph `label` at the bottom (`labelloc=b, fontsize=13`), naming the actual preset used
-  and explaining all three edge treatments (kind plus the two-way override):
-  `"Module dependency graph — one node per source directory actually built by CMake\n(preset V71_hello_world: APP=Hello_world, TARGET=V71_EK_hello_world, BOARD=V71_EK, PLATFORM=SamV71)   (arrow: module → module it depends on)\nsolid = #include dependency     dashed = C++20 module import     bold red = two-way (circular) dependency between the pair"`
+  explaining all the edge treatments (kind, the two-way override and loops), and listing the
+  loops found (`none` if there are none):
+  `"Module dependency graph — one node per source directory actually built by CMake\n(preset V71_hello_world: APP=Hello_world, TARGET=V71_EK_hello_world, BOARD=V71_EK, PLATFORM=SamV71)   (arrow: module → module it depends on)\nsolid = #include dependency     dashed = C++20 module import     bold red = two-way (circular) dependency between the pair\nbold purple = part of a dependency loop through 3 or more modules\nLoops found: <A → B → C → A | ...>"`
 
 Render with `dot -Kdot -Tsvg` (`dot.exe` at `C:\Program Files\Graphviz 2.44.1\bin\`).
 Verify zero `foreignObject` elements in the output (`grep -c foreignObject`) — should be
@@ -179,7 +191,8 @@ in this project's history.
   with a line of context above it that mentions both `#include` and `import` are covered,
   briefly says what the current `import` edges are (as of this writing: consumers of
   `Support/Console`'s `Support.Console_service` module) since that list is short enough to
-  be worth naming rather than only gesturing at, and notes that a module pair with edges in
-  both directions is flagged bold red.
+  be worth naming rather than only gesturing at, notes that a module pair with edges in
+  both directions is flagged bold red, and notes that a loop through 3 or more modules is
+  drawn bold purple, naming any current loops.
 
 Leave the rest of that section (and the `## Wiring` section above it) untouched.

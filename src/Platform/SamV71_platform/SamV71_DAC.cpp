@@ -2,7 +2,7 @@ module;
 
 #include <cstdint>
 
-#include "FreeRTOSConfig.h"
+#include "FreeRTOS.h"
 #include "sam.h"
 #include "component/dacc.h"
 

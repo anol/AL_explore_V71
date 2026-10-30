@@ -27,6 +27,12 @@ export namespace Application
             the_event_counter.initialize();
         }
 
+        void initialize_readout();
+
+        void wakeup_from_sleep()
+        {
+        }
+
         IDE3380_interface& get_IDE3380() { return the_IDE3380; }
 
         Calibration::Bias_calibration& get_bias() { return the_bias; }

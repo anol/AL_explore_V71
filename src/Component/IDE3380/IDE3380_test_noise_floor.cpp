@@ -158,7 +158,7 @@ namespace Calibration {
     }
 
     void IDE3380_test_noise_floor::main_prolog() const {
-        use_IDE3380.disable_all_channels();
+        use_register_access.disable_all_channels();
     }
 
     void IDE3380_test_noise_floor::main_epilog() {
@@ -167,9 +167,9 @@ namespace Calibration {
     }
 
     void IDE3380_test_noise_floor::update_configuration() const {
-        use_IDE3380.restore_all_channels();
+        use_register_access.restore_all_channels();
         for (uint8_t index = 0; index < Number_of_channels; index++) {
-            auto reg_value = use_IDE3380.set_channel_threshold(index, the_noise_floor[index]);
+            auto reg_value = use_register_access.set_channel_threshold(index, the_noise_floor[index]);
             auto id = Application::IDE3380_0 + index;
             use_repository.set(id, static_cast<int32_t>(reg_value));
         }
@@ -193,17 +193,17 @@ namespace Calibration {
         if (is_trace()) printf("Ch %d:", index + 1);
         else printf(".");
         memset(the_integration_count, 0, sizeof(the_integration_count));
-        use_IDE3380.enable_channel(index);
+        use_register_access.enable_channel(index);
     }
 
     void IDE3380_test_noise_floor::channel_epilog(const uint8_t index) {
-        use_IDE3380.disable_channel(index);
+        use_register_access.disable_channel(index);
         the_noise_floor[index] = Calibration_analyzer::find_noise_floor_A(the_integration_count);
         if (is_trace()) printf("(%d)\r\n\r\n", the_noise_floor[index]);
     }
 
     void IDE3380_test_noise_floor::threshold_prolog(const uint8_t index, const uint8_t threshold) {
-        use_IDE3380.set_channel_threshold(index, threshold);
+        use_register_access.set_channel_threshold(index, threshold);
         if (is_trace()) printf(" %d=", threshold);
         use_event_counter.reset_event_count();
     }

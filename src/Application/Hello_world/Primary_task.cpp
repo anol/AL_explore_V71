@@ -33,8 +33,8 @@ import Component.IDE3380_interface;
 
 namespace Application {
     void Primary_task::initialize() {
-        use_bias.initialize();
-        the_command_handler.initialize();
+        use_detector.get_bias().initialize();
+        use_detector.initialize_readout();
     }
 
     void Primary_task::task_loop() {
@@ -43,15 +43,15 @@ namespace Application {
         Housekeeping_provider::print_version();
         use_repository.initialize();
         auto success = use_repository.load();
-        success = the_command_handler.update_mode();
+        success = use_mode_control.update_mode();
         if (success.failed()) {
             printf("<> Failed to update mode controller <>\r\n");
         }
-        success = use_IDE3380.update_registers(use_repository, IDE3380_0);
+        success = use_detector.get_IDE3380().update_registers(use_repository, IDE3380_0);
         if (success.failed()) {
             printf("<> Failed to update IDE3380 registers <>\r\n");
         }
-        success = use_bias.update_setpoints(use_repository);
+        success = use_detector.get_bias().update_setpoints(use_repository);
         if (success.failed()) {
             printf("<> Failed to update bias setpoints <>\r\n");
         }

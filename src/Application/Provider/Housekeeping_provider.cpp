@@ -36,8 +36,6 @@ import Support.Configuration_repository;
 import Support.Instruction_major;
 import Support.CLI_help;
 import Application.Cadence_control;
-import Application.Mode_control_provider;
-import Application.Spectroscopic_data_provider;
 
 using namespace IDE3380;
 
@@ -72,8 +70,7 @@ void Housekeeping_provider::v_VERSION(Instruction_major &instruction) {
 
 void Housekeeping_provider::v_STATUS(Instruction_major &instruction) {
     printf("Status:");
-    use_mode_control.print_status();
-    use_data_provider.print_status();
+    use_status_func(use_status_user);
     use_bias.print_status();
     // printf(", tick=%d\r\n", HAL_GetTick());
     instruction.print_ack();
