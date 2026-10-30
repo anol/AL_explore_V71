@@ -3,7 +3,7 @@
 Build using GCC and C++20.
 Using FreeRTOS (FreeRTOSv202604.01-LTS).
 
-Current firmware version: **1.3.0** (`IDE_SW_VERSION` in `CMakeLists.txt`).
+Current firmware version: **1.4.0** (`IDE_SW_VERSION` in `CMakeLists.txt`).
 
 ## Building
 
@@ -35,11 +35,26 @@ cmake --build build/V71_EK_hello_world
 - **ASIC selection** is 1-based on the console: `AT+ASIC=<1..5>` selects, `AT+ASIC`
   reports the current selection (both acknowledge with the 1-based number).
 
+## ADC and DAC (SiPM bias, work in progress)
+
+`Bias_DAC` and `Bias_ADC` (`src/Component/SiPM_bias/`) reach the hardware through
+`Abstract_board::get_DAC()` / `get_ADC()`, implemented on the V71 by `SamV71_DAC` and
+`SamV71_ADC` (`src/Platform/SamV71_platform/`):
+
+- **`SamV71_DAC`** drives DACC channel 0 and keeps the most recent setting for read-back.
+- **`SamV71_ADC`** is still being brought up. It configures AFEC0 for the on-chip
+  temperature sensor channel with a software trigger, and `get()` returns the last value
+  stored by the end-of-conversion callback.
+- **Pins** (`V71_EK_pin_table.cppm`): `DAC0` on PB13, `ADC0_0` on PD30.
+- **Console**: `AT+CAL_DAC=<value>` sets the raw DAC value and `AT+CAL_DAC` reads it;
+  `AT+CAL_DAC_V35`, `AT+CAL_DAC_V40`, `AT+CAL_ADC_V35` and `AT+CAL_ADC_V40` set the
+  calibration setpoints (see the command table below).
+
 ## Top-level modules
 
 - **`Application/`** — the app itself: `Hello_world` (composition root, wired up in
-  `main()`), `Provider` (the data providers it routes requests to) and `Support` (C helper
-  code, e.g. the gamma peak detector and isotope table).
+  `main()`), `Provider` (the data providers it routes requests to) and `Support` (cadence
+  control plus C helper code, e.g. the gamma peak detector and isotope table).
 - **`Board/`** — board support packages, one per board (`V71_EK` evaluation kit,
   `Win11` host simulation; `AL_EM` holds only a pin table/config so far), wiring together
   the platform, components and pin table for that board.
@@ -49,9 +64,11 @@ cmake --build build/V71_EK_hello_world
   (`Domain/Generated_code`) that ties the console/CLI layer to those types.
 - **`Platform/`** — MCU- and RTOS-facing code: `SamV71_platform` (and its `SAMV71Q21B`
   startup/SDK layer), `Windows_platform` and `Mockup_platform` (host builds),
-  `Common_platform` and `FreeRTOS_platform`.
-- **`Support/`** — cross-cutting infrastructure: the console service, the CLI parser and
-  instruction dispatch (`Plumbing/`), and the configuration/attribute repository.
+  `Common_platform` and `FreeRTOS_platform`. `STM32U575RG` and `WIN32_mockup` are also
+  here, but no preset builds them.
+- **`Support/`** — cross-cutting infrastructure: the console service, the heartbeat task
+  (`Hearbeat/`), the CLI parser and instruction dispatch (`Plumbing/`), and the
+  configuration/attribute repository.
 - **`Target/`** — top-level build targets that assemble an application, board and platform
   into one firmware image (`V71_EK_hello_world`, `Win_hello_world`; inactive targets live
   in `Target/On_hold/`).
@@ -71,17 +88,27 @@ The graph above collapses every source directory into its top-level `src/` area
 Covers both `#include` edges (solid) and C++20 module `import` edges (dashed), for the
 directories CMake actually builds with the `V71_EK_hello_world` preset. Almost every
 module is now a named C++20 module, so `import` dominates: the only remaining `#include`
-edges are the plain `Domain/Dictionary.h` / `Persistent_parameter_id.h` headers (from
-`Application/*`, `Component/IDE3380`, `Component/SiPM_bias`) and `Component/SiPM_bias` →
-`Component/STTS22H` (`Sensor_STTS22H.h`). A module pair with edges in both directions
-would be drawn bold red; there are currently none.
+edges are the plain `Domain/Persistent_parameter_id.h` header (from
+`Application/Hello_world`, `Application/Provider`, `Component/IDE3380`,
+`Component/SiPM_bias`), `Component/SiPM_bias` → `Component/STTS22H` (`Sensor_STTS22H.h`)
+and `Platform/SamV71_platform` → `Target/V71_EK_hello_world` (`FreeRTOSConfig.h`). A module
+pair with edges in both directions would be drawn bold red; there are currently none.
 
 ![Module dependency graph](doc/module_dependencies.svg)
 
 ## Wiring
 
-Aggregation graphs of the two concrete objects wired together in `main()`
-(`V71_EK_hello_world.cpp`):
+The two concrete objects wired together in `main()` (`V71_EK_hello_world.cpp`), first as
+composition-only overviews showing just what each one owns, then as the detailed
+aggregation graphs that add the non-owning references.
+
+What `Hello_world` (the application) owns:
+
+![Hello_world composition graph](doc/hello_world_composition.svg)
+
+What `V71_EK_board` (the board) owns:
+
+![V71_EK_board composition graph](doc/v71_ek_board_composition.svg)
 
 What `Hello_world` (the application) owns and references:
 

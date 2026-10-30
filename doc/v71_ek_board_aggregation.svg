@@ -13,193 +13,221 @@
 <!-- V71_EK_board -->
 <g id="node1" class="node">
 <title>V71_EK_board</title>
-<polygon fill="none" stroke="black" points="712,-310 596,-310 596,-274 712,-274 712,-310"/>
-<text text-anchor="start" x="611.5" y="-297.2" font-family="Consolas" font-style="italic" font-size="11.00">Abstract_board</text>
-<text text-anchor="start" x="604" y="-283" font-family="Consolas" font-size="15.00">V71_EK_board</text>
+<polygon fill="none" stroke="black" points="1045,-310 929,-310 929,-274 1045,-274 1045,-310"/>
+<text text-anchor="start" x="944.5" y="-297.2" font-family="Consolas" font-style="italic" font-size="11.00">Abstract_board</text>
+<text text-anchor="start" x="937" y="-283" font-family="Consolas" font-size="15.00">V71_EK_board</text>
 </g>
 <!-- SamV71_clock -->
 <g id="node2" class="node">
 <title>SamV71_clock</title>
-<polygon fill="none" stroke="black" points="419,-226 303,-226 303,-190 419,-190 419,-226"/>
-<text text-anchor="start" x="318.5" y="-213.2" font-family="Consolas" font-style="italic" font-size="11.00">Abstract_clock</text>
-<text text-anchor="start" x="311" y="-199" font-family="Consolas" font-size="15.00">SamV71_clock</text>
+<polygon fill="none" stroke="black" points="482,-226 366,-226 366,-190 482,-190 482,-226"/>
+<text text-anchor="start" x="381.5" y="-213.2" font-family="Consolas" font-style="italic" font-size="11.00">Abstract_clock</text>
+<text text-anchor="start" x="374" y="-199" font-family="Consolas" font-size="15.00">SamV71_clock</text>
 </g>
 <!-- V71_EK_board&#45;&gt;SamV71_clock -->
 <g id="edge1" class="edge">
 <title>V71_EK_board&#45;&gt;SamV71_clock</title>
-<path fill="none" stroke="#1b6f60" d="M584.06,-279.09C553.39,-273.21 517.13,-265.35 485,-256 456.48,-247.7 425.22,-235.83 401.22,-226.1"/>
-<polygon fill="#1b6f60" stroke="#1b6f60" points="584.16,-279.11 590.8,-276.28 595.95,-281.32 589.32,-284.15 584.16,-279.11"/>
-<text text-anchor="middle" x="515.5" y="-247.2" font-family="Consolas" font-size="11.00" fill="#155a4e"> the_clock</text>
+<path fill="none" stroke="#1b6f60" d="M916.46,-286.2C845.2,-280.84 732.06,-270.89 635,-256 570.38,-246.09 554.7,-240.71 491,-226 488.08,-225.32 485.09,-224.62 482.07,-223.9"/>
+<polygon fill="#1b6f60" stroke="#1b6f60" points="916.87,-286.23 923.15,-282.69 928.84,-287.12 922.56,-290.67 916.87,-286.23"/>
+<text text-anchor="middle" x="665.5" y="-247.2" font-family="Consolas" font-size="11.00" fill="#155a4e"> the_clock</text>
 </g>
 <!-- V71_EK_pin_table -->
 <g id="node3" class="node">
 <title>V71_EK_pin_table</title>
-<polygon fill="none" stroke="black" points="586.5,-226 437.5,-226 437.5,-190 586.5,-190 586.5,-226"/>
-<text text-anchor="start" x="457.5" y="-213.2" font-family="Consolas" font-style="italic" font-size="11.00">Abstract_pin_table</text>
-<text text-anchor="start" x="445.5" y="-199" font-family="Consolas" font-size="15.00">V71_EK_pin_table</text>
+<polygon fill="none" stroke="black" points="649.5,-226 500.5,-226 500.5,-190 649.5,-190 649.5,-226"/>
+<text text-anchor="start" x="520.5" y="-213.2" font-family="Consolas" font-style="italic" font-size="11.00">Abstract_pin_table</text>
+<text text-anchor="start" x="508.5" y="-199" font-family="Consolas" font-size="15.00">V71_EK_pin_table</text>
 </g>
 <!-- V71_EK_board&#45;&gt;V71_EK_pin_table -->
 <g id="edge2" class="edge">
 <title>V71_EK_board&#45;&gt;V71_EK_pin_table</title>
-<path fill="none" stroke="#1b6f60" d="M590.54,-269.24C581.72,-265.31 572.96,-260.88 565,-256 551.58,-247.77 538.33,-236.02 528.44,-226.33"/>
-<polygon fill="#1b6f60" stroke="#1b6f60" points="590.65,-269.29 597.73,-267.94 601.7,-273.96 594.61,-275.31 590.65,-269.29"/>
-<text text-anchor="middle" x="607.5" y="-247.2" font-family="Consolas" font-size="11.00" fill="#155a4e"> the_pin_table</text>
+<path fill="none" stroke="#1b6f60" d="M916.8,-283.05C868.73,-277.05 803.69,-267.83 747,-256 707.76,-247.81 664.2,-235.88 630.74,-226.09"/>
+<polygon fill="#1b6f60" stroke="#1b6f60" points="917.03,-283.08 923.48,-279.84 928.94,-284.55 922.5,-287.78 917.03,-283.08"/>
+<text text-anchor="middle" x="789.5" y="-247.2" font-family="Consolas" font-size="11.00" fill="#155a4e"> the_pin_table</text>
 </g>
 <!-- SamV71_SPI -->
 <g id="node4" class="node">
 <title>SamV71_SPI</title>
-<polygon fill="none" stroke="black" points="703.5,-226 604.5,-226 604.5,-190 703.5,-190 703.5,-226"/>
-<text text-anchor="start" x="617.5" y="-213.2" font-family="Consolas" font-style="italic" font-size="11.00">Abstract_SPI</text>
-<text text-anchor="start" x="612.5" y="-199" font-family="Consolas" font-size="15.00">SamV71_SPI</text>
+<polygon fill="none" stroke="black" points="766.5,-226 667.5,-226 667.5,-190 766.5,-190 766.5,-226"/>
+<text text-anchor="start" x="680.5" y="-213.2" font-family="Consolas" font-style="italic" font-size="11.00">Abstract_SPI</text>
+<text text-anchor="start" x="675.5" y="-199" font-family="Consolas" font-size="15.00">SamV71_SPI</text>
 </g>
 <!-- V71_EK_board&#45;&gt;SamV71_SPI -->
 <g id="edge3" class="edge">
 <title>V71_EK_board&#45;&gt;SamV71_SPI</title>
-<path fill="none" stroke="#1b6f60" d="M654,-261.48C654,-249.59 654,-236.31 654,-226.08"/>
-<polygon fill="#1b6f60" stroke="#1b6f60" points="654,-261.61 658,-267.61 654,-273.61 650,-267.61 654,-261.61"/>
-<text text-anchor="middle" x="678.5" y="-247.2" font-family="Consolas" font-size="11.00" fill="#155a4e"> the_SPI</text>
+<path fill="none" stroke="#1b6f60" d="M919.03,-270.36C871.69,-255.98 809.62,-237.13 766.84,-224.14"/>
+<polygon fill="#1b6f60" stroke="#1b6f60" points="919.25,-270.42 926.15,-268.34 930.73,-273.91 923.82,-275.99 919.25,-270.42"/>
+<text text-anchor="middle" x="893.5" y="-247.2" font-family="Consolas" font-size="11.00" fill="#155a4e"> the_SPI</text>
 </g>
 <!-- SamV71_USART -->
 <g id="node5" class="node">
 <title>SamV71_USART</title>
-<polygon fill="none" stroke="black" points="1198,-226 1082,-226 1082,-190 1198,-190 1198,-226"/>
-<text text-anchor="start" x="1100.5" y="-213.2" font-family="Consolas" font-style="italic" font-size="11.00">Abstract_UART</text>
-<text text-anchor="start" x="1090" y="-199" font-family="Consolas" font-size="15.00">SamV71_USART</text>
+<polygon fill="none" stroke="black" points="1045,-226 929,-226 929,-190 1045,-190 1045,-226"/>
+<text text-anchor="start" x="947.5" y="-213.2" font-family="Consolas" font-style="italic" font-size="11.00">Abstract_UART</text>
+<text text-anchor="start" x="937" y="-199" font-family="Consolas" font-size="15.00">SamV71_USART</text>
 </g>
 <!-- V71_EK_board&#45;&gt;SamV71_USART -->
 <g id="edge4" class="edge">
 <title>V71_EK_board&#45;&gt;SamV71_USART</title>
-<path fill="none" stroke="#1b6f60" d="M724.08,-279.18C820.45,-262.92 992.11,-233.95 1081.79,-218.82"/>
-<polygon fill="#1b6f60" stroke="#1b6f60" points="723.97,-279.19 718.72,-284.14 712.14,-281.19 717.39,-276.25 723.97,-279.19"/>
-<text text-anchor="middle" x="954.5" y="-247.2" font-family="Consolas" font-size="11.00" fill="#155a4e"> the_UART</text>
+<path fill="none" stroke="#1b6f60" d="M987,-261.48C987,-249.59 987,-236.31 987,-226.08"/>
+<polygon fill="#1b6f60" stroke="#1b6f60" points="987,-261.61 991,-267.61 987,-273.61 983,-267.61 987,-261.61"/>
+<text text-anchor="middle" x="1014.5" y="-247.2" font-family="Consolas" font-size="11.00" fill="#155a4e"> the_UART</text>
+</g>
+<!-- SamV71_ADC -->
+<g id="node6" class="node">
+<title>SamV71_ADC</title>
+<polygon fill="none" stroke="black" points="1162.5,-226 1063.5,-226 1063.5,-190 1162.5,-190 1162.5,-226"/>
+<text text-anchor="start" x="1076.5" y="-213.2" font-family="Consolas" font-style="italic" font-size="11.00">Abstract_ADC</text>
+<text text-anchor="start" x="1071.5" y="-199" font-family="Consolas" font-size="15.00">SamV71_ADC</text>
+</g>
+<!-- V71_EK_board&#45;&gt;SamV71_ADC -->
+<g id="edge5" class="edge">
+<title>V71_EK_board&#45;&gt;SamV71_ADC</title>
+<path fill="none" stroke="#1b6f60" d="M1027.17,-267.73C1033.52,-263.89 1039.98,-259.89 1046,-256 1060.68,-246.52 1076.72,-235.3 1089.42,-226.2"/>
+<polygon fill="#1b6f60" stroke="#1b6f60" points="1026.98,-267.84 1023.88,-274.35 1016.68,-273.99 1019.78,-267.48 1026.98,-267.84"/>
+<text text-anchor="middle" x="1087.5" y="-247.2" font-family="Consolas" font-size="11.00" fill="#155a4e"> the_ADC</text>
+</g>
+<!-- SamV71_DAC -->
+<g id="node7" class="node">
+<title>SamV71_DAC</title>
+<polygon fill="none" stroke="black" points="1279.5,-226 1180.5,-226 1180.5,-190 1279.5,-190 1279.5,-226"/>
+<text text-anchor="start" x="1193.5" y="-213.2" font-family="Consolas" font-style="italic" font-size="11.00">Abstract_DAC</text>
+<text text-anchor="start" x="1188.5" y="-199" font-family="Consolas" font-size="15.00">SamV71_DAC</text>
+</g>
+<!-- V71_EK_board&#45;&gt;SamV71_DAC -->
+<g id="edge6" class="edge">
+<title>V71_EK_board&#45;&gt;SamV71_DAC</title>
+<path fill="none" stroke="#1b6f60" d="M1057.03,-273.72C1076.29,-268.51 1097.08,-262.44 1116,-256 1141.74,-247.24 1170,-235.61 1191.94,-226.1"/>
+<polygon fill="#1b6f60" stroke="#1b6f60" points="1056.86,-273.77 1052.09,-279.18 1045.26,-276.86 1050.03,-271.45 1056.86,-273.77"/>
+<text text-anchor="middle" x="1172.5" y="-247.2" font-family="Consolas" font-size="11.00" fill="#155a4e"> the_DAC</text>
 </g>
 <!-- Common_stdio -->
-<g id="node6" class="node">
+<g id="node8" class="node">
 <title>Common_stdio</title>
-<polygon fill="none" stroke="black" points="1561,-226 1445,-226 1445,-190 1561,-190 1561,-226"/>
-<text text-anchor="middle" x="1503" y="-204.5" font-family="Consolas" font-size="15.00">Common_stdio</text>
+<polygon fill="none" stroke="black" points="1719,-226 1603,-226 1603,-190 1719,-190 1719,-226"/>
+<text text-anchor="middle" x="1661" y="-204.5" font-family="Consolas" font-size="15.00">Common_stdio</text>
 </g>
 <!-- V71_EK_board&#45;&gt;Common_stdio -->
-<g id="edge5" class="edge">
+<g id="edge7" class="edge">
 <title>V71_EK_board&#45;&gt;Common_stdio</title>
-<path fill="none" stroke="#1b6f60" d="M724.34,-284.21C888.29,-268.37 1293.4,-229.24 1444.74,-214.63"/>
-<polygon fill="#1b6f60" stroke="#1b6f60" points="723.97,-284.24 718.38,-288.8 712.02,-285.4 717.61,-280.84 723.97,-284.24"/>
-<text text-anchor="middle" x="1166.5" y="-247.2" font-family="Consolas" font-size="11.00" fill="#155a4e"> the_console</text>
+<path fill="none" stroke="#1b6f60" d="M1057.09,-282.47C1190.63,-266.23 1479.22,-231.12 1602.85,-216.07"/>
+<polygon fill="#1b6f60" stroke="#1b6f60" points="1056.96,-282.49 1051.49,-287.18 1045.05,-283.94 1050.52,-279.24 1056.96,-282.49"/>
+<text text-anchor="middle" x="1401.5" y="-247.2" font-family="Consolas" font-size="11.00" fill="#155a4e"> the_console</text>
 </g>
 <!-- SamV71_IO_pin -->
-<g id="node7" class="node">
+<g id="node9" class="node">
 <title>SamV71_IO_pin</title>
 <polygon fill="none" stroke="black" points="124,-142 0,-142 0,-106 124,-106 124,-142"/>
 <text text-anchor="start" x="16.5" y="-129.2" font-family="Consolas" font-style="italic" font-size="11.00">Abstract_IO_pin</text>
 <text text-anchor="start" x="8" y="-115" font-family="Consolas" font-size="15.00">SamV71_IO_pin</text>
 </g>
 <!-- V71_EK_pin_table&#45;&gt;SamV71_IO_pin -->
-<g id="edge6" class="edge">
+<g id="edge8" class="edge">
 <title>V71_EK_pin_table&#45;&gt;SamV71_IO_pin</title>
-<path fill="none" stroke="#1b6f60" d="M425.29,-190.45C358.11,-187.25 76.05,-185.42 63,-172 55.6,-164.39 55.46,-152.39 57.11,-142.42"/>
-<polygon fill="#1b6f60" stroke="#1b6f60" points="425.47,-190.47 431.74,-186.9 437.44,-191.31 431.18,-194.88 425.47,-190.47"/>
+<path fill="none" stroke="#1b6f60" d="M488.46,-190.48C414.69,-187.3 78.48,-187.81 63,-172 55.58,-164.42 55.43,-152.42 57.09,-142.44"/>
+<polygon fill="#1b6f60" stroke="#1b6f60" points="488.47,-190.48 494.72,-186.89 500.44,-191.28 494.19,-194.87 488.47,-190.48"/>
 <text text-anchor="middle" x="105.5" y="-163.2" font-family="Consolas" font-size="11.00" fill="#155a4e"> the_pin_table</text>
 </g>
 <!-- Abstract_IO_pin -->
-<g id="node8" class="node">
+<g id="node10" class="node">
 <title>Abstract_IO_pin</title>
 <polygon fill="none" stroke="black" points="250,-58 110,-58 110,-22 250,-22 250,-58"/>
 <text text-anchor="start" x="146.5" y="-45.2" font-family="Consolas" font-style="italic" font-size="11.00">«interface»</text>
 <text text-anchor="start" x="118" y="-31" font-family="Consolas" font-size="15.00">Abstract_IO_pin</text>
 </g>
 <!-- SamV71_SPI&#45;&gt;Abstract_IO_pin -->
-<g id="edge7" class="edge">
+<g id="edge9" class="edge">
 <title>SamV71_SPI&#45;&gt;Abstract_IO_pin</title>
-<path fill="none" stroke="#b8631f" d="M592.2,-189.99C482.41,-174.38 231.82,-210.1 171,-142 150.48,-119.02 162.22,-80.26 171.7,-58.03"/>
-<polygon fill="none" stroke="#b8631f" points="592.42,-190.02 599,-187.08 604.25,-192.03 597.67,-194.97 592.42,-190.02"/>
+<path fill="none" stroke="#b8631f" d="M655.08,-189.98C531.06,-172.9 241.6,-219.9 171,-142 150.31,-119.17 162.11,-80.36 171.65,-58.08"/>
+<polygon fill="none" stroke="#b8631f" points="655.42,-190.04 661.99,-187.06 667.26,-191.98 660.69,-194.96 655.42,-190.04"/>
 <text text-anchor="middle" x="219.5" y="-121.2" font-family="Consolas" font-size="11.00" fill="#8a4c18"> use_chip_select</text>
 </g>
 <!-- SPI_transfer_request -->
-<g id="node9" class="node">
+<g id="node11" class="node">
 <title>SPI_transfer_request</title>
 <polygon fill="none" stroke="black" points="459,-142 277,-142 277,-106 459,-106 459,-142"/>
 <text text-anchor="start" x="319.5" y="-129.2" font-family="Consolas" font-style="italic" font-size="11.00">Abstract_request</text>
 <text text-anchor="start" x="285" y="-115" font-family="Consolas" font-size="15.00">SPI_transfer_request</text>
 </g>
 <!-- SamV71_SPI&#45;&gt;SPI_transfer_request -->
-<g id="edge8" class="edge">
+<g id="edge10" class="edge">
 <title>SamV71_SPI&#45;&gt;SPI_transfer_request</title>
-<path fill="none" stroke="#b8631f" d="M592.82,-189.37C530.74,-171.55 470.85,-154.41 427.75,-142.08"/>
-<polygon fill="none" stroke="#b8631f" points="592.89,-189.4 599.76,-187.21 604.43,-192.71 597.56,-194.9 592.89,-189.4"/>
-<text text-anchor="middle" x="578.5" y="-163.2" font-family="Consolas" font-size="11.00" fill="#8a4c18"> optional_request</text>
+<path fill="none" stroke="#b8631f" d="M655.41,-189.42C580.22,-170.37 505.46,-153.83 450.19,-142.05"/>
+<polygon fill="none" stroke="#b8631f" points="655.86,-189.53 662.66,-187.14 667.48,-192.5 660.68,-194.89 655.86,-189.53"/>
+<text text-anchor="middle" x="630.5" y="-163.2" font-family="Consolas" font-size="11.00" fill="#8a4c18"> optional_request</text>
 </g>
 <!-- SPI_queue -->
-<g id="node10" class="node">
+<g id="node12" class="node">
 <title>SPI_queue</title>
 <polygon fill="none" stroke="black" points="956.5,-142 477.5,-142 477.5,-106 956.5,-106 956.5,-142"/>
 <text text-anchor="start" x="665.5" y="-129.2" font-family="Consolas" font-style="italic" font-size="11.00">Abstract_queue&lt;T&gt;</text>
 <text text-anchor="start" x="485.5" y="-115" font-family="Consolas" font-size="15.00">FreeRTOS_queue&lt;Abstract::Abstract_request *, Queue_size&gt;</text>
 </g>
 <!-- SamV71_SPI&#45;&gt;SPI_queue -->
-<g id="edge9" class="edge">
+<g id="edge11" class="edge">
 <title>SamV71_SPI&#45;&gt;SPI_queue</title>
-<path fill="none" stroke="#1b6f60" d="M674.95,-179.73C684.5,-167.3 695.51,-152.96 703.87,-142.08"/>
-<polygon fill="#1b6f60" stroke="#1b6f60" points="674.67,-180.09 674.19,-187.29 667.36,-189.61 667.84,-182.42 674.67,-180.09"/>
-<text text-anchor="middle" x="720.5" y="-163.2" font-family="Consolas" font-size="11.00" fill="#155a4e"> the_queue</text>
+<path fill="none" stroke="#1b6f60" d="M717,-177.48C717,-165.59 717,-152.31 717,-142.08"/>
+<polygon fill="#1b6f60" stroke="#1b6f60" points="717,-177.61 721,-183.61 717,-189.61 713,-183.61 717,-177.61"/>
+<text text-anchor="middle" x="747.5" y="-163.2" font-family="Consolas" font-size="11.00" fill="#155a4e"> the_queue</text>
 </g>
 <!-- RX_queue -->
-<g id="node11" class="node">
+<g id="node13" class="node">
 <title>RX_queue</title>
 <polygon fill="none" stroke="black" points="1305,-142 975,-142 975,-106 1305,-106 1305,-142"/>
 <text text-anchor="start" x="1088.5" y="-129.2" font-family="Consolas" font-style="italic" font-size="11.00">Abstract_queue&lt;T&gt;</text>
 <text text-anchor="start" x="983" y="-115" font-family="Consolas" font-size="15.00">FreeRTOS_queue&lt;uint8_t, RX_queue_size&gt;</text>
 </g>
 <!-- SamV71_USART&#45;&gt;RX_queue -->
-<g id="edge10" class="edge">
+<g id="edge12" class="edge">
 <title>SamV71_USART&#45;&gt;RX_queue</title>
-<path fill="none" stroke="#1b6f60" d="M1140,-177.48C1140,-165.59 1140,-152.31 1140,-142.08"/>
-<polygon fill="#1b6f60" stroke="#1b6f60" points="1140,-177.61 1144,-183.61 1140,-189.61 1136,-183.61 1140,-177.61"/>
-<text text-anchor="middle" x="1179.5" y="-163.2" font-family="Consolas" font-size="11.00" fill="#155a4e"> the_RX_queue</text>
+<path fill="none" stroke="#1b6f60" d="M1029.69,-184.12C1054.59,-170.77 1085.48,-154.22 1108.23,-142.03"/>
+<polygon fill="#1b6f60" stroke="#1b6f60" points="1029.65,-184.14 1026.25,-190.5 1019.07,-189.81 1022.47,-183.45 1029.65,-184.14"/>
+<text text-anchor="middle" x="1112.5" y="-163.2" font-family="Consolas" font-size="11.00" fill="#155a4e"> the_RX_queue</text>
 </g>
 <!-- TX_queue -->
-<g id="node12" class="node">
+<g id="node14" class="node">
 <title>TX_queue</title>
 <polygon fill="none" stroke="black" points="1653,-142 1323,-142 1323,-106 1653,-106 1653,-142"/>
 <text text-anchor="start" x="1436.5" y="-129.2" font-family="Consolas" font-style="italic" font-size="11.00">Abstract_queue&lt;T&gt;</text>
 <text text-anchor="start" x="1331" y="-115" font-family="Consolas" font-size="15.00">FreeRTOS_queue&lt;uint8_t, TX_queue_size&gt;</text>
 </g>
 <!-- SamV71_USART&#45;&gt;TX_queue -->
-<g id="edge11" class="edge">
+<g id="edge13" class="edge">
 <title>SamV71_USART&#45;&gt;TX_queue</title>
-<path fill="none" stroke="#1b6f60" d="M1210.21,-190.46C1269.93,-176.39 1355.35,-156.26 1415.67,-142.04"/>
-<polygon fill="#1b6f60" stroke="#1b6f60" points="1209.93,-190.52 1205,-195.79 1198.25,-193.28 1203.17,-188.01 1209.93,-190.52"/>
-<text text-anchor="middle" x="1374.5" y="-163.2" font-family="Consolas" font-size="11.00" fill="#155a4e"> the_TX_queue</text>
+<path fill="none" stroke="#1b6f60" d="M1057.11,-189.53C1128.26,-175.98 1264.35,-156.2 1365.15,-142"/>
+<polygon fill="#1b6f60" stroke="#1b6f60" points="1056.8,-189.59 1051.68,-194.67 1045.02,-191.9 1050.14,-186.82 1056.8,-189.59"/>
+<text text-anchor="middle" x="1276.5" y="-163.2" font-family="Consolas" font-size="11.00" fill="#155a4e"> the_TX_queue</text>
 </g>
 <!-- Abstract_UART -->
-<g id="node13" class="node">
+<g id="node15" class="node">
 <title>Abstract_UART</title>
 <polygon fill="none" stroke="black" points="1795,-142 1671,-142 1671,-106 1795,-106 1795,-142"/>
 <text text-anchor="start" x="1699.5" y="-129.2" font-family="Consolas" font-style="italic" font-size="11.00">«interface»</text>
 <text text-anchor="start" x="1679" y="-115" font-family="Consolas" font-size="15.00">Abstract_UART</text>
 </g>
 <!-- Common_stdio&#45;&gt;Abstract_UART -->
-<g id="edge12" class="edge">
+<g id="edge14" class="edge">
 <title>Common_stdio&#45;&gt;Abstract_UART</title>
-<path fill="none" stroke="#b8631f" d="M1562.41,-185.82C1600.56,-172.22 1649.47,-154.78 1685.13,-142.07"/>
-<polygon fill="none" stroke="#b8631f" points="1562.24,-185.88 1557.93,-191.66 1550.94,-189.91 1555.24,-184.13 1562.24,-185.88"/>
-<text text-anchor="middle" x="1673.5" y="-163.2" font-family="Consolas" font-size="11.00" fill="#8a4c18"> optional_UART</text>
+<path fill="none" stroke="#b8631f" d="M1684.29,-180.48C1695.35,-167.88 1708.25,-153.18 1718,-142.08"/>
+<polygon fill="none" stroke="#b8631f" points="1684.19,-180.59 1683.23,-187.74 1676.27,-189.61 1677.22,-182.46 1684.19,-180.59"/>
+<text text-anchor="middle" x="1744.5" y="-163.2" font-family="Consolas" font-size="11.00" fill="#8a4c18"> optional_UART</text>
 </g>
 <!-- SPI_transfer_request&#45;&gt;Abstract_IO_pin -->
-<g id="edge13" class="edge">
+<g id="edge15" class="edge">
 <title>SPI_transfer_request&#45;&gt;Abstract_IO_pin</title>
 <path fill="none" stroke="#b8631f" d="M302,-101.86C290.22,-97.59 278.15,-92.9 267,-88 247.04,-79.22 225.48,-67.58 208.81,-58.09"/>
 <polygon fill="none" stroke="#b8631f" points="302.33,-101.97 309.32,-100.2 313.65,-105.97 306.66,-107.74 302.33,-101.97"/>
 <text text-anchor="middle" x="315.5" y="-79.2" font-family="Consolas" font-size="11.00" fill="#8a4c18"> use_chip_select</text>
 </g>
 <!-- Abstract_semaphore -->
-<g id="node14" class="node">
+<g id="node16" class="node">
 <title>Abstract_semaphore</title>
 <polygon fill="none" stroke="black" points="450.5,-58 285.5,-58 285.5,-22 450.5,-22 450.5,-58"/>
 <text text-anchor="start" x="334.5" y="-45.2" font-family="Consolas" font-style="italic" font-size="11.00">«interface»</text>
 <text text-anchor="start" x="293.5" y="-31" font-family="Consolas" font-size="15.00">Abstract_semaphore</text>
 </g>
 <!-- SPI_transfer_request&#45;&gt;Abstract_semaphore -->
-<g id="edge14" class="edge">
+<g id="edge16" class="edge">
 <title>SPI_transfer_request&#45;&gt;Abstract_semaphore</title>
 <path fill="none" stroke="#b8631f" d="M368,-93.48C368,-81.59 368,-68.31 368,-58.08"/>
 <polygon fill="none" stroke="#b8631f" points="368,-93.61 372,-99.61 368,-105.61 364,-99.61 368,-93.61"/>
