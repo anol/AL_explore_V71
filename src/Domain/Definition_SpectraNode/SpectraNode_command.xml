@@ -16,12 +16,14 @@ Copyright (C) 2026 Integrated Detector Electronics AS
  -->
 
 <?xml-stylesheet type="text/xsl" href="commands_to_html.xsl"?>
-<command_definition product_id="FW1038" name="SpectraNode" version="3" keywords="SpectraNode" interface="SpectraNode_interface">
+<command_definition product_id="FW1038" name="SpectraNode" version="3" keywords="SpectraNode"
+                    interface="SpectraNode_interface">
     <integers>
         <integer key="asic_nbr" min="1" max="5"/>
         <integer key="cal_35V" min="-100000" max="-1"/>
         <integer key="cal_40V" min="-100000" max="-1"/>
-        <integer key="channel" min="0" max="18" brief="0=inhibit readout, 1..16=input, 17=summing, 18=digital summing."/>
+        <integer key="channel" min="0" max="18"
+                 brief="0=inhibit readout, 1..16=input, 17=summing, 18=digital summing."/>
         <integer key="data8" min="0" max="0xFF"/>
         <integer key="data16" min="0" max="0xFFFF"/>
         <integer key="data32" min="0" max="0x7FFFFFFF"/>
@@ -51,7 +53,8 @@ Copyright (C) 2026 Integrated Detector Electronics AS
             </arg>
             <arg key="DEMO">
                 <arg key="CHANNEL">
-                    <arg integer="channel" brief="Set channel to be used in live view demo. 0=inhibit readout, 1..16=input channel, 17=analog summing, 18=digital summing."/>
+                    <arg integer="channel"
+                         brief="Set channel to be used in live view demo. 0=inhibit readout, 1..16=input channel, 17=analog summing, 18=digital summing."/>
                 </arg>
                 <arg key="CADENCE">
                     <arg integer="seconds" brief="Set telemetry interval (s) in Demonstration Mode."/>
@@ -83,7 +86,7 @@ Copyright (C) 2026 Integrated Detector Electronics AS
         </provider>
         <provider key="Instrument_calibration">
             <arg key="CAL">
-                <arg key="ADC">
+                <arg key="ADC" brief="Get the raw ADC reading.">
                     <arg key="V35">
                         <arg integer="cal_35V" brief="Set bias ADC calibration 35V setpoint."/>
                     </arg>

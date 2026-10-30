@@ -43,6 +43,10 @@ using namespace IDE3380;
 using namespace SpectraNode_interface;
 using namespace Application;
 
+void Instrument_calibration_provider::v_CAL_ADC(Instruction_major &instruction) {
+    instruction.print_ack(use_bias.get_ADC().read_ADC());
+}
+
 void Instrument_calibration_provider::v_CAL_ADC_V35_cal_35V(Instruction_major &instruction, const int cal_35V_3) {
     use_bias.get_ADC().set_cal_35V(cal_35V_3);
     if (use_repository.set(Application::Cal_ADC_35V, cal_35V_3).success()) {
@@ -58,6 +62,18 @@ void Instrument_calibration_provider::v_CAL_ADC_V40_cal_40V(Instruction_major &i
         instruction.print_ack(cal_40V_3);
     } else {
         instruction.print_nack(use_repository.get_diag_code());
+    }
+}
+
+void Instrument_calibration_provider::v_CAL_DAC(Instruction_major &instruction) {
+    instruction.print_ack(use_bias.get_DAC().get_raw_DAC());
+}
+
+void Instrument_calibration_provider::v_CAL_DAC_data16(Instruction_major &instruction, const int data16_2) {
+    if (use_bias.get_DAC().set_raw_DAC(data16_2)) {
+        instruction.print_ack(use_bias.get_DAC().get_raw_DAC());
+    } else {
+        instruction.print_nack(123);
     }
 }
 
@@ -79,16 +95,10 @@ void Instrument_calibration_provider::v_CAL_DAC_V40_cal_40V(Instruction_major &i
     }
 }
 
-void Instrument_calibration_provider::v_CAL_DAC(Instruction_major &instruction) {
-    instruction.print_ack(use_bias.get_DAC().get_raw_DAC());
-}
-
-void Instrument_calibration_provider::v_CAL_DAC_data16(Instruction_major &instruction, const int data16_2) {
-    if (use_bias.get_DAC().set_raw_DAC(data16_2)) {
-        instruction.print_ack(use_bias.get_DAC().get_raw_DAC());
-    } else {
-        instruction.print_nack(123);
-    }
+void Instrument_calibration_provider::v_CAL_DIAG(Instruction_major &instruction) {
+    the_test_pedestal.print_diag();
+    the_test_noise_floor.print_diag();
+    instruction.print_ack();
 }
 
 void Instrument_calibration_provider::v_CAL_TEST_BIAS(Instruction_major &instruction) {
@@ -139,12 +149,6 @@ void Instrument_calibration_provider::v_CAL_TEST_PEDESTAL(Instruction_major &ins
     } else {
         instruction.print_nack("NOT IN IDLE MODE");
     }
-}
-
-void Instrument_calibration_provider::v_CAL_DIAG(Instruction_major &instruction) {
-    the_test_pedestal.print_diag();
-    the_test_noise_floor.print_diag();
-    instruction.print_ack();
 }
 
 void Instrument_calibration_provider::v_CAL_TRACE(Instruction_major &) {

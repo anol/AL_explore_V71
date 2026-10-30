@@ -44,6 +44,7 @@ export namespace SpectraNode_interface{
     constexpr auto* help_TIME_date_time{"Set date and time."};
     constexpr auto* help_CAL_ADC_V35_cal_35V{"Set bias ADC calibration 35V setpoint."};
     constexpr auto* help_CAL_ADC_V40_cal_40V{"Set bias ADC calibration 40V setpoint."};
+    constexpr auto* help_CAL_ADC{"Get the raw ADC reading."};
     constexpr auto* help_CAL_DAC_data16{"Set raw DAC value."};
     constexpr auto* help_CAL_DAC_V35_cal_35V{"Set bias DAC calibration 35V setpoint."};
     constexpr auto* help_CAL_DAC_V40_cal_40V{"Set bias DAC calibration 40V setpoint."};

@@ -30,7 +30,7 @@
 
 # FW1038 SpectraNode command version 3
 
-Date: 07.10.2026
+Date: 30.10.2026
 
 ## Provider: Mode_control
 
@@ -62,6 +62,7 @@ Date: 07.10.2026
 |---|---|
 | `AT+CAL_ADC_V35=<cal_35V(int -100000..-1)>` | Set bias ADC calibration 35V setpoint. |
 | `AT+CAL_ADC_V40=<cal_40V(int -100000..-1)>` | Set bias ADC calibration 40V setpoint. |
+| `AT+CAL_ADC` | Get the raw ADC reading. |
 | `AT+CAL_DAC=<data16(int 0..0xFFFF)>` | Set raw DAC value. |
 | `AT+CAL_DAC_V35=<cal_35V(int -100000..-1)>` | Set bias DAC calibration 35V setpoint. |
 | `AT+CAL_DAC_V40=<cal_40V(int -100000..-1)>` | Set bias DAC calibration 40V setpoint. |

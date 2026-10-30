@@ -44,6 +44,7 @@ export namespace SpectraNode_interface{
     constexpr auto* help_TIME_date_time{""};
     constexpr auto* help_CAL_ADC_V35_cal_35V{""};
     constexpr auto* help_CAL_ADC_V40_cal_40V{""};
+    constexpr auto* help_CAL_ADC{""};
     constexpr auto* help_CAL_DAC_data16{""};
     constexpr auto* help_CAL_DAC_V35_cal_35V{""};
     constexpr auto* help_CAL_DAC_V40_cal_40V{""};

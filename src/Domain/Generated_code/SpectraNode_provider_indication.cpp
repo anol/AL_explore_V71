@@ -141,6 +141,7 @@ template<> const Abstract_Instrument_calibration_provider::Lookup_table::Instruc
     Abstract_Instrument_calibration_provider::Lookup_table::instruction_table[] = {
     {&Abstract_Instrument_calibration_provider::p_CAL_ADC_V35_cal_35V, Cmd_CAL_ADC_V35_cal_35V},
     {&Abstract_Instrument_calibration_provider::p_CAL_ADC_V40_cal_40V, Cmd_CAL_ADC_V40_cal_40V},
+    {&Abstract_Instrument_calibration_provider::p_CAL_ADC, Cmd_CAL_ADC},
     {&Abstract_Instrument_calibration_provider::p_CAL_DAC_data16, Cmd_CAL_DAC_data16},
     {&Abstract_Instrument_calibration_provider::p_CAL_DAC_V35_cal_35V, Cmd_CAL_DAC_V35_cal_35V},
     {&Abstract_Instrument_calibration_provider::p_CAL_DAC_V40_cal_40V, Cmd_CAL_DAC_V40_cal_40V},
@@ -167,6 +168,10 @@ namespace SpectraNode_interface{
     void Abstract_Instrument_calibration_provider::p_CAL_ADC_V40_cal_40V(Instruction_major &transaction){
         int cal_40V_3{transaction.get_token_integer(3)};
         v_CAL_ADC_V40_cal_40V(transaction, cal_40V_3);
+    }
+            
+    void Abstract_Instrument_calibration_provider::p_CAL_ADC(Instruction_major &transaction){
+        v_CAL_ADC(transaction);
     }
             
     void Abstract_Instrument_calibration_provider::p_CAL_DAC_data16(Instruction_major &transaction){
