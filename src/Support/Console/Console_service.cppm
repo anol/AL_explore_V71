@@ -20,7 +20,7 @@ namespace Support
 
     public:
         Console_service(Abstract::Abstract_UART& UART, Abstract::Abstract_provider<Instruction_major>& router,
-                         Instruction::Abstract_command_table& command_table) :
+                        const Instruction::Abstract_command_table& command_table) :
             the_receiver(UART, router, command_table)
         {
         }

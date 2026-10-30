@@ -44,7 +44,7 @@ export namespace Application
         int deepsleep_enable{};
 
     public:
-        explicit Request_router(Abstract::Abstract_board &board, Histogram_storage& histogram, Event_counter& counter,
+        explicit Request_router(Abstract::Abstract_UART& UART, Histogram_storage& histogram, Event_counter& counter,
                                 IDE3380_interface& ASIC, Calibration::Bias_calibration& bias,
                                 Repository::Configuration_repository& repository, Cadence_control& cadence,
                                 Mode_control_provider& mode_control,
@@ -53,7 +53,7 @@ export namespace Application
               use_histogram(histogram), use_IDE3380(ASIC), use_bias(bias),
               use_repository(repository), use_cadence(cadence), use_event_counter(counter),
               use_mode_control(mode_control), use_data_provider(data_provider),
-              the_housekeeper(board, histogram, ASIC, bias, repository, cadence, data_provider, mode_control)
+              the_housekeeper(UART, histogram, ASIC, bias, repository, cadence, data_provider, mode_control)
         {
         }
 

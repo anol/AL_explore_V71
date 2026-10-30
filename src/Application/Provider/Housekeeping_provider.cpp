@@ -89,13 +89,13 @@ void Housekeeping_provider::v_DIAG(Instruction_major &instruction) {
 }
 
 void Housekeeping_provider::v_ECHO(Instruction_major &) {
-    const auto echo = use_board.get_UART().toggle_echo();
+    const auto echo = use_UART.toggle_echo();
     printf("The console echo is %s\r\n", echo ? "ON" : "OFF");
 }
 
 void Housekeeping_provider::v_TEST(Instruction_major &) {
     printf("Test_utility_provider::v_TEST:\r\n");
-    use_board.print_diagnostics();
+    use_IDE3380.get_board().print_diagnostics();
 }
 
 void Housekeeping_provider::v_HELP(Instruction_major &instruction) {
