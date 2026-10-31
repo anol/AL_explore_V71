@@ -24,6 +24,7 @@
               numpy
               readchar
               dash
+              tqdm
             ]
           ))
         ];
