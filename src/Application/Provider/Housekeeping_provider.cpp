@@ -50,7 +50,7 @@ using namespace Instruction;
 
 using namespace Instruction;
 
-bool Housekeeping_provider::the_trace_flag{true};
+bool Housekeeping_provider::the_trace_flag{false};
 
 void Housekeeping_provider::print_version()
 {
