@@ -34,7 +34,7 @@ export namespace FreeRTOS {
     private:
         void prolog() {
             last_wake_time = xTaskGetTickCount();
-            printf("%s started: pri=%d, stack=%d\r\n", the_name, the_priority, the_stack_size);
+            printf("// %s started: pri=%d, stack=%d\r\n", the_name, the_priority, the_stack_size);
         }
 
         static void task_entry(void *object) {
