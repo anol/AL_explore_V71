@@ -4,6 +4,7 @@ module;
 #include "component/spi.h"
 
 export module Platform.SamV71_SPI;
+import Platform.SamV71_SPI_interrupt;
 import Type.Abstract_SPI;
 import Type.Abstract_IO_pin;
 import Type.Transfer_request;
@@ -11,6 +12,14 @@ import Platform.FreeRTOS_queue;
 import Platform.SamV71_IO_pin;
 
 export namespace SamV71 {
+    struct SamV71_SPI_definition {
+        spi_registers_t *the_base;
+        IRQn_Type the_IRQ_number;
+        uint32_t the_IRQ_priority;
+
+        static SamV71_SPI_definition *get_definition(uint8_t id);
+    };
+
     class SamV71_SPI : public Abstract::Abstract_SPI {
         enum {
             Queue_size             = 64,
@@ -23,9 +32,7 @@ export namespace SamV71 {
 
         const uint8_t the_id;
         Abstract::Abstract_IO_pin &use_chip_select;
-        void *optional_definition;
-        bool the_busy_flag{};
-        Generic::SPI_transfer_request *optional_request{};
+        SamV71_SPI_definition *optional_definition;
         FreeRTOS::FreeRTOS_queue<Abstract::Abstract_request *, Queue_size> the_queue{};
 
     public:
@@ -37,31 +44,23 @@ export namespace SamV71 {
 
         void print_diagnostics() const;
 
-    private:
-        void pending_transaction();
+        [[nodiscard]] uint8_t get_id() const { return the_id; }
 
-        void setup_SPI_registers() const;
+        [[nodiscard]] SamV71_SPI_definition *get_definition() const { return optional_definition; }
 
         void enable_SPI() const;
 
         void disable_SPI() const;
 
-        [[nodiscard]] bool is_ready() const {
-            return !optional_request;
+        Abstract::Abstract_request *SamV71_SPI::ISR_receive(uint32_t &context_switch) {
+            Abstract::Abstract_request *request;
+            if (the_queue.ISR_receive(&request, context_switch)) {
+                return request;
+            }
+            return {};
         }
 
-    public:
-        void ISR();
-
     private:
-        void ISR_pending_transaction(uint32_t &context_switch);
-
-        void ISR_check_progress(uint32_t &context_switch);
-
-        void ISR_transfer_complete(uint32_t &context_switch);
-
-        void ISR_RX_ready() const;
-
-        void ISR_TX_ready() const;
+        void setup_SPI_registers() const;
     };
 } // SamV71

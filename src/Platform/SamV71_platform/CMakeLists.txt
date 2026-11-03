@@ -14,6 +14,7 @@ target_sources(${THE_TARGET_NAME} PUBLIC
         SamV71_IO_pin.cpp
         SamV71_platform.cpp
         SamV71_SPI.cpp
+        SamV71_SPI_interrupt.cpp
         SamV71_USART.cpp
 )
 target_sources(${THE_TARGET_NAME} PRIVATE
@@ -24,6 +25,7 @@ target_sources(${THE_TARGET_NAME} PRIVATE
         SamV71_IO_pin.cppm
         SamV71_platform.cppm
         SamV71_SPI.cppm
+        SamV71_SPI_interrupt.cppm
         SamV71_USART.cppm
 )
 
