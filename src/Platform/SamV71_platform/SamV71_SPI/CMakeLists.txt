@@ -1,7 +1,4 @@
 target_sources(${THE_TARGET_NAME} PRIVATE
-        SamV71_SPI.cpp
-)
-target_sources(${THE_TARGET_NAME} PRIVATE
         FILE_SET samv71_spi_modules TYPE CXX_MODULES BASE_DIRS . FILES
         SamV71_SPI-Define.cppm
         SamV71_SPI-Driver.cppm

@@ -11,16 +11,32 @@ module;
 
 module Platform.SamV71_SPI:Handler;
 import :Define;
+import :Driver;
 import Type.Transfer_request;
 
 namespace SamV71
 {
     class SamV71_SPI_handler
     {
+    public:
+        enum { Number_of_SPI_peripherals = 1 };
+
+        static SamV71_SPI_handler* optional_handler[Number_of_SPI_peripherals];
+
+    private:
+        const SamV71_SPI_define* optional_define;
+        SamV71_SPI_driver& use_driver;
         Generic::SPI_transfer_request* optional_request{};
 
     public:
-        // explicit SamV71_SPI_handler(SamV71_SPI_driver& driver);
+        explicit SamV71_SPI_handler(const SamV71_SPI_define* define, SamV71_SPI_driver& driver)
+            : optional_define(define), use_driver(driver)
+        {
+            if (define->the_ID_number < Number_of_SPI_peripherals)
+            {
+                optional_handler[define->the_ID_number] = this;
+            }
+        }
 
         void ISR();
 
@@ -38,9 +54,10 @@ namespace SamV71
         void ISR_TX_ready() const;
     };
 
+    SamV71_SPI_handler* SamV71_SPI_handler::optional_handler[Number_of_SPI_peripherals]{};
+
     void SamV71_SPI_handler::ISR()
     {
-        auto* optional_define = use_driver.get_definition();
         if (optional_define)
         {
             uint32_t context_switch{};
@@ -61,7 +78,7 @@ namespace SamV71
 
     void SamV71_SPI_handler::ISR_RX_ready() const
     {
-        if (auto* optional_define = use_driver.get_definition())
+        if (optional_define)
         {
             auto* base = optional_define->the_base;
             const uint8_t data = 0xFF & base->SPI_RDR;
@@ -83,7 +100,7 @@ namespace SamV71
 
     void SamV71_SPI_handler::ISR_TX_ready() const
     {
-        if (auto* optional_define = use_driver.get_definition())
+        if (optional_define)
         {
             auto* base = optional_define->the_base;
             if (optional_request && optional_request->is_more_to_send())
@@ -140,4 +157,20 @@ namespace SamV71
             }
         }
     }
+
 } // SamV71
+
+extern "C" {
+void ISR_SPI0()
+{
+    if (auto* handler = SamV71::SamV71_SPI_handler::optional_handler[0])
+    {
+        handler->ISR();
+    }
+    else
+    {
+        NVIC_DisableIRQ(IRQn::SPI0_IRQn);
+        NVIC_ClearPendingIRQ(SPI0_IRQn);
+    }
+}
+}
