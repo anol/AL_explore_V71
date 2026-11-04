@@ -1,10 +1,17 @@
+//
+// Created by aeols on 2026-11-04.
+//
+
 module;
 
 #include "samv71q21b.h"
 #include "component/spi.h"
 
 export module Platform.SamV71_SPI;
-import Platform.SamV71_SPI_interrupt;
+import :Define;
+import :Driver;
+import :Handler;
+
 import Type.Abstract_SPI;
 import Type.Abstract_IO_pin;
 import Type.Transfer_request;
@@ -12,13 +19,6 @@ import Platform.FreeRTOS_queue;
 import Platform.SamV71_IO_pin;
 
 export namespace SamV71 {
-    struct SamV71_SPI_definition {
-        spi_registers_t *the_base;
-        IRQn_Type the_IRQ_number;
-        uint32_t the_IRQ_priority;
-
-        static SamV71_SPI_definition *get_definition(uint8_t id);
-    };
 
     class SamV71_SPI : public Abstract::Abstract_SPI {
         enum {
@@ -32,7 +32,7 @@ export namespace SamV71 {
 
         const uint8_t the_id;
         Abstract::Abstract_IO_pin &use_chip_select;
-        SamV71_SPI_definition *optional_definition;
+        const SamV71_SPI_define *optional_define;
         FreeRTOS::FreeRTOS_queue<Abstract::Abstract_request *, Queue_size> the_queue{};
 
     public:
@@ -46,13 +46,13 @@ export namespace SamV71 {
 
         [[nodiscard]] uint8_t get_id() const { return the_id; }
 
-        [[nodiscard]] SamV71_SPI_definition *get_definition() const { return optional_definition; }
+        [[nodiscard]] const SamV71_SPI_define *get_definition() const { return optional_define; }
 
         void enable_SPI() const;
 
         void disable_SPI() const;
 
-        Abstract::Abstract_request *SamV71_SPI::ISR_receive(uint32_t &context_switch) {
+        Abstract::Abstract_request *ISR_receive(uint32_t &context_switch) {
             Abstract::Abstract_request *request;
             if (the_queue.ISR_receive(&request, context_switch)) {
                 return request;

@@ -17,27 +17,14 @@ import Platform.SamV71_clock;
 import Platform.SamV71_IO_pin;
 
 namespace SamV71 {
-    static SamV71_SPI_definition Definition_SPI0{
-        .the_base         = SPI0_REGS,
-        .the_IRQ_number   = SPI0_IRQn,
-        .the_IRQ_priority = configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY,
-    };
-
-    SamV71_SPI_definition *SamV71_SPI_definition::get_definition(const uint8_t id) { return id == 0 ? &Definition_SPI0 : nullptr; }
-
-    SamV71_SPI_interrupt the_interrupt_handler;
-
-}
-
-namespace SamV71 {
     SamV71_SPI::SamV71_SPI(const uint8_t id, Abstract::Abstract_IO_pin &chip_select)
-        : the_id(id), use_chip_select(chip_select), optional_definition(SamV71_SPI_definition::get_definition(id)) {
-        configASSERT(optional_definition != nullptr);
+        : the_id(id), use_chip_select(chip_select), optional_define(SamV71_SPI_define::get_definition(id)) {
+        configASSERT(optional_define != nullptr);
     }
 
     void SamV71_SPI::print_diagnostics() const {
-        if (optional_definition) {
-            const auto priority = optional_definition->the_IRQ_priority;
+        if (optional_define) {
+            const auto priority = optional_define->the_IRQ_priority;
             printf("SPI%d: pri=%d, bps=%d, cpol=%d, cpha=%d\r\n", the_id, priority, SPI_bitrate, SPI_CR_clock_polarity, SPI_CR_clock_phase);
         }
     }
@@ -51,8 +38,8 @@ namespace SamV71 {
 
     void SamV71_SPI::setup_SPI_registers() const {
         constexpr auto Control_enable = SPI_CR_SPIEN(1);
-        if (optional_definition) {
-            auto *base = optional_definition->the_base;
+        if (optional_define) {
+            auto *base = optional_define->the_base;
             const auto bitrate_divider = SPI_CSR_SCBR(SamV71_clock::get_frequency() / SPI_bitrate);
             base->SPI_CSR[0] = bitrate_divider | SPI_CR_clock_polarity | SPI_CR_clock_phase;
             base->SPI_MR = SPI_MR_host_mode | SPI_MR_fault_detection;
@@ -63,10 +50,10 @@ namespace SamV71 {
     void SamV71_SPI::enable_SPI() const {
         constexpr auto Interrupt_enable = SPI_IER_RDRF(1) | SPI_IER_TDRE(1);
         constexpr auto Interrupt_mask = SPI_IMR_RDRF(1) | SPI_IMR_TDRE(1);
-        if (optional_definition) {
-            auto *base = optional_definition->the_base;
-            const auto irq_number = optional_definition->the_IRQ_number;
-            const auto priority = optional_definition->the_IRQ_priority;
+        if (optional_define) {
+            auto *base = optional_define->the_base;
+            const auto irq_number = optional_define->the_IRQ_number;
+            const auto priority = optional_define->the_IRQ_priority;
             if ((base->SPI_IMR & Interrupt_mask) == 0) {
                 NVIC_DisableIRQ(irq_number);
                 NVIC_SetPriority(irq_number, priority);
@@ -81,9 +68,9 @@ namespace SamV71 {
         constexpr auto Interrupt_disable =
                 SPI_IDR_RDRF(1) | SPI_IDR_TDRE(1) | SPI_IDR_MODF(1) | SPI_IDR_OVRES(1) |
                 SPI_IDR_NSSR(1) | SPI_IDR_TXEMPTY(1) | SPI_IDR_UNDES(1);
-        if (optional_definition) {
-            auto *base = optional_definition->the_base;
-            const auto irq_number = optional_definition->the_IRQ_number;
+        if (optional_define) {
+            auto *base = optional_define->the_base;
+            const auto irq_number = optional_define->the_IRQ_number;
             NVIC_DisableIRQ(irq_number);
             base->SPI_IDR = Interrupt_disable;
             NVIC_ClearPendingIRQ(irq_number);
