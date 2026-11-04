@@ -5,6 +5,7 @@
 export module Support.Console_support;
 import :Console_receive_task;
 import :Console_transmit_task;
+import Platform.Common_stdio;
 import Support.Abstract_command_table;
 import Support.Instruction_major;
 import Type.Abstract_provider;
@@ -15,12 +16,14 @@ namespace Support
 {
     export class Console_support : public Abstract::Abstract_service
     {
+        Platform::Common_stdio the_stdio;
         Console_receive_task the_receiver;
         Console_transmit_task the_transmitter{};
 
     public:
         Console_support(Abstract::Abstract_UART& UART, Abstract::Abstract_provider<Instruction_major>& router,
                         const Instruction::Abstract_command_table& command_table) :
+            the_stdio(&UART),
             the_receiver(UART, router, command_table)
         {
         }

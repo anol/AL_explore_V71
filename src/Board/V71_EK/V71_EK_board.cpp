@@ -10,7 +10,6 @@ module;
 module Board.V71_EK_board;
 import Type.Abstract_board;
 import Board.V71_EK_pin_table;
-import Platform.Common_stdio;
 import Platform.SamV71_clock;
 import Platform.SamV71_SPI;
 import Platform.SamV71_USART;
@@ -25,7 +24,6 @@ namespace Board {
         the_pin_table.initialize();
         the_SPI.initialize();
         the_UART.initialize();
-        the_console.initialize();
     }
 
     void V71_EK_board::print_diagnostics() {

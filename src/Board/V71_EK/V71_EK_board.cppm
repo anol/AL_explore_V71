@@ -4,7 +4,6 @@ export module Board.V71_EK_board;
 import Type.Abstract_board;
 import Domain.IO_pins;
 import Board.V71_EK_pin_table;
-import Platform.Common_stdio;
 import Platform.SamV71_ADC;
 import Platform.SamV71_clock;
 import Platform.SamV71_DAC;
@@ -22,7 +21,6 @@ export namespace Board {
         SamV71_USART the_UART{1};
         SamV71_ADC the_ADC{};
         SamV71_DAC the_DAC{};
-        Platform::Common_stdio the_console{&the_UART};
 
     public:
         V71_EK_board() = default;

@@ -123,9 +123,17 @@ What `SpectraNode_console` (the console and its command table) owns and referenc
 
 ![SpectraNode_console aggregation graph](doc/spectranode_console_aggregation.svg)
 
-What `V71_EK_board` (the board) owns and references:
+What `SamV71_SPI` (the SPI driver, interrupt handler and peripheral definition) owns and references:
 
-![V71_EK_board aggregation graph](doc/v71_ek_board_aggregation.svg)
+![SamV71_SPI aggregation graph](doc/samv71_spi_aggregation.svg)
+
+What `SamV71_USART` (the UART with its RX/TX queues) owns and references:
+
+![SamV71_USART aggregation graph](doc/samv71_usart_aggregation.svg)
+
+What `SamV71_ADC` (the AFEC0 analog front end) owns and references:
+
+![SamV71_ADC aggregation graph](doc/samv71_adc_aggregation.svg)
 
 ## SpectraNode command & keyword dictionary
 

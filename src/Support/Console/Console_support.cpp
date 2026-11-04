@@ -8,6 +8,7 @@ namespace Support
 {
     void Console_support::initialize()
     {
+        the_stdio.initialize();
         the_receiver.initialize();
         the_transmitter.initialize();
     }
