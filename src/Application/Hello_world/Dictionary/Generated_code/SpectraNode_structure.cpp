@@ -20,7 +20,7 @@
 module;
 #include <cstdint>
 
-module Domain.SpectraNode_structure;
+module Application.SpectraNode_structure;
 import Domain.Keyword_lookup;
 
 using namespace Domain_interface;

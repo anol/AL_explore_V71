@@ -27,8 +27,8 @@
 module;
 #include <cstdint>
 
-module Domain.SpectraNode_provider_indication;
-import Domain.SpectraNode_command_lookup;
+module Application.SpectraNode_provider_indication;
+import Application.SpectraNode_command_lookup;
 
 using namespace Instruction;
 using namespace SpectraNode_interface;

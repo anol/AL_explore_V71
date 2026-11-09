@@ -9,8 +9,8 @@
         </xsl:variable>
         <xsl:apply-templates select="document($path)"/>
 
-        <xsl:text>export module Domain.</xsl:text><xsl:value-of select="@name"/><xsl:text>_provider_skeleton;
-import Domain.</xsl:text><xsl:value-of select="@name"/><xsl:text>_provider_indication;
+        <xsl:text>export module Application.</xsl:text><xsl:value-of select="@name"/><xsl:text>_provider_skeleton;
+import Application.</xsl:text><xsl:value-of select="@name"/><xsl:text>_provider_indication;
 
 export namespace </xsl:text><xsl:value-of select="@interface"/><xsl:text> {
     </xsl:text>

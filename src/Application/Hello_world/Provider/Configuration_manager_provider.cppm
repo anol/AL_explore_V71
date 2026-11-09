@@ -27,8 +27,8 @@ module;
 export module Application.Configuration_manager_provider;
 import Component.IDE3380_interface;
 import Domain.Keyword_lookup;
-import Domain.SpectraNode_command_lookup;
-import Domain.SpectraNode_provider_indication;
+import Application.SpectraNode_command_lookup;
+import Application.SpectraNode_provider_indication;
 import Support.Configuration_repository;
 import Support.Instruction_major;
 

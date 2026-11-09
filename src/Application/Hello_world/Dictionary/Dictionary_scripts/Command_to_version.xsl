@@ -11,7 +11,7 @@
 #include &lt;cstdint&gt;
 #include &lt;type_traits&gt;
 
-export module Domain.</xsl:text>
+export module Application.</xsl:text>
         <xsl:value-of select="@name"/>
         <xsl:text>_command_version;
 

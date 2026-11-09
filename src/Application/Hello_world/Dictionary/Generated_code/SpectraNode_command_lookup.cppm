@@ -26,7 +26,7 @@
 module;
 #include <cstdint>
 
-export module Domain.SpectraNode_command_lookup;
+export module Application.SpectraNode_command_lookup;
 export import Support.Instruction_token;
 
 export namespace SpectraNode_interface{

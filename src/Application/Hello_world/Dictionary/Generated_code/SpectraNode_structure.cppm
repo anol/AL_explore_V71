@@ -20,7 +20,7 @@
 module;
 #include <cstdint>
 
-export module Domain.SpectraNode_structure;
+export module Application.SpectraNode_structure;
 
 export namespace SpectraNode_interface
 {

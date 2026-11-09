@@ -32,8 +32,8 @@ import Application.Housekeeping_provider;
 import Application.Instrument_calibration_provider;
 import Application.Spectroscopic_data_provider;
 import Domain.Keyword_lookup;
-import Domain.SpectraNode_command_lookup;
-import Domain.SpectraNode_provider_indication;
+import Application.SpectraNode_command_lookup;
+import Application.SpectraNode_provider_indication;
 
 using namespace SpectraNode_interface;
 using namespace Instruction;

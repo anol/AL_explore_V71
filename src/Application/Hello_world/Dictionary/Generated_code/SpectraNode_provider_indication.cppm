@@ -27,19 +27,20 @@
 module;
 #include <cstdint>
 
-export module Domain.SpectraNode_provider_indication;
+export module Application.SpectraNode_provider_indication;
 import Domain.Keyword_lookup;
 export import Support.Instruction_lookup;
 import Type.Abstract_provider;
 
 using namespace Abstract;
-using namespace Domain_interface;
 
 namespace Transaction {
     class Transaction_major;
 }
 
 using namespace Transaction;
+
+using namespace Domain_interface;
 
 export namespace SpectraNode_interface {
     

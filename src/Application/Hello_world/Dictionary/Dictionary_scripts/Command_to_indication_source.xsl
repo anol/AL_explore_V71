@@ -12,10 +12,10 @@
 module;
 #include &lt;cstdint&gt;
 
-module Domain.</xsl:text>
+module Application.</xsl:text>
         <xsl:value-of select="@name"/>
         <xsl:text>_provider_indication;
-import Domain.</xsl:text>
+import Application.</xsl:text>
         <xsl:value-of select="@name"/>
         <xsl:text>_command_lookup;
 

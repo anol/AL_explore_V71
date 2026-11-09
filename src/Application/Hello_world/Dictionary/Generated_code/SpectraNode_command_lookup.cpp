@@ -27,11 +27,12 @@
 module;
 #include <cstdint>
 
-module Domain.SpectraNode_command_lookup;
-import Domain.SpectraNode_command_help;
+module Application.SpectraNode_command_lookup;
 import Domain.Keyword_lookup;
+import Application.SpectraNode_command_help;
 
 using namespace Instruction;
+
 using namespace Domain_interface;
 
 namespace SpectraNode_interface{

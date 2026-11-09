@@ -12,7 +12,7 @@
 module;
 #include &lt;iostream&gt;
 
-module Domain.</xsl:text><xsl:value-of select="@name"/><xsl:text>_provider_skeleton;
+module Application.</xsl:text><xsl:value-of select="@name"/><xsl:text>_provider_skeleton;
 
 using namespace </xsl:text><xsl:value-of select="/command_definition/@interface"/><xsl:text>;
         </xsl:text>

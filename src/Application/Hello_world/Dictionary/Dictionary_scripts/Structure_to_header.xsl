@@ -25,7 +25,7 @@
 module;
 #include &lt;cstdint&gt;
 
-export module Domain.<xsl:value-of select="@keywords"/>_structure;
+export module Application.<xsl:value-of select="@keywords"/>_structure;
 
 export namespace <xsl:value-of select="@interface"/>
 {

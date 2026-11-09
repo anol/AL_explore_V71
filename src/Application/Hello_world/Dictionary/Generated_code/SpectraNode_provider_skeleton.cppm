@@ -23,8 +23,8 @@
 *                 D O   N O T   E D I T
 */
 
-export module Domain.SpectraNode_provider_skeleton;
-import Domain.SpectraNode_provider_indication;
+export module Application.SpectraNode_provider_skeleton;
+import Application.SpectraNode_provider_indication;
 
 export namespace SpectraNode_interface {
     

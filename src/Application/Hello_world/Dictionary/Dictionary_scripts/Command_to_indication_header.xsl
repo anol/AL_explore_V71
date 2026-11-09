@@ -13,8 +13,8 @@
 module;
 #include &lt;cstdint&gt;
 
-export module Domain.</xsl:text><xsl:value-of select="@name"/><xsl:text>_provider_indication;
-import Domain.</xsl:text><xsl:value-of select="@keywords"/><xsl:text>_keyword_lookup;
+export module Application.</xsl:text><xsl:value-of select="@name"/><xsl:text>_provider_indication;
+import Application.</xsl:text><xsl:value-of select="@keywords"/><xsl:text>_keyword_lookup;
 export import Support.Instruction_lookup;
 import Type.Abstract_provider;
 

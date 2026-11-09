@@ -28,8 +28,8 @@
 module;
 #include &lt;cstdint&gt;
 
-module Domain.</xsl:text><xsl:value-of select="@keywords"/><xsl:text>_structure;
-import Domain.</xsl:text><xsl:value-of select="@keywords"/><xsl:text>_keyword_lookup;
+module Application.</xsl:text><xsl:value-of select="@keywords"/><xsl:text>_structure;
+import Application.</xsl:text><xsl:value-of select="@keywords"/><xsl:text>_keyword_lookup;
 
 namespace </xsl:text><xsl:value-of select="@interface"/><xsl:text>{
 

@@ -27,7 +27,7 @@ module;
 #include <cstdint>
 #include <type_traits>
 
-export module Domain.SpectraNode_command_version;
+export module Application.SpectraNode_command_version;
 
 export namespace FW1038
 {

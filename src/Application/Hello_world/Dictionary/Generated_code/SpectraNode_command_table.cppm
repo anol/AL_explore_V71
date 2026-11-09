@@ -25,8 +25,8 @@
 
 module;
 
-export module Domain.SpectraNode_command_table;
-import Domain.SpectraNode_command_lookup;
+export module Application.SpectraNode_command_table;
+import Application.SpectraNode_command_lookup;
 import Support.Abstract_command_table;
 
 export namespace SpectraNode_interface {

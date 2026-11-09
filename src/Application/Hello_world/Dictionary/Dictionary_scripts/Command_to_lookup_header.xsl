@@ -13,7 +13,7 @@
         <xsl:text>module;
 #include &lt;cstdint&gt;
 
-export module Domain.</xsl:text>
+export module Application.</xsl:text>
         <xsl:value-of select="@name"/>
         <xsl:text>_command_lookup;
 export import Support.Instruction_token;

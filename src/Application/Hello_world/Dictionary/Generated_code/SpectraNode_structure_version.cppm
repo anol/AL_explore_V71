@@ -27,7 +27,7 @@ module;
 #include <cstdint>
 #include <type_traits>
 
-export module Domain.SpectraNode_structure_version;
+export module Application.SpectraNode_structure_version;
 
 export namespace SpectraNode
 {

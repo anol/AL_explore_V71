@@ -17,45 +17,7 @@ set SUBJECT=SpectraNode
 
 set TARGET_DIR=..\Generated_code
 set SCRIPT_DIR=..\Dictionary_scripts
-set XSLT=..\..\..\tool\XSLT\msxsl
-
-:: Bootstrap Generated_code\ (and its CMakeLists.txt) if this is a fresh checkout that
-:: doesn't have them yet. This only creates the CMakeLists.txt when it's missing -- it
-:: does not keep an existing one in sync, so if the set of generated files ever changes,
-:: update src/Domain/Generated_code/CMakeLists.txt (and this block) together by hand.
-if not exist "%TARGET_DIR%" mkdir "%TARGET_DIR%"
-if not exist "%TARGET_DIR%\CMakeLists.txt" (
-    (
-        echo target_sources^(${THE_TARGET_NAME} PUBLIC
-        echo         SpectraNode_command_lookup.cpp
-        echo         SpectraNode_keyword.md
-        echo         SpectraNode_keyword_lookup.cpp
-        echo         SpectraNode_provider_indication.cpp
-        echo #        SpectraNode_structure.cpp
-        echo ^)
-        echo target_sources^(${THE_TARGET_NAME} PRIVATE
-        echo         FILE_SET domain_generated_modules TYPE CXX_MODULES BASE_DIRS . FILES
-        echo         SpectraNode_command_empty_help.cppm
-        echo         SpectraNode_command_help.cppm
-        echo         SpectraNode_command_lookup.cppm
-        echo         SpectraNode_command_table.cppm
-        echo         SpectraNode_command_version.cppm
-        echo         SpectraNode_keyword_lookup.cppm
-        echo         SpectraNode_keyword_version.cppm
-        echo         SpectraNode_provider_indication.cppm
-        echo #        SpectraNode_structure.cppm
-        echo #        SpectraNode_structure_version.cppm
-        echo ^)
-    ) > "%TARGET_DIR%\CMakeLists.txt"
-)
-
-:: Keywords
-::set KEYSRC=%SUBJECT%_keyword
-::set KEYTRG=%TARGET_DIR%\%KEYSRC%
-::%XSLT% %KEYSRC%.xml %SCRIPT_DIR%\Keywords_to_lookup_header.xsl -o  %KEYTRG%_lookup.cppm
-::%XSLT% %KEYSRC%.xml %SCRIPT_DIR%\Keywords_to_lookup_source.xsl -o  %KEYTRG%_lookup.cpp
-::%XSLT% %KEYSRC%.xml %SCRIPT_DIR%\Keywords_to_MD.xsl -o    %KEYTRG%.md date="%DATE%"
-::%XSLT% %KEYSRC%.xml %SCRIPT_DIR%\Keywords_to_version.xsl -o %KEYTRG%_version.cppm
+set XSLT=..\..\..\..\..\tool\XSLT\msxsl
 
 :: Commands
 set CMDSRC=%SUBJECT%_command
@@ -86,6 +48,3 @@ set PRVTRG=%TARGET_DIR%\%SUBJECT%_provider
 %XSLT% %CMDSRC%.xml %SCRIPT_DIR%\Command_to_indication_source.xsl -o %PRVTRG%_indication.cpp
 %XSLT% %CMDSRC%.xml %SCRIPT_DIR%\Command_to_skeleton_header.xsl -o %PRVTRG%_skeleton.cppm
 %XSLT% %CMDSRC%.xml %SCRIPT_DIR%\Command_to_skeleton_source.xsl -o %PRVTRG%_skeleton.cpp
-
-:: Re-splice the generated command/keyword/structure tables into the top-level README.md
-::powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0Update_readme_dictionary.ps1"

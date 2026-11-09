@@ -27,7 +27,7 @@
 module;
 #include <iostream>
 
-module Domain.SpectraNode_provider_skeleton;
+module Application.SpectraNode_provider_skeleton;
 
 using namespace SpectraNode_interface;
         

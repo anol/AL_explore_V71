@@ -24,7 +24,7 @@
 */
 
 
-export module Domain.SpectraNode_command_help;
+export module Application.SpectraNode_command_help;
 
 export namespace SpectraNode_interface{
 

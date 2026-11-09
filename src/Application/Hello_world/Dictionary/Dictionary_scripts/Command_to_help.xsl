@@ -9,7 +9,7 @@
         </xsl:variable>
         <xsl:apply-templates select="document($path)"/>
         <xsl:text>
-export module Domain.</xsl:text><xsl:value-of select="@name"/><xsl:text>_command_help;
+export module Application.</xsl:text><xsl:value-of select="@name"/><xsl:text>_command_help;
 
 export namespace </xsl:text><xsl:value-of select="@interface"/><xsl:text>{
 

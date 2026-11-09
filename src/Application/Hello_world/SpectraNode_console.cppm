@@ -1,5 +1,5 @@
 export module Application.SpectraNode_console;
-import Domain.SpectraNode_command_table;
+import Application.SpectraNode_command_table;
 import Support.Console_support;
 import Support.Instruction_major;
 import Type.Abstract_provider;

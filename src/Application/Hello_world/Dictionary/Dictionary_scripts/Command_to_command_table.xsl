@@ -10,10 +10,10 @@
         <xsl:apply-templates select="document($path)"/>
         <xsl:text>module;
 
-export module Domain.</xsl:text>
+export module Application.</xsl:text>
         <xsl:value-of select="@name"/>
         <xsl:text>_command_table;
-import Domain.</xsl:text>
+import Application.</xsl:text>
         <xsl:value-of select="@name"/>
         <xsl:text>_command_lookup;
 import Support.Abstract_command_table;
