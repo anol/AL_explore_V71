@@ -59,6 +59,7 @@ export namespace Application
 
         void initialize()
         {
+            the_primary_task.initialize();
             the_cadence_control.initialize();
         }
 

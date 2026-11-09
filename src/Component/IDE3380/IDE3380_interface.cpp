@@ -98,6 +98,7 @@ namespace IDE3380
                                                     const uint32_t base_id)
     {
         auto success{true};
+        int update_count{};
         for (uint8_t address = IDE3380_channel_1_reg; address <= IDE3380_sysclock_control_reg; address++)
         {
             const auto id = base_id + address;
@@ -115,6 +116,10 @@ namespace IDE3380
                     }
                     the_readback_error++;
                 }
+                else
+                {
+                    update_count++;
+                }
             }
             else
             {
@@ -122,7 +127,11 @@ namespace IDE3380
                 the_repository_error++;
             }
         }
-        if (!success)
+        if (success)
+        {
+            printf("Updated %d IDE3380 registers\r\n", update_count);
+        }
+        else
         {
             printf("<> IDE3380 update registers failed. Error accum.: readback=%d, repository=%d <>\r\n",
                    the_readback_error, the_repository_error);
