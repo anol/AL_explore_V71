@@ -38,6 +38,7 @@ namespace Generic {
         void count_received() { the_receive_count++; }
         [[nodiscard]] bool is_more_to_send() const { return the_send_count < the_data_size; }
         [[nodiscard]] bool is_more_to_receive() const { return the_receive_count < the_data_size; }
+        [[nodiscard]] bool is_all_received() const { return the_receive_count >= the_data_size; }
         [[nodiscard]] uint8_t get_send_count() const { return the_send_count; }
         [[nodiscard]] uint8_t get_receive_count() const { return the_receive_count; }
 

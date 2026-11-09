@@ -4,7 +4,7 @@ target_compile_options(${THE_TARGET_NAME} PUBLIC
         -Wno-format
         # Kernel development mode (-mkernel)
         -fno-exceptions
-        $<$<COMPILE_LANGUAGE:CXX>:-fno-rtti>
+#        $<$<COMPILE_LANGUAGE:CXX>:-fno-rtti>
         # Override the automatic link-time optimization (lto)
         -fno-lto
         # No dead code elimination (dce) or dead store elimination (dse)
