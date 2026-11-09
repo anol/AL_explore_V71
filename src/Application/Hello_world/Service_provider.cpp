@@ -31,7 +31,7 @@ import Application.Configuration_manager_provider;
 import Application.Housekeeping_provider;
 import Application.Instrument_calibration_provider;
 import Application.Spectroscopic_data_provider;
-import Domain.SpectraNode_keyword_lookup;
+import Domain.Keyword_lookup;
 import Domain.SpectraNode_command_lookup;
 import Domain.SpectraNode_provider_indication;
 
@@ -45,7 +45,7 @@ namespace Application
     {
         if (Housekeeping_provider::is_trace())
         {
-            instruction.print_trace(get_keyword);
+            instruction.print_trace(Domain_interface::get_keyword);
         }
         bool executed = the_mode_control.on_indication(instruction);
         if (!executed) { executed = the_data_provider.on_indication(instruction); }

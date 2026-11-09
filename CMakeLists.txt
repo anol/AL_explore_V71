@@ -44,8 +44,6 @@ target_include_directories(${THE_TARGET_NAME} PRIVATE
 include(${SOURCE_ROOT_DIR}/Platform/${PLATFORM}_platform/${PLATFORM}_build_options.cmake)
 
 add_subdirectory(${SOURCE_ROOT_DIR}/Application/${APP} Application/${APP})
-add_subdirectory(${SOURCE_ROOT_DIR}/Application/Provider)
-add_subdirectory(${SOURCE_ROOT_DIR}/Application/Support)
 add_subdirectory(${SOURCE_ROOT_DIR}/Board/${BOARD} ${CMAKE_BINARY_DIR}/Board/${BOARD})
 add_subdirectory(${SOURCE_ROOT_DIR}/Component)
 add_subdirectory(${SOURCE_ROOT_DIR}/Domain)

@@ -137,9 +137,9 @@ What `SamV71_ADC` (the AFEC0 analog front end) owns and references:
 
 ## SpectraNode command & keyword dictionary
 
-`src/Domain/Generated_code/` is generated from `src/Domain/Definition_SpectraNode/*.xml`
-via `src/Domain/Definition_SpectraNode/SpectraNode_generator.bat` (XSLT stylesheets in
-`src/Domain/Dictionary_scripts/`), which also re-splices the tables below (via
+`src/Domain/Generated_code/` is generated from `src/Domain/Domain_definition`
+via `src/Domain/Domain_definition` (XSLT stylesheets in
+`src/Domain/Domain_scripts`), which also re-splices the tables below (via
 `Update_readme_dictionary.ps1`, next to the generator) from
 [`SpectraNode_command.md`](src/Domain/Generated_code/SpectraNode_command.md),
 [`SpectraNode_keyword.md`](src/Domain/Generated_code/SpectraNode_keyword.md) and

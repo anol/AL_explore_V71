@@ -14,3 +14,6 @@ target_sources(${THE_TARGET_NAME} PRIVATE
         Service_provider.cppm
         SpectraNode_console.cppm
 )
+add_subdirectory(Dictionary)
+add_subdirectory(Provider)
+add_subdirectory(Support)
