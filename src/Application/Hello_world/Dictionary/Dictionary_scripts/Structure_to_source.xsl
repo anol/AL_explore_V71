@@ -29,7 +29,9 @@ module;
 #include &lt;cstdint&gt;
 
 module Application.</xsl:text><xsl:value-of select="@keywords"/><xsl:text>_structure;
-import Application.</xsl:text><xsl:value-of select="@keywords"/><xsl:text>_keyword_lookup;
+import Domain.Keyword_lookup;
+
+using namespace Domain_interface;
 
 namespace </xsl:text><xsl:value-of select="@interface"/><xsl:text>{
 

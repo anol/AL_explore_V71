@@ -15,14 +15,14 @@ module;
 module Application.</xsl:text>
         <xsl:value-of select="@name"/>
         <xsl:text>_command_lookup;
-import Application.</xsl:text>
-        <xsl:value-of select="@keywords"/>
-        <xsl:text>_keyword_lookup;
+import Domain.Keyword_lookup;
 import Application.</xsl:text>
         <xsl:value-of select="@name"/>
         <xsl:text>_command_help;
 
 using namespace Instruction;
+
+using namespace Domain_interface;
 
 namespace </xsl:text><xsl:value-of select="@interface"/>
         <xsl:text>{</xsl:text>

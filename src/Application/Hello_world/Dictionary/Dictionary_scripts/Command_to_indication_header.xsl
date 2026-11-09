@@ -14,7 +14,7 @@ module;
 #include &lt;cstdint&gt;
 
 export module Application.</xsl:text><xsl:value-of select="@name"/><xsl:text>_provider_indication;
-import Application.</xsl:text><xsl:value-of select="@keywords"/><xsl:text>_keyword_lookup;
+import Domain.Keyword_lookup;
 export import Support.Instruction_lookup;
 import Type.Abstract_provider;
 
@@ -25,6 +25,8 @@ namespace Transaction {
 }
 
 using namespace Transaction;
+
+using namespace Domain_interface;
 
 export namespace </xsl:text><xsl:value-of select="@interface"/><xsl:text> {
     </xsl:text>

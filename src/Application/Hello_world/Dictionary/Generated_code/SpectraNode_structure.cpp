@@ -24,7 +24,7 @@ module Application.SpectraNode_structure;
 import Domain.Keyword_lookup;
 
 using namespace Domain_interface;
-
+        
 namespace SpectraNode_interface{
 
         static inline constexpr uint32_t key_is(uint8_t p1, uint8_t s2, uint8_t t3, uint8_t q4) {
