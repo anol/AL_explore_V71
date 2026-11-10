@@ -37,7 +37,7 @@ using namespace IDE3380;
 namespace Calibration {
     void IDE3380_test_pedestal::test_prolog(const int32_t count) {
         the_readout_countdown = count;
-        use_register_access.override_all_thresholds();
+        use_IDE3380.override_all_thresholds();
         use_IDE3380.enable_external_hold();
         use_readout_control.set_ignore_trigger(true);
         use_histogram.clear_histogram_buffer();
@@ -61,7 +61,7 @@ namespace Calibration {
 
     void IDE3380_test_pedestal::test_epilog() {
         use_IDE3380.disable_external_hold();
-        use_register_access.restore_all_channels();
+        use_IDE3380.restore_all_channels();
         use_readout_control.set_ignore_trigger(false);
         test_result();
         update_settings();

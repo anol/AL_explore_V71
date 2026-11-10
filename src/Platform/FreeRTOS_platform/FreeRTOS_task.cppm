@@ -31,6 +31,15 @@ export namespace FreeRTOS {
             vTaskStartScheduler();
         }
 
+        static bool is_scheduler_running() {
+            return xTaskGetSchedulerState() == taskSCHEDULER_RUNNING;
+        }
+
+        /// True when called from this task's own context.
+        [[nodiscard]] bool is_current_task() const {
+            return optional_task != nullptr && xTaskGetCurrentTaskHandle() == optional_task;
+        }
+
     private:
         void prolog() {
             last_wake_time = xTaskGetTickCount();

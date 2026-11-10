@@ -1,3 +1,4 @@
+target_include_directories(${THE_TARGET_NAME} PUBLIC .)
 target_sources(${THE_TARGET_NAME} PUBLIC
         Event_counter.cpp
         Histogram_storage.cpp
@@ -5,8 +6,10 @@ target_sources(${THE_TARGET_NAME} PUBLIC
         IDE3380_readout_control.cpp
         IDE3380_register_access.cpp
         IDE3380_register_decoder.cpp
+        IDE3380_service.cpp
         IDE3380_test_noise_floor.cpp
-        IDE3380_test_pedestal.cpp)
+        IDE3380_test_pedestal.cpp
+)
 target_sources(${THE_TARGET_NAME} PRIVATE
         FILE_SET component_ide3380_modules TYPE CXX_MODULES BASE_DIRS . FILES
         Event_counter.cppm
@@ -16,5 +19,8 @@ target_sources(${THE_TARGET_NAME} PRIVATE
         IDE3380_readout_control.cppm
         IDE3380_register_access.cppm
         IDE3380_register_decoder.cppm
+        IDE3380_request.cppm
+        IDE3380_service.cppm
         IDE3380_test_noise_floor.cppm
-        IDE3380_test_pedestal.cppm)
+        IDE3380_test_pedestal.cppm
+)

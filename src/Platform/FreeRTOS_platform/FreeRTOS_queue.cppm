@@ -29,6 +29,15 @@ export namespace FreeRTOS {
             return xQueueReceive(optional_queue, item, eNoTasksWaitingTimeout) == pdPASS;
         }
 
+        /// Blocking variants: wait as long as needed (portMAX_DELAY).
+        bool wait_send(T item) {
+            return xQueueSend(optional_queue, &item, portMAX_DELAY) == pdPASS;
+        }
+
+        bool wait_receive(T *item) {
+            return xQueueReceive(optional_queue, item, portMAX_DELAY) == pdPASS;
+        }
+
         bool ISR_send(T item, uint32_t &context_switch) override {
             return xQueueSendFromISR(
                 optional_queue, &item, reinterpret_cast<BaseType_t *>(&context_switch)) == pdPASS;

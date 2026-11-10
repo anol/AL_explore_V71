@@ -27,6 +27,10 @@ namespace Target_config{
         //
         Primary_task_priority = Default_priority,
         Primary_task_stack_size = Default_stack_size,
+        //
+        IDE3380_service_task_priority = 2,
+        IDE3380_service_task_stack_size = 1024,
+        IDE3380_service_task_queue_size = 8,
     };
 }
 #endif // TARGET_CONFIG_H

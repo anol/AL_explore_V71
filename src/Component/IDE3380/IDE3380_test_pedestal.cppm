@@ -42,7 +42,6 @@ export namespace Calibration {
         };
 
         IDE3380_interface &use_IDE3380;
-        IDE3380_register_access &use_register_access;
         IDE3380_readout_control &use_readout_control;
         Application::Histogram_storage &use_histogram;
         Repository::Configuration_repository &use_repository;
@@ -55,7 +54,6 @@ export namespace Calibration {
         IDE3380_test_pedestal(IDE3380_interface &ASIC, Application::Histogram_storage &histogram,
                               Repository::Configuration_repository &repository)
             : use_IDE3380(ASIC),
-              use_register_access(ASIC.get_register_access()),
               use_readout_control(ASIC.get_readout_control()),
               use_histogram(histogram), use_repository(repository) {
         }
