@@ -29,7 +29,7 @@ import Support.Token_type;
 
 export namespace Domain_interface {
 
-    constexpr int get_keyword_version() { return 3; }
+    constexpr int get_keyword_version() { return 4; }
 
     const char *get_keyword(unsigned char key);
 
@@ -37,6 +37,7 @@ export namespace Domain_interface {
         No_key,
 
         Key_a,
+        Key_access,
         Key_active,
         Key_adc,
         Key_ADC,
@@ -69,13 +70,16 @@ export namespace Domain_interface {
         Key_DEMO,
         Key_device,
         Key_DIAG,
+        Key_DISABLE,
         Key_DUMP,
         Key_ECHO,
+        Key_ENABLE,
         Key_format,
         Key_FORMAT,
         Key_gain,
         Key_GET,
         Key_HELP,
+        Key_HOLD,
         Key_Housekeeping,
         Key_idle,
         Key_IDLE,
@@ -93,6 +97,7 @@ export namespace Domain_interface {
         Key_NOMINAL,
         Key_offset,
         Key_OFFSET,
+        Key_OVERRIDE,
         Key_parameter,
         Key_pedestal,
         Key_PEDESTAL,
@@ -101,6 +106,8 @@ export namespace Domain_interface {
         Key_REG,
         Key_reg_addr,
         Key_RESET,
+        Key_RESTORE,
+        Key_result,
         Key_SAVE,
         Key_seconds,
         Key_serial_number,
@@ -110,6 +117,7 @@ export namespace Domain_interface {
         Key_STATUS,
         Key_stop_count,
         Key_TEST,
+        Key_THRESHOLD,
         Key_time,
         Key_TIME,
         Key_TRACE,

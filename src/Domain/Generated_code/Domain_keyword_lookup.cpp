@@ -30,6 +30,7 @@ namespace Domain_interface {
     constexpr char const *the_keywords[number_of_keys] = {
         "!", // No_key
         "a", // Key_a
+        "access", // Key_access
         "active", // Key_active
         "adc", // Key_adc
         "ADC", // Key_ADC
@@ -62,13 +63,16 @@ namespace Domain_interface {
         "DEMO", // Key_DEMO
         "device", // Key_device
         "DIAG", // Key_DIAG
+        "DISABLE", // Key_DISABLE
         "DUMP", // Key_DUMP
         "ECHO", // Key_ECHO
+        "ENABLE", // Key_ENABLE
         "format", // Key_format
         "FORMAT", // Key_FORMAT
         "gain", // Key_gain
         "GET", // Key_GET
         "HELP", // Key_HELP
+        "HOLD", // Key_HOLD
         "Housekeeping", // Key_Housekeeping
         "idle", // Key_idle
         "IDLE", // Key_IDLE
@@ -86,6 +90,7 @@ namespace Domain_interface {
         "NOMINAL", // Key_NOMINAL
         "offset", // Key_offset
         "OFFSET", // Key_OFFSET
+        "OVERRIDE", // Key_OVERRIDE
         "parameter", // Key_parameter
         "pedestal", // Key_pedestal
         "PEDESTAL", // Key_PEDESTAL
@@ -94,6 +99,8 @@ namespace Domain_interface {
         "REG", // Key_REG
         "reg_addr", // Key_reg_addr
         "RESET", // Key_RESET
+        "RESTORE", // Key_RESTORE
+        "result", // Key_result
         "SAVE", // Key_SAVE
         "seconds", // Key_seconds
         "serial_number", // Key_serial_number
@@ -103,6 +110,7 @@ namespace Domain_interface {
         "STATUS", // Key_STATUS
         "stop_count", // Key_stop_count
         "TEST", // Key_TEST
+        "THRESHOLD", // Key_THRESHOLD
         "time", // Key_time
         "TIME", // Key_TIME
         "TRACE", // Key_TRACE

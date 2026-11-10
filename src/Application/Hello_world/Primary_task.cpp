@@ -35,6 +35,7 @@ namespace Application {
     void Primary_task::initialize() {
         use_detector.get_bias().initialize();
         use_detector.initialize_readout();
+        use_detector.get_IDE3380().attach_repository(use_repository);
     }
 
     void Primary_task::task_loop() {
@@ -47,7 +48,7 @@ namespace Application {
         if (success.failed()) {
             printf("<> Failed to update mode controller <>\r\n");
         }
-        success = use_detector.get_IDE3380().update_registers(use_repository, IDE3380_0);
+        success = use_detector.get_IDE3380().update_registers(IDE3380_0);
         if (success.failed()) {
             printf("<> Failed to update IDE3380 registers <>\r\n");
         }

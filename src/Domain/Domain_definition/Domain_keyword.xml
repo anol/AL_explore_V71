@@ -16,7 +16,7 @@ Copyright (C) 2023 Integrated Detector Electronics AS
  -->
 
 <?xml-stylesheet type="text/xsl" href="commands_to_html.xsl"?>
-<keyword_definition product_id="FW1038" name="Domain" version="3" interface="Domain_interface">
+<keyword_definition product_id="FW1038" name="Domain" version="4" interface="Domain_interface">
     <keywords>
         <key name="ADC"/>
         <key name="ALARM"/>
@@ -33,11 +33,14 @@ Copyright (C) 2023 Integrated Detector Electronics AS
         <key name="DAC"/>
         <key name="DEMO"/>
         <key name="DIAG"/>
+        <key name="DISABLE"/>
         <key name="DUMP"/>
         <key name="ECHO"/>
+        <key name="ENABLE"/>
         <key name="FORMAT"/>
         <key name="GET"/>
         <key name="HELP"/>
+        <key name="HOLD"/>
         <key name="IDLE"/>
         <key name="INPUT"/>
         <key name="LOAD"/>
@@ -46,13 +49,16 @@ Copyright (C) 2023 Integrated Detector Electronics AS
         <key name="NOISE"/>
         <key name="NOMINAL"/>
         <key name="OFFSET"/>
+        <key name="OVERRIDE"/>
         <key name="PEDESTAL"/>
         <key name="R6"/>
         <key name="REG"/>
         <key name="RESET"/>
+        <key name="RESTORE"/>
         <key name="SAVE"/>
         <key name="STATUS"/>
         <key name="TEST"/>
+        <key name="THRESHOLD"/>
         <key name="TIME"/>
         <key name="TRACE"/>
         <key name="V35"/>
@@ -61,6 +67,7 @@ Copyright (C) 2023 Integrated Detector Electronics AS
         <key name="VERSION"/>
 
         <key name="a"/>
+        <key name="access"/>
         <key name="active"/>
         <key name="adc"/>
         <key name="asic_nbr"/>
@@ -89,6 +96,7 @@ Copyright (C) 2023 Integrated Detector Electronics AS
         <key name="pedestal"/>
         <key name="readout_count"/>
         <key name="reg_addr"/>
+        <key name="result"/>
         <key name="seconds"/>
         <key name="serial_number"/>
         <key name="simple_R6"/>

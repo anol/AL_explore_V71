@@ -68,7 +68,7 @@ void Configuration_manager_provider::v_CONFIG_DUMP(Instruction_major &instructio
 }
 
 void Configuration_manager_provider::v_CONFIG_APPLY(Instruction_major &instruction) {
-    use_IDE3380.update_registers(use_repository, Application::IDE3380_0);
+    use_IDE3380.update_registers(Application::IDE3380_0);
     instruction.print_ack();
 }
 
@@ -117,7 +117,7 @@ void Configuration_manager_provider::v_ASIC_DUMP(Instruction_major &instruction)
 }
 
 void Configuration_manager_provider::v_ASIC_LOAD(Instruction_major &instruction) {
-    use_IDE3380.update_registers(use_repository, Application::IDE3380_0);
+    use_IDE3380.update_registers(Application::IDE3380_0);
     instruction.print_ack();
 }
 
