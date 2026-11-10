@@ -1,4 +1,5 @@
 module;
+#include <atomic>
 #include <cstdint>
 
 #include "Target_config.h"
@@ -32,6 +33,8 @@ export namespace IDE3380 {
             bool the_success;
         };
 
+        static std::atomic<bool> the_trace_flag;
+
         Abstract::Abstract_provider<Instruction_major> &use_provider;
         FreeRTOS::FreeRTOS_queue<Transaction *, Queue_size> the_queue{};
 
@@ -45,5 +48,13 @@ export namespace IDE3380 {
         bool execute(Instruction_major &instruction);
 
         void task_loop() override;
+
+        /// When on, every executed instruction is printed before (">") and after ("<", with results) execution.
+        static void set_trace(const bool trace) { the_trace_flag = trace; }
+
+        static bool is_trace() { return the_trace_flag; }
+
+    private:
+        bool run(Instruction_major &instruction);
     };
 }

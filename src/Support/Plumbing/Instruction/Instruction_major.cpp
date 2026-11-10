@@ -167,6 +167,7 @@ void Instruction_major::set_keyword(uint32_t index, uint32_t tag) {
 //}
 
 void Instruction_major::print_trace(const Keyword_lookup get_keyword) const {
+    printf(">>>> ");
     for (uint32_t index = 0; index < the_token_count; index++) {
         if (index > 0) printf(", ");
         if (the_token_types[index] == Keyword_token) {
