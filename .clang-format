@@ -1,0 +1,54 @@
+# Project code style (K&R braces), modelled on src/Application/Hello_world/Provider/Mode_control_provider.cpp.
+# CLion applies this automatically for Reformat Code (Settings | Editor | Code Style | "Enable ClangFormat").
+---
+Language: Cpp
+BasedOnStyle: LLVM
+Standard: c++20
+
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+ColumnLimit: 120
+ContinuationIndentWidth: 8
+
+# Braces stay on the same line: "void f() {", "class C {", "namespace N {", "switch (x) {".
+BreakBeforeBraces: Attach
+
+# public:/private: at the class's own indentation.
+AccessModifierOffset: -4
+
+# case labels indented inside switch; namespace contents indented.
+IndentCaseLabels: true
+NamespaceIndentation: All
+FixNamespaceComments: false
+
+# "Type &name", "char *text".
+PointerAlignment: Right
+ReferenceAlignment: Right
+
+# Short in-class getters stay on one line: "Abstract_SPI &get_SPI() override { return the_SPI; }".
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AllowShortBlocksOnASingleLine: Empty
+
+# Constructor initialiser lists start on their own line with ": ".
+BreakConstructorInitializers: BeforeColon
+PackConstructorInitializers: BinPack
+ConstructorInitializerIndentWidth: 4
+
+AlignAfterOpenBracket: Align
+BinPackArguments: true
+BinPackParameters: true
+
+# Keep the existing include and import order.
+SortIncludes: Never
+SortUsingDeclarations: Never
+MaxEmptyLinesToKeep: 2
+KeepEmptyLinesAtTheStartOfBlocks: false
+
+# Leave comment blocks (e.g. the copyright headers) exactly as written.
+ReflowComments: false
+# "for (auto &item: items)".
+SpaceBeforeRangeBasedForLoopColon: false
