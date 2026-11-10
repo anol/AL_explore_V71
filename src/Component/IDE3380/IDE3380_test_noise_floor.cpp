@@ -26,6 +26,9 @@ module;
 #include <cstdio>
 #include <cstring>
 
+#include "FreeRTOS.h"
+#include "task.h"
+
 module Component.IDE3380_test_noise_floor;
 import Type.Abstract_scenario;
 import Component.IDE3380_interface;
@@ -36,9 +39,16 @@ import Component.Calibration_analyzer;
 
 using namespace IDE3380;
 
-void HAL_Delay(int milliseconds);
+// Former STM32 HAL services, provided by FreeRTOS on all targets.
+static void HAL_Delay(const uint32_t milliseconds)
+{
+    vTaskDelay(pdMS_TO_TICKS(milliseconds));
+}
 
-uint32_t HAL_GetTick();
+[[maybe_unused]] static uint32_t HAL_GetTick()
+{
+    return static_cast<uint32_t>(xTaskGetTickCount() * portTICK_PERIOD_MS);
+}
 
 namespace Calibration {
     bool IDE3380_test_noise_floor::run_iterative() {
@@ -136,9 +146,9 @@ namespace Calibration {
 
     void IDE3380_test_noise_floor::set_attributes(
         const uint32_t integration_time, const uint8_t start_threshold, const int32_t stop_count) {
-        the_integration_time = integration_time ? integration_time : Integration_time;
-        the_start_threshold = start_threshold ? start_threshold : Start_threshold;
-        the_stop_count = stop_count > 0 ? stop_count : Stop_count;
+        the_integration_time = integration_time ? integration_time : static_cast<uint32_t>(Integration_time);
+        the_start_threshold = start_threshold ? start_threshold : static_cast<uint8_t>(Start_threshold);
+        the_stop_count = stop_count > 0 ? stop_count : static_cast<uint32_t>(Stop_count);
     }
 
     void IDE3380_test_noise_floor::print_attributes() const {

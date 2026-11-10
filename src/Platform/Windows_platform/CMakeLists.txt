@@ -2,13 +2,13 @@ target_include_directories(${THE_TARGET_NAME} PUBLIC
         .
         ${CMAKE_SOURCE_DIR}/src_3rd/FreeRTOS/portable/MSVC-MingW
 )
+
+# FreeRTOS Windows simulator port: every task is a Windows thread, the tick is a Windows timer thread.
 target_sources(${THE_TARGET_NAME} PUBLIC
-        Win11_pin_manager.cpp
-        Win11_pin_manager.h
-        Win11_UART.cpp
-        Win11_UART.h
+        ${CMAKE_SOURCE_DIR}/src_3rd/FreeRTOS/portable/MSVC-MingW/port.c
+        ${CMAKE_SOURCE_DIR}/src_3rd/FreeRTOS/portable/MSVC-MingW/portmacro.h
 )
-target_sources(${THE_TARGET_NAME} PRIVATE
-        FILE_SET platform_win11_modules TYPE CXX_MODULES BASE_DIRS . FILES
-        Win11_SPI.cppm
-)
+target_link_libraries(${THE_TARGET_NAME} winmm)
+
+# Peripherals are simulated by the mockup platform.
+add_subdirectory(${SOURCE_ROOT_DIR}/Platform/Mockup_platform ${CMAKE_BINARY_DIR}/Mockup_platform)

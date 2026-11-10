@@ -44,10 +44,14 @@ using namespace Application;
 
 const char *Mode_control_provider::Operation_mode_to_text(const Operation_mode mode) {
     switch (mode) {
-        case Mode_idle: return "IDLE";
-        case Mode_nominal: return "NOMINAL";
-        case Mode_demo: return "DEMO";
-        default: return "?";
+        case Mode_idle:
+            return "IDLE";
+        case Mode_nominal:
+            return "NOMINAL";
+        case Mode_demo:
+            return "DEMO";
+        default:
+            return "?";
     }
 }
 
@@ -56,7 +60,7 @@ void Mode_control_provider::print_status() const {
 }
 
 Status_code Mode_control_provider::set_mode(const Operation_mode mode, const Parameter_id channel,
-                                     const Parameter_id format, const Parameter_id cadence) {
+                                            const Parameter_id format, const Parameter_id cadence) {
     set_operation_mode(mode);
     auto success{set_parameter(Active_mode, mode, true).success()};
     int32_t value;
@@ -76,6 +80,7 @@ Status_code Mode_control_provider::update_mode() {
     switch (auto mode = static_cast<Operation_mode>(value)) {
         default:
             mode = Mode_idle;
+            [[fallthrough]];
         case Mode_idle:
             set_mode(mode, Channel_idle, Format_idle, Cadence_idle);
             break;

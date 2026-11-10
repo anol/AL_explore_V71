@@ -196,6 +196,11 @@ namespace Error_handling
         error_code(code);
     }
 
+    void error_code(const Status_code& code)
+    {
+        printf("STATUS=%s.\r\n", code.success() ? "Success" : "Failed");
+    }
+
     void error_code(uint32_t code)
     {
         printf("ERROR=%lu IN MODULE %lX.\r\n", (code & 0xFFFF), (code >> 16));

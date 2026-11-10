@@ -3,16 +3,22 @@
 //
 
 module;
-#include "Win11_pin_manager.h"
-#include "Win11_UART.h"
+#include <cstdio>
 
 module Board.Win11_board;
-import Type.Abstract_board;
 
 namespace Board {
     void Win11_board::initialize() {
+        the_pin_table.initialize();
+        the_SPI.initialize();
+        the_ADC.initialize();
+        the_DAC.initialize();
+        the_UART.initialize();
     }
 
     void Win11_board::print_diagnostics() {
+        printf("Board: Win11 (all peripherals are mockups)\r\n");
+        the_SPI.print_diagnostics();
+        the_pin_table.print_diagnostics();
     }
 } // Board

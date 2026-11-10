@@ -34,7 +34,6 @@ export namespace Repository {
         Attribute_type the_attributes[Max_attribute_count]{};
 
     public:
-        Current_configuration() = default;
 
         void clean();
 

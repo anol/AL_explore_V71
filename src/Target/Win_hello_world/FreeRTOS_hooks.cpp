@@ -1,71 +1,60 @@
 //
 // Created by aeols on 2026-09-08.
 //
+// FreeRTOS application hooks for the Windows simulator port.
 
+#include <cstdio>
+#include <cstdlib>
+
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
 
 extern "C" {
 #include "FreeRTOS.h"
-#include "portmacro.h"
 #include "task.h"
 #include "timers.h"
 }
 
-extern "C" {
-void vAssertCalled(const char *pcFile, unsigned long ulLine) {
-    volatile const char *  pcFileName   = pcFile; /* visible in debugger */
-    volatile unsigned long ulLineNumber = ulLine;
-    (void) pcFileName;
-    (void) ulLineNumber;
-
-    taskDISABLE_INTERRUPTS();
-
-    /* Set a breakpoint here (or on __BKPT below) — when configASSERT
-     * trips you want the debugger to land on this exact spot with
-     * pcFile/ulLine populated so you can see what failed and where. */
-    for (;;) {
-        __asm volatile( "bkpt #0" );
+namespace {
+    [[noreturn]] void stop_here(const char *reason) {
+        std::fprintf(stderr, "\r\n<> FreeRTOS: %s <>\r\n", reason);
+        std::fflush(stderr);
+        if (IsDebuggerPresent()) {
+            DebugBreak();
+        }
+        std::abort();
     }
 }
 
-void vApplicationStackOverflowHook(TaskHandle_t xTask, char *pcTaskName) {
-    volatile TaskHandle_t xOverflowingTask = xTask;
-    (void) xOverflowingTask;
-    (void) pcTaskName; /* inspect in debugger: which task overflowed */
-
-    taskDISABLE_INTERRUPTS();
-    for (;;) {
-        __asm volatile( "bkpt #0" );
-    }
+extern "C" {
+void vAssertCalled(const char *pcFile, const unsigned long ulLine) {
+    std::fprintf(stderr, "\r\n<> configASSERT failed: %s:%lu <>\r\n", pcFile, ulLine);
+    stop_here("assertion");
 }
 
 void vApplicationMallocFailedHook(void) {
-    taskDISABLE_INTERRUPTS();
-    for (;;) {
-        __asm volatile( "bkpt #0" );
-    }
+    stop_here("malloc failed (increase configTOTAL_HEAP_SIZE)");
 }
 
 static StaticTask_t xIdleTaskTCB;
-static StackType_t  uxIdleTaskStack[configMINIMAL_STACK_SIZE];
+static StackType_t uxIdleTaskStack[configMINIMAL_STACK_SIZE];
 
-void vApplicationGetIdleTaskMemory(
-    StaticTask_t **ppxIdleTaskTCBBuffer,
-    StackType_t ** ppxIdleTaskStackBuffer,
-    uint32_t *     pulIdleTaskStackSize) {
-    *ppxIdleTaskTCBBuffer   = &xIdleTaskTCB;
+void vApplicationGetIdleTaskMemory(StaticTask_t **ppxIdleTaskTCBBuffer,
+                                   StackType_t **ppxIdleTaskStackBuffer,
+                                   configSTACK_DEPTH_TYPE *puxIdleTaskStackSize) {
+    *ppxIdleTaskTCBBuffer = &xIdleTaskTCB;
     *ppxIdleTaskStackBuffer = uxIdleTaskStack;
-    *pulIdleTaskStackSize   = configMINIMAL_STACK_SIZE;
+    *puxIdleTaskStackSize = configMINIMAL_STACK_SIZE;
 }
 
 static StaticTask_t xTimerTaskTCB;
-static StackType_t  uxTimerTaskStack[configTIMER_TASK_STACK_DEPTH];
+static StackType_t uxTimerTaskStack[configTIMER_TASK_STACK_DEPTH];
 
-void vApplicationGetTimerTaskMemory(
-    StaticTask_t **ppxTimerTaskTCBBuffer,
-    StackType_t ** ppxTimerTaskStackBuffer,
-    uint32_t *     pulTimerTaskStackSize) {
-    *ppxTimerTaskTCBBuffer   = &xTimerTaskTCB;
+void vApplicationGetTimerTaskMemory(StaticTask_t **ppxTimerTaskTCBBuffer,
+                                    StackType_t **ppxTimerTaskStackBuffer,
+                                    configSTACK_DEPTH_TYPE *puxTimerTaskStackSize) {
+    *ppxTimerTaskTCBBuffer = &xTimerTaskTCB;
     *ppxTimerTaskStackBuffer = uxTimerTaskStack;
-    *pulTimerTaskStackSize   = configTIMER_TASK_STACK_DEPTH;
+    *puxTimerTaskStackSize = configTIMER_TASK_STACK_DEPTH;
 }
 }

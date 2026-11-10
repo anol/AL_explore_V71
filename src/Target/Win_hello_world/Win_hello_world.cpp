@@ -4,19 +4,18 @@
 
 #include "Win_hello_world.h"
 
-//#include "Clock_thread.h"
 import Application.Hello_world;
 import Board.Win11_board;
 
-static Board::Win11_board the_board{};
-static Application::Hello_world the_application{the_board};
-static Target::Windows_hello_world the_target{the_application, the_board};
-
-int main() {
-    the_target.initialize();
-//    the_clock_thread.run();
-    the_target.run();
+namespace
+{
+    Board::Win11_board the_board{};
+    Application::Hello_world the_application{the_board};
+    Target::Windows_hello_world the_target{the_application, the_board};
 }
 
-namespace Target {
-} // Target
+int main()
+{
+    the_target.initialize();
+    the_target.run();
+}

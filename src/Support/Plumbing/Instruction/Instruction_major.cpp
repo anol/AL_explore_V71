@@ -239,7 +239,7 @@ void Instruction_major::ambiguous_argument(const char *word) {
     }
 }
 
-void Instruction_major::oversized_string(const char *word, uint32_t actual, uint32_t limit) {
+void Instruction_major::oversized_string(const char *, const uint32_t actual, const uint32_t limit) {
     error_message("STRING SIZE %lu IS LARGER THAN %lu", actual, limit);
 }
 

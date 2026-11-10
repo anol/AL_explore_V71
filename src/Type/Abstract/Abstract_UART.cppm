@@ -8,7 +8,6 @@ export import Type.Misc_type;
 namespace Abstract {
     export class Abstract_UART {
     public:
-        Abstract_UART() = default;
 
         virtual ~Abstract_UART() = default;
 
