@@ -108,10 +108,10 @@ def send_command_nak(ser, sent_data, expected_response):
         print(bcolors.FAIL + f"{sent_data} command failed")
 
 
-def IDE3380_serial_setup_f(ser):
+def IDE3380_serial_setup_f(ser, config_file="configs/config_test.toml"):
     script_dir = os.path.dirname(__file__)  # Filepath for this script
-    toml_file_path = os.path.join(script_dir, "config_test.toml")
-    bitmap_toml_file_path = os.path.join(script_dir, "bitmap.toml")
+    toml_file_path = os.path.join(script_dir, config_file)
+    bitmap_toml_file_path = os.path.join(script_dir, "configs/bitmap.toml")
     with open(toml_file_path, "rb") as file:
         data = tomllib.load(file)
     with open(bitmap_toml_file_path, "rb") as file:

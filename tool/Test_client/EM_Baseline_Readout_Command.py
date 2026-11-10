@@ -8,7 +8,7 @@ from IDE3380_mod import IDE3380_serial_setup_f
 
 SERIAL_PORT_BAUD = 115200
 NUM_BASELINE_READINGS = 10000
-BASELINE_READING_DELAY_MS = 40
+BASELINE_READING_DELAY_MS = 5
 
 if __name__ == "__main__":
     print("Executing Baseline Readout")
@@ -22,7 +22,7 @@ if __name__ == "__main__":
     ser = serial.Serial(args.com_port, SERIAL_PORT_BAUD, timeout=2)
 
     # Configure the ASIC
-    IDE3380_serial_setup_f(ser)
+    IDE3380_serial_setup_f(ser, "configs/baseline_config.toml")
 
     # Do the baseline reading
     for x in tqdm(range(NUM_BASELINE_READINGS)):
