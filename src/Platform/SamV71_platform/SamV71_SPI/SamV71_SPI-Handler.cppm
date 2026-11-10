@@ -43,88 +43,90 @@ namespace SamV71 {
 
         void ISR_pending_transaction(uint32_t &context_switch);
 
-        bool ISR_transfer_complete(uint32_t &context_switch);
+        void ISR_transfer_complete(uint32_t &context_switch);
 
-        void ISR_RX_ready() const;
+        void ISR_RX_ready(spi_registers_t *base);
 
-        void ISR_TX_ready() const;
+        void send_next_byte(spi_registers_t *base);
     };
 
     SamV71_SPI_handler *SamV71_SPI_handler::optional_handler[Number_of_SPI_peripherals]{};
 
+    /*
+     * Lockstep transfer: exactly one byte is in flight at any time. The next byte is
+     * written to TDR only after the previous one has been read from RDR, so RDR can
+     * never be overrun no matter how late the ISR runs (the SPI host simply pauses SCK).
+     * TDRE is only used as a one-shot "kick" to start an idle peripheral; RDRF drives
+     * the transfer.
+     */
     void SamV71_SPI_handler::ISR() {
         if (optional_define) {
             uint32_t context_switch{};
             auto *base = optional_define->the_base;
             const uint32_t interrupt_status = base->SPI_SR;
-            if (interrupt_status & SPI_SR_TDRE_Msk) {
-                ISR_TX_ready();
-            }
+            base->SPI_IDR = SPI_IDR_TDRE(1);
             if (interrupt_status & SPI_SR_RDRF_Msk) {
-                ISR_RX_ready();
+                ISR_RX_ready(base);
             }
-            if (ISR_transfer_complete(context_switch)) {
+            if (is_busy() && optional_request->is_all_received()) {
+                ISR_transfer_complete(context_switch);
+            }
+            if (is_ready()) {
                 ISR_pending_transaction(context_switch);
             }
             portYIELD_FROM_ISR(context_switch);
         }
     }
 
-    void SamV71_SPI_handler::ISR_RX_ready() const {
-        if (optional_define) {
-            auto *base = optional_define->the_base;
-            const uint8_t data = 0xFF & base->SPI_RDR;
-            if (optional_request && optional_request->is_more_to_receive()) {
-                if (auto *buffer = optional_request->get_receive_buffer()) {
-                    const auto count = optional_request->get_receive_count();
-                    *(buffer + count) = data;
-                    optional_request->count_received();
-                }
-            } else {
-                base->SPI_IDR = SPI_IDR_RDRF(1);
+    void SamV71_SPI_handler::ISR_RX_ready(spi_registers_t *base) {
+        const uint8_t data = 0xFF & base->SPI_RDR;
+        if (optional_request && optional_request->is_more_to_receive()) {
+            if (auto *buffer = optional_request->get_receive_buffer()) {
+                buffer[optional_request->get_receive_count()] = data;
+            }
+            optional_request->count_received();
+            if (optional_request->is_more_to_send()) {
+                send_next_byte(base);
             }
         }
     }
 
-    void SamV71_SPI_handler::ISR_TX_ready() const {
-        if (optional_define) {
-            auto *base = optional_define->the_base;
-            if (optional_request && optional_request->is_more_to_send()) {
-                if (const auto *buffer = optional_request->get_transmit_buffer()) {
-                    const auto count = optional_request->get_send_count();
-                    const uint8_t data = *(buffer + count);
-                    base->SPI_TDR = SPI_TDR_TD(data);
-                    optional_request->count_sent();
-                } else {
-                    base->SPI_IDR = SPI_IDR_TDRE(1);
-                }
-            } else {
-                base->SPI_IDR = SPI_IDR_TDRE(1);
-            }
-        }
+    void SamV71_SPI_handler::send_next_byte(spi_registers_t *base) {
+        const auto *buffer = optional_request->get_transmit_buffer();
+        const uint8_t data = buffer ? buffer[optional_request->get_send_count()] : 0xFF;
+        optional_request->count_sent();
+        base->SPI_TDR = SPI_TDR_TD(data);
     }
 
-    bool SamV71_SPI_handler::ISR_transfer_complete(uint32_t &context_switch) {
-        if (is_busy()) {
-            if (optional_request->is_all_received()) {
-                const auto *request = optional_request;
-                optional_request = nullptr;
-                request->get_chip_select().set();
-                request->get_semaphore().ISR_give(context_switch);
-            }
-        }
-        return is_ready();
+    void SamV71_SPI_handler::ISR_transfer_complete(uint32_t &context_switch) {
+        const auto *request = optional_request;
+        optional_request = nullptr;
+        request->get_chip_select().set();
+        request->get_semaphore().ISR_give(context_switch);
     }
 
     void SamV71_SPI_handler::ISR_pending_transaction(uint32_t &context_switch) {
-        if (is_ready()) {
-            if (Abstract::Abstract_request *request = use_driver.ISR_get_request(context_switch)) {
-                optional_request = dynamic_cast<Generic::SPI_transfer_request *>(request);
-                optional_request->get_chip_select().clear();
-            } else {
-                use_driver.disable_SPI();
+        auto *base = optional_define->the_base;
+        while (Abstract::Abstract_request *request = use_driver.ISR_get_request(context_switch)) {
+            auto *spi_request = dynamic_cast<Generic::SPI_transfer_request *>(request);
+            if (spi_request == nullptr) {
+                continue; // not an SPI request: drop it rather than dereference null
             }
+            if (!spi_request->is_more_to_send()) {
+                // zero-length transfer: complete immediately
+                spi_request->get_semaphore().ISR_give(context_switch);
+                continue;
+            }
+            if (base->SPI_SR & SPI_SR_RDRF_Msk) {
+                (void) base->SPI_RDR; // flush any stale byte
+            }
+            optional_request = spi_request;
+            optional_request->get_chip_select().clear();
+            base->SPI_IER = SPI_IER_RDRF(1);
+            send_next_byte(base);
+            return;
         }
+        use_driver.disable_SPI();
     }
 } // SamV71
 

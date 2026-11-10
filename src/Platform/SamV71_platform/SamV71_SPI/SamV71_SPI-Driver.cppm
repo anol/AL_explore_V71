@@ -18,7 +18,7 @@ import Platform.SamV71_clock;
 namespace SamV71 {
     class SamV71_SPI_driver {
         enum {
-            Queue_size             = 64,
+            Queue_size             = 8,
             SPI_CR_clock_polarity  = SPI_CSR_CPOL(0),
             SPI_CR_clock_phase     = SPI_CSR_NCPHA(1),
             SPI_MR_host_mode       = SPI_MR_MSTR(1),
@@ -69,16 +69,14 @@ namespace SamV71 {
     }
 
     void SamV71_SPI_driver::enable_SPI() const {
-        constexpr auto Interrupt_enable = SPI_IER_RDRF(1) | SPI_IER_TDRE(1);
-        constexpr auto Interrupt_mask = SPI_IMR_RDRF(1) | SPI_IMR_TDRE(1);
+        constexpr auto Interrupt_enable = SPI_IER_TDRE(1); // kick only; the ISR arms RDRF per transfer
         if (optional_define) {
             auto *base = optional_define->the_base;
             const auto irq_number = optional_define->the_IRQ_number;
-            if ((base->SPI_IMR & Interrupt_mask) != Interrupt_mask) {
-                NVIC_DisableIRQ(irq_number);
-                base->SPI_IER = Interrupt_enable;
-                NVIC_EnableIRQ(irq_number);
-            }
+            // SPI_IER is write-1-to-set, so writing it unconditionally is safe and
+            // avoids the check-then-act race with the ISR on SPI_IMR.
+            base->SPI_IER = Interrupt_enable;
+            NVIC_EnableIRQ(irq_number);
         }
     }
 
