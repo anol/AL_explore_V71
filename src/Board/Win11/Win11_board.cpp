@@ -10,10 +10,10 @@ module Board.Win11_board;
 namespace Board {
     void Win11_board::initialize() {
         the_pin_table.initialize();
+        the_UART.initialize();
         the_SPI.initialize();
         the_ADC.initialize();
         the_DAC.initialize();
-        the_UART.initialize();
     }
 
     void Win11_board::print_diagnostics() {

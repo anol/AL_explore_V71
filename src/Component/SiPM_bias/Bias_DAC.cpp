@@ -38,7 +38,6 @@ namespace Calibration {
 
     void Bias_DAC::initialize() {
         enum { Initial_DAC_setting = 0, };
-        use_DAC.initialize();
         use_DAC.set(Initial_DAC_setting);
     }
 

@@ -24,6 +24,8 @@ namespace Board {
         the_pin_table.initialize();
         the_SPI.initialize();
         the_UART.initialize();
+        the_ADC.initialize();
+        the_DAC.initialize();
     }
 
     void V71_EK_board::print_diagnostics() {

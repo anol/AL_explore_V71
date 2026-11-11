@@ -39,7 +39,6 @@ namespace Calibration {
     volatile int32_t Bias_ADC::the_last_sense{};
 
     void Bias_ADC::initialize() {
-        use_ADC.initialize();
     }
 
     void Bias_ADC::print_diag() {
