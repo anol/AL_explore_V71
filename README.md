@@ -3,7 +3,7 @@
 Build using GCC and C++20.
 Using FreeRTOS (FreeRTOSv202604.01-LTS).
 
-Current firmware version: **1.4.1** (`IDE_SW_VERSION` in `CMakeLists.txt`).
+Current firmware version: **1.4.7** (`IDE_SW_VERSION` in `CMakeLists.txt`).
 
 ## Building
 
@@ -14,9 +14,9 @@ directories are compiled in:
 | Preset | `APP` | `TARGET` | `BOARD` | `PLATFORM` |
 |---|---|---|---|---|
 | `V71_EK_hello_world` | `Hello_world` | `V71_EK_hello_world` | `V71_EK` | `SamV71` (produces `.elf`) |
-| `Win_hello_world` | `Hello_world` | `Win_hello_world` | `Win11` | `Windows` |
-| `Unit_test` | — | `Unit_test` | `Win11` | `Mockup` |
-| `Win_ethernet_test` / `V71_ethernet_test` | — | (on hold) | `Win11` / `V71_EK` | `Windows` / `SamV71` |
+| `Win_hello_world` | `Hello_world` | `Win_hello_world` | `Win11` | `Win11` |
+| `Unit_test` | — | `Unit_test` | `Win11` | `Win11` |
+| `Win_ethernet_test` / `V71_ethernet_test` | — | (on hold) | `Win11` / `V71_EK` | `Win11` / `SamV71` |
 
 ```sh
 cmake --preset V71_EK_hello_world
@@ -39,12 +39,15 @@ cmake --build build/V71_EK_hello_world
 
 `Bias_DAC` and `Bias_ADC` (`src/Component/SiPM_bias/`) reach the hardware through
 `Abstract_board::get_DAC()` / `get_ADC()`, implemented on the V71 by `SamV71_DAC` and
-`SamV71_ADC` (`src/Platform/SamV71_platform/`):
+`SamV71_ADC` (`src/Platform/SamV71_platform/`). Both are owned by `V71_EK_board`, and
+`V71_EK_board::initialize()` initializes them along with the other peripherals:
 
 - **`SamV71_DAC`** drives DACC channel 0 and keeps the most recent setting for read-back.
-- **`SamV71_ADC`** is still being brought up. It configures AFEC0 for the on-chip
-  temperature sensor channel with a software trigger, and `get()` returns the last value
-  stored by the end-of-conversion callback.
+- **`SamV71_ADC`** (`SamV71_platform/SamV71_ADC/`) is split the same way as `SamV71_SPI`:
+  a driver with a request queue, an AFEC interrupt handler and a peripheral definition.
+  The board uses AFEC0 channel 0 with a software trigger. `get()` is a blocking single
+  conversion: it queues a `SamV71_ADC_request`, waits on its semaphore, and returns the
+  raw 12-bit count.
 - **Pins** (`V71_EK_pin_table.cppm`): `DAC0` on PB13, `ADC0_0` on PD30.
 - **Console**: `AT+CAL_DAC=<value>` sets the raw DAC value and `AT+CAL_DAC` reads it;
   `AT+CAL_DAC_V35`, `AT+CAL_DAC_V40`, `AT+CAL_ADC_V35` and `AT+CAL_ADC_V40` set the
@@ -54,16 +57,18 @@ cmake --build build/V71_EK_hello_world
 
 - **`Application/`** — the app itself: `Hello_world` (composition root, wired up in
   `main()`, owning `Detector`, `Service_provider`, `SpectraNode_console` and the heartbeat
-  task), `Provider` (the data providers its `Service_provider` routes requests to) and
-  `Support` (cadence control plus C helper code, e.g. the gamma peak detector and isotope
-  table).
+  task). Its subdirectories are `Hello_world/Provider` (the data providers its
+  `Service_provider` routes requests to), `Hello_world/Support` (cadence control plus C
+  helper code, e.g. the gamma peak detector and isotope table) and `Hello_world/Dictionary`
+  (the generated SpectraNode command and structure dictionary).
 - **`Board/`** — board support packages, one per board (`V71_EK` evaluation kit,
   `Win11` host simulation; `AL_EM` holds only a pin table/config so far), wiring together
   the platform, components and pin table for that board.
 - **`Component/`** — drivers for discrete hardware parts (`IDE3380`, `SiPM_bias`,
   `STTS22H`), independent of any one board.
-- **`Domain/`** — application-domain types and the generated command/keyword dictionary
-  (`Domain/Generated_code`) that ties the console/CLI layer to those types.
+- **`Domain/`** — application-domain types (pin tags, persistent parameter ids) and the
+  generated domain keyword dictionary (`Domain/Generated_code`) shared by the console/CLI
+  layer and the application dictionary.
 - **`Platform/`** — MCU- and RTOS-facing code: `SamV71_platform` (and its `SAMV71Q21B`
   startup/SDK layer), `Win11_platform` (host builds: FreeRTOS Windows port plus
   peripheral mockups), `Common_platform` and `FreeRTOS_platform`. `STM32U575RG` is also
@@ -90,12 +95,19 @@ The graph above collapses every source directory into its top-level `src/` area
 Covers both `#include` edges (solid) and C++20 module `import` edges (dashed), for the
 directories CMake actually builds with the `V71_EK_hello_world` preset. Almost every
 module is now a named C++20 module, so `import` dominates: the only remaining `#include`
-edges are the plain `Domain/Persistent_parameter_id.h` header (from
-`Application/Hello_world`, `Application/Provider`, `Component/IDE3380`,
-`Component/SiPM_bias`) and `Component/SiPM_bias` → `Component/STTS22H`
-(`Sensor_STTS22H.h`). A module pair with edges in both directions would be drawn bold red,
-and a dependency loop through three or more modules would be drawn bold purple and listed
-in the graph's caption; there are currently none of either.
+edges are:
+
+- the plain `Domain/Persistent_parameter_id.h` header (from `Application/Hello_world`,
+  `Application/Hello_world/Provider`, `Component/IDE3380`, `Component/SiPM_bias`)
+- `Component/SiPM_bias` → `Component/STTS22H` (`Sensor_STTS22H.h`)
+- `Platform/SamV71_platform/SamV71_ADC` and `Platform/SamV71_platform/SamV71_SPI` →
+  `Target/V71_EK_hello_world` (`FreeRTOSConfig.h`, from the `-Define` partitions)
+
+A module pair with edges in both directions would be drawn bold red; there are none. A
+dependency loop through three or more modules is drawn bold purple and listed in the
+graph's caption. There are currently two, both closed by the `FreeRTOSConfig.h` include:
+`Board/V71_EK` → `Platform/SamV71_platform/SamV71_ADC` → `Target/V71_EK_hello_world` →
+`Board/V71_EK`, and the same loop through `SamV71_SPI`.
 
 ![Module dependency graph](doc/module_dependencies.svg)
 
@@ -131,23 +143,30 @@ What `SamV71_USART` (the UART with its RX/TX queues) owns and references:
 
 ![SamV71_USART aggregation graph](doc/samv71_usart_aggregation.svg)
 
-What `SamV71_ADC` (the AFEC0 analog front end) owns and references:
+What `SamV71_ADC` (the AFEC driver with its request queue, interrupt handler and peripheral definition) owns and references:
 
 ![SamV71_ADC aggregation graph](doc/samv71_adc_aggregation.svg)
 
 ## SpectraNode command & keyword dictionary
 
-`src/Domain/Generated_code/` is generated from `src/Domain/Domain_definition`
-via `src/Domain/Domain_definition` (XSLT stylesheets in
-`src/Domain/Domain_scripts`), which also re-splices the tables below (via
-`Update_readme_dictionary.ps1`, next to the generator) from
-[`SpectraNode_command.md`](src/Domain/Generated_code/SpectraNode_command.md),
-[`SpectraNode_keyword.md`](src/Domain/Generated_code/SpectraNode_keyword.md) and
-[`SpectraNode_structure.md`](src/Domain/Generated_code/SpectraNode_structure.md) every
-time it runs — the content between each `<!-- BEGIN:... --> <!-- END:... -->` marker
-below is generated, not hand-maintained; edit the source XML and re-run the generator,
-never this section directly. Shown open by default (collapse with the triangle if you
-don't need them).
+The dictionary is split in two, each generated by XSLT:
+
+- **Application dictionary** (commands and structure):
+  `src/Application/Hello_world/Dictionary/Generated_code/` is generated from
+  `Dictionary/Definition_SpectraNode/` by `SpectraNode_generator.bat`, using the
+  stylesheets in `Dictionary/Dictionary_scripts/`.
+- **Domain dictionary** (keywords): `src/Domain/Generated_code/` is generated from
+  `src/Domain/Domain_definition/` by `Domain_generator.bat`, using the stylesheets in
+  `src/Domain/Domain_scripts/`.
+
+The tables below are copied from
+[`SpectraNode_command.md`](src/Application/Hello_world/Dictionary/Generated_code/SpectraNode_command.md),
+[`Domain_keyword.md`](src/Domain/Generated_code/Domain_keyword.md) and
+[`SpectraNode_structure.md`](src/Application/Hello_world/Dictionary/Generated_code/SpectraNode_structure.md).
+The content between each `<!-- BEGIN:... --> <!-- END:... -->` marker is generated:
+edit the source XML, re-run the generator, then re-copy it. Don't edit it by hand. The
+generators no longer update this section themselves. Shown open by default (collapse
+with the triangle if you don't need them).
 
 <details open>
 <summary><strong>Commands</strong> (FW1038 SpectraNode command version 3)</summary>
@@ -231,95 +250,103 @@ don't need them).
 </details>
 
 <details open>
-<summary><strong>Keywords</strong> (SpectraNode version 1)</summary>
+<summary><strong>Keywords</strong> (Domain version 4)</summary>
 
-<!-- BEGIN:SpectraNode_keyword -->
+<!-- BEGIN:Domain_keyword -->
 | Id | Name | Description |
 |---|---|---|
 | 0 | `"No key"` | Special purpose |
 | 1 | `a` |  |
-| 2 | `active` |  |
-| 3 | `adc` |  |
-| 4 | `ADC` |  |
-| 5 | `ALARM` |  |
-| 6 | `APPLY` |  |
-| 7 | `ASIC` |  |
-| 8 | `asic_nbr` |  |
-| 9 | `b` |  |
-| 10 | `bias` |  |
-| 11 | `BIAS` |  |
-| 12 | `CADENCE` |  |
-| 13 | `CAL` |  |
-| 14 | `cal_35V` |  |
-| 15 | `cal_40V` |  |
-| 16 | `calibration` |  |
-| 17 | `channel` |  |
-| 18 | `CHANNEL` |  |
-| 19 | `CLEAN` |  |
-| 20 | `CONFIG` |  |
-| 21 | `Configuration_manager` |  |
-| 22 | `CPS` |  |
-| 23 | `CSV` |  |
-| 24 | `dac` |  |
-| 25 | `DAC` |  |
-| 26 | `data16` |  |
-| 27 | `data32` |  |
-| 28 | `data8` |  |
-| 29 | `date` |  |
-| 30 | `demo` |  |
-| 31 | `DEMO` |  |
-| 32 | `device` |  |
-| 33 | `DIAG` |  |
-| 34 | `DUMP` |  |
-| 35 | `ECHO` |  |
-| 36 | `format` |  |
-| 37 | `FORMAT` |  |
-| 38 | `gain` |  |
-| 39 | `GET` |  |
-| 40 | `HELP` |  |
-| 41 | `Housekeeping` |  |
-| 42 | `idle` |  |
-| 43 | `IDLE` |  |
-| 44 | `INPUT` |  |
-| 45 | `Instrument_calibration` |  |
-| 46 | `integration_time` |  |
-| 47 | `LOAD` |  |
-| 48 | `micro_sievert` |  |
-| 49 | `millis` |  |
-| 50 | `MODE` |  |
-| 51 | `Mode_control` |  |
-| 52 | `N42` |  |
-| 53 | `NOISE` |  |
-| 54 | `nominal` |  |
-| 55 | `NOMINAL` |  |
-| 56 | `offset` |  |
-| 57 | `OFFSET` |  |
-| 58 | `parameter` |  |
-| 59 | `pedestal` |  |
-| 60 | `PEDESTAL` |  |
-| 61 | `R6` |  |
-| 62 | `readout_count` |  |
-| 63 | `REG` |  |
-| 64 | `reg_addr` |  |
-| 65 | `RESET` |  |
-| 66 | `SAVE` |  |
-| 67 | `seconds` |  |
-| 68 | `serial_number` |  |
-| 69 | `simple_R6` |  |
-| 70 | `Spectroscopic_data` |  |
-| 71 | `start_threshold` |  |
-| 72 | `STATUS` |  |
-| 73 | `stop_count` |  |
-| 74 | `TEST` |  |
-| 75 | `time` |  |
-| 76 | `TIME` |  |
-| 77 | `TRACE` |  |
-| 78 | `V35` |  |
-| 79 | `V40` |  |
-| 80 | `VBIAS` |  |
-| 81 | `VERSION` |  |
+| 2 | `access` |  |
+| 3 | `active` |  |
+| 4 | `adc` |  |
+| 5 | `ADC` |  |
+| 6 | `ALARM` |  |
+| 7 | `APPLY` |  |
+| 8 | `ASIC` |  |
+| 9 | `asic_nbr` |  |
+| 10 | `b` |  |
+| 11 | `bias` |  |
+| 12 | `BIAS` |  |
+| 13 | `CADENCE` |  |
+| 14 | `CAL` |  |
+| 15 | `cal_35V` |  |
+| 16 | `cal_40V` |  |
+| 17 | `calibration` |  |
+| 18 | `channel` |  |
+| 19 | `CHANNEL` |  |
+| 20 | `CLEAN` |  |
+| 21 | `CONFIG` |  |
+| 22 | `Configuration_manager` |  |
+| 23 | `CPS` |  |
+| 24 | `CSV` |  |
+| 25 | `dac` |  |
+| 26 | `DAC` |  |
+| 27 | `data16` |  |
+| 28 | `data32` |  |
+| 29 | `data8` |  |
+| 30 | `date` |  |
+| 31 | `demo` |  |
+| 32 | `DEMO` |  |
+| 33 | `device` |  |
+| 34 | `DIAG` |  |
+| 35 | `DISABLE` |  |
+| 36 | `DUMP` |  |
+| 37 | `ECHO` |  |
+| 38 | `ENABLE` |  |
+| 39 | `format` |  |
+| 40 | `FORMAT` |  |
+| 41 | `gain` |  |
+| 42 | `GET` |  |
+| 43 | `HELP` |  |
+| 44 | `HOLD` |  |
+| 45 | `Housekeeping` |  |
+| 46 | `idle` |  |
+| 47 | `IDLE` |  |
+| 48 | `INPUT` |  |
+| 49 | `Instrument_calibration` |  |
+| 50 | `integration_time` |  |
+| 51 | `LOAD` |  |
+| 52 | `micro_sievert` |  |
+| 53 | `millis` |  |
+| 54 | `MODE` |  |
+| 55 | `Mode_control` |  |
+| 56 | `N42` |  |
+| 57 | `NOISE` |  |
+| 58 | `nominal` |  |
+| 59 | `NOMINAL` |  |
+| 60 | `offset` |  |
+| 61 | `OFFSET` |  |
+| 62 | `OVERRIDE` |  |
+| 63 | `parameter` |  |
+| 64 | `pedestal` |  |
+| 65 | `PEDESTAL` |  |
+| 66 | `R6` |  |
+| 67 | `readout_count` |  |
+| 68 | `REG` |  |
+| 69 | `reg_addr` |  |
+| 70 | `RESET` |  |
+| 71 | `RESTORE` |  |
+| 72 | `result` |  |
+| 73 | `SAVE` |  |
+| 74 | `seconds` |  |
+| 75 | `serial_number` |  |
+| 76 | `simple_R6` |  |
+| 77 | `Spectroscopic_data` |  |
+| 78 | `start_threshold` |  |
+| 79 | `STATUS` |  |
+| 80 | `stop_count` |  |
+| 81 | `TEST` |  |
+| 82 | `THRESHOLD` |  |
+| 83 | `time` |  |
+| 84 | `TIME` |  |
+| 85 | `TRACE` |  |
+| 86 | `V35` |  |
+| 87 | `V40` |  |
+| 88 | `VBIAS` |  |
+| 89 | `VERSION` |  |
 | 255 | `"Wildcard"` | Special purpose, used in search |
-<!-- END:SpectraNode_keyword -->
+<!-- END:Domain_keyword -->
 
 </details>
 
