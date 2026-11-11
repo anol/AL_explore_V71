@@ -65,9 +65,9 @@ cmake --build build/V71_EK_hello_world
 - **`Domain/`** — application-domain types and the generated command/keyword dictionary
   (`Domain/Generated_code`) that ties the console/CLI layer to those types.
 - **`Platform/`** — MCU- and RTOS-facing code: `SamV71_platform` (and its `SAMV71Q21B`
-  startup/SDK layer), `Windows_platform` and `Mockup_platform` (host builds),
-  `Common_platform` and `FreeRTOS_platform`. `STM32U575RG` and `WIN32_mockup` are also
-  here, but no preset builds them.
+  startup/SDK layer), `Win11_platform` (host builds: FreeRTOS Windows port plus
+  peripheral mockups), `Common_platform` and `FreeRTOS_platform`. `STM32U575RG` is also
+  here, but no preset builds it.
 - **`Support/`** — cross-cutting infrastructure: the console support, the heartbeat task
   (`Hearbeat/`), the CLI parser and instruction dispatch (`Plumbing/`), and the
   configuration/attribute repository.

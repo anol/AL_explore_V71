@@ -21,12 +21,12 @@
 */
 
 
-#ifndef WIN32_BINARY_FILE_H
-#define WIN32_BINARY_FILE_H
+#ifndef WIN11_BINARY_FILE_H
+#define WIN11_BINARY_FILE_H
 #include <cstdint>
 
-namespace WIN32_mockup {
-    class WIN32_binary_file {
+namespace Win11_platform {
+    class Win11_binary_file {
     public:
         static void get_page(const char* file_name, uint32_t* data_32, int size_32);
 
@@ -36,6 +36,6 @@ namespace WIN32_mockup {
 
         static void put_page(const char* file_name, const uint8_t* data_8, int size);
     };
-} // WIN32_mockup
+} // Win11_platform
 
-#endif //WIN32_BINARY_FILE_H
+#endif //WIN11_BINARY_FILE_H

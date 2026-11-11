@@ -1,4 +1,4 @@
-# Build options for the Windows host platform (MinGW-w64 GCC, FreeRTOS Windows simulator port).
+# Build options for the Win11 host platform (MinGW-w64 GCC, FreeRTOS Windows simulator port).
 
 execute_process(
         COMMAND ${CMAKE_CXX_COMPILER} -dumpmachine

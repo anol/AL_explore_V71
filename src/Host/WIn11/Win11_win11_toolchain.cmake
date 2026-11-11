@@ -1,4 +1,4 @@
-# Host toolchain for PLATFORM=Windows: a native MinGW-w64 GCC with C++20 module support (GCC >= 14).
+# Host toolchain for PLATFORM=Win11: a native MinGW-w64 GCC with C++20 module support (GCC >= 14).
 #
 # CLion supplies the compiler through its toolchain setting. From the command line, either put MinGW's
 # bin directory on PATH or pass -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++. When nothing is given,

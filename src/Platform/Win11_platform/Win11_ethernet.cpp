@@ -4,12 +4,12 @@
 // available here).
 //
 
-#include "../Windows_ethernet.h"
+#include "Win11_ethernet.h"
 
 #include <cstring>
 
-namespace Windows_platform {
-    std::vector<Windows_ethernet::Adapter_info> Windows_ethernet::list_adapters(std::string *errbuf_out) {
+namespace Win11_platform {
+    std::vector<Win11_ethernet::Adapter_info> Win11_ethernet::list_adapters(std::string *errbuf_out) {
         std::vector<Adapter_info> result;
         pcap_if_t *devices = nullptr;
         char errbuf[PCAP_ERRBUF_SIZE] = {0};
@@ -31,7 +31,7 @@ namespace Windows_platform {
         return result;
     }
 
-    Ethernet_status Windows_ethernet::initialize(const uint8_t mac_address[6]) {
+    Ethernet_status Win11_ethernet::initialize(const uint8_t mac_address[6]) {
         if (the_initialized_flag) {
             the_last_error = Ethernet_status::Already_initialized;
             return the_last_error;
@@ -67,14 +67,14 @@ namespace Windows_platform {
         refresh_mac_and_link_status();
 
         the_capturing_flag.store(true, std::memory_order_relaxed);
-        the_capture_thread = std::thread(&Windows_ethernet::capture_thread_main, this);
+        the_capture_thread = std::thread(&Win11_ethernet::capture_thread_main, this);
 
         the_initialized_flag = true;
         the_last_error = Ethernet_status::Ok;
         return Ethernet_status::Ok;
     }
 
-    Ethernet_status Windows_ethernet::shutdown() {
+    Ethernet_status Win11_ethernet::shutdown() {
         if (!the_initialized_flag) {
             return Ethernet_status::Ok;
         }
@@ -100,9 +100,9 @@ namespace Windows_platform {
         return Ethernet_status::Ok;
     }
 
-    bool Windows_ethernet::is_initialized() const { return the_initialized_flag; }
+    bool Win11_ethernet::is_initialized() const { return the_initialized_flag; }
 
-    bool Windows_ethernet::refresh_mac_and_link_status() const {
+    bool Win11_ethernet::refresh_mac_and_link_status() const {
         ULONG buffer_len = 15000;  // Microsoft's documented starting size for GetAdaptersAddresses
         std::vector<uint8_t> buffer(buffer_len);
         auto *addresses = reinterpret_cast<IP_ADAPTER_ADDRESSES *>(buffer.data());
@@ -140,7 +140,7 @@ namespace Windows_platform {
         return false;
     }
 
-    bool Windows_ethernet::is_link_up() const {
+    bool Win11_ethernet::is_link_up() const {
         if (!the_initialized_flag) {
             return false;
         }
@@ -148,14 +148,14 @@ namespace Windows_platform {
         return the_link_up_flag.load(std::memory_order_relaxed);
     }
 
-    void Windows_ethernet::get_mac_address(uint8_t mac_address_out[6]) const {
+    void Win11_ethernet::get_mac_address(uint8_t mac_address_out[6]) const {
         if (mac_address_out == nullptr) {
             return;
         }
         std::memcpy(mac_address_out, the_mac_address, 6);
     }
 
-    Ethernet_status Windows_ethernet::send_frame(const uint8_t *data, size_t length) {
+    Ethernet_status Win11_ethernet::send_frame(const uint8_t *data, size_t length) {
         if (!the_initialized_flag) {
             the_last_error = Ethernet_status::Not_initialized;
             return the_last_error;
@@ -179,14 +179,14 @@ namespace Windows_platform {
         return Ethernet_status::Ok;
     }
 
-    Ethernet_status Windows_ethernet::set_receive_callback(Ethernet_frame_callback callback) {
+    Ethernet_status Win11_ethernet::set_receive_callback(Ethernet_frame_callback callback) {
         // Only touched from the application thread that also calls
         // poll(); see the threading-model note in the header.
         the_receive_callback = std::move(callback);
         return Ethernet_status::Ok;
     }
 
-    void Windows_ethernet::poll() {
+    void Win11_ethernet::poll() {
         if (!the_initialized_flag) {
             return;
         }
@@ -218,25 +218,25 @@ namespace Windows_platform {
         }
     }
 
-    Ethernet_status Windows_ethernet::get_last_error() const { return the_last_error; }
+    Ethernet_status Win11_ethernet::get_last_error() const { return the_last_error; }
 
-    void Windows_ethernet::capture_thread_main() {
+    void Win11_ethernet::capture_thread_main() {
         while (the_capturing_flag.load(std::memory_order_relaxed)) {
             // A bounded count plus the short read timeout set in
             // initialize() keeps this loop checking the_capturing_flag
             // regularly without needing pcap_breakloop() to win a race
             // against pcap_close().
-            pcap_dispatch(optional_handle, /*cnt=*/64, &Windows_ethernet::pcap_dispatch_trampoline,
+            pcap_dispatch(optional_handle, /*cnt=*/64, &Win11_ethernet::pcap_dispatch_trampoline,
                           reinterpret_cast<u_char *>(this));
         }
     }
 
-    void Windows_ethernet::pcap_dispatch_trampoline(u_char *user, const struct pcap_pkthdr *header,
+    void Win11_ethernet::pcap_dispatch_trampoline(u_char *user, const struct pcap_pkthdr *header,
                                                       const u_char *bytes) {
-        reinterpret_cast<Windows_ethernet *>(user)->on_packet_captured(header, bytes);
+        reinterpret_cast<Win11_ethernet *>(user)->on_packet_captured(header, bytes);
     }
 
-    void Windows_ethernet::on_packet_captured(const struct pcap_pkthdr *header, const u_char *bytes) {
+    void Win11_ethernet::on_packet_captured(const struct pcap_pkthdr *header, const u_char *bytes) {
         std::lock_guard<std::mutex> lock(the_queue_mutex);
         if (the_rx_queue.size() >= Max_queued_frames) {
             the_rx_queue.pop_front();
@@ -246,4 +246,4 @@ namespace Windows_platform {
         frame.data.assign(bytes, bytes + header->caplen);
         the_rx_queue.push_back(std::move(frame));
     }
-} // Windows_platform
+} // Win11_platform

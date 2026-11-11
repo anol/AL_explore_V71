@@ -20,7 +20,7 @@ import Type.Abstract_ethernet;
 
 using namespace Abstract;
 
-namespace Windows_platform {
+namespace Win11_platform {
     // Concrete Ethernet_device backend for Windows, built on Npcap (or
     // WinPcap) for raw-frame TX/RX and the IP Helper API for
     // MAC-address/link-status queries. This gives Layer-2 semantics on
@@ -48,7 +48,7 @@ namespace Windows_platform {
     // contract. set_receive_callback() and poll() are expected to be
     // called from a single application thread; send_frame() may be
     // called concurrently with poll() from a different thread.
-    class Windows_ethernet final : public Abstract_ethernet {
+    class Win11_ethernet final : public Abstract_ethernet {
     public:
         struct Adapter_info {
             std::string name;         // pcap device name, e.g. "\Component\NPF_{GUID}"
@@ -63,13 +63,13 @@ namespace Windows_platform {
         // adapter_name: a pcap device name as returned by
         // list_adapters(), e.g.
         // "\Component\NPF_{4D36E972-E325-11CE-BFC1-08002BE10318}".
-        explicit Windows_ethernet(std::string adapter_name) : the_adapter_name(std::move(adapter_name)) {
+        explicit Win11_ethernet(std::string adapter_name) : the_adapter_name(std::move(adapter_name)) {
         }
 
-        ~Windows_ethernet() override { shutdown(); }
+        ~Win11_ethernet() override { shutdown(); }
 
-        Windows_ethernet(const Windows_ethernet &) = delete;
-        Windows_ethernet &operator=(const Windows_ethernet &) = delete;
+        Win11_ethernet(const Win11_ethernet &) = delete;
+        Win11_ethernet &operator=(const Win11_ethernet &) = delete;
 
         // Note: mac_address is informational only -- Windows does not
         // generally let you reprogram a NIC's burned-in MAC address
@@ -128,4 +128,4 @@ namespace Windows_platform {
 
         Ethernet_frame_callback the_receive_callback;
     };
-} // Windows_platform
+} // Win11_platform

@@ -14,14 +14,14 @@
 */
 
 /**
-* @file   WIN32_print_support.cpp
+* @file   Win11_print_support.cpp
 * @author AndersEmilOlsen, IDEAS
 * @date   11.02.2026
 * @brief  
 */
 
 
-#include "WIN32_print_support.h"
+#include "Win11_print_support.h"
 
 #include <cstdarg>
 #include <cstdio>

@@ -25,14 +25,14 @@ Each rule below is tagged with which source it came from:
 - **Extended** — a generalization to a situation neither source covers
   yet. Flagged so it can be overridden if it doesn't match intent.
 
-> **Migration note (updated):** `Unit_test.cpp` and `Windows_platform` are
+> **Migration note (updated):** `Unit_test.cpp` and `Win11_platform` are
 > now fully migrated and internally consistent -- both are the reference
 > for the rules below. `../src/Platform/SamV71_platform` (`SamV71_ethernet.h`/`.cpp`)
 > and the root `../CMakeLists.txt` are **still unmigrated**: the SAMV71 files
 > still reference the pre-refactor names (`Ethernet_device.h`,
 > `Ethernet::Ethernet_samv71_mac`) instead of `Abstract_ethernet.h`/
 > `SamV71_ethernet`, and the root `../CMakeLists.txt` still only
-> `add_subdirectory()`s `Windows_platform`, not `SamV71_platform`. Treat
+> `add_subdirectory()`s `Win11_platform`, not `SamV71_platform`. Treat
 > those two as not yet caught up, not as evidence of an alternate
 > convention.
 
@@ -43,20 +43,20 @@ Each rule below is tagged with which source it came from:
 | Abstract/interface class | `Abstract_<domain>` | `Abstract_ethernet` | Observed (project) — directly reuses the `Abstract_` prefix from the reference file's own class name, rather than repeating an enclosing namespace name |
 | Concrete/platform class | `<Platform>_<domain>` | `SamV71_ethernet`, `Windows_target` | Observed (project) — prefixed with the platform name instead of `Abstract_` or the shared namespace name, so the class name alone tells you whether it's the cross-platform contract or one platform's implementation |
 | Namespace (shared/common layer) | Domain word, independent of directory name | `namespace Ethernet` (in `../src/Type`) | Observed (project) |
-| Namespace (per-platform layer) | Matches its platform directory exactly | `namespace SamV71_platform`, `namespace Windows_platform` | Observed (project) |
+| Namespace (per-platform layer) | Matches its platform directory exactly | `namespace SamV71_platform`, `namespace Win11_platform` | Observed (project) |
 | Method name | `snake_case`, verb-first for actions, `is_`/`get_` prefix for queries | `initialize()`, `get_mac_address()`, `is_link_up()` | Observed (reference file) |
 | Reference member (injected collaborator) | `use_<name>` | `use_application`, `use_board` | Observed (reference file) |
 | Owned value/state member | `the_<name>` | `the_mac_address`, `the_last_error` | Observed (reference file) |
 | Owned boolean flag member | `the_<name>_flag` | `the_initialized_flag`, `the_capturing_flag` | Observed (reference file, generalized) |
 | Nullable/optional pointer member | `optional_<name>` | `optional_handle` | Observed (reference file) |
-| Constructor parameter | Bare noun, no prefix | `Windows_ethernet(std::string adapter_name)` | Observed (reference file) |
+| Constructor parameter | Bare noun, no prefix | `Win11_ethernet(std::string adapter_name)` | Observed (reference file) |
 | Compile-time constant | Capitalized, no prefix | `Max_ethernet_frame_size`, `Num_rx_descriptors` | Specified |
 | `static` data member | Capitalized, no prefix | `Instance` | Specified |
 | Enum value | Capitalized, no prefix | `Ethernet_status::Ok`, `::Hardware_error` | Specified |
 | Type alias / `using` | Same `Capitalized_snake_case` shape as classes | `Ethernet_frame_callback` | Extended |
 | Enum class name | Same `Capitalized_snake_case` shape as classes | `Ethernet_status` | Extended |
-| Directory / module name | Same `Capitalized_snake_case` shape as classes, one module per directory | `Abstract`, `Platform`, `SamV71_platform`, `Windows_platform`, `Unit_test` | Observed (project) |
-| File name | Matches its class name exactly | `Windows_ethernet.h` defines `class Windows_ethernet` | Observed (reference file + project) |
+| Directory / module name | Same `Capitalized_snake_case` shape as classes, one module per directory | `Abstract`, `Platform`, `SamV71_platform`, `Win11_platform`, `Unit_test` | Observed (project) |
+| File name | Matches its class name exactly | `Win11_ethernet.h` defines `class Win11_ethernet` | Observed (reference file + project) |
 
 ## Module / directory structure
 
@@ -70,9 +70,9 @@ src/
       SamV71_ethernet.h          (namespace SamV71_platform)
       SamV71_ethernet.cpp
       CMakeLists.txt
-    Windows_platform/
-      Windows_ethernet.h         (namespace Windows_platform)
-      Windows_ethernet.cpp
+    Win11_platform/
+      Win11_ethernet.h         (namespace Win11_platform)
+      Win11_ethernet.cpp
       CMakeLists.txt
   Unit_test/                   test harness + mock headers for host-side compilation
     Unit_test.cpp
@@ -100,13 +100,13 @@ Rules:
   library-style module's `../CMakeLists.txt` puts its own parent directory
   on the shared target's include path (`Abstract/CMakeLists.txt` adds
   `../src`, so `Abstract/Abstract_ethernet.h` resolves from anywhere in the
-  build -- see "CMake conventions" below). Settled by `Windows_ethernet.h`
+  build -- see "CMake conventions" below). Settled by `Win11_ethernet.h`
   and `Unit_test.cpp`, both of which now use this form; apply it to
   `SamV71_platform` once that module is brought up to date.
 - A platform-implementation header pulls the shared layer's names into
   scope with a single file-scope `using namespace Ethernet;`, placed
   after the `#include`s and before the platform's own `namespace { ... }`
-  block (see `Windows_ethernet.h`). This lets the class body refer to
+  block (see `Win11_ethernet.h`). This lets the class body refer to
   `Abstract_ethernet`, `Ethernet_status`, `Ethernet_frame_callback`, etc.
   unqualified. Worth knowing the trade-off if this expands: a
   using-directive at file scope in a header applies to every file that
@@ -135,7 +135,7 @@ couldn't cover.)*
 
   add_subdirectory(${SOURCE_ROOT_DIR}/Unit_test ${CMAKE_BINARY_DIR}/Unit_test)
   add_subdirectory(${SOURCE_ROOT_DIR}/Abstract ${CMAKE_BINARY_DIR}/Abstract)
-  add_subdirectory(${SOURCE_ROOT_DIR}/Platform/Windows_platform ${CMAKE_BINARY_DIR}/Platform)
+  add_subdirectory(${SOURCE_ROOT_DIR}/Platform/Win11_platform ${CMAKE_BINARY_DIR}/Platform)
   ```
   `project(...)` name is double-quoted. `add_executable()` takes no
   direct sources -- every source comes in through `add_subdirectory()`,
@@ -149,7 +149,7 @@ couldn't cover.)*
   the whole build; every module's `../CMakeLists.txt` just adds to it).
   `target_include_directories` differs by the module's role:
   - A **library-style module** (something other modules include from --
-    `Abstract`, `SamV71_platform`, `Windows_platform`) exposes its own
+    `Abstract`, `SamV71_platform`, `Win11_platform`) exposes its own
     *parent* directory, so siblings can address it as
     `<ThisModuleDir>/<Header>.h`:
     ```cmake
@@ -157,8 +157,8 @@ couldn't cover.)*
             ../..
     )
     target_sources(${THE_TARGET_NAME} PUBLIC
-            Windows_ethernet.cpp
-            Windows_ethernet.h
+            Win11_ethernet.cpp
+            Win11_ethernet.h
     )
     ```
   - A **leaf/consumer module** (nothing includes from it -- `Unit_test`)
@@ -220,7 +220,7 @@ files since fabricating an author/date would be inaccurate.
    signature, `:` starting the next line, all initializers on that one
    line, opening `{` at the end:
    ```cpp
-   explicit Windows_ethernet(std::string adapter_name)
+   explicit Win11_ethernet(std::string adapter_name)
        : the_adapter_name(std::move(adapter_name)) {
    }
    ```
@@ -262,7 +262,7 @@ module/directory structure, `Abstract_`/`<Platform>_` class naming, and
 CMake conventions above. v3 adds the `using namespace Ethernet;` header
 convention, the CMake include-directory pattern, and settles cross-module
 `#include`s on the path-relative-to-`../src` form, now that
-`Windows_platform`/`Unit_test` are fully migrated. The unmigrated
+`Win11_platform`/`Unit_test` are fully migrated. The unmigrated
 `SamV71_platform`/root `../CMakeLists.txt` are called out above rather than
 folded in as settled rules -- once that module is brought up to date
 (including switching its own `#include "Ethernet_device.h"` to

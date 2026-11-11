@@ -3,7 +3,7 @@
 
 #include <cstdio>
 
-#include "Windows_ethernet.h"
+#include "Win11_ethernet.h"
 
 //#include "Mockup/Mockup_ethernet.h"
 
@@ -13,7 +13,7 @@ int main()
     // B4-2E-99-FA-ED-F4   \Component\Tcpip_{2C15BB74-10B4-4053-8F36-8D4078F1ADA3}
 
     char interface_name[]{"\\Component\\NPF_{2C15BB74-10B4-4053-8F36-8D4078F1ADA3}"};
-    Windows_platform::Windows_ethernet eth{interface_name};
+    Win11_platform::Win11_ethernet eth{interface_name};
     const uint8_t mac[6] = {0x02, 0x00, 0x00, 0x00, 0x00, 0x01};
 
     if (const auto status = eth.initialize(mac); status == Ethernet_status::Already_initialized)

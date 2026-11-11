@@ -25,7 +25,7 @@
       "cacheVariables": {
         "TARGET": "Unit_test",
         "BOARD": "Win11",
-        "PLATFORM": "Mockup"
+        "PLATFORM": "Win11"
       }
     },
     {
@@ -37,7 +37,7 @@
         "APP": "Hello_world",
         "TARGET": "Win_hello_world",
         "BOARD": "Win11",
-        "PLATFORM": "Windows"
+        "PLATFORM": "Win11"
       },
       "vendor": {
         "jetbrains.com/clion": {
@@ -53,7 +53,7 @@
       "cacheVariables": {
         "TARGET": "Win_ethernet_test",
         "BOARD": "Win11",
-        "PLATFORM": "Windows"
+        "PLATFORM": "Win11"
       },
       "vendor": {
         "jetbrains.com/clion": {

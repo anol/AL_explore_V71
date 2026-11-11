@@ -14,7 +14,7 @@
 */
 
 /**
-* @file   WIN32_embedded_flash.h
+* @file   Win11_embedded_flash.h
 * @author AndersEmilOlsen, IDEAS
 * @date   04.02.2026
 * @brief  
@@ -27,8 +27,8 @@
 
 import Support.Embedded_flash;
 
-namespace WIN32_mockup {
-    class WIN32_embedded_flash : public Repository::Embedded_flash {
+namespace Win11_platform {
+    class Win11_embedded_flash : public Repository::Embedded_flash {
         enum:uint32_t {
             Flash_bank1 = 1, Flash_bank2 = 2, Pages_per_bank = 64,
             Page_size_8 = 8192, Page_size_32 = Page_size_8 / sizeof(uint32_t),
@@ -49,7 +49,7 @@ namespace WIN32_mockup {
         // static uint32_t last_error_status;
 
     public:
-        WIN32_embedded_flash();
+        Win11_embedded_flash();
 
         void open_for_write(bool open) override { is_write_open = open; }
 
@@ -79,6 +79,6 @@ namespace WIN32_mockup {
 
         void print_diag() override;
     };
-} // WIN32_mockup
+} // Win11_platform
 
 #endif //UNIT_TEST_EMBEDDED_FLASH_H

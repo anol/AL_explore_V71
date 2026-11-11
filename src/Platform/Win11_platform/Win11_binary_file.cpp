@@ -21,13 +21,13 @@
 */
 
 
-#include "WIN32_binary_file.h"
+#include "Win11_binary_file.h"
 
 #include <fstream>
 #include <iostream>
 
-namespace WIN32_mockup {
-    void WIN32_binary_file::get_page(const char* file_name, uint32_t* data_32, const int size_32)
+namespace Win11_platform {
+    void Win11_binary_file::get_page(const char* file_name, uint32_t* data_32, const int size_32)
     {
         const auto size_8 = size_32 * sizeof(uint32_t);
         std::ifstream input{};
@@ -36,7 +36,7 @@ namespace WIN32_mockup {
         input.close();
     }
 
-    void WIN32_binary_file::put_page(const char* file_name, const uint32_t* data_32, const int size_32)
+    void Win11_binary_file::put_page(const char* file_name, const uint32_t* data_32, const int size_32)
     {
         const auto size_8 = size_32 * sizeof(uint32_t);
         std::ofstream output{};
@@ -45,7 +45,7 @@ namespace WIN32_mockup {
         output.close();
     }
 
-    void WIN32_binary_file::get_page(const char* file_name, uint8_t* data_8, const int size_8)
+    void Win11_binary_file::get_page(const char* file_name, uint8_t* data_8, const int size_8)
     {
         std::ifstream input{};
         input.open(file_name, std::ios::binary | std::ios::in);
@@ -53,7 +53,7 @@ namespace WIN32_mockup {
         input.close();
     }
 
-    void WIN32_binary_file::put_page(const char* file_name, const uint8_t* data_8, const int size_8)
+    void Win11_binary_file::put_page(const char* file_name, const uint8_t* data_8, const int size_8)
     {
         std::ofstream output{};
         output.open(file_name, std::ios::binary | std::ios::out);

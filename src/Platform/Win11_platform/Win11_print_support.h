@@ -14,19 +14,19 @@
 */
 
 /**
-* @file   WIN32_print_support.h
+* @file   Win11_print_support.h
 * @author AndersEmilOlsen, IDEAS
 * @date   11.02.2026
 * @brief  
 */
 
 
-#ifndef UNIT_TEST_WIN32_PRINT_SUPPORT_H
-#define UNIT_TEST_WIN32_PRINT_SUPPORT_H
+#ifndef WIN11_PRINT_SUPPORT_H
+#define WIN11_PRINT_SUPPORT_H
 
-namespace Platform {
-    class WIN32_print_support {
+namespace Win11_platform {
+    class Win11_print_support {
     };
-} // Platform
+} // Win11_platform
 
-#endif //UNIT_TEST_WIN32_PRINT_SUPPORT_H
+#endif //WIN11_PRINT_SUPPORT_H
