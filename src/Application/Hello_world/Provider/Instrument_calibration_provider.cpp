@@ -70,8 +70,11 @@ void Instrument_calibration_provider::v_CAL_DAC(Instruction_major &instruction) 
 }
 
 void Instrument_calibration_provider::v_CAL_DAC_data16(Instruction_major &instruction, const int data16_2) {
-    if (use_bias.get_DAC().set_raw_DAC(data16_2)) {
-        instruction.print_ack(static_cast<int32_t>(use_bias.get_DAC().get_raw_DAC()));
+    enum { DAC_min = 0, DAC_max = 4095 }; // 12-bit DAC; out-of-range values would wrap on hardware
+    if (data16_2 < DAC_min || data16_2 > DAC_max) {
+        instruction.print_nack(123);
+    } else if (use_bias.get_DAC().set_raw_DAC(static_cast<uint32_t>(data16_2))) {
+        instruction.print_ack(data16_2);
     } else {
         instruction.print_nack(123);
     }

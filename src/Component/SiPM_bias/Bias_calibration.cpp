@@ -32,11 +32,6 @@ namespace Calibration {
         the_DAC.initialize();
         the_ADC.initialize();
         hw_init_bias_regulator();
-        //only for testing vbias
-        // HAL_UART_Init(&huart1);
-        // if (STTS22H_Init() != HAL_OK) {
-        //     while (1);
-        // }
     }
 
     void Bias_calibration::set_calibration(
