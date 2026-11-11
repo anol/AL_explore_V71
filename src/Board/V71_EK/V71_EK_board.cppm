@@ -19,7 +19,7 @@ export namespace Board {
         V71_EK_pin_table the_pin_table{};
         SamV71::SamV71_SPI the_SPI{0, the_pin_table.get_pin(Domain::Pin_SPI_CS_ASIC1)};
         SamV71_USART the_UART{1};
-        SamV71_ADC the_ADC{};
+        SamV71_ADC the_ADC{0, SamV71_ADC::AFEC_CHANNEL_0}; // AFEC0_AD0 (PD30)
         SamV71_DAC the_DAC{};
 
     public:

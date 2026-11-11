@@ -121,7 +121,7 @@ extern "C" void TC1_CH1_Handler() __attribute__ ((weak, alias("Dummy_Handler")))
 
 extern "C" void TC1_CH2_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
 
-extern "C" void AFEC0_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+// extern "C" void AFEC0_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
 
 extern "C" void DACC_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
 
@@ -259,7 +259,7 @@ const DeviceVectors exception_table = {
     .pfnTC1_CH0_Handler    = (void *) TC1_CH0_Handler,     /* 26 Timer/Counter 1 Channel 0 */
     .pfnTC1_CH1_Handler    = (void *) TC1_CH1_Handler,     /* 27 Timer/Counter 1 Channel 1 */
     .pfnTC1_CH2_Handler    = (void *) TC1_CH2_Handler,     /* 28 Timer/Counter 1 Channel 2 */
-    .pfnAFEC0_Handler      = (void *) AFEC0_Handler,       /* 29 Analog Front-End Controller */
+    .pfnAFEC0_Handler      = (void *) ISR_AFEC0,           /* 29 Analog Front-End Controller */
     .pfnDACC_Handler       = (void *) ISR_DACC,            /* 30 Digital-to-Analog Converter Controller */
     .pfnPWM0_Handler       = (void *) PWM0_Handler,        /* 31 Pulse Width Modulation Controller */
     .pfnICM_Handler        = (void *) ICM_Handler,         /* 32 Integrity Check Monitor */

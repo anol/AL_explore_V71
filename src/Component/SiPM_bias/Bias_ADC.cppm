@@ -52,9 +52,11 @@ export namespace Calibration {
 
         int32_t read_ADC();
 
-        void set_cal_35V(int32_t cal) { the_ADC_cal_val_35 = cal; }
+        [[nodiscard]] bool read_raw_ADC(uint32_t &value) { return use_ADC.get(value); }
 
-        void set_cal_45V(int32_t cal) { the_ADC_cal_val_45 = cal; }
+        void set_cal_35V(const int32_t cal) { the_ADC_cal_val_35 = cal; }
+
+        void set_cal_45V(const int32_t cal) { the_ADC_cal_val_45 = cal; }
 
     private:
         [[nodiscard]] int32_t to_mV(int32_t ADC) const;

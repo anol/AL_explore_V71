@@ -16,8 +16,8 @@ export namespace Board {
         Win11_pin_table the_pin_table{};
         Mockup::Mockup_UART the_UART{};
         Mockup::Mockup_SPI the_SPI{};
-        Mockup::Mockup_ADC the_ADC{};
         Mockup::Mockup_DAC the_DAC{};
+        Mockup::Mockup_ADC the_ADC{the_DAC}; // Loopback: the ADC reads the DAC output
 
     public:
         void initialize() override;

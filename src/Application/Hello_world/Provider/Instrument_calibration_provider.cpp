@@ -44,7 +44,11 @@ using namespace SpectraNode_interface;
 using namespace Application;
 
 void Instrument_calibration_provider::v_CAL_ADC(Instruction_major &instruction) {
-    instruction.print_ack(use_bias.get_ADC().read_ADC());
+    if (uint32_t raw{}; use_bias.get_ADC().read_raw_ADC(raw)) {
+        instruction.print_ack(static_cast<int32_t>(raw));
+    } else {
+        instruction.print_nack(123);
+    }
 }
 
 void Instrument_calibration_provider::v_CAL_ADC_V35_cal_35V(Instruction_major &instruction, const int cal_35V_3) {
