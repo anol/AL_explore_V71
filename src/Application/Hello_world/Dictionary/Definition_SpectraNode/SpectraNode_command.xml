@@ -108,7 +108,7 @@ Copyright (C) 2026 Integrated Detector Electronics AS
                 <arg key="DIAG" brief="Misc. diagnostic information wrt. bias voltage."/>
                 <arg key="VOLT" brief="Read actual bias voltage."/>
             </arg>
-            <arg key="CAL" brief="Get calibration settings.">
+            <arg key="CAL">
                 <arg key="TEST">
                     <arg key="PEDESTAL" brief="Find channel pedestal using forced readout."/>
                     <arg key="NOISE" brief="Find channel noise floor using threshold scan."/>
@@ -116,6 +116,7 @@ Copyright (C) 2026 Integrated Detector Electronics AS
                     <arg key="BIAS" brief="Find common bias voltage using dark count rate."/>
                 </arg>
                 <arg key="DIAG" brief="Misc. diagnostic information wrt. calibration."/>
+                <arg key="DUMP" brief="Get calibration settings."/>
                 <arg key="TRACE" brief="Toggle diagnostic trace on/off."/>
             </arg>
         </provider>

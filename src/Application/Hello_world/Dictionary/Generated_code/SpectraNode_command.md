@@ -72,12 +72,12 @@ Date: 12.11.2026
 | `AT+BIAS_VOLT` | Read actual bias voltage. |
 | `AT+BIAS` | Get bias setting. |
 | `AT+CAL_DIAG` | Misc. diagnostic information wrt. calibration. |
+| `AT+CAL_DUMP` | Get calibration settings. |
 | `AT+CAL_TEST_BIAS` | Find common bias voltage using dark count rate. |
 | `AT+CAL_TEST_NOISE` | Find channel noise floor using threshold scan. |
 | `AT+CAL_TEST_OFFSET` | Find channel offset voltage using fixed source. |
 | `AT+CAL_TEST_PEDESTAL` | Find channel pedestal using forced readout. |
 | `AT+CAL_TRACE` | Toggle diagnostic trace on/off. |
-| `AT+CAL` | Get calibration settings. |
 
 ## Provider: Configuration_manager
 

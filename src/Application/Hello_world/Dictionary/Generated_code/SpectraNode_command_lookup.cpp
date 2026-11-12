@@ -264,6 +264,11 @@ namespace SpectraNode_interface{
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
+    const Instruction_token token_CAL_DUMP[] = {
+        {help_CAL_DUMP, Cmd_CAL_DUMP, Key_Instrument_calibration},
+        {End_token, "", No_key, (uint32_t)0, nullptr}
+    };
+
     const Instruction_token token_CAL_TEST_BIAS[] = {
         {help_CAL_TEST_BIAS, Cmd_CAL_TEST_BIAS, Key_Instrument_calibration},
         {End_token, "", No_key, (uint32_t)0, nullptr}
@@ -299,9 +304,9 @@ namespace SpectraNode_interface{
 
     const Instruction_token token_CAL[] = {
         {Keyword_token, "DIAG", Key_DIAG, (uint32_t)0, token_CAL_DIAG},
+        {Keyword_token, "DUMP", Key_DUMP, (uint32_t)0, token_CAL_DUMP},
         {Keyword_token, "TEST", Key_TEST, (uint32_t)0, token_CAL_TEST},
         {Keyword_token, "TRACE", Key_TRACE, (uint32_t)0, token_CAL_TRACE},
-        {help_CAL, Cmd_CAL, Key_Instrument_calibration},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 

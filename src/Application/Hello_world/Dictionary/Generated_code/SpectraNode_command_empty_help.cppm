@@ -54,12 +54,12 @@ export namespace SpectraNode_interface{
     constexpr auto* help_BIAS_VOLT{""};
     constexpr auto* help_BIAS{""};
     constexpr auto* help_CAL_DIAG{""};
+    constexpr auto* help_CAL_DUMP{""};
     constexpr auto* help_CAL_TEST_BIAS{""};
     constexpr auto* help_CAL_TEST_NOISE{""};
     constexpr auto* help_CAL_TEST_OFFSET{""};
     constexpr auto* help_CAL_TEST_PEDESTAL{""};
     constexpr auto* help_CAL_TRACE{""};
-    constexpr auto* help_CAL{""};
     constexpr auto* help_ASIC_asic_nbr{""};
     constexpr auto* help_ASIC_DUMP{""};
     constexpr auto* help_ASIC_LOAD{""};

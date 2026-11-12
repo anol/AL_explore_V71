@@ -135,6 +135,10 @@ void Implement_Instrument_calibration_provider::v_CAL_DIAG(Transaction_major &){
     std::cout << "Implement_Instrument_calibration_provider::v_CAL_DIAG:" << std::endl;
 }
             
+void Implement_Instrument_calibration_provider::v_CAL_DUMP(Transaction_major &){
+    std::cout << "Implement_Instrument_calibration_provider::v_CAL_DUMP:" << std::endl;
+}
+            
 void Implement_Instrument_calibration_provider::v_CAL_TEST_BIAS(Transaction_major &){
     std::cout << "Implement_Instrument_calibration_provider::v_CAL_TEST_BIAS:" << std::endl;
 }
@@ -153,10 +157,6 @@ void Implement_Instrument_calibration_provider::v_CAL_TEST_PEDESTAL(Transaction_
             
 void Implement_Instrument_calibration_provider::v_CAL_TRACE(Transaction_major &){
     std::cout << "Implement_Instrument_calibration_provider::v_CAL_TRACE:" << std::endl;
-}
-            
-void Implement_Instrument_calibration_provider::v_CAL(Transaction_major &){
-    std::cout << "Implement_Instrument_calibration_provider::v_CAL:" << std::endl;
 }
             
 void Implement_Configuration_manager_provider::v_ASIC_asic_nbr(Transaction_major &, int asic_nbr_1){

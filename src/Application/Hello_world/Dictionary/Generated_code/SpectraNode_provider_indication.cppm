@@ -111,12 +111,12 @@ export namespace SpectraNode_interface {
         virtual void v_BIAS_VOLT(Instruction_major &) = 0;
         virtual void v_BIAS(Instruction_major &) = 0;
         virtual void v_CAL_DIAG(Instruction_major &) = 0;
+        virtual void v_CAL_DUMP(Instruction_major &) = 0;
         virtual void v_CAL_TEST_BIAS(Instruction_major &) = 0;
         virtual void v_CAL_TEST_NOISE(Instruction_major &) = 0;
         virtual void v_CAL_TEST_OFFSET(Instruction_major &) = 0;
         virtual void v_CAL_TEST_PEDESTAL(Instruction_major &) = 0;
         virtual void v_CAL_TRACE(Instruction_major &) = 0;
-        virtual void v_CAL(Instruction_major &) = 0;
     public:
         void p_BIAS_bias_mV(Instruction_major &);
         void p_BIAS_ADC_V35_cal_35V(Instruction_major &);
@@ -130,12 +130,12 @@ export namespace SpectraNode_interface {
         void p_BIAS_VOLT(Instruction_major &);
         void p_BIAS(Instruction_major &);
         void p_CAL_DIAG(Instruction_major &);
+        void p_CAL_DUMP(Instruction_major &);
         void p_CAL_TEST_BIAS(Instruction_major &);
         void p_CAL_TEST_NOISE(Instruction_major &);
         void p_CAL_TEST_OFFSET(Instruction_major &);
         void p_CAL_TEST_PEDESTAL(Instruction_major &);
         void p_CAL_TRACE(Instruction_major &);
-        void p_CAL(Instruction_major &);
     };
             
     class Abstract_Configuration_manager_provider : public Abstract_provider<Instruction_major> {

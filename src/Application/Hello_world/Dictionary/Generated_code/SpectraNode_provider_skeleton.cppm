@@ -64,12 +64,12 @@ export namespace SpectraNode_interface {
         void v_BIAS_VOLT(Transaction_major &) override;
         void v_BIAS(Transaction_major &) override;
         void v_CAL_DIAG(Transaction_major &) override;
+        void v_CAL_DUMP(Transaction_major &) override;
         void v_CAL_TEST_BIAS(Transaction_major &) override;
         void v_CAL_TEST_NOISE(Transaction_major &) override;
         void v_CAL_TEST_OFFSET(Transaction_major &) override;
         void v_CAL_TEST_PEDESTAL(Transaction_major &) override;
         void v_CAL_TRACE(Transaction_major &) override;
-        void v_CAL(Transaction_major &) override;
     };
             
     class Implement_Configuration_manager_provider : public Abstract_Configuration_manager_provider{

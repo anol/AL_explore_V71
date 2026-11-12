@@ -151,12 +151,12 @@ template<> const Abstract_Instrument_calibration_provider::Lookup_table::Instruc
     {&Abstract_Instrument_calibration_provider::p_BIAS_VOLT, Cmd_BIAS_VOLT},
     {&Abstract_Instrument_calibration_provider::p_BIAS, Cmd_BIAS},
     {&Abstract_Instrument_calibration_provider::p_CAL_DIAG, Cmd_CAL_DIAG},
+    {&Abstract_Instrument_calibration_provider::p_CAL_DUMP, Cmd_CAL_DUMP},
     {&Abstract_Instrument_calibration_provider::p_CAL_TEST_BIAS, Cmd_CAL_TEST_BIAS},
     {&Abstract_Instrument_calibration_provider::p_CAL_TEST_NOISE, Cmd_CAL_TEST_NOISE},
     {&Abstract_Instrument_calibration_provider::p_CAL_TEST_OFFSET, Cmd_CAL_TEST_OFFSET},
     {&Abstract_Instrument_calibration_provider::p_CAL_TEST_PEDESTAL, Cmd_CAL_TEST_PEDESTAL},
     {&Abstract_Instrument_calibration_provider::p_CAL_TRACE, Cmd_CAL_TRACE},
-    {&Abstract_Instrument_calibration_provider::p_CAL, Cmd_CAL},
 };
 
 namespace SpectraNode_interface{
@@ -219,6 +219,10 @@ namespace SpectraNode_interface{
         v_CAL_DIAG(transaction);
     }
             
+    void Abstract_Instrument_calibration_provider::p_CAL_DUMP(Instruction_major &transaction){
+        v_CAL_DUMP(transaction);
+    }
+            
     void Abstract_Instrument_calibration_provider::p_CAL_TEST_BIAS(Instruction_major &transaction){
         v_CAL_TEST_BIAS(transaction);
     }
@@ -237,10 +241,6 @@ namespace SpectraNode_interface{
             
     void Abstract_Instrument_calibration_provider::p_CAL_TRACE(Instruction_major &transaction){
         v_CAL_TRACE(transaction);
-    }
-            
-    void Abstract_Instrument_calibration_provider::p_CAL(Instruction_major &transaction){
-        v_CAL(transaction);
     }
             
 }

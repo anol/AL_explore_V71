@@ -95,7 +95,7 @@ protected:
 
     void v_BIAS_DAC_V40_cal_40V(Instruction_major &, int cal_40V_3) override;
 
-    void v_CAL(Instruction_major &) override;
+    void v_CAL_DUMP(Instruction_major &) override;
 
     void v_CAL_DIAG(Instruction_major &) override;
 

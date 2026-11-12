@@ -77,9 +77,14 @@ namespace Calibration {
     }
 
     void Bias_calibration::print_diag() {
-        printf("Temp: temp=%d.%d, bias=%d, DAC(raw)=%d, DAC(cal)=%d, ADC=%d, cal=%d, fail=%d\r\n",
+        uint32_t raw_ADC{};
+        if (!the_ADC.read_raw_ADC(raw_ADC)) {
+            raw_ADC = 0xFFFF;
+        }
+        int32_t cal_ADC{the_ADC.read_ADC()};
+        printf("Temp: temp=%d.%d, bias=%d, DAC(raw)=%d, DAC(cal)=%d, ADC(raw)=%d, ADC(cal)=%d, cal=%d, fail=%d\r\n",
                get_temperature() / 100, get_temperature() % 100, the_bias_volt,
-               get_DAC().get_raw_DAC(), get_DAC_setting(), the_ADC.read_ADC(), cnt_bias_cal, cnt_bias_failed);
+               get_DAC().get_raw_DAC(), get_DAC_setting(), raw_ADC, cal_ADC, cnt_bias_cal, cnt_bias_failed);
         the_DAC.print_diag();
         the_ADC.print_diag();
     }

@@ -54,12 +54,12 @@ export namespace SpectraNode_interface{
     constexpr auto* help_BIAS_VOLT{"Read actual bias voltage."};
     constexpr auto* help_BIAS{"Get bias setting."};
     constexpr auto* help_CAL_DIAG{"Misc. diagnostic information wrt. calibration."};
+    constexpr auto* help_CAL_DUMP{"Get calibration settings."};
     constexpr auto* help_CAL_TEST_BIAS{"Find common bias voltage using dark count rate."};
     constexpr auto* help_CAL_TEST_NOISE{"Find channel noise floor using threshold scan."};
     constexpr auto* help_CAL_TEST_OFFSET{"Find channel offset voltage using fixed source."};
     constexpr auto* help_CAL_TEST_PEDESTAL{"Find channel pedestal using forced readout."};
     constexpr auto* help_CAL_TRACE{"Toggle diagnostic trace on/off."};
-    constexpr auto* help_CAL{"Get calibration settings."};
     constexpr auto* help_ASIC_asic_nbr{"Select ASIC 1-5."};
     constexpr auto* help_ASIC_DUMP{"Dump all the ASIC registers."};
     constexpr auto* help_ASIC_LOAD{"Update all ASIC registers from current configuration."};

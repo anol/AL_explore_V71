@@ -126,7 +126,7 @@ void Instrument_calibration_provider::v_BIAS_DAC_V40_cal_40V(Instruction_major &
     }
 }
 
-void Instrument_calibration_provider::v_CAL(Instruction_major &instruction) {
+void Instrument_calibration_provider::v_CAL_DUMP(Instruction_major &instruction) {
     the_test_pedestal.print_pedestals();
     instruction.print_ack();
 }
