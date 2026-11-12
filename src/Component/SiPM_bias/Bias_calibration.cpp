@@ -96,7 +96,7 @@ namespace Calibration {
 
     void Bias_calibration::bias_temperature_control() {
         //read temperature sensor (divide by 100 to get Celsius)
-        int16_t tempo = 0;
+        const int16_t tempo = 2500;
         // if (STTS22H_ReadTemperatureOneShot(&tempo) != HAL_OK) {
         //     // Error handling (for example, blink an LED)
         //     the_temperature = -200;

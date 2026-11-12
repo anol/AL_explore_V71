@@ -30,7 +30,7 @@
 
 # Domain version 4
 
-Date: 10.11.2026
+Date: 12.11.2026
 
 | Id | Name | Description |
 |---|---|---|
@@ -45,8 +45,8 @@ Date: 10.11.2026
 | 8 | `ASIC` |  |
 | 9 | `asic_nbr` |  |
 | 10 | `b` |  |
-| 11 | `bias` |  |
-| 12 | `BIAS` |  |
+| 11 | `BIAS` |  |
+| 12 | `bias_mV` |  |
 | 13 | `CADENCE` |  |
 | 14 | `CAL` |  |
 | 15 | `cal_35V` |  |
@@ -122,6 +122,6 @@ Date: 10.11.2026
 | 85 | `TRACE` |  |
 | 86 | `V35` |  |
 | 87 | `V40` |  |
-| 88 | `VBIAS` |  |
-| 89 | `VERSION` |  |
+| 88 | `VERSION` |  |
+| 89 | `VOLT` |  |
 | 255 | `"Wildcard"` | Special purpose, used in search |

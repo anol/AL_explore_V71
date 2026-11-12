@@ -98,6 +98,17 @@ namespace Calibration {
                the_readout_countdown, use_readout_control.get_TXD_iteration());
     }
 
+    void IDE3380_test_pedestal::print_pedestals() const {
+        printf("Channel pedestals:\r\n");
+        for (int32_t channel = 0; channel < IDE3380_input_count; channel++) {
+            auto id = Application::Cal_input_1_offset + channel;
+            int32_t pedestal;
+            if (use_repository.get(id, pedestal).success()) {
+                printf("  Ch.%d: %d\r\n", channel + 1, pedestal);
+            }
+        }
+    }
+
     int32_t IDE3380_test_pedestal::weighted_mean_index(const uint32_t *data, const uint32_t size) {
         uint32_t weighted_sum = 0.0;
         uint32_t total_weight = 0.0;

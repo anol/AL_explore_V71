@@ -63,8 +63,8 @@ Copyright (C) 2023 Integrated Detector Electronics AS
         <key name="TRACE"/>
         <key name="V35"/>
         <key name="V40"/>
-        <key name="VBIAS"/>
         <key name="VERSION"/>
+        <key name="VOLT"/>
 
         <key name="a"/>
         <key name="access"/>
@@ -72,7 +72,7 @@ Copyright (C) 2023 Integrated Detector Electronics AS
         <key name="adc"/>
         <key name="asic_nbr"/>
         <key name="b"/>
-        <key name="bias"/>
+        <key name="bias_mV"/>
         <key name="cal_35V"/>
         <key name="cal_40V"/>
         <key name="calibration"/>

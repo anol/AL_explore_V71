@@ -174,63 +174,88 @@ namespace SpectraNode_interface{
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
-    const Instruction_token token_CAL_ADC_V35_cal_35V[] = {
-        {help_CAL_ADC_V35_cal_35V, Cmd_CAL_ADC_V35_cal_35V, Key_Instrument_calibration},
+    const Instruction_token token_BIAS_bias_mV[] = {
+        {help_BIAS_bias_mV, Cmd_BIAS_bias_mV, Key_Instrument_calibration},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
-    const Instruction_token token_CAL_ADC_V35[] = {
-        {Integer_token, Key_cal_35V, token_CAL_ADC_V35_cal_35V, -100000, static_cast<int32_t>(-1)},
+    const Instruction_token token_BIAS_ADC_V35_cal_35V[] = {
+        {help_BIAS_ADC_V35_cal_35V, Cmd_BIAS_ADC_V35_cal_35V, Key_Instrument_calibration},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
-    const Instruction_token token_CAL_ADC_V40_cal_40V[] = {
-        {help_CAL_ADC_V40_cal_40V, Cmd_CAL_ADC_V40_cal_40V, Key_Instrument_calibration},
+    const Instruction_token token_BIAS_ADC_V35[] = {
+        {Integer_token, Key_cal_35V, token_BIAS_ADC_V35_cal_35V, -100000, static_cast<int32_t>(-1)},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
-    const Instruction_token token_CAL_ADC_V40[] = {
-        {Integer_token, Key_cal_40V, token_CAL_ADC_V40_cal_40V, -100000, static_cast<int32_t>(-1)},
+    const Instruction_token token_BIAS_ADC_V40_cal_40V[] = {
+        {help_BIAS_ADC_V40_cal_40V, Cmd_BIAS_ADC_V40_cal_40V, Key_Instrument_calibration},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
-    const Instruction_token token_CAL_ADC[] = {
-        {Keyword_token, "V35", Key_V35, (uint32_t)0, token_CAL_ADC_V35},
-        {Keyword_token, "V40", Key_V40, (uint32_t)0, token_CAL_ADC_V40},
-        {help_CAL_ADC, Cmd_CAL_ADC, Key_Instrument_calibration},
+    const Instruction_token token_BIAS_ADC_V40[] = {
+        {Integer_token, Key_cal_40V, token_BIAS_ADC_V40_cal_40V, -100000, static_cast<int32_t>(-1)},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
-    const Instruction_token token_CAL_DAC_data16[] = {
-        {help_CAL_DAC_data16, Cmd_CAL_DAC_data16, Key_Instrument_calibration},
+    const Instruction_token token_BIAS_ADC[] = {
+        {Keyword_token, "V35", Key_V35, (uint32_t)0, token_BIAS_ADC_V35},
+        {Keyword_token, "V40", Key_V40, (uint32_t)0, token_BIAS_ADC_V40},
+        {help_BIAS_ADC, Cmd_BIAS_ADC, Key_Instrument_calibration},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
-    const Instruction_token token_CAL_DAC_V35_cal_35V[] = {
-        {help_CAL_DAC_V35_cal_35V, Cmd_CAL_DAC_V35_cal_35V, Key_Instrument_calibration},
+    const Instruction_token token_BIAS_DAC_data16[] = {
+        {help_BIAS_DAC_data16, Cmd_BIAS_DAC_data16, Key_Instrument_calibration},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
-    const Instruction_token token_CAL_DAC_V35[] = {
-        {Integer_token, Key_cal_35V, token_CAL_DAC_V35_cal_35V, -100000, static_cast<int32_t>(-1)},
+    const Instruction_token token_BIAS_DAC_V35_cal_35V[] = {
+        {help_BIAS_DAC_V35_cal_35V, Cmd_BIAS_DAC_V35_cal_35V, Key_Instrument_calibration},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
-    const Instruction_token token_CAL_DAC_V40_cal_40V[] = {
-        {help_CAL_DAC_V40_cal_40V, Cmd_CAL_DAC_V40_cal_40V, Key_Instrument_calibration},
+    const Instruction_token token_BIAS_DAC_V35[] = {
+        {Integer_token, Key_cal_35V, token_BIAS_DAC_V35_cal_35V, -100000, static_cast<int32_t>(-1)},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
-    const Instruction_token token_CAL_DAC_V40[] = {
-        {Integer_token, Key_cal_40V, token_CAL_DAC_V40_cal_40V, -100000, static_cast<int32_t>(-1)},
+    const Instruction_token token_BIAS_DAC_V40_cal_40V[] = {
+        {help_BIAS_DAC_V40_cal_40V, Cmd_BIAS_DAC_V40_cal_40V, Key_Instrument_calibration},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
-    const Instruction_token token_CAL_DAC[] = {
-        {Integer_token, Key_data16, token_CAL_DAC_data16, 0, static_cast<int32_t>(0xFFFF)},
-        {Keyword_token, "V35", Key_V35, (uint32_t)0, token_CAL_DAC_V35},
-        {Keyword_token, "V40", Key_V40, (uint32_t)0, token_CAL_DAC_V40},
-        {help_CAL_DAC, Cmd_CAL_DAC, Key_Instrument_calibration},
+    const Instruction_token token_BIAS_DAC_V40[] = {
+        {Integer_token, Key_cal_40V, token_BIAS_DAC_V40_cal_40V, -100000, static_cast<int32_t>(-1)},
+        {End_token, "", No_key, (uint32_t)0, nullptr}
+    };
+
+    const Instruction_token token_BIAS_DAC[] = {
+        {Integer_token, Key_data16, token_BIAS_DAC_data16, 0, static_cast<int32_t>(0xFFFF)},
+        {Keyword_token, "V35", Key_V35, (uint32_t)0, token_BIAS_DAC_V35},
+        {Keyword_token, "V40", Key_V40, (uint32_t)0, token_BIAS_DAC_V40},
+        {help_BIAS_DAC, Cmd_BIAS_DAC, Key_Instrument_calibration},
+        {End_token, "", No_key, (uint32_t)0, nullptr}
+    };
+
+    const Instruction_token token_BIAS_DIAG[] = {
+        {help_BIAS_DIAG, Cmd_BIAS_DIAG, Key_Instrument_calibration},
+        {End_token, "", No_key, (uint32_t)0, nullptr}
+    };
+
+    const Instruction_token token_BIAS_VOLT[] = {
+        {help_BIAS_VOLT, Cmd_BIAS_VOLT, Key_Instrument_calibration},
+        {End_token, "", No_key, (uint32_t)0, nullptr}
+    };
+
+    const Instruction_token token_BIAS[] = {
+        {Integer_token, Key_bias_mV, token_BIAS_bias_mV, -50000, static_cast<int32_t>(-10000)},
+        {Keyword_token, "ADC", Key_ADC, (uint32_t)0, token_BIAS_ADC},
+        {Keyword_token, "DAC", Key_DAC, (uint32_t)0, token_BIAS_DAC},
+        {Keyword_token, "DIAG", Key_DIAG, (uint32_t)0, token_BIAS_DIAG},
+        {Keyword_token, "VOLT", Key_VOLT, (uint32_t)0, token_BIAS_VOLT},
+        {help_BIAS, Cmd_BIAS, Key_Instrument_calibration},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
@@ -273,11 +298,10 @@ namespace SpectraNode_interface{
     };
 
     const Instruction_token token_CAL[] = {
-        {Keyword_token, "ADC", Key_ADC, (uint32_t)0, token_CAL_ADC},
-        {Keyword_token, "DAC", Key_DAC, (uint32_t)0, token_CAL_DAC},
         {Keyword_token, "DIAG", Key_DIAG, (uint32_t)0, token_CAL_DIAG},
         {Keyword_token, "TEST", Key_TEST, (uint32_t)0, token_CAL_TEST},
         {Keyword_token, "TRACE", Key_TRACE, (uint32_t)0, token_CAL_TRACE},
+        {help_CAL, Cmd_CAL, Key_Instrument_calibration},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
@@ -432,6 +456,7 @@ namespace SpectraNode_interface{
         {Keyword_token, "FORMAT", Key_FORMAT, (uint32_t)0, token_FORMAT},
         {Keyword_token, "GET", Key_GET, (uint32_t)0, token_GET},
         {Keyword_token, "TIME", Key_TIME, (uint32_t)0, token_TIME},
+        {Keyword_token, "BIAS", Key_BIAS, (uint32_t)0, token_BIAS},
         {Keyword_token, "CAL", Key_CAL, (uint32_t)0, token_CAL},
         {Keyword_token, "ASIC", Key_ASIC, (uint32_t)0, token_ASIC},
         {Keyword_token, "CONFIG", Key_CONFIG, (uint32_t)0, token_CONFIG},

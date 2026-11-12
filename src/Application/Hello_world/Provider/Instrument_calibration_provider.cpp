@@ -43,7 +43,31 @@ using namespace IDE3380;
 using namespace SpectraNode_interface;
 using namespace Application;
 
-void Instrument_calibration_provider::v_CAL_ADC(Instruction_major &instruction) {
+void Instrument_calibration_provider::v_BIAS(Instruction_major &instruction) {
+    auto bias{use_bias.get_bias_25C()};
+    instruction.print_ack(bias);
+}
+
+void Instrument_calibration_provider::v_BIAS_DIAG(Instruction_major &instruction) {
+     use_bias.print_diag();
+    instruction.print_ack();
+}
+
+void Instrument_calibration_provider::v_BIAS_VOLT(Instruction_major &instruction) {
+    auto bias{use_bias.get_voltage()};
+    instruction.print_ack(bias);
+}
+
+void Instrument_calibration_provider::v_BIAS_bias_mV(Instruction_major &instruction, const int bias_mV_1) {
+    use_bias.set_bias_25C(bias_mV_1);
+    if (use_repository.set(Cal_bias_25C, bias_mV_1).success()) {
+        instruction.print_ack(bias_mV_1);
+    } else {
+        instruction.print_nack(use_repository.get_diag_code());
+    }
+}
+
+void Instrument_calibration_provider::v_BIAS_ADC(Instruction_major &instruction) {
     if (uint32_t raw{}; use_bias.get_ADC().read_raw_ADC(raw)) {
         instruction.print_ack(static_cast<int32_t>(raw));
     } else {
@@ -51,7 +75,7 @@ void Instrument_calibration_provider::v_CAL_ADC(Instruction_major &instruction) 
     }
 }
 
-void Instrument_calibration_provider::v_CAL_ADC_V35_cal_35V(Instruction_major &instruction, const int cal_35V_3) {
+void Instrument_calibration_provider::v_BIAS_ADC_V35_cal_35V(Instruction_major &instruction, const int cal_35V_3) {
     use_bias.get_ADC().set_cal_35V(cal_35V_3);
     if (use_repository.set(Cal_ADC_35V, cal_35V_3).success()) {
         instruction.print_ack(cal_35V_3);
@@ -60,7 +84,7 @@ void Instrument_calibration_provider::v_CAL_ADC_V35_cal_35V(Instruction_major &i
     }
 }
 
-void Instrument_calibration_provider::v_CAL_ADC_V40_cal_40V(Instruction_major &instruction, const int cal_40V_3) {
+void Instrument_calibration_provider::v_BIAS_ADC_V40_cal_40V(Instruction_major &instruction, const int cal_40V_3) {
     use_bias.get_ADC().set_cal_45V(cal_40V_3);
     if (use_repository.set(Cal_ADC_40V, cal_40V_3).success()) {
         instruction.print_ack(cal_40V_3);
@@ -69,11 +93,11 @@ void Instrument_calibration_provider::v_CAL_ADC_V40_cal_40V(Instruction_major &i
     }
 }
 
-void Instrument_calibration_provider::v_CAL_DAC(Instruction_major &instruction) {
+void Instrument_calibration_provider::v_BIAS_DAC(Instruction_major &instruction) {
     instruction.print_ack(static_cast<int32_t>(use_bias.get_DAC().get_raw_DAC()));
 }
 
-void Instrument_calibration_provider::v_CAL_DAC_data16(Instruction_major &instruction, const int data16_2) {
+void Instrument_calibration_provider::v_BIAS_DAC_data16(Instruction_major &instruction, const int data16_2) {
     enum { DAC_min = 0, DAC_max = 4095 }; // 12-bit DAC; out-of-range values would wrap on hardware
     if (data16_2 < DAC_min || data16_2 > DAC_max) {
         instruction.print_nack(123);
@@ -84,7 +108,7 @@ void Instrument_calibration_provider::v_CAL_DAC_data16(Instruction_major &instru
     }
 }
 
-void Instrument_calibration_provider::v_CAL_DAC_V35_cal_35V(Instruction_major &instruction, const int cal_35V_3) {
+void Instrument_calibration_provider::v_BIAS_DAC_V35_cal_35V(Instruction_major &instruction, const int cal_35V_3) {
     use_bias.get_DAC().set_cal_35V(cal_35V_3);
     if (use_repository.set(Cal_DAC_35V, cal_35V_3).success()) {
         instruction.print_ack(cal_35V_3);
@@ -93,13 +117,18 @@ void Instrument_calibration_provider::v_CAL_DAC_V35_cal_35V(Instruction_major &i
     }
 }
 
-void Instrument_calibration_provider::v_CAL_DAC_V40_cal_40V(Instruction_major &instruction, const int cal_40V_3) {
+void Instrument_calibration_provider::v_BIAS_DAC_V40_cal_40V(Instruction_major &instruction, const int cal_40V_3) {
     use_bias.get_DAC().set_cal_45V(cal_40V_3);
     if (use_repository.set(Cal_DAC_40V, cal_40V_3).success()) {
         instruction.print_ack(cal_40V_3);
     } else {
         instruction.print_nack(use_repository.get_diag_code());
     }
+}
+
+void Instrument_calibration_provider::v_CAL(Instruction_major &instruction) {
+    the_test_pedestal.print_pedestals();
+    instruction.print_ack();
 }
 
 void Instrument_calibration_provider::v_CAL_DIAG(Instruction_major &instruction) {

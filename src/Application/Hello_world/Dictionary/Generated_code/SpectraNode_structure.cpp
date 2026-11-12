@@ -24,11 +24,15 @@ module Application.SpectraNode_structure;
 import Domain.Keyword_lookup;
 
 using namespace Domain_interface;
-        
+
 namespace SpectraNode_interface{
 
         static inline constexpr uint32_t key_is(uint8_t p1, uint8_t s2, uint8_t t3, uint8_t q4) {
         return (p1 << 24 ) | (s2 << 16 ) | (t3 << 8) | q4;
+        }
+
+        static inline constexpr uint32_t default_is(uint8_t index, uint32_t default_value) {
+        return default_value;
         }
 
         static inline constexpr uint32_t form_is(uint8_t p1, uint8_t s2, uint8_t t3, uint8_t q4) {

@@ -31,14 +31,13 @@ import Support.Instruction_major;
 import Support.Configuration_repository;
 
 
-
 using namespace IDE3380;
 
 export namespace Calibration {
     class IDE3380_test_pedestal : public Abstract::Abstract_scenario<Instruction_major> {
         enum {
             Default_diag_code = 76,
-            Readout_count = 100'000,
+            Readout_count     = 100'000,
         };
 
         IDE3380_interface &use_IDE3380;
@@ -83,6 +82,8 @@ export namespace Calibration {
         [[nodiscard]] uint32_t get_diag_code() const { return the_diag_code; }
 
         void print_diag() const override;
+
+        void print_pedestals() const;
 
     private:
         void test_prolog(int32_t count);

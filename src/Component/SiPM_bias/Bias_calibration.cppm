@@ -49,6 +49,8 @@ export namespace Calibration {
 
         void set_bias_25C(const int32_t cal) { the_bias_at_25 = cal; }
 
+        [[nodiscard]] int32_t get_bias_25C() const { return the_bias_at_25; }
+
         [[nodiscard]] int32_t get_temperature() const { return the_temperature; }
 
         [[nodiscard]] int32_t get_voltage() const { return the_bias_volt; }

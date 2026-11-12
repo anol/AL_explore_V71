@@ -39,8 +39,8 @@ namespace Domain_interface {
         "ASIC", // Key_ASIC
         "asic_nbr", // Key_asic_nbr
         "b", // Key_b
-        "bias", // Key_bias
         "BIAS", // Key_BIAS
+        "bias_mV", // Key_bias_mV
         "CADENCE", // Key_CADENCE
         "CAL", // Key_CAL
         "cal_35V", // Key_cal_35V
@@ -116,8 +116,8 @@ namespace Domain_interface {
         "TRACE", // Key_TRACE
         "V35", // Key_V35
         "V40", // Key_V40
-        "VBIAS", // Key_VBIAS
         "VERSION", // Key_VERSION
+        "VOLT", // Key_VOLT
     };
 
     const char *get_keyword(unsigned char key) {

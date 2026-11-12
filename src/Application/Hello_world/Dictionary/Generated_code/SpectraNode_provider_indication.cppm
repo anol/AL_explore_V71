@@ -99,33 +99,43 @@ export namespace SpectraNode_interface {
         Abstract_Instrument_calibration_provider() : Abstract_provider(Key_Instrument_calibration){}
         bool on_indication(Instruction_major &) override;
     protected:
-        virtual void v_CAL_ADC_V35_cal_35V(Instruction_major &, int cal_35V_3) = 0;
-        virtual void v_CAL_ADC_V40_cal_40V(Instruction_major &, int cal_40V_3) = 0;
-        virtual void v_CAL_ADC(Instruction_major &) = 0;
-        virtual void v_CAL_DAC_data16(Instruction_major &, int data16_2) = 0;
-        virtual void v_CAL_DAC_V35_cal_35V(Instruction_major &, int cal_35V_3) = 0;
-        virtual void v_CAL_DAC_V40_cal_40V(Instruction_major &, int cal_40V_3) = 0;
-        virtual void v_CAL_DAC(Instruction_major &) = 0;
+        virtual void v_BIAS_bias_mV(Instruction_major &, int bias_mV_1) = 0;
+        virtual void v_BIAS_ADC_V35_cal_35V(Instruction_major &, int cal_35V_3) = 0;
+        virtual void v_BIAS_ADC_V40_cal_40V(Instruction_major &, int cal_40V_3) = 0;
+        virtual void v_BIAS_ADC(Instruction_major &) = 0;
+        virtual void v_BIAS_DAC_data16(Instruction_major &, int data16_2) = 0;
+        virtual void v_BIAS_DAC_V35_cal_35V(Instruction_major &, int cal_35V_3) = 0;
+        virtual void v_BIAS_DAC_V40_cal_40V(Instruction_major &, int cal_40V_3) = 0;
+        virtual void v_BIAS_DAC(Instruction_major &) = 0;
+        virtual void v_BIAS_DIAG(Instruction_major &) = 0;
+        virtual void v_BIAS_VOLT(Instruction_major &) = 0;
+        virtual void v_BIAS(Instruction_major &) = 0;
         virtual void v_CAL_DIAG(Instruction_major &) = 0;
         virtual void v_CAL_TEST_BIAS(Instruction_major &) = 0;
         virtual void v_CAL_TEST_NOISE(Instruction_major &) = 0;
         virtual void v_CAL_TEST_OFFSET(Instruction_major &) = 0;
         virtual void v_CAL_TEST_PEDESTAL(Instruction_major &) = 0;
         virtual void v_CAL_TRACE(Instruction_major &) = 0;
+        virtual void v_CAL(Instruction_major &) = 0;
     public:
-        void p_CAL_ADC_V35_cal_35V(Instruction_major &);
-        void p_CAL_ADC_V40_cal_40V(Instruction_major &);
-        void p_CAL_ADC(Instruction_major &);
-        void p_CAL_DAC_data16(Instruction_major &);
-        void p_CAL_DAC_V35_cal_35V(Instruction_major &);
-        void p_CAL_DAC_V40_cal_40V(Instruction_major &);
-        void p_CAL_DAC(Instruction_major &);
+        void p_BIAS_bias_mV(Instruction_major &);
+        void p_BIAS_ADC_V35_cal_35V(Instruction_major &);
+        void p_BIAS_ADC_V40_cal_40V(Instruction_major &);
+        void p_BIAS_ADC(Instruction_major &);
+        void p_BIAS_DAC_data16(Instruction_major &);
+        void p_BIAS_DAC_V35_cal_35V(Instruction_major &);
+        void p_BIAS_DAC_V40_cal_40V(Instruction_major &);
+        void p_BIAS_DAC(Instruction_major &);
+        void p_BIAS_DIAG(Instruction_major &);
+        void p_BIAS_VOLT(Instruction_major &);
+        void p_BIAS(Instruction_major &);
         void p_CAL_DIAG(Instruction_major &);
         void p_CAL_TEST_BIAS(Instruction_major &);
         void p_CAL_TEST_NOISE(Instruction_major &);
         void p_CAL_TEST_OFFSET(Instruction_major &);
         void p_CAL_TEST_PEDESTAL(Instruction_major &);
         void p_CAL_TRACE(Instruction_major &);
+        void p_CAL(Instruction_major &);
     };
             
     class Abstract_Configuration_manager_provider : public Abstract_provider<Instruction_major> {

@@ -30,7 +30,7 @@
 
 # FW1038 SpectraNode command version 3
 
-Date: 09.11.2026
+Date: 12.11.2026
 
 ## Provider: Mode_control
 
@@ -60,19 +60,24 @@ Date: 09.11.2026
 
 | Command | Description |
 |---|---|
-| `AT+CAL_ADC_V35=<cal_35V(int -100000..-1)>` | Set bias ADC calibration 35V setpoint. |
-| `AT+CAL_ADC_V40=<cal_40V(int -100000..-1)>` | Set bias ADC calibration 40V setpoint. |
-| `AT+CAL_ADC` | Get the raw ADC reading. |
-| `AT+CAL_DAC=<data16(int 0..0xFFFF)>` | Set raw DAC value. |
-| `AT+CAL_DAC_V35=<cal_35V(int -100000..-1)>` | Set bias DAC calibration 35V setpoint. |
-| `AT+CAL_DAC_V40=<cal_40V(int -100000..-1)>` | Set bias DAC calibration 40V setpoint. |
-| `AT+CAL_DAC` | Get the raw DAC setting. |
+| `AT+BIAS_ADC_V35=<cal_35V(int -100000..-1)>` | Set ADC 35V setpoint. |
+| `AT+BIAS_ADC_V40=<cal_40V(int -100000..-1)>` | Set ADC 40V setpoint. |
+| `AT+BIAS_ADC` | Get the raw ADC reading. |
+| `AT+BIAS=<bias_mV(int -50000..-10000)>` | Set the bias voltage (mV). |
+| `AT+BIAS_DAC=<data16(int 0..0xFFFF)>` | Set raw DAC value. |
+| `AT+BIAS_DAC_V35=<cal_35V(int -100000..-1)>` | Set DAC 35V setpoint. |
+| `AT+BIAS_DAC_V40=<cal_40V(int -100000..-1)>` | Set DAC 40V setpoint. |
+| `AT+BIAS_DAC` | Get the raw DAC setting. |
+| `AT+BIAS_DIAG` | Misc. diagnostic information wrt. bias voltage. |
+| `AT+BIAS_VOLT` | Read actual bias voltage. |
+| `AT+BIAS` | Get bias setting. |
 | `AT+CAL_DIAG` | Misc. diagnostic information wrt. calibration. |
 | `AT+CAL_TEST_BIAS` | Find common bias voltage using dark count rate. |
 | `AT+CAL_TEST_NOISE` | Find channel noise floor using threshold scan. |
 | `AT+CAL_TEST_OFFSET` | Find channel offset voltage using fixed source. |
 | `AT+CAL_TEST_PEDESTAL` | Find channel pedestal using forced readout. |
 | `AT+CAL_TRACE` | Toggle diagnostic trace on/off. |
+| `AT+CAL` | Get calibration settings. |
 
 ## Provider: Configuration_manager
 

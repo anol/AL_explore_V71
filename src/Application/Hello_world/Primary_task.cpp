@@ -39,7 +39,7 @@ namespace Application {
     }
 
     void Primary_task::task_loop() {
-        enum { Start_delay_millis = 100, Delay_millis = 999 };
+        enum { Start_delay_millis = 100, Delay_millis = 1000 };
         delay_until(Start_delay_millis);
         Housekeeping_provider::print_version();
         use_repository.initialize();
@@ -58,6 +58,7 @@ namespace Application {
         }
         while (true) {
             delay_until(Delay_millis);
+            use_detector.get_bias().bias_temperature_control();
         }
     }
 }
