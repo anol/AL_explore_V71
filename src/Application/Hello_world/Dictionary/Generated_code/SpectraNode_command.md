@@ -28,9 +28,9 @@
 
 -->
 
-# FW1038 SpectraNode command version 3
+# FW1038 SpectraNode command version 5
 
-Date: 12.11.2026
+Date: 16.11.2026
 
 ## Provider: Mode_control
 
@@ -60,17 +60,25 @@ Date: 12.11.2026
 
 | Command | Description |
 |---|---|
-| `AT+BIAS_ADC_V35=<cal_35V(int -100000..-1)>` | Set ADC 35V setpoint. |
-| `AT+BIAS_ADC_V40=<cal_40V(int -100000..-1)>` | Set ADC 40V setpoint. |
+| `AT+BIAS_ADC_SET=<v30(int 0..4095)>,<v40(int 0..4095)>` | Set the ADC 30V and 40V calibration points. |
+| `AT+BIAS_ADC_SET` | Get the ADC 30V and 40V calibration points. |
 | `AT+BIAS_ADC` | Get the raw ADC reading. |
-| `AT+BIAS=<bias_mV(int -50000..-10000)>` | Set the bias voltage (mV). |
-| `AT+BIAS_DAC=<data16(int 0..0xFFFF)>` | Set raw DAC value. |
-| `AT+BIAS_DAC_V35=<cal_35V(int -100000..-1)>` | Set DAC 35V setpoint. |
-| `AT+BIAS_DAC_V40=<cal_40V(int -100000..-1)>` | Set DAC 40V setpoint. |
+| `AT+BIAS_C25=<bias_mV(int -50000..-10000)>` | Set the 25C bias setpoint. |
+| `AT+BIAS_C25` | Get the 25C bias setpoint. |
+| `AT+BIAS_CAL` | Toggle calibration mode ON/OFF. |
+| `AT+BIAS_DAC=<data12(int 0..4095)>` | Override the DAC setting. |
+| `AT+BIAS_DAC_SET=<v30(int 0..4095)>,<v40(int 0..4095)>` | Set the DAC 30V and 40V calibration points. |
+| `AT+BIAS_DAC_SET` | Get the DAC calibration. |
 | `AT+BIAS_DAC` | Get the raw DAC setting. |
 | `AT+BIAS_DIAG` | Misc. diagnostic information wrt. bias voltage. |
-| `AT+BIAS_VOLT` | Read actual bias voltage. |
-| `AT+BIAS` | Get bias setting. |
+| `AT+BIAS_ERROR` | Get the bias voltage error. |
+| `AT+BIAS_SET=<bias_mV(int -50000..-10000)>` | Override the temp. compensated bias setpoint. |
+| `AT+BIAS_SET` | Get the temp. compensated bias setpoint. |
+| `AT+BIAS_TEMP_SET=<a(int -1000000..1000000)>,<b(int -1000000..1000000)>,<c(int -1000000..1000000)>` | Set the temperature correction factors. |
+| `AT+BIAS_TEMP_SET` | Get the temperature correction. |
+| `AT+BIAS_TEMP` | Get the temperature. |
+| `AT+BIAS_VOLT` | Get the bias voltage. |
+| `AT+BIAS` | Show setpoint, voltage and error. |
 | `AT+CAL_DIAG` | Misc. diagnostic information wrt. calibration. |
 | `AT+CAL_DUMP` | Get calibration settings. |
 | `AT+CAL_TEST_BIAS` | Find common bias voltage using dark count rate. |

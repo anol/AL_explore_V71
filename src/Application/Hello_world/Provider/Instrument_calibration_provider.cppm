@@ -48,6 +48,7 @@ export class Instrument_calibration_provider : public Abstract_Instrument_calibr
     Calibration::IDE3380_test_pedestal the_test_pedestal;
     Calibration::IDE3380_test_noise_floor the_test_noise_floor;
     bool the_trace_flag{};
+    bool the_calibration_flag{};
 
 public:
     Instrument_calibration_provider(Calibration::Bias_calibration &bias,
@@ -75,25 +76,41 @@ public:
 protected:
     void v_BIAS(Instruction_major &) override;
 
-    void v_BIAS_DIAG(Instruction_major &) override;
-
-    void v_BIAS_VOLT(Instruction_major &) override;
-
-    void v_BIAS_bias_mV(Instruction_major &, int bias_mV_1) override;
-
     void v_BIAS_ADC(Instruction_major &) override;
 
-    void v_BIAS_ADC_V35_cal_35V(Instruction_major &, int cal_35V_3) override;
+    void v_BIAS_ADC_SET(Instruction_major &) override;
 
-    void v_BIAS_ADC_V40_cal_40V(Instruction_major &, int cal_40V_3) override;
+    void v_BIAS_ADC_SET_v30_v40(Instruction_major &, int v30_2, int v40_3) override;
+
+    void v_BIAS_C25(Instruction_major &) override;
+
+    void v_BIAS_C25_bias_mV(Instruction_major &, int bias_mV_2) override;
+
+    void v_BIAS_CAL(Instruction_major &) override;
 
     void v_BIAS_DAC(Instruction_major &) override;
 
-    void v_BIAS_DAC_data16(Instruction_major &, int data16_2) override;
+    void v_BIAS_DAC_data12(Instruction_major &, int data12_2) override;
 
-    void v_BIAS_DAC_V35_cal_35V(Instruction_major &, int cal_35V_3) override;
+    void v_BIAS_DAC_SET(Instruction_major &) override;
 
-    void v_BIAS_DAC_V40_cal_40V(Instruction_major &, int cal_40V_3) override;
+    void v_BIAS_DAC_SET_v30_v40(Instruction_major &, int v30_3, int v40_4) override;
+
+    void v_BIAS_DIAG(Instruction_major &) override;
+
+    void v_BIAS_ERROR(Instruction_major &) override;
+
+    void v_BIAS_SET(Instruction_major &) override;
+
+    void v_BIAS_SET_bias_mV(Instruction_major &, int bias_mV_2) override;
+
+    void v_BIAS_TEMP(Instruction_major &) override;
+
+    void v_BIAS_TEMP_SET(Instruction_major &) override;
+
+    void v_BIAS_TEMP_SET_a_b_c(Instruction_major &, int a_3, int b_4, int c_5) override;
+
+    void v_BIAS_VOLT(Instruction_major &) override;
 
     void v_CAL_DUMP(Instruction_major &) override;
 

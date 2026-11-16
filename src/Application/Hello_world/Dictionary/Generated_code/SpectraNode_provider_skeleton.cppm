@@ -52,15 +52,23 @@ export namespace SpectraNode_interface {
             
     class Implement_Instrument_calibration_provider : public Abstract_Instrument_calibration_provider{
     protected:
-        void v_BIAS_bias_mV(Transaction_major &, int bias_mV_1) override;
-        void v_BIAS_ADC_V35_cal_35V(Transaction_major &, int cal_35V_3) override;
-        void v_BIAS_ADC_V40_cal_40V(Transaction_major &, int cal_40V_3) override;
+        void v_BIAS_ADC_SET_v30_v40(Transaction_major &, int v30_3, int v40_4) override;
+        void v_BIAS_ADC_SET(Transaction_major &) override;
         void v_BIAS_ADC(Transaction_major &) override;
-        void v_BIAS_DAC_data16(Transaction_major &, int data16_2) override;
-        void v_BIAS_DAC_V35_cal_35V(Transaction_major &, int cal_35V_3) override;
-        void v_BIAS_DAC_V40_cal_40V(Transaction_major &, int cal_40V_3) override;
+        void v_BIAS_C25_bias_mV(Transaction_major &, int bias_mV_2) override;
+        void v_BIAS_C25(Transaction_major &) override;
+        void v_BIAS_CAL(Transaction_major &) override;
+        void v_BIAS_DAC_data12(Transaction_major &, int data12_2) override;
+        void v_BIAS_DAC_SET_v30_v40(Transaction_major &, int v30_3, int v40_4) override;
+        void v_BIAS_DAC_SET(Transaction_major &) override;
         void v_BIAS_DAC(Transaction_major &) override;
         void v_BIAS_DIAG(Transaction_major &) override;
+        void v_BIAS_ERROR(Transaction_major &) override;
+        void v_BIAS_SET_bias_mV(Transaction_major &, int bias_mV_2) override;
+        void v_BIAS_SET(Transaction_major &) override;
+        void v_BIAS_TEMP_SET_a_b_c(Transaction_major &, int a_3, int b_4, int c_5) override;
+        void v_BIAS_TEMP_SET(Transaction_major &) override;
+        void v_BIAS_TEMP(Transaction_major &) override;
         void v_BIAS_VOLT(Transaction_major &) override;
         void v_BIAS(Transaction_major &) override;
         void v_CAL_DIAG(Transaction_major &) override;

@@ -139,15 +139,23 @@ namespace SpectraNode_interface{
 
 template<> const Abstract_Instrument_calibration_provider::Lookup_table::Instruction_entry
     Abstract_Instrument_calibration_provider::Lookup_table::instruction_table[] = {
-    {&Abstract_Instrument_calibration_provider::p_BIAS_bias_mV, Cmd_BIAS_bias_mV},
-    {&Abstract_Instrument_calibration_provider::p_BIAS_ADC_V35_cal_35V, Cmd_BIAS_ADC_V35_cal_35V},
-    {&Abstract_Instrument_calibration_provider::p_BIAS_ADC_V40_cal_40V, Cmd_BIAS_ADC_V40_cal_40V},
+    {&Abstract_Instrument_calibration_provider::p_BIAS_ADC_SET_v30_v40, Cmd_BIAS_ADC_SET_v30_v40},
+    {&Abstract_Instrument_calibration_provider::p_BIAS_ADC_SET, Cmd_BIAS_ADC_SET},
     {&Abstract_Instrument_calibration_provider::p_BIAS_ADC, Cmd_BIAS_ADC},
-    {&Abstract_Instrument_calibration_provider::p_BIAS_DAC_data16, Cmd_BIAS_DAC_data16},
-    {&Abstract_Instrument_calibration_provider::p_BIAS_DAC_V35_cal_35V, Cmd_BIAS_DAC_V35_cal_35V},
-    {&Abstract_Instrument_calibration_provider::p_BIAS_DAC_V40_cal_40V, Cmd_BIAS_DAC_V40_cal_40V},
+    {&Abstract_Instrument_calibration_provider::p_BIAS_C25_bias_mV, Cmd_BIAS_C25_bias_mV},
+    {&Abstract_Instrument_calibration_provider::p_BIAS_C25, Cmd_BIAS_C25},
+    {&Abstract_Instrument_calibration_provider::p_BIAS_CAL, Cmd_BIAS_CAL},
+    {&Abstract_Instrument_calibration_provider::p_BIAS_DAC_data12, Cmd_BIAS_DAC_data12},
+    {&Abstract_Instrument_calibration_provider::p_BIAS_DAC_SET_v30_v40, Cmd_BIAS_DAC_SET_v30_v40},
+    {&Abstract_Instrument_calibration_provider::p_BIAS_DAC_SET, Cmd_BIAS_DAC_SET},
     {&Abstract_Instrument_calibration_provider::p_BIAS_DAC, Cmd_BIAS_DAC},
     {&Abstract_Instrument_calibration_provider::p_BIAS_DIAG, Cmd_BIAS_DIAG},
+    {&Abstract_Instrument_calibration_provider::p_BIAS_ERROR, Cmd_BIAS_ERROR},
+    {&Abstract_Instrument_calibration_provider::p_BIAS_SET_bias_mV, Cmd_BIAS_SET_bias_mV},
+    {&Abstract_Instrument_calibration_provider::p_BIAS_SET, Cmd_BIAS_SET},
+    {&Abstract_Instrument_calibration_provider::p_BIAS_TEMP_SET_a_b_c, Cmd_BIAS_TEMP_SET_a_b_c},
+    {&Abstract_Instrument_calibration_provider::p_BIAS_TEMP_SET, Cmd_BIAS_TEMP_SET},
+    {&Abstract_Instrument_calibration_provider::p_BIAS_TEMP, Cmd_BIAS_TEMP},
     {&Abstract_Instrument_calibration_provider::p_BIAS_VOLT, Cmd_BIAS_VOLT},
     {&Abstract_Instrument_calibration_provider::p_BIAS, Cmd_BIAS},
     {&Abstract_Instrument_calibration_provider::p_CAL_DIAG, Cmd_CAL_DIAG},
@@ -165,38 +173,46 @@ namespace SpectraNode_interface{
         return Abstract_Instrument_calibration_provider::Lookup_table::lookup(this, transaction);
     }
 
-    void Abstract_Instrument_calibration_provider::p_BIAS_bias_mV(Instruction_major &transaction){
-        int bias_mV_1{transaction.get_token_integer(1)};
-        v_BIAS_bias_mV(transaction, bias_mV_1);
+    void Abstract_Instrument_calibration_provider::p_BIAS_ADC_SET_v30_v40(Instruction_major &transaction){
+        int v30_3{transaction.get_token_integer(3)};
+        int v40_4{transaction.get_token_integer(4)};
+        v_BIAS_ADC_SET_v30_v40(transaction, v30_3, v40_4);
     }
             
-    void Abstract_Instrument_calibration_provider::p_BIAS_ADC_V35_cal_35V(Instruction_major &transaction){
-        int cal_35V_3{transaction.get_token_integer(3)};
-        v_BIAS_ADC_V35_cal_35V(transaction, cal_35V_3);
-    }
-            
-    void Abstract_Instrument_calibration_provider::p_BIAS_ADC_V40_cal_40V(Instruction_major &transaction){
-        int cal_40V_3{transaction.get_token_integer(3)};
-        v_BIAS_ADC_V40_cal_40V(transaction, cal_40V_3);
+    void Abstract_Instrument_calibration_provider::p_BIAS_ADC_SET(Instruction_major &transaction){
+        v_BIAS_ADC_SET(transaction);
     }
             
     void Abstract_Instrument_calibration_provider::p_BIAS_ADC(Instruction_major &transaction){
         v_BIAS_ADC(transaction);
     }
             
-    void Abstract_Instrument_calibration_provider::p_BIAS_DAC_data16(Instruction_major &transaction){
-        int data16_2{transaction.get_token_integer(2)};
-        v_BIAS_DAC_data16(transaction, data16_2);
+    void Abstract_Instrument_calibration_provider::p_BIAS_C25_bias_mV(Instruction_major &transaction){
+        int bias_mV_2{transaction.get_token_integer(2)};
+        v_BIAS_C25_bias_mV(transaction, bias_mV_2);
     }
             
-    void Abstract_Instrument_calibration_provider::p_BIAS_DAC_V35_cal_35V(Instruction_major &transaction){
-        int cal_35V_3{transaction.get_token_integer(3)};
-        v_BIAS_DAC_V35_cal_35V(transaction, cal_35V_3);
+    void Abstract_Instrument_calibration_provider::p_BIAS_C25(Instruction_major &transaction){
+        v_BIAS_C25(transaction);
     }
             
-    void Abstract_Instrument_calibration_provider::p_BIAS_DAC_V40_cal_40V(Instruction_major &transaction){
-        int cal_40V_3{transaction.get_token_integer(3)};
-        v_BIAS_DAC_V40_cal_40V(transaction, cal_40V_3);
+    void Abstract_Instrument_calibration_provider::p_BIAS_CAL(Instruction_major &transaction){
+        v_BIAS_CAL(transaction);
+    }
+            
+    void Abstract_Instrument_calibration_provider::p_BIAS_DAC_data12(Instruction_major &transaction){
+        int data12_2{transaction.get_token_integer(2)};
+        v_BIAS_DAC_data12(transaction, data12_2);
+    }
+            
+    void Abstract_Instrument_calibration_provider::p_BIAS_DAC_SET_v30_v40(Instruction_major &transaction){
+        int v30_3{transaction.get_token_integer(3)};
+        int v40_4{transaction.get_token_integer(4)};
+        v_BIAS_DAC_SET_v30_v40(transaction, v30_3, v40_4);
+    }
+            
+    void Abstract_Instrument_calibration_provider::p_BIAS_DAC_SET(Instruction_major &transaction){
+        v_BIAS_DAC_SET(transaction);
     }
             
     void Abstract_Instrument_calibration_provider::p_BIAS_DAC(Instruction_major &transaction){
@@ -205,6 +221,34 @@ namespace SpectraNode_interface{
             
     void Abstract_Instrument_calibration_provider::p_BIAS_DIAG(Instruction_major &transaction){
         v_BIAS_DIAG(transaction);
+    }
+            
+    void Abstract_Instrument_calibration_provider::p_BIAS_ERROR(Instruction_major &transaction){
+        v_BIAS_ERROR(transaction);
+    }
+            
+    void Abstract_Instrument_calibration_provider::p_BIAS_SET_bias_mV(Instruction_major &transaction){
+        int bias_mV_2{transaction.get_token_integer(2)};
+        v_BIAS_SET_bias_mV(transaction, bias_mV_2);
+    }
+            
+    void Abstract_Instrument_calibration_provider::p_BIAS_SET(Instruction_major &transaction){
+        v_BIAS_SET(transaction);
+    }
+            
+    void Abstract_Instrument_calibration_provider::p_BIAS_TEMP_SET_a_b_c(Instruction_major &transaction){
+        int a_3{transaction.get_token_integer(3)};
+        int b_4{transaction.get_token_integer(4)};
+        int c_5{transaction.get_token_integer(5)};
+        v_BIAS_TEMP_SET_a_b_c(transaction, a_3, b_4, c_5);
+    }
+            
+    void Abstract_Instrument_calibration_provider::p_BIAS_TEMP_SET(Instruction_major &transaction){
+        v_BIAS_TEMP_SET(transaction);
+    }
+            
+    void Abstract_Instrument_calibration_provider::p_BIAS_TEMP(Instruction_major &transaction){
+        v_BIAS_TEMP(transaction);
     }
             
     void Abstract_Instrument_calibration_provider::p_BIAS_VOLT(Instruction_major &transaction){

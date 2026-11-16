@@ -33,7 +33,7 @@ export namespace FW1038
 {
     namespace version
     {
-        using instruction = std::integral_constant<uint8_t, 3>;
-        constexpr const char *instruction_string = "3";
+        using instruction = std::integral_constant<uint8_t, 5>;
+        constexpr const char *instruction_string = "5";
     }
 }

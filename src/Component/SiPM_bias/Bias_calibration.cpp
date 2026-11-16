@@ -36,11 +36,9 @@ namespace Calibration {
 
     void Bias_calibration::set_calibration(
         int32_t DAC_35V, const int32_t DAC_45V, const int32_t ADC_35V, const int32_t ADC_45V, const int32_t bias_25C) {
-        the_DAC.set_cal_35V(DAC_35V);
-        the_DAC.set_cal_45V(DAC_45V);
-        the_ADC.set_cal_35V(ADC_35V);
-        the_ADC.set_cal_45V(ADC_45V);
-        the_bias_at_25 = bias_25C;
+        the_DAC.set_setpoints(DAC_35V, DAC_45V);
+        the_ADC.set_setpoints(ADC_35V, ADC_45V);
+        the_25C_setpoint = bias_25C;
     }
 
     Status_code Bias_calibration::update_setpoints(Repository::Configuration_repository &repository) {
@@ -128,8 +126,8 @@ namespace Calibration {
         enum { Volt_50mV = 5, Delay_10ms = 10, Iterations = 20, Max_offset = 6000, Min_offset = -3000 };
         the_ADC.calibrate();
         int32_t wanted_bias = 0;
-        if (the_bias_at_25 != 0) {
-            wanted_bias = the_bias_at_25 + uart_offset;
+        if (the_25C_setpoint != 0) {
+            wanted_bias = the_25C_setpoint + uart_offset;
         } else {
             wanted_bias = temperature_to_bias(temperature);
         }

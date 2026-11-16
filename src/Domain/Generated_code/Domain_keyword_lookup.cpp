@@ -41,10 +41,10 @@ namespace Domain_interface {
         "b", // Key_b
         "BIAS", // Key_BIAS
         "bias_mV", // Key_bias_mV
+        "c", // Key_c
+        "C25", // Key_C25
         "CADENCE", // Key_CADENCE
         "CAL", // Key_CAL
-        "cal_35V", // Key_cal_35V
-        "cal_40V", // Key_cal_40V
         "calibration", // Key_calibration
         "channel", // Key_channel
         "CHANNEL", // Key_CHANNEL
@@ -55,6 +55,7 @@ namespace Domain_interface {
         "CSV", // Key_CSV
         "dac", // Key_dac
         "DAC", // Key_DAC
+        "data12", // Key_data12
         "data16", // Key_data16
         "data32", // Key_data32
         "data8", // Key_data8
@@ -67,11 +68,13 @@ namespace Domain_interface {
         "DUMP", // Key_DUMP
         "ECHO", // Key_ECHO
         "ENABLE", // Key_ENABLE
+        "ERROR", // Key_ERROR
         "format", // Key_format
         "FORMAT", // Key_FORMAT
         "gain", // Key_gain
         "GET", // Key_GET
         "HELP", // Key_HELP
+        "HIGH", // Key_HIGH
         "HOLD", // Key_HOLD
         "Housekeeping", // Key_Housekeeping
         "idle", // Key_idle
@@ -80,6 +83,7 @@ namespace Domain_interface {
         "Instrument_calibration", // Key_Instrument_calibration
         "integration_time", // Key_integration_time
         "LOAD", // Key_LOAD
+        "LOW", // Key_LOW
         "micro_sievert", // Key_micro_sievert
         "millis", // Key_millis
         "MODE", // Key_MODE
@@ -104,18 +108,20 @@ namespace Domain_interface {
         "SAVE", // Key_SAVE
         "seconds", // Key_seconds
         "serial_number", // Key_serial_number
+        "SET", // Key_SET
         "simple_R6", // Key_simple_R6
         "Spectroscopic_data", // Key_Spectroscopic_data
         "start_threshold", // Key_start_threshold
         "STATUS", // Key_STATUS
         "stop_count", // Key_stop_count
+        "TEMP", // Key_TEMP
         "TEST", // Key_TEST
         "THRESHOLD", // Key_THRESHOLD
         "time", // Key_time
         "TIME", // Key_TIME
         "TRACE", // Key_TRACE
-        "V35", // Key_V35
-        "V40", // Key_V40
+        "v30", // Key_v30
+        "v40", // Key_v40
         "VERSION", // Key_VERSION
         "VOLT", // Key_VOLT
     };

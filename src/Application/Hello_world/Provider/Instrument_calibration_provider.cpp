@@ -44,27 +44,9 @@ using namespace SpectraNode_interface;
 using namespace Application;
 
 void Instrument_calibration_provider::v_BIAS(Instruction_major &instruction) {
-    auto bias{use_bias.get_bias_25C()};
-    instruction.print_ack(bias);
-}
-
-void Instrument_calibration_provider::v_BIAS_DIAG(Instruction_major &instruction) {
-     use_bias.print_diag();
+    printf("Bias: setpoint=%d, voltage==%d, error=%d\r\n",
+           use_bias.get_C25_setpoint(), use_bias.get_voltage(), use_bias.get_error());
     instruction.print_ack();
-}
-
-void Instrument_calibration_provider::v_BIAS_VOLT(Instruction_major &instruction) {
-    auto bias{use_bias.get_voltage()};
-    instruction.print_ack(bias);
-}
-
-void Instrument_calibration_provider::v_BIAS_bias_mV(Instruction_major &instruction, const int bias_mV_1) {
-    use_bias.set_bias_25C(bias_mV_1);
-    if (use_repository.set(Cal_bias_25C, bias_mV_1).success()) {
-        instruction.print_ack(bias_mV_1);
-    } else {
-        instruction.print_nack(use_repository.get_diag_code());
-    }
 }
 
 void Instrument_calibration_provider::v_BIAS_ADC(Instruction_major &instruction) {
@@ -75,52 +57,96 @@ void Instrument_calibration_provider::v_BIAS_ADC(Instruction_major &instruction)
     }
 }
 
-void Instrument_calibration_provider::v_BIAS_ADC_V35_cal_35V(Instruction_major &instruction, const int cal_35V_3) {
-    use_bias.get_ADC().set_cal_35V(cal_35V_3);
-    if (use_repository.set(Cal_ADC_35V, cal_35V_3).success()) {
-        instruction.print_ack(cal_35V_3);
+void Instrument_calibration_provider::v_BIAS_ADC_SET(Instruction_major &instruction) {
+    int32_t v30_2{};
+    int32_t v40_3{};
+    use_bias.get_ADC().get_setpoints(v30_2, v40_3);
+    instruction.print_ack(v30_2, v40_3);
+}
+
+void Instrument_calibration_provider::v_BIAS_ADC_SET_v30_v40(Instruction_major &instruction, const int v30_2, const int v40_3) {
+    use_bias.get_ADC().set_setpoints(v30_2, v40_3);
+    if (use_repository.set(Cal_ADC_35V, v30_2).success() && use_repository.set(Cal_ADC_40V, v40_3).success()) {
+        instruction.print_ack(v30_2, v40_3);
     } else {
         instruction.print_nack(use_repository.get_diag_code());
     }
 }
 
-void Instrument_calibration_provider::v_BIAS_ADC_V40_cal_40V(Instruction_major &instruction, const int cal_40V_3) {
-    use_bias.get_ADC().set_cal_45V(cal_40V_3);
-    if (use_repository.set(Cal_ADC_40V, cal_40V_3).success()) {
-        instruction.print_ack(cal_40V_3);
+void Instrument_calibration_provider::v_BIAS_C25(Instruction_major &instruction) {
+    auto bias{use_bias.get_C25_setpoint()};
+    instruction.print_ack(bias);
+}
+
+void Instrument_calibration_provider::v_BIAS_C25_bias_mV(Instruction_major &instruction, const int bias_mV_2) {
+    use_bias.set_C25_setpoint(bias_mV_2);
+    if (use_repository.set(Cal_bias_25C, bias_mV_2).success()) {
+        instruction.print_ack(bias_mV_2);
     } else {
         instruction.print_nack(use_repository.get_diag_code());
     }
+}
+
+void Instrument_calibration_provider::v_BIAS_CAL(Instruction_major &instruction) {
+    the_calibration_flag = !the_calibration_flag;
+    printf("The bias calibration mode is %s\r\n", the_calibration_flag ? "ON" : "OFF");
+    instruction.print_ack();
+}
+
+void Instrument_calibration_provider::v_BIAS_DIAG(Instruction_major &instruction) {
+    use_bias.print_diag();
+    instruction.print_ack();
+}
+
+void Instrument_calibration_provider::v_BIAS_ERROR(Instruction_major &) {
+}
+
+void Instrument_calibration_provider::v_BIAS_SET(Instruction_major &) {
+}
+
+void Instrument_calibration_provider::v_BIAS_SET_bias_mV(Instruction_major &, int bias_mV_2) {
+}
+
+void Instrument_calibration_provider::v_BIAS_TEMP(Instruction_major &) {
+}
+
+void Instrument_calibration_provider::v_BIAS_TEMP_SET(Instruction_major &) {
+}
+
+void Instrument_calibration_provider::v_BIAS_TEMP_SET_a_b_c(Instruction_major &, int a_3, int b_4, int c_5) {
+}
+
+void Instrument_calibration_provider::v_BIAS_VOLT(Instruction_major &instruction) {
+    auto bias{use_bias.get_voltage()};
+    instruction.print_ack(bias);
 }
 
 void Instrument_calibration_provider::v_BIAS_DAC(Instruction_major &instruction) {
     instruction.print_ack(static_cast<int32_t>(use_bias.get_DAC().get_raw_DAC()));
 }
 
-void Instrument_calibration_provider::v_BIAS_DAC_data16(Instruction_major &instruction, const int data16_2) {
+void Instrument_calibration_provider::v_BIAS_DAC_data12(Instruction_major &instruction, const int data12_2) {
     enum { DAC_min = 0, DAC_max = 4095 }; // 12-bit DAC; out-of-range values would wrap on hardware
-    if (data16_2 < DAC_min || data16_2 > DAC_max) {
+    if (data12_2 < DAC_min || data12_2 > DAC_max) {
         instruction.print_nack(123);
-    } else if (use_bias.get_DAC().set_raw_DAC(static_cast<uint32_t>(data16_2))) {
-        instruction.print_ack(data16_2);
+    } else if (use_bias.get_DAC().set_raw_DAC(static_cast<uint32_t>(data12_2))) {
+        instruction.print_ack(data12_2);
     } else {
         instruction.print_nack(123);
     }
 }
 
-void Instrument_calibration_provider::v_BIAS_DAC_V35_cal_35V(Instruction_major &instruction, const int cal_35V_3) {
-    use_bias.get_DAC().set_cal_35V(cal_35V_3);
-    if (use_repository.set(Cal_DAC_35V, cal_35V_3).success()) {
-        instruction.print_ack(cal_35V_3);
-    } else {
-        instruction.print_nack(use_repository.get_diag_code());
-    }
+void Instrument_calibration_provider::v_BIAS_DAC_SET(Instruction_major &instruction) {
+    int32_t v30{};
+    int32_t v40{};
+    use_bias.get_DAC().get_setpoints(v30, v40);
+    instruction.print_ack(v30, v40);
 }
 
-void Instrument_calibration_provider::v_BIAS_DAC_V40_cal_40V(Instruction_major &instruction, const int cal_40V_3) {
-    use_bias.get_DAC().set_cal_45V(cal_40V_3);
-    if (use_repository.set(Cal_DAC_40V, cal_40V_3).success()) {
-        instruction.print_ack(cal_40V_3);
+void Instrument_calibration_provider::v_BIAS_DAC_SET_v30_v40(Instruction_major &instruction, const int v30_3, const int v40_4) {
+    use_bias.get_DAC().set_setpoints(v30_3, v40_4);
+    if (use_repository.set(Cal_DAC_35V, v30_3).success() && use_repository.set(Cal_DAC_40V, v40_4).success()) {
+        instruction.print_ack(v30_3, v40_4);
     } else {
         instruction.print_nack(use_repository.get_diag_code());
     }

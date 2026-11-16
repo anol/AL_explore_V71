@@ -47,10 +47,10 @@
 | calibration.parameter.a | data32 | 100000 | Calibration parameter A. |
 | calibration.parameter.b | data32 | 10000 | Calibration parameter B. |
 | calibration.BIAS | data32 | 0 | Bias voltage at 25 degC reference. |
-| calibration.adc.V35 | mV | -35000 | ADC calibration setpoint at -35V. |
-| calibration.adc.V40 | mV | -40000 | ADC calibration setpoint at -40V. |
-| calibration.dac.V35 | mV | -35000 | DAC calibration setpoint at -35V. |
-| calibration.dac.V40 | mV | -40000 | DAC calibration setpoint at -40V. |
+| calibration.adc.v30 | data12 | 2028 | ADC calibration setpoint at -30V. |
+| calibration.adc.v40 | data12 | 1024 | ADC calibration setpoint at -40V. |
+| calibration.dac.v30 | data12 | 2028 | DAC calibration setpoint at -30V. |
+| calibration.dac.v40 | data12 | 1024 | DAC calibration setpoint at -40V. |
 | calibration.integration_time | number | 100 | Calibration pulse integration time. |
 | calibration.start_threshold | number | 100 | Calibration start threshold. |
 | calibration.stop_count | number | 100 | Calibration stop count. |

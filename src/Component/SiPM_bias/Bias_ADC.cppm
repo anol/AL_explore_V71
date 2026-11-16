@@ -30,8 +30,8 @@ export module Component.Bias_ADC;
 export namespace Calibration {
     class Bias_ADC {
         Abstract::Abstract_ADC &use_ADC;
-        int32_t the_ADC_cal_val_35{-35000};
-        int32_t the_ADC_cal_val_45{-40700};
+        int32_t the_v30_setpoint{2048};
+        int32_t the_v40_setpoint{1024};
         double ADC_to_mV_A{};
         double ADC_to_mV_B{};
         static volatile int32_t the_last_sense;
@@ -54,9 +54,15 @@ export namespace Calibration {
 
         [[nodiscard]] bool read_raw_ADC(uint32_t &value) { return use_ADC.get(value); }
 
-        void set_cal_35V(const int32_t cal) { the_ADC_cal_val_35 = cal; }
+        void set_setpoints(const int32_t v30, const int32_t v40) {
+            the_v30_setpoint = v30;
+            the_v40_setpoint = v40;
+        }
 
-        void set_cal_45V(const int32_t cal) { the_ADC_cal_val_45 = cal; }
+        void get_setpoints(int32_t &v30, int32_t &v40) const {
+            v30 = the_v30_setpoint;
+            v40 = the_v40_setpoint;
+        }
 
     private:
         [[nodiscard]] int32_t to_mV(int32_t ADC) const;

@@ -29,7 +29,7 @@ import Support.Token_type;
 
 export namespace Domain_interface {
 
-    constexpr int get_keyword_version() { return 4; }
+    constexpr int get_keyword_version() { return 5; }
 
     const char *get_keyword(unsigned char key);
 
@@ -48,10 +48,10 @@ export namespace Domain_interface {
         Key_b,
         Key_BIAS,
         Key_bias_mV,
+        Key_c,
+        Key_C25,
         Key_CADENCE,
         Key_CAL,
-        Key_cal_35V,
-        Key_cal_40V,
         Key_calibration,
         Key_channel,
         Key_CHANNEL,
@@ -62,6 +62,7 @@ export namespace Domain_interface {
         Key_CSV,
         Key_dac,
         Key_DAC,
+        Key_data12,
         Key_data16,
         Key_data32,
         Key_data8,
@@ -74,11 +75,13 @@ export namespace Domain_interface {
         Key_DUMP,
         Key_ECHO,
         Key_ENABLE,
+        Key_ERROR,
         Key_format,
         Key_FORMAT,
         Key_gain,
         Key_GET,
         Key_HELP,
+        Key_HIGH,
         Key_HOLD,
         Key_Housekeeping,
         Key_idle,
@@ -87,6 +90,7 @@ export namespace Domain_interface {
         Key_Instrument_calibration,
         Key_integration_time,
         Key_LOAD,
+        Key_LOW,
         Key_micro_sievert,
         Key_millis,
         Key_MODE,
@@ -111,18 +115,20 @@ export namespace Domain_interface {
         Key_SAVE,
         Key_seconds,
         Key_serial_number,
+        Key_SET,
         Key_simple_R6,
         Key_Spectroscopic_data,
         Key_start_threshold,
         Key_STATUS,
         Key_stop_count,
+        Key_TEMP,
         Key_TEST,
         Key_THRESHOLD,
         Key_time,
         Key_TIME,
         Key_TRACE,
-        Key_V35,
-        Key_V40,
+        Key_v30,
+        Key_v40,
         Key_VERSION,
         Key_VOLT,
         

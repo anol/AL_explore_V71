@@ -87,32 +87,40 @@ void Implement_Spectroscopic_data_provider::v_TIME_date_time(Transaction_major &
     std::cout << "Implement_Spectroscopic_data_provider::v_TIME_date_time:" << "date_1=" << date_1 << ",time_2=" << time_2 << std::endl;
 }
             
-void Implement_Instrument_calibration_provider::v_BIAS_bias_mV(Transaction_major &, int bias_mV_1){
-    std::cout << "Implement_Instrument_calibration_provider::v_BIAS_bias_mV:" << "bias_mV_1=" << bias_mV_1 << std::endl;
+void Implement_Instrument_calibration_provider::v_BIAS_ADC_SET_v30_v40(Transaction_major &, int v30_3, int v40_4){
+    std::cout << "Implement_Instrument_calibration_provider::v_BIAS_ADC_SET_v30_v40:" << "v30_3=" << v30_3 << ",v40_4=" << v40_4 << std::endl;
 }
             
-void Implement_Instrument_calibration_provider::v_BIAS_ADC_V35_cal_35V(Transaction_major &, int cal_35V_3){
-    std::cout << "Implement_Instrument_calibration_provider::v_BIAS_ADC_V35_cal_35V:" << "cal_35V_3=" << cal_35V_3 << std::endl;
-}
-            
-void Implement_Instrument_calibration_provider::v_BIAS_ADC_V40_cal_40V(Transaction_major &, int cal_40V_3){
-    std::cout << "Implement_Instrument_calibration_provider::v_BIAS_ADC_V40_cal_40V:" << "cal_40V_3=" << cal_40V_3 << std::endl;
+void Implement_Instrument_calibration_provider::v_BIAS_ADC_SET(Transaction_major &){
+    std::cout << "Implement_Instrument_calibration_provider::v_BIAS_ADC_SET:" << std::endl;
 }
             
 void Implement_Instrument_calibration_provider::v_BIAS_ADC(Transaction_major &){
     std::cout << "Implement_Instrument_calibration_provider::v_BIAS_ADC:" << std::endl;
 }
             
-void Implement_Instrument_calibration_provider::v_BIAS_DAC_data16(Transaction_major &, int data16_2){
-    std::cout << "Implement_Instrument_calibration_provider::v_BIAS_DAC_data16:" << "data16_2=" << data16_2 << std::endl;
+void Implement_Instrument_calibration_provider::v_BIAS_C25_bias_mV(Transaction_major &, int bias_mV_2){
+    std::cout << "Implement_Instrument_calibration_provider::v_BIAS_C25_bias_mV:" << "bias_mV_2=" << bias_mV_2 << std::endl;
 }
             
-void Implement_Instrument_calibration_provider::v_BIAS_DAC_V35_cal_35V(Transaction_major &, int cal_35V_3){
-    std::cout << "Implement_Instrument_calibration_provider::v_BIAS_DAC_V35_cal_35V:" << "cal_35V_3=" << cal_35V_3 << std::endl;
+void Implement_Instrument_calibration_provider::v_BIAS_C25(Transaction_major &){
+    std::cout << "Implement_Instrument_calibration_provider::v_BIAS_C25:" << std::endl;
 }
             
-void Implement_Instrument_calibration_provider::v_BIAS_DAC_V40_cal_40V(Transaction_major &, int cal_40V_3){
-    std::cout << "Implement_Instrument_calibration_provider::v_BIAS_DAC_V40_cal_40V:" << "cal_40V_3=" << cal_40V_3 << std::endl;
+void Implement_Instrument_calibration_provider::v_BIAS_CAL(Transaction_major &){
+    std::cout << "Implement_Instrument_calibration_provider::v_BIAS_CAL:" << std::endl;
+}
+            
+void Implement_Instrument_calibration_provider::v_BIAS_DAC_data12(Transaction_major &, int data12_2){
+    std::cout << "Implement_Instrument_calibration_provider::v_BIAS_DAC_data12:" << "data12_2=" << data12_2 << std::endl;
+}
+            
+void Implement_Instrument_calibration_provider::v_BIAS_DAC_SET_v30_v40(Transaction_major &, int v30_3, int v40_4){
+    std::cout << "Implement_Instrument_calibration_provider::v_BIAS_DAC_SET_v30_v40:" << "v30_3=" << v30_3 << ",v40_4=" << v40_4 << std::endl;
+}
+            
+void Implement_Instrument_calibration_provider::v_BIAS_DAC_SET(Transaction_major &){
+    std::cout << "Implement_Instrument_calibration_provider::v_BIAS_DAC_SET:" << std::endl;
 }
             
 void Implement_Instrument_calibration_provider::v_BIAS_DAC(Transaction_major &){
@@ -121,6 +129,30 @@ void Implement_Instrument_calibration_provider::v_BIAS_DAC(Transaction_major &){
             
 void Implement_Instrument_calibration_provider::v_BIAS_DIAG(Transaction_major &){
     std::cout << "Implement_Instrument_calibration_provider::v_BIAS_DIAG:" << std::endl;
+}
+            
+void Implement_Instrument_calibration_provider::v_BIAS_ERROR(Transaction_major &){
+    std::cout << "Implement_Instrument_calibration_provider::v_BIAS_ERROR:" << std::endl;
+}
+            
+void Implement_Instrument_calibration_provider::v_BIAS_SET_bias_mV(Transaction_major &, int bias_mV_2){
+    std::cout << "Implement_Instrument_calibration_provider::v_BIAS_SET_bias_mV:" << "bias_mV_2=" << bias_mV_2 << std::endl;
+}
+            
+void Implement_Instrument_calibration_provider::v_BIAS_SET(Transaction_major &){
+    std::cout << "Implement_Instrument_calibration_provider::v_BIAS_SET:" << std::endl;
+}
+            
+void Implement_Instrument_calibration_provider::v_BIAS_TEMP_SET_a_b_c(Transaction_major &, int a_3, int b_4, int c_5){
+    std::cout << "Implement_Instrument_calibration_provider::v_BIAS_TEMP_SET_a_b_c:" << "a_3=" << a_3 << ",b_4=" << b_4 << ",c_5=" << c_5 << std::endl;
+}
+            
+void Implement_Instrument_calibration_provider::v_BIAS_TEMP_SET(Transaction_major &){
+    std::cout << "Implement_Instrument_calibration_provider::v_BIAS_TEMP_SET:" << std::endl;
+}
+            
+void Implement_Instrument_calibration_provider::v_BIAS_TEMP(Transaction_major &){
+    std::cout << "Implement_Instrument_calibration_provider::v_BIAS_TEMP:" << std::endl;
 }
             
 void Implement_Instrument_calibration_provider::v_BIAS_VOLT(Transaction_major &){

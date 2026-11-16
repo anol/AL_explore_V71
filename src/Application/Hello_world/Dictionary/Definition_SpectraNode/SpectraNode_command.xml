@@ -16,16 +16,20 @@ Copyright (C) 2026 Integrated Detector Electronics AS
  -->
 
 <?xml-stylesheet type="text/xsl" href="commands_to_html.xsl"?>
-<command_definition product_id="FW1038" name="SpectraNode" version="3" keywords="SpectraNode"
+<command_definition product_id="FW1038" name="SpectraNode" version="5" keywords="SpectraNode"
                     interface="SpectraNode_interface">
     <integers>
+        <integer key="a" min="-1000000" max="1000000"/>
+        <integer key="b" min="-1000000" max="1000000"/>
+        <integer key="c" min="-1000000" max="1000000"/>
         <integer key="asic_nbr" min="1" max="5"/>
         <integer key="bias_mV" min="-50000" max="-10000"/>
-        <integer key="cal_35V" min="-100000" max="-1"/>
-        <integer key="cal_40V" min="-100000" max="-1"/>
+        <integer key="v30" min="0" max="4095"/>
+        <integer key="v40" min="0" max="4095"/>
         <integer key="channel" min="0" max="18"
                  brief="0=inhibit readout, 1..16=input, 17=summing, 18=digital summing."/>
         <integer key="data8" min="0" max="0xFF"/>
+        <integer key="data12" min="0" max="4095"/>
         <integer key="data16" min="0" max="0xFFFF"/>
         <integer key="data32" min="0" max="0x7FFFFFFF"/>
         <integer key="date" min="0" max="0x7FFFFFFF"/>
@@ -86,27 +90,41 @@ Copyright (C) 2026 Integrated Detector Electronics AS
             </arg>
         </provider>
         <provider key="Instrument_calibration">
-            <arg key="BIAS" brief="Get bias setting.">
-                <arg integer="bias_mV" brief="Set the bias voltage (mV)."/>
+            <arg key="BIAS" brief="Show setpoint, voltage and error.">
                 <arg key="ADC" brief="Get the raw ADC reading.">
-                    <arg key="V35">
-                        <arg integer="cal_35V" brief="Set ADC 35V setpoint."/>
-                    </arg>
-                    <arg key="V40">
-                        <arg integer="cal_40V" brief="Set ADC 40V setpoint."/>
+                    <arg key="SET" brief="Get the ADC 30V and 40V calibration points.">
+                        <arg integer="v30">
+                            <arg integer="v40" brief="Set the ADC 30V and 40V calibration points."/>
+                        </arg>
                     </arg>
                 </arg>
+                <arg key="C25" brief="Get the 25C bias setpoint.">
+                    <arg integer="bias_mV" brief="Set the 25C bias setpoint."/>
+                </arg>
+                <arg key="CAL" brief="Toggle calibration mode ON/OFF."/>
                 <arg key="DAC" brief="Get the raw DAC setting.">
-                    <arg integer="data16" brief="Set raw DAC value."/>
-                    <arg key="V35">
-                        <arg integer="cal_35V" brief="Set DAC 35V setpoint."/>
-                    </arg>
-                    <arg key="V40">
-                        <arg integer="cal_40V" brief="Set DAC 40V setpoint."/>
+                    <arg integer="data12" brief="Override the DAC setting."/>
+                    <arg key="SET" brief="Get the DAC calibration.">
+                        <arg integer="v30">
+                            <arg integer="v40" brief="Set the DAC 30V and 40V calibration points."/>
+                        </arg>
                     </arg>
                 </arg>
                 <arg key="DIAG" brief="Misc. diagnostic information wrt. bias voltage."/>
-                <arg key="VOLT" brief="Read actual bias voltage."/>
+                <arg key="ERROR" brief="Get the bias voltage error."/>
+                <arg key="SET" brief="Get the temp. compensated bias setpoint.">
+                    <arg integer="bias_mV" brief="Override the temp. compensated bias setpoint."/>
+                </arg>
+                <arg key="TEMP" brief="Get the temperature.">
+                    <arg key="SET" brief="Get the temperature correction.">
+                        <arg integer="a">
+                            <arg integer="b">
+                                <arg integer="c" brief="Set the temperature correction factors."/>
+                            </arg>
+                        </arg>
+                    </arg>
+                </arg>
+                <arg key="VOLT" brief="Get the bias voltage."/>
             </arg>
             <arg key="CAL">
                 <arg key="TEST">

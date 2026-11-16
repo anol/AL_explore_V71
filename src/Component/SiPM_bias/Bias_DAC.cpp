@@ -80,7 +80,7 @@ namespace Calibration {
             return;
         }
         in_calibration = 1;
-        int temp = calibrate(value, the_cal_35V, the_cal_45V) * -1;
+        int temp = calibrate(value, the_v30_setpoint, the_v40_setpoint) * -1;
         temp -= 30000;
         temp = (temp * 4095) / 20000;
         if (temp > 4095) {
@@ -105,7 +105,7 @@ namespace Calibration {
             cnt_busy_in_cal++;
             return Status_code::Failure();
         }
-        float temp = calibrate(value, the_cal_35V, the_cal_45V);
+        float temp = calibrate(value, the_v30_setpoint, the_v40_setpoint);
         temp *= -1.0f;
         temp -= 30000.0f;
         temp = (temp * 4095.0f) / 20000.0f;

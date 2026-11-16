@@ -155,26 +155,26 @@
             </tertiary>
         </secondary>
         <secondary key="adc">
-            <tertiary key="V35">
+            <tertiary key="v30">
                 <quaternary>
-                    <value type="mV" default="-35000" nature="config" brief="ADC calibration setpoint at -35V."/>
+                    <value type="data12" default="2028" nature="config" brief="ADC calibration setpoint at -30V."/>
                 </quaternary>
             </tertiary>
-            <tertiary key="V40">
+            <tertiary key="v40">
                 <quaternary>
-                    <value type="mV" default="-40000" nature="config" brief="ADC calibration setpoint at -40V."/>
+                    <value type="data12" default="1024" nature="config" brief="ADC calibration setpoint at -40V."/>
                 </quaternary>
             </tertiary>
         </secondary>
         <secondary key="dac">
-            <tertiary key="V35">
+            <tertiary key="v30">
                 <quaternary>
-                    <value type="mV" default="-35000" nature="config" brief="DAC calibration setpoint at -35V."/>
+                    <value type="data12" default="2028" nature="config" brief="DAC calibration setpoint at -30V."/>
                 </quaternary>
             </tertiary>
-            <tertiary key="V40">
+            <tertiary key="v40">
                 <quaternary>
-                    <value type="mV" default="-40000" nature="config" brief="DAC calibration setpoint at -40V."/>
+                    <value type="data12" default="1024" nature="config" brief="DAC calibration setpoint at -40V."/>
                 </quaternary>
             </tertiary>
         </secondary>

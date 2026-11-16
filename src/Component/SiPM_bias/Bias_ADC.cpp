@@ -46,8 +46,8 @@ namespace Calibration {
     }
 
     void Bias_ADC::calibrate() {
-        ADC_to_mV_A = static_cast<double>(the_ADC_cal_val_35 - the_ADC_cal_val_45) / (constant_35 - constant_40);
-        ADC_to_mV_B = (the_ADC_cal_val_45 - ADC_to_mV_A * (constant_40));
+        ADC_to_mV_A = static_cast<double>(the_v30_setpoint - the_v40_setpoint) / (constant_35 - constant_40);
+        ADC_to_mV_B = (the_v40_setpoint - ADC_to_mV_A * (constant_40));
     }
 
     int32_t Bias_ADC::read_mV() {

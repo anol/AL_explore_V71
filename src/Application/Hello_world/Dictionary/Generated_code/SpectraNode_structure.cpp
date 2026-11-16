@@ -43,11 +43,11 @@ namespace SpectraNode_interface{
         key_is(Key_CADENCE,Key_DEMO, 0, 0),
                 key_is(Key_CADENCE,Key_IDLE, 0, 0),
                 key_is(Key_CADENCE,Key_NOMINAL, 0, 0),
-                key_is(Key_calibration,Key_adc,Key_V35, 0),
-                key_is(Key_calibration,Key_adc,Key_V40, 0),
+                key_is(Key_calibration,Key_adc,Key_v30, 0),
+                key_is(Key_calibration,Key_adc,Key_v40, 0),
                 key_is(Key_calibration,Key_BIAS, 0, 0),
-                key_is(Key_calibration,Key_dac,Key_V35, 0),
-                key_is(Key_calibration,Key_dac,Key_V40, 0),
+                key_is(Key_calibration,Key_dac,Key_v30, 0),
+                key_is(Key_calibration,Key_dac,Key_v40, 0),
                 key_is(Key_calibration,Key_gain,1, 0),
                 key_is(Key_calibration,Key_gain,2, 0),
                 key_is(Key_calibration,Key_gain,3, 0),
@@ -132,11 +132,11 @@ namespace SpectraNode_interface{
         2, // Key_CADENCE,Key_DEMO, 0, 0
                 2, // Key_CADENCE,Key_IDLE, 0, 0
                 2, // Key_CADENCE,Key_NOMINAL, 0, 0
-                -35000, // Key_calibration,Key_adc,Key_V35, 0
-                -40000, // Key_calibration,Key_adc,Key_V40, 0
+                2028, // Key_calibration,Key_adc,Key_v30, 0
+                1024, // Key_calibration,Key_adc,Key_v40, 0
                 0, // Key_calibration,Key_BIAS, 0, 0
-                -35000, // Key_calibration,Key_dac,Key_V35, 0
-                -40000, // Key_calibration,Key_dac,Key_V40, 0
+                2028, // Key_calibration,Key_dac,Key_v30, 0
+                1024, // Key_calibration,Key_dac,Key_v40, 0
                 1, // Key_calibration,Key_gain,1, 0
                 1, // Key_calibration,Key_gain,2, 0
                 1, // Key_calibration,Key_gain,3, 0

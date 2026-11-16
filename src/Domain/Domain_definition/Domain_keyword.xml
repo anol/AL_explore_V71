@@ -16,13 +16,14 @@ Copyright (C) 2023 Integrated Detector Electronics AS
  -->
 
 <?xml-stylesheet type="text/xsl" href="commands_to_html.xsl"?>
-<keyword_definition product_id="FW1038" name="Domain" version="4" interface="Domain_interface">
+<keyword_definition product_id="FW1038" name="Domain" version="5" interface="Domain_interface">
     <keywords>
         <key name="ADC"/>
         <key name="ALARM"/>
         <key name="APPLY"/>
         <key name="ASIC"/>
         <key name="BIAS"/>
+        <key name="C25"/>
         <key name="CADENCE"/>
         <key name="CAL"/>
         <key name="CHANNEL"/>
@@ -37,13 +38,16 @@ Copyright (C) 2023 Integrated Detector Electronics AS
         <key name="DUMP"/>
         <key name="ECHO"/>
         <key name="ENABLE"/>
+        <key name="ERROR"/>
         <key name="FORMAT"/>
         <key name="GET"/>
         <key name="HELP"/>
+        <key name="HIGH"/>
         <key name="HOLD"/>
         <key name="IDLE"/>
         <key name="INPUT"/>
         <key name="LOAD"/>
+        <key name="LOW"/>
         <key name="MODE"/>
         <key name="N42"/>
         <key name="NOISE"/>
@@ -56,13 +60,13 @@ Copyright (C) 2023 Integrated Detector Electronics AS
         <key name="RESET"/>
         <key name="RESTORE"/>
         <key name="SAVE"/>
+        <key name="SET"/>
         <key name="STATUS"/>
+        <key name="TEMP"/>
         <key name="TEST"/>
         <key name="THRESHOLD"/>
         <key name="TIME"/>
         <key name="TRACE"/>
-        <key name="V35"/>
-        <key name="V40"/>
         <key name="VERSION"/>
         <key name="VOLT"/>
 
@@ -73,11 +77,13 @@ Copyright (C) 2023 Integrated Detector Electronics AS
         <key name="asic_nbr"/>
         <key name="b"/>
         <key name="bias_mV"/>
-        <key name="cal_35V"/>
-        <key name="cal_40V"/>
+        <key name="c"/>
+        <key name="v30"/>
+        <key name="v40"/>
         <key name="calibration"/>
         <key name="channel"/>
         <key name="dac"/>
+        <key name="data12"/>
         <key name="data16"/>
         <key name="data32"/>
         <key name="data8"/>

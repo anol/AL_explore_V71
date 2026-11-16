@@ -31,8 +31,8 @@ import Type.Abstract_DAC;
 export namespace Calibration {
     class Bias_DAC {
         Abstract::Abstract_DAC &use_DAC;
-        int32_t the_cal_35V{-35000};
-        int32_t the_cal_45V{-40700};
+        uint32_t the_v30_setpoint{2048};
+        uint32_t the_v40_setpoint{1024};
         int32_t the_DAC_pre_cal{};
         static volatile uint32_t the_DAC_setting;
 
@@ -56,9 +56,15 @@ export namespace Calibration {
 
         [[nodiscard]] Status_code set_dac_value_with_calibration(int32_t value);
 
-        void set_cal_35V(int32_t cal) { the_cal_35V = cal; }
+        void set_setpoints(const int32_t v30, const int32_t v40) {
+            the_v30_setpoint = v30;
+            the_v40_setpoint = v40;
+        }
 
-        void set_cal_45V(int32_t cal) { the_cal_45V = cal; }
+        void get_setpoints(int32_t &v30, int32_t &v40) const {
+            v30 = the_v30_setpoint;
+            v40 = the_v40_setpoint;
+        }
 
         [[nodiscard]] int32_t get_pre_cal() const { return the_DAC_pre_cal; }
 

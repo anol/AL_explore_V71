@@ -17,7 +17,8 @@ import Type.Abstract_board;
 
 export namespace Calibration {
     class Bias_calibration {
-        int32_t the_bias_at_25{};
+        int32_t the_25C_setpoint{};
+        int32_t the_bias_error{};
         volatile int16_t the_temperature{};
         volatile int32_t the_bias_volt{};
         float gamma_param_A = 1;
@@ -47,9 +48,11 @@ export namespace Calibration {
 
         Bias_ADC &get_ADC() { return the_ADC; }
 
-        void set_bias_25C(const int32_t cal) { the_bias_at_25 = cal; }
+        void set_C25_setpoint(const int32_t cal) { the_25C_setpoint = cal; }
 
-        [[nodiscard]] int32_t get_bias_25C() const { return the_bias_at_25; }
+        [[nodiscard]] int32_t get_C25_setpoint() const { return the_25C_setpoint; }
+
+        [[nodiscard]] int32_t get_error() const { return the_bias_error; }
 
         [[nodiscard]] int32_t get_temperature() const { return the_temperature; }
 

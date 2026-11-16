@@ -174,67 +174,68 @@ namespace SpectraNode_interface{
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
-    const Instruction_token token_BIAS_bias_mV[] = {
-        {help_BIAS_bias_mV, Cmd_BIAS_bias_mV, Key_Instrument_calibration},
+    const Instruction_token token_BIAS_ADC_SET_v30_v40[] = {
+        {help_BIAS_ADC_SET_v30_v40, Cmd_BIAS_ADC_SET_v30_v40, Key_Instrument_calibration},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
-    const Instruction_token token_BIAS_ADC_V35_cal_35V[] = {
-        {help_BIAS_ADC_V35_cal_35V, Cmd_BIAS_ADC_V35_cal_35V, Key_Instrument_calibration},
+    const Instruction_token token_BIAS_ADC_SET_v30[] = {
+        {Integer_token, Key_v40, token_BIAS_ADC_SET_v30_v40, 0, static_cast<int32_t>(4095)},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
-    const Instruction_token token_BIAS_ADC_V35[] = {
-        {Integer_token, Key_cal_35V, token_BIAS_ADC_V35_cal_35V, -100000, static_cast<int32_t>(-1)},
-        {End_token, "", No_key, (uint32_t)0, nullptr}
-    };
-
-    const Instruction_token token_BIAS_ADC_V40_cal_40V[] = {
-        {help_BIAS_ADC_V40_cal_40V, Cmd_BIAS_ADC_V40_cal_40V, Key_Instrument_calibration},
-        {End_token, "", No_key, (uint32_t)0, nullptr}
-    };
-
-    const Instruction_token token_BIAS_ADC_V40[] = {
-        {Integer_token, Key_cal_40V, token_BIAS_ADC_V40_cal_40V, -100000, static_cast<int32_t>(-1)},
+    const Instruction_token token_BIAS_ADC_SET[] = {
+        {Integer_token, Key_v30, token_BIAS_ADC_SET_v30, 0, static_cast<int32_t>(4095)},
+        {help_BIAS_ADC_SET, Cmd_BIAS_ADC_SET, Key_Instrument_calibration},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
     const Instruction_token token_BIAS_ADC[] = {
-        {Keyword_token, "V35", Key_V35, (uint32_t)0, token_BIAS_ADC_V35},
-        {Keyword_token, "V40", Key_V40, (uint32_t)0, token_BIAS_ADC_V40},
+        {Keyword_token, "SET", Key_SET, (uint32_t)0, token_BIAS_ADC_SET},
         {help_BIAS_ADC, Cmd_BIAS_ADC, Key_Instrument_calibration},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
-    const Instruction_token token_BIAS_DAC_data16[] = {
-        {help_BIAS_DAC_data16, Cmd_BIAS_DAC_data16, Key_Instrument_calibration},
+    const Instruction_token token_BIAS_C25_bias_mV[] = {
+        {help_BIAS_C25_bias_mV, Cmd_BIAS_C25_bias_mV, Key_Instrument_calibration},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
-    const Instruction_token token_BIAS_DAC_V35_cal_35V[] = {
-        {help_BIAS_DAC_V35_cal_35V, Cmd_BIAS_DAC_V35_cal_35V, Key_Instrument_calibration},
+    const Instruction_token token_BIAS_C25[] = {
+        {Integer_token, Key_bias_mV, token_BIAS_C25_bias_mV, -50000, static_cast<int32_t>(-10000)},
+        {help_BIAS_C25, Cmd_BIAS_C25, Key_Instrument_calibration},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
-    const Instruction_token token_BIAS_DAC_V35[] = {
-        {Integer_token, Key_cal_35V, token_BIAS_DAC_V35_cal_35V, -100000, static_cast<int32_t>(-1)},
+    const Instruction_token token_BIAS_CAL[] = {
+        {help_BIAS_CAL, Cmd_BIAS_CAL, Key_Instrument_calibration},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
-    const Instruction_token token_BIAS_DAC_V40_cal_40V[] = {
-        {help_BIAS_DAC_V40_cal_40V, Cmd_BIAS_DAC_V40_cal_40V, Key_Instrument_calibration},
+    const Instruction_token token_BIAS_DAC_data12[] = {
+        {help_BIAS_DAC_data12, Cmd_BIAS_DAC_data12, Key_Instrument_calibration},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
-    const Instruction_token token_BIAS_DAC_V40[] = {
-        {Integer_token, Key_cal_40V, token_BIAS_DAC_V40_cal_40V, -100000, static_cast<int32_t>(-1)},
+    const Instruction_token token_BIAS_DAC_SET_v30_v40[] = {
+        {help_BIAS_DAC_SET_v30_v40, Cmd_BIAS_DAC_SET_v30_v40, Key_Instrument_calibration},
+        {End_token, "", No_key, (uint32_t)0, nullptr}
+    };
+
+    const Instruction_token token_BIAS_DAC_SET_v30[] = {
+        {Integer_token, Key_v40, token_BIAS_DAC_SET_v30_v40, 0, static_cast<int32_t>(4095)},
+        {End_token, "", No_key, (uint32_t)0, nullptr}
+    };
+
+    const Instruction_token token_BIAS_DAC_SET[] = {
+        {Integer_token, Key_v30, token_BIAS_DAC_SET_v30, 0, static_cast<int32_t>(4095)},
+        {help_BIAS_DAC_SET, Cmd_BIAS_DAC_SET, Key_Instrument_calibration},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
     const Instruction_token token_BIAS_DAC[] = {
-        {Integer_token, Key_data16, token_BIAS_DAC_data16, 0, static_cast<int32_t>(0xFFFF)},
-        {Keyword_token, "V35", Key_V35, (uint32_t)0, token_BIAS_DAC_V35},
-        {Keyword_token, "V40", Key_V40, (uint32_t)0, token_BIAS_DAC_V40},
+        {Integer_token, Key_data12, token_BIAS_DAC_data12, 0, static_cast<int32_t>(4095)},
+        {Keyword_token, "SET", Key_SET, (uint32_t)0, token_BIAS_DAC_SET},
         {help_BIAS_DAC, Cmd_BIAS_DAC, Key_Instrument_calibration},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
@@ -244,16 +245,63 @@ namespace SpectraNode_interface{
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
+    const Instruction_token token_BIAS_ERROR[] = {
+        {help_BIAS_ERROR, Cmd_BIAS_ERROR, Key_Instrument_calibration},
+        {End_token, "", No_key, (uint32_t)0, nullptr}
+    };
+
+    const Instruction_token token_BIAS_SET_bias_mV[] = {
+        {help_BIAS_SET_bias_mV, Cmd_BIAS_SET_bias_mV, Key_Instrument_calibration},
+        {End_token, "", No_key, (uint32_t)0, nullptr}
+    };
+
+    const Instruction_token token_BIAS_SET[] = {
+        {Integer_token, Key_bias_mV, token_BIAS_SET_bias_mV, -50000, static_cast<int32_t>(-10000)},
+        {help_BIAS_SET, Cmd_BIAS_SET, Key_Instrument_calibration},
+        {End_token, "", No_key, (uint32_t)0, nullptr}
+    };
+
+    const Instruction_token token_BIAS_TEMP_SET_a_b_c[] = {
+        {help_BIAS_TEMP_SET_a_b_c, Cmd_BIAS_TEMP_SET_a_b_c, Key_Instrument_calibration},
+        {End_token, "", No_key, (uint32_t)0, nullptr}
+    };
+
+    const Instruction_token token_BIAS_TEMP_SET_a_b[] = {
+        {Integer_token, Key_c, token_BIAS_TEMP_SET_a_b_c, -1000000, static_cast<int32_t>(1000000)},
+        {End_token, "", No_key, (uint32_t)0, nullptr}
+    };
+
+    const Instruction_token token_BIAS_TEMP_SET_a[] = {
+        {Integer_token, Key_b, token_BIAS_TEMP_SET_a_b, -1000000, static_cast<int32_t>(1000000)},
+        {End_token, "", No_key, (uint32_t)0, nullptr}
+    };
+
+    const Instruction_token token_BIAS_TEMP_SET[] = {
+        {Integer_token, Key_a, token_BIAS_TEMP_SET_a, -1000000, static_cast<int32_t>(1000000)},
+        {help_BIAS_TEMP_SET, Cmd_BIAS_TEMP_SET, Key_Instrument_calibration},
+        {End_token, "", No_key, (uint32_t)0, nullptr}
+    };
+
+    const Instruction_token token_BIAS_TEMP[] = {
+        {Keyword_token, "SET", Key_SET, (uint32_t)0, token_BIAS_TEMP_SET},
+        {help_BIAS_TEMP, Cmd_BIAS_TEMP, Key_Instrument_calibration},
+        {End_token, "", No_key, (uint32_t)0, nullptr}
+    };
+
     const Instruction_token token_BIAS_VOLT[] = {
         {help_BIAS_VOLT, Cmd_BIAS_VOLT, Key_Instrument_calibration},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
     const Instruction_token token_BIAS[] = {
-        {Integer_token, Key_bias_mV, token_BIAS_bias_mV, -50000, static_cast<int32_t>(-10000)},
         {Keyword_token, "ADC", Key_ADC, (uint32_t)0, token_BIAS_ADC},
+        {Keyword_token, "C25", Key_C25, (uint32_t)0, token_BIAS_C25},
+        {Keyword_token, "CAL", Key_CAL, (uint32_t)0, token_BIAS_CAL},
         {Keyword_token, "DAC", Key_DAC, (uint32_t)0, token_BIAS_DAC},
         {Keyword_token, "DIAG", Key_DIAG, (uint32_t)0, token_BIAS_DIAG},
+        {Keyword_token, "ERROR", Key_ERROR, (uint32_t)0, token_BIAS_ERROR},
+        {Keyword_token, "SET", Key_SET, (uint32_t)0, token_BIAS_SET},
+        {Keyword_token, "TEMP", Key_TEMP, (uint32_t)0, token_BIAS_TEMP},
         {Keyword_token, "VOLT", Key_VOLT, (uint32_t)0, token_BIAS_VOLT},
         {help_BIAS, Cmd_BIAS, Key_Instrument_calibration},
         {End_token, "", No_key, (uint32_t)0, nullptr}
