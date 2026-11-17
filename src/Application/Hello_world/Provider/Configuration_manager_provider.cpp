@@ -72,7 +72,8 @@ void Configuration_manager_provider::v_CONFIG_APPLY(Instruction_major &instructi
     instruction.print_ack();
 }
 
-void Configuration_manager_provider::v_CONFIG_ASIC_asic_nbr_reg_addr_data32(Instruction_major &instruction, int asic_nbr_2, int reg_addr_3, int data32_4) {
+void Configuration_manager_provider::v_CONFIG_ASIC_asic_nbr_reg_addr_data32(
+        Instruction_major &instruction, int /*asic_nbr_2*/, const int reg_addr_3, const int data32_4) {
     if (!use_repository.set(Application::IDE3380_0 + reg_addr_3, data32_4).success()) {
         instruction.print_nack(use_repository.get_diag_code());
     } else {
@@ -80,12 +81,12 @@ void Configuration_manager_provider::v_CONFIG_ASIC_asic_nbr_reg_addr_data32(Inst
     }
 }
 
-void Configuration_manager_provider::v_CONFIG_ASIC_asic_nbr_reg_addr(Instruction_major &instruction, int asic_nbr_2, int reg_addr_3) {
-    int32_t data{};
-    if (!use_repository.get(Application::IDE3380_0 + reg_addr_3, data).success()) {
-        instruction.print_nack(use_repository.get_diag_code());
-    } else {
+void Configuration_manager_provider::v_CONFIG_ASIC_asic_nbr_reg_addr(
+        Instruction_major &instruction, int /*asic_nbr_2*/, const int reg_addr_3) {
+    if (int32_t data{}; use_repository.get(Application::IDE3380_0 + reg_addr_3, data).success()) {
         instruction.print_ack(reg_addr_3, data);
+    } else {
+        instruction.print_nack(use_repository.get_diag_code());
     }
 }
 
@@ -99,7 +100,7 @@ void Configuration_manager_provider::v_CONFIG_LOAD(Instruction_major &instructio
 
 void Configuration_manager_provider::v_ASIC(Instruction_major &instruction) {
     const int ASIC_nbr = 1 + use_IDE3380.get_ASIC();
-    instruction.print_ack(ASIC_nbr );
+    instruction.print_ack(ASIC_nbr);
 }
 
 void Configuration_manager_provider::v_ASIC_asic_nbr(Instruction_major &instruction, int asic_nbr_1) {
@@ -129,7 +130,7 @@ void Configuration_manager_provider::v_ASIC_REG_reg_addr(Instruction_major &inst
 void Configuration_manager_provider::v_ASIC_REG_reg_addr_data32(Instruction_major &instruction,
                                                                 int reg_addr_1, int data32_2) {
     const int SPI_data = use_IDE3380.SPI_update_register(
-        reg_addr_1, IDE3380::IDE3380_write_read, data32_2);
+            reg_addr_1, IDE3380::IDE3380_write_read, data32_2);
     if (SPI_data == data32_2) {
         instruction.print_ack(reg_addr_1, SPI_data);
     } else {

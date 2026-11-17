@@ -202,7 +202,7 @@ namespace SpectraNode_interface{
     };
 
     const Instruction_token token_BIAS_C25[] = {
-        {Integer_token, Key_bias_mV, token_BIAS_C25_bias_mV, -50000, static_cast<int32_t>(-10000)},
+        {Integer_token, Key_bias_mV, token_BIAS_C25_bias_mV, -50000, static_cast<int32_t>(0)},
         {help_BIAS_C25, Cmd_BIAS_C25, Key_Instrument_calibration},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
@@ -256,7 +256,7 @@ namespace SpectraNode_interface{
     };
 
     const Instruction_token token_BIAS_SET[] = {
-        {Integer_token, Key_bias_mV, token_BIAS_SET_bias_mV, -50000, static_cast<int32_t>(-10000)},
+        {Integer_token, Key_bias_mV, token_BIAS_SET_bias_mV, -50000, static_cast<int32_t>(0)},
         {help_BIAS_SET, Cmd_BIAS_SET, Key_Instrument_calibration},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };

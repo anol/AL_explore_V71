@@ -48,9 +48,9 @@ namespace Calibration {
         int32_t ADC_35V;
         int32_t ADC_45V;
         int32_t bias_25C;
-        success = repository.get(Application::Cal_DAC_35V, DAC_35V).success() ? success : false;
+        success = repository.get(Application::Cal_DAC_30V, DAC_35V).success() ? success : false;
         success = repository.get(Application::Cal_DAC_40V, DAC_45V).success() ? success : false;
-        success = repository.get(Application::Cal_ADC_35V, ADC_35V).success() ? success : false;
+        success = repository.get(Application::Cal_ADC_30V, ADC_35V).success() ? success : false;
         success = repository.get(Application::Cal_ADC_40V, ADC_45V).success() ? success : false;
         success = repository.get(Application::Cal_bias_25C, bias_25C).success() ? success : false;
         if (success) {
@@ -99,13 +99,13 @@ namespace Calibration {
 
     void Bias_calibration::bias_temperature_control() {
         //read temperature sensor (divide by 100 to get Celsius)
-        const int16_t tempo = 2500;
+        const int16_t temp = 2000;
         // if (STTS22H_ReadTemperatureOneShot(&tempo) != HAL_OK) {
         //     // Error handling (for example, blink an LED)
         //     the_temperature = -200;
         //     return;
         // }
-        the_temperature = tempo;
+        the_temperature = temp;
         auto temp_float = static_cast<float>(the_temperature) / 100.0f;
         if (calibrate_bias(temp_float).success()) {
             cnt_bias_cal++;

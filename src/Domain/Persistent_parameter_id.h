@@ -86,9 +86,9 @@ namespace Application {
         Cal_bias_25C,
         Cal_reserved,
 
-        Cal_ADC_35V,
+        Cal_ADC_30V,
         Cal_ADC_40V,
-        Cal_DAC_35V,
+        Cal_DAC_30V,
         Cal_DAC_40V,
 
         Cal_integration_time,

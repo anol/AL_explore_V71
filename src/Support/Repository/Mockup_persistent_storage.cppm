@@ -1,5 +1,3 @@
-
-
 module;
 #include <cstdint>
 
@@ -15,19 +13,17 @@ export namespace MOCKUP {
 
         [[nodiscard]] Status_code open_reading() override { return Status_code::Success(); }
 
-        [[nodiscard]] Status_code read(uint32_t id, int32_t &value) override { return Status_code::Failure(); }
+        [[nodiscard]] Status_code read(uint32_t, int32_t &) override { return Status_code::Failure(); }
 
-        [[nodiscard]] Status_code open_writing(int dirty_count) override { return Status_code::Success(); }
+        [[nodiscard]] Status_code open_writing(int) override { return Status_code::Success(); }
 
-        [[nodiscard]] Status_code write_cache(uint32_t id, int32_t value) override { return Status_code::Success(); }
+        [[nodiscard]] Status_code write_cache(uint32_t, int32_t) override { return Status_code::Success(); }
 
         [[nodiscard]] Status_code program_flash() override { return Status_code::Success(); }
 
-        void dump() const override {
-        }
+        void dump() const override {}
 
-        void print_diag() const override {
-        }
+        void print_diag() const override {}
 
         static uint32_t get_page_size() { return 0; }
     };

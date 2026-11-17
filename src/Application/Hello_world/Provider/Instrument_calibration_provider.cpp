@@ -43,12 +43,14 @@ using namespace IDE3380;
 using namespace SpectraNode_interface;
 using namespace Application;
 
+/// @brief Show setpoint, voltage and error.
 void Instrument_calibration_provider::v_BIAS(Instruction_major &instruction) {
     printf("Bias: setpoint=%d, voltage==%d, error=%d\r\n",
            use_bias.get_C25_setpoint(), use_bias.get_voltage(), use_bias.get_error());
     instruction.print_ack();
 }
 
+/// @brief Get the raw ADC reading.
 void Instrument_calibration_provider::v_BIAS_ADC(Instruction_major &instruction) {
     if (uint32_t raw{}; use_bias.get_ADC().read_raw_ADC(raw)) {
         instruction.print_ack(static_cast<int32_t>(raw));
@@ -57,6 +59,7 @@ void Instrument_calibration_provider::v_BIAS_ADC(Instruction_major &instruction)
     }
 }
 
+/// @brief Get the ADC -30V and -40V calibration points.
 void Instrument_calibration_provider::v_BIAS_ADC_SET(Instruction_major &instruction) {
     int32_t v30_2{};
     int32_t v40_3{};
@@ -64,78 +67,119 @@ void Instrument_calibration_provider::v_BIAS_ADC_SET(Instruction_major &instruct
     instruction.print_ack(v30_2, v40_3);
 }
 
-void Instrument_calibration_provider::v_BIAS_ADC_SET_v30_v40(Instruction_major &instruction, const int v30_2, const int v40_3) {
+/// @brief Set the ADC -30V and -40V calibration points.
+void Instrument_calibration_provider::v_BIAS_ADC_SET_v30_v40(Instruction_major &instruction, const int v30_2,
+                                                             const int v40_3) {
     use_bias.get_ADC().set_setpoints(v30_2, v40_3);
-    if (use_repository.set(Cal_ADC_35V, v30_2).success() && use_repository.set(Cal_ADC_40V, v40_3).success()) {
+    if (use_repository.set(Cal_ADC_30V, v30_2).success() && use_repository.set(Cal_ADC_40V, v40_3).success()) {
         instruction.print_ack(v30_2, v40_3);
     } else {
         instruction.print_nack(use_repository.get_diag_code());
     }
 }
 
+/// @brief Get the 25C bias setpoint.
 void Instrument_calibration_provider::v_BIAS_C25(Instruction_major &instruction) {
-    auto bias{use_bias.get_C25_setpoint()};
+    const auto bias{use_bias.get_C25_setpoint()};
     instruction.print_ack(bias);
 }
 
+/// @brief Set the 25C bias setpoint. 0=use temperature.
 void Instrument_calibration_provider::v_BIAS_C25_bias_mV(Instruction_major &instruction, const int bias_mV_2) {
     use_bias.set_C25_setpoint(bias_mV_2);
     if (use_repository.set(Cal_bias_25C, bias_mV_2).success()) {
-        instruction.print_ack(bias_mV_2);
+        if (bias_mV_2 == 0) {
+            instruction.print_ack(bias_mV_2);
+            // Trigger setpoint update by temperature
+            use_bias.bias_temperature_control();
+        } else {
+            // Override the internal bias setpoint.
+            v_BIAS_SET_bias_mV(instruction, bias_mV_2);
+        }
     } else {
         instruction.print_nack(use_repository.get_diag_code());
     }
 }
 
+/// @brief Toggle calibration mode ON/OFF.
 void Instrument_calibration_provider::v_BIAS_CAL(Instruction_major &instruction) {
     the_calibration_flag = !the_calibration_flag;
     printf("The bias calibration mode is %s\r\n", the_calibration_flag ? "ON" : "OFF");
     instruction.print_ack();
 }
 
+/// @brief Misc. diagnostic information wrt. bias voltage.
 void Instrument_calibration_provider::v_BIAS_DIAG(Instruction_major &instruction) {
     use_bias.print_diag();
     instruction.print_ack();
 }
 
-void Instrument_calibration_provider::v_BIAS_ERROR(Instruction_major &) {
+/// @brief Get the bias voltage error.
+void Instrument_calibration_provider::v_BIAS_ERROR(Instruction_major &instruction) {
+    const auto error = use_bias.get_error();
+    instruction.print_ack(error);
 }
 
-void Instrument_calibration_provider::v_BIAS_SET(Instruction_major &) {
+/// @brief Get the temp. compensated bias setpoint.
+void Instrument_calibration_provider::v_BIAS_SET(Instruction_major &instruction) {
+    const auto setpoint = use_bias.get_setpoint();
+    instruction.print_ack(setpoint);
 }
 
-void Instrument_calibration_provider::v_BIAS_SET_bias_mV(Instruction_major &, int bias_mV_2) {
+/// @brief Override the temp. compensated bias setpoint.
+void Instrument_calibration_provider::v_BIAS_SET_bias_mV(Instruction_major &instruction, const int bias_mV_2) {
+    if (use_bias.set_setpoint(bias_mV_2)) {
+        instruction.print_ack(bias_mV_2);
+    } else {
+        instruction.print_nack(714);
+    }
 }
 
-void Instrument_calibration_provider::v_BIAS_TEMP(Instruction_major &) {
+/// @brief Get the temperature.
+void Instrument_calibration_provider::v_BIAS_TEMP(Instruction_major &instruction) {
+    const auto temperature = use_bias.get_temperature();
+    instruction.print_ack(temperature);
 }
 
-void Instrument_calibration_provider::v_BIAS_TEMP_SET(Instruction_major &) {
+/// @brief Get the temperature correction.
+void Instrument_calibration_provider::v_BIAS_TEMP_SET(Instruction_major &instruction) {
+    int32_t a{};
+    int32_t b{};
+    int32_t c{};
+    use_bias.get_temperature_factors(a, b, c);
+    instruction.print_ack(a, b, c);
 }
 
-void Instrument_calibration_provider::v_BIAS_TEMP_SET_a_b_c(Instruction_major &, int a_3, int b_4, int c_5) {
+/// @brief Set the temperature correction factors.
+void Instrument_calibration_provider::v_BIAS_TEMP_SET_a_b_c(Instruction_major &instruction, int a_3, int b_4, int c_5) {
+    use_bias.set_temperature_factors(a_3, b_4, c_5);
+    instruction.print_ack(a_3, b_4, c_5);
 }
 
+/// @brief Get the bias voltage.
 void Instrument_calibration_provider::v_BIAS_VOLT(Instruction_major &instruction) {
-    auto bias{use_bias.get_voltage()};
+    const auto bias{use_bias.get_voltage()};
     instruction.print_ack(bias);
 }
 
+/// @brief Get the raw DAC setting.
 void Instrument_calibration_provider::v_BIAS_DAC(Instruction_major &instruction) {
     instruction.print_ack(static_cast<int32_t>(use_bias.get_DAC().get_raw_DAC()));
 }
 
+/// @brief Override the DAC setting.
 void Instrument_calibration_provider::v_BIAS_DAC_data12(Instruction_major &instruction, const int data12_2) {
     enum { DAC_min = 0, DAC_max = 4095 }; // 12-bit DAC; out-of-range values would wrap on hardware
     if (data12_2 < DAC_min || data12_2 > DAC_max) {
-        instruction.print_nack(123);
+        instruction.print_nack(923);
     } else if (use_bias.get_DAC().set_raw_DAC(static_cast<uint32_t>(data12_2))) {
         instruction.print_ack(data12_2);
     } else {
-        instruction.print_nack(123);
+        instruction.print_nack(723);
     }
 }
 
+/// @brief Get the DAC -30V and -40V calibration points.
 void Instrument_calibration_provider::v_BIAS_DAC_SET(Instruction_major &instruction) {
     int32_t v30{};
     int32_t v40{};
@@ -143,26 +187,31 @@ void Instrument_calibration_provider::v_BIAS_DAC_SET(Instruction_major &instruct
     instruction.print_ack(v30, v40);
 }
 
-void Instrument_calibration_provider::v_BIAS_DAC_SET_v30_v40(Instruction_major &instruction, const int v30_3, const int v40_4) {
+/// @brief Set the DAC -30V and -40V calibration points.
+void Instrument_calibration_provider::v_BIAS_DAC_SET_v30_v40(Instruction_major &instruction, const int v30_3,
+                                                             const int v40_4) {
     use_bias.get_DAC().set_setpoints(v30_3, v40_4);
-    if (use_repository.set(Cal_DAC_35V, v30_3).success() && use_repository.set(Cal_DAC_40V, v40_4).success()) {
+    if (use_repository.set(Cal_DAC_30V, v30_3).success() && use_repository.set(Cal_DAC_40V, v40_4).success()) {
         instruction.print_ack(v30_3, v40_4);
     } else {
         instruction.print_nack(use_repository.get_diag_code());
     }
 }
 
+/// @brief Find common bias voltage using dark count rate.
 void Instrument_calibration_provider::v_CAL_DUMP(Instruction_major &instruction) {
     the_test_pedestal.print_pedestals();
     instruction.print_ack();
 }
 
+/// @brief Find common bias voltage using dark count rate.
 void Instrument_calibration_provider::v_CAL_DIAG(Instruction_major &instruction) {
     the_test_pedestal.print_diag();
     the_test_noise_floor.print_diag();
     instruction.print_ack();
 }
 
+/// @brief Find common bias voltage using dark count rate.
 void Instrument_calibration_provider::v_CAL_TEST_BIAS(Instruction_major &instruction) {
     if (int32_t value; use_repository.get(Active_mode, value).success() && Mode_idle == value) {
         instruction.print_nack("NOT IMPLEMENTED");
@@ -171,6 +220,7 @@ void Instrument_calibration_provider::v_CAL_TEST_BIAS(Instruction_major &instruc
     }
 }
 
+/// @brief Find channel offset voltage using fixed source.
 void Instrument_calibration_provider::v_CAL_TEST_OFFSET(Instruction_major &instruction) {
     if (int32_t value; use_repository.get(Active_mode, value).success() && Mode_idle == value) {
         instruction.print_nack("NOT IMPLEMENTED");
@@ -179,6 +229,7 @@ void Instrument_calibration_provider::v_CAL_TEST_OFFSET(Instruction_major &instr
     }
 }
 
+/// @brief Find channel noise floor using threshold scan.
 void Instrument_calibration_provider::v_CAL_TEST_NOISE(Instruction_major &instruction) {
     if (int32_t value; use_repository.get(Active_mode, value).success() && Mode_idle == value) {
         int32_t integration_time{};
@@ -200,6 +251,7 @@ void Instrument_calibration_provider::v_CAL_TEST_NOISE(Instruction_major &instru
     }
 }
 
+/// @brief Find channel pedestal using forced readout.
 void Instrument_calibration_provider::v_CAL_TEST_PEDESTAL(Instruction_major &instruction) {
     if (int32_t value; use_repository.get(Active_mode, value).success() && Mode_idle == value) {
         the_test_pedestal.set_trace(the_trace_flag);
@@ -213,6 +265,7 @@ void Instrument_calibration_provider::v_CAL_TEST_PEDESTAL(Instruction_major &ins
     }
 }
 
+/// @brief Toggle diagnostic trace on/off.
 void Instrument_calibration_provider::v_CAL_TRACE(Instruction_major &) {
     the_trace_flag = !the_trace_flag;
     printf("The calibration trace is %s\r\n", the_trace_flag ? "ON" : "OFF");

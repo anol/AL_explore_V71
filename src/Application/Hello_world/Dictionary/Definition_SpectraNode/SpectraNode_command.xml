@@ -23,7 +23,7 @@ Copyright (C) 2026 Integrated Detector Electronics AS
         <integer key="b" min="-1000000" max="1000000"/>
         <integer key="c" min="-1000000" max="1000000"/>
         <integer key="asic_nbr" min="1" max="5"/>
-        <integer key="bias_mV" min="-50000" max="-10000"/>
+        <integer key="bias_mV" min="-50000" max="0"/>
         <integer key="v30" min="0" max="4095"/>
         <integer key="v40" min="0" max="4095"/>
         <integer key="channel" min="0" max="18"
@@ -92,21 +92,21 @@ Copyright (C) 2026 Integrated Detector Electronics AS
         <provider key="Instrument_calibration">
             <arg key="BIAS" brief="Show setpoint, voltage and error.">
                 <arg key="ADC" brief="Get the raw ADC reading.">
-                    <arg key="SET" brief="Get the ADC 30V and 40V calibration points.">
+                    <arg key="SET" brief="Get the ADC -30V and -40V calibration points.">
                         <arg integer="v30">
-                            <arg integer="v40" brief="Set the ADC 30V and 40V calibration points."/>
+                            <arg integer="v40" brief="Set the ADC -30V and -40V calibration points."/>
                         </arg>
                     </arg>
                 </arg>
                 <arg key="C25" brief="Get the 25C bias setpoint.">
-                    <arg integer="bias_mV" brief="Set the 25C bias setpoint."/>
+                    <arg integer="bias_mV" brief="Set the 25C bias setpoint. 0=use temperature."/>
                 </arg>
                 <arg key="CAL" brief="Toggle calibration mode ON/OFF."/>
                 <arg key="DAC" brief="Get the raw DAC setting.">
                     <arg integer="data12" brief="Override the DAC setting."/>
-                    <arg key="SET" brief="Get the DAC calibration.">
+                    <arg key="SET" brief="Get the DAC -30V and -40V calibration points.">
                         <arg integer="v30">
-                            <arg integer="v40" brief="Set the DAC 30V and 40V calibration points."/>
+                            <arg integer="v40" brief="Set the DAC -30V and -40V calibration points."/>
                         </arg>
                     </arg>
                 </arg>

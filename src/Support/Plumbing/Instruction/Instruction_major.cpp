@@ -73,7 +73,7 @@ void Instruction_major::add_token(const Instruction_token &token) {
     }
 }
 
-uint32_t Instruction_major::find_token_value(uint32_t id) {
+uint32_t Instruction_major::find_token_value(const uint32_t id) {
     for (uint32_t index = the_token_count - 1; index > 0; index--) {
         if (id == the_token_ids[index]) {
             return the_token_values[index];
@@ -82,7 +82,7 @@ uint32_t Instruction_major::find_token_value(uint32_t id) {
     return 0;
 }
 
-void Instruction_major::set_request(uint32_t tag) {
+void Instruction_major::set_request(const uint32_t tag) {
     the_command_id = 1; // NOTE: Use "1 == Special command" for internal built instructions
     the_token_ids[0] = 0xFFu & tag;
     the_token_values[0] = tag;
@@ -90,7 +90,7 @@ void Instruction_major::set_request(uint32_t tag) {
     the_token_count = 1;
 }
 
-uint32_t Instruction_major::add_command(uint32_t tag) {
+uint32_t Instruction_major::add_command(const uint32_t tag) {
     uint32_t index = the_token_count;
     if (index < (Max_tokens - 1)) {
         the_token_ids[index] = 0xFFu & tag;
@@ -101,7 +101,7 @@ uint32_t Instruction_major::add_command(uint32_t tag) {
     return index;
 }
 
-uint32_t Instruction_major::add_value(uint32_t tag, uint32_t value, Token_type token_type) {
+uint32_t Instruction_major::add_value(const uint32_t tag, const uint32_t value, const Token_type token_type) {
     uint32_t index = the_token_count;
     if (index < (Max_tokens - 1)) {
         the_token_ids[index] = 0xFFu & tag;
@@ -112,7 +112,7 @@ uint32_t Instruction_major::add_value(uint32_t tag, uint32_t value, Token_type t
     return index;
 }
 
-uint32_t Instruction_major::add_string(uint32_t tag, const char *string) {
+uint32_t Instruction_major::add_string(const uint32_t tag, const char *string) {
     uint32_t index = the_token_count;
     if (index < (Max_tokens - 1)) {
         Instruction_token token{String_token, tag, nullptr, 0, 0};
@@ -123,7 +123,7 @@ uint32_t Instruction_major::add_string(uint32_t tag, const char *string) {
 }
 
 
-uint32_t Instruction_major::add_string(uint32_t tag, const char *string, size_t n) {
+uint32_t Instruction_major::add_string(const uint32_t tag, const char *string, const size_t n) {
     uint32_t index = the_token_count;
     if (index < (Max_tokens - 1)) {
         Instruction_token token{String_token, tag, nullptr, 0, 0};
@@ -143,7 +143,7 @@ void Instruction_major::set_string(uint32_t packed) {
     the_string_buffer[index] = 0;
 }
 
-void Instruction_major::set_keyword(uint32_t index, uint32_t tag) {
+void Instruction_major::set_keyword(const uint32_t index, const uint32_t tag) {
     if (index < the_token_count) {
         the_token_ids[index] = 0xFFu & tag;
         the_token_types[index] = Keyword_token;
@@ -169,7 +169,8 @@ void Instruction_major::set_keyword(uint32_t index, uint32_t tag) {
 void Instruction_major::print_trace(const Keyword_lookup get_keyword) const {
     printf(">>>> ");
     for (uint32_t index = 0; index < the_token_count; index++) {
-        if (index > 0) printf(", ");
+        if (index > 0)
+            printf(", ");
         if (the_token_types[index] == Keyword_token) {
             printf("%s", get_keyword(the_token_ids[index]));
         } else if (the_token_types[index] == String_token) {
@@ -258,8 +259,13 @@ void Instruction_major::print_ack(const int32_t data) {
     clean();
 }
 
-void Instruction_major::print_ack(const uint32_t reg, const uint32_t data) {
-    printf("OK=%d,%d\r\n", static_cast<int>(reg), static_cast<int>(data));
+void Instruction_major::print_ack(const int32_t arg_a, const int32_t arg_b) {
+    printf("OK=%d,%d\r\n", arg_a, arg_b);
+    clean();
+}
+
+void Instruction_major::print_ack(const int32_t arg_a, const int32_t arg_b, const int32_t arg_c) {
+    printf("OK=%d,%d,%d\r\n", arg_a, arg_b, arg_c);
     clean();
 }
 
@@ -268,7 +274,7 @@ void Instruction_major::print_nack(const uint32_t error) {
     clean();
 }
 
-void Instruction_major::print_nack(const char* error) {
+void Instruction_major::print_nack(const char *error) {
     printf("ERROR=%s\r\n", error);
     clean();
 }

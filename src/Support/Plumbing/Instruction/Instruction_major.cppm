@@ -110,7 +110,9 @@ public:
 
     void print_ack(int32_t data);
 
-    void print_ack(uint32_t reg, uint32_t data);
+    void print_ack(int32_t arg_a, int32_t arg_b);
+
+    void print_ack(int32_t arg_a, int32_t arg_b, int32_t arg_c);
 
     void print_nack(uint32_t error);
 

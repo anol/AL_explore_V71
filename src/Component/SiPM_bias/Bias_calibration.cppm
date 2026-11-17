@@ -18,7 +18,11 @@ import Type.Abstract_board;
 export namespace Calibration {
     class Bias_calibration {
         int32_t the_25C_setpoint{};
+        int32_t the_setpoint{};
         int32_t the_bias_error{};
+        int32_t the_temp_a{};
+        int32_t the_temp_b{};
+        int32_t the_temp_c{};
         volatile int16_t the_temperature{};
         volatile int32_t the_bias_volt{};
         float gamma_param_A = 1;
@@ -27,8 +31,8 @@ export namespace Calibration {
         Bias_ADC the_ADC;
 
     public:
-        explicit Bias_calibration(Abstract::Abstract_board &board) : the_DAC(board.get_DAC()), the_ADC(board.get_ADC()) {
-        }
+        explicit Bias_calibration(Abstract::Abstract_board &board) : the_DAC(board.get_DAC()),
+                                                                     the_ADC(board.get_ADC()) {}
 
         void initialize();
 
@@ -48,9 +52,28 @@ export namespace Calibration {
 
         Bias_ADC &get_ADC() { return the_ADC; }
 
+        void set_temperature_factors(const int32_t a, const int32_t b, const int32_t c) {
+            the_temp_a = a;
+            the_temp_b = b;
+            the_temp_c = c;
+        }
+
+        void get_temperature_factors(int32_t &a, int32_t &b, int32_t &c) const {
+            a = the_temp_a;
+            b = the_temp_b;
+            c = the_temp_c;
+        }
+
         void set_C25_setpoint(const int32_t cal) { the_25C_setpoint = cal; }
 
         [[nodiscard]] int32_t get_C25_setpoint() const { return the_25C_setpoint; }
+
+        bool set_setpoint(const int32_t setpoint) {
+            the_setpoint = setpoint;
+            return true;
+        }
+
+        [[nodiscard]] int32_t get_setpoint() const { return the_setpoint; }
 
         [[nodiscard]] int32_t get_error() const { return the_bias_error; }
 
