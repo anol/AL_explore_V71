@@ -79,6 +79,7 @@ void Housekeeping_provider::v_HELP(Instruction_major &instruction) {
 
 void Housekeeping_provider::print_housekeeping() {
     printf("Housekeeping\r\n");
+    the_temperature_task.print_temperatures();
 }
 
 /// @brief Show the housekeeping report.

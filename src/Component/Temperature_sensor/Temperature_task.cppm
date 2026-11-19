@@ -25,6 +25,7 @@ module;
 #include "Target_config.h"
 
 export module Component.Temperature_sensor;
+import :Sensor_TMP1075;
 import Type.Abstract_I2C;
 import Type.Abstract_board;
 import Platform.FreeRTOS_task;
@@ -32,12 +33,21 @@ import Platform.FreeRTOS_task;
 namespace Temperature_sensor {
     export class Temperature_task : public FreeRTOS::FreeRTOS_task {
         enum {
-            Priority   = Target_config::Temperature_task_priority,
-            Stack_size = Target_config::Temperature_task_stack_size,
+            Priority          = Target_config::Temperature_task_priority,
+            Stack_size        = Target_config::Temperature_task_stack_size,
+            Number_of_sensors = 6,
         };
 
         Abstract::Abstract_I2C &use_I2C;
         int32_t the_temperature{200};
+        Sensor_TMP1075 the_sensor_table[Number_of_sensors]{
+            {"U07", 0b0100'1000},
+            {"U13", 0b0100'1001},
+            {"U14", 0b0100'1010},
+            {"U15", 0b0100'1011},
+            {"Uxx", 0b0100'1100},
+            {"Uyy", 0b0100'1101}
+        };
 
     public:
         Temperature_task(Abstract::Abstract_board &board)
@@ -50,6 +60,10 @@ namespace Temperature_sensor {
         void task_loop() override;
 
         [[nodiscard]] int32_t get_temperature() const { return the_temperature; }
-    };
 
+        void print_temperatures() const;
+
+    private:
+        void read_all_temperatures();
+    };
 }

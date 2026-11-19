@@ -88,7 +88,7 @@ public:
     static void print_version();
 
 private:
-    static void print_housekeeping();
+    void print_housekeeping();
 
 protected:
     void v_DIAG(Instruction_major &) override;

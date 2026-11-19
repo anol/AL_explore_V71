@@ -20,6 +20,11 @@
 * @brief  
 */
 
+module;
+
+#include <cstdint>
+#include <cstdio>
+
 module Component.Temperature_sensor;
 
 namespace Temperature_sensor {
@@ -27,9 +32,29 @@ namespace Temperature_sensor {
     }
 
     void Temperature_task::task_loop() {
-        enum { Delay_millis = 2002 };
+        enum { Delay_millis = 2000 };
         while (true) {
             delay_until(Delay_millis);
+            read_all_temperatures();
         }
+    }
+
+    void Temperature_task::print_temperatures() const {
+        printf("Temperature: %d.%d\r\n", the_temperature / 10, the_temperature % 10);
+        for (auto &sensor: the_sensor_table) {
+            printf("  %s: addr=%d, temp=%d\r\n", sensor.get_name(), sensor.get_address(), sensor.get_temperature());
+        }
+    }
+
+    void Temperature_task::read_all_temperatures() {
+        int32_t accumelator{};
+        int32_t counter{};
+        for (auto &sensor: the_sensor_table) {
+            if (sensor.read(use_I2C)) {
+                accumelator += sensor.get_temperature();
+                counter++;
+            }
+        }
+        the_temperature = accumelator / counter;
     }
 }
