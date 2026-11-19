@@ -22,6 +22,7 @@
 
 module;
 
+#include <cmath>
 #include <cstdint>
 #include <cstdio>
 
@@ -60,11 +61,10 @@ namespace Temperature_sensor
         the_data_good_flag = I2C.read(the_address, 2, data);
         if (the_data_good_flag)
         {
-            const auto temp = static_cast<int32_t>(data);
-            const int32_t degrees = 100 * ((temp >> 8) & 0xFF);
-            const int32_t fraction = 100 * ((temp >> 4) & 0xF) / 16;
-            the_temperature = degrees + fraction;
-            printf("%d.%d ", the_temperature / 100, the_temperature % 100);
+            const auto degrees = static_cast<int8_t>((data >> 8) & 0xFF);
+            const auto fraction = static_cast<int8_t>((data >> 4) & 0xF);
+            the_temperature = 100 * degrees + 100 * fraction / 16;
+            printf("%d.%d ", the_temperature / 100, abs(the_temperature) % 100);
         }
         return the_data_good_flag;
     }

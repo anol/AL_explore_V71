@@ -64,7 +64,6 @@ namespace Temperature_sensor
     {
         int32_t accum{};
         int32_t counter{};
-        printf("\r\n");
         for (auto& sensor : the_sensor_table)
         {
             if (sensor.read(use_I2C))
@@ -74,5 +73,6 @@ namespace Temperature_sensor
             }
         }
         the_temperature = accum / counter;
+        printf("  temp=%d.%d\r\n", the_temperature / 100, the_temperature % 100);
     }
 }

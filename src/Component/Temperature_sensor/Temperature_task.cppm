@@ -39,7 +39,7 @@ namespace Temperature_sensor {
         };
 
         Abstract::Abstract_I2C &use_I2C;
-        int32_t the_temperature{200};
+        int32_t the_temperature{2000};
         Sensor_TMP1075 the_sensor_table[Number_of_sensors]{
             {"U07", 0b0100'1000},
             {"U13", 0b0100'1001},
