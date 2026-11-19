@@ -6,6 +6,7 @@ target_sources(${THE_TARGET_NAME} PRIVATE
         Abstract_clock.cppm
         Abstract_DAC.cppm
         Abstract_ethernet.cppm
+        Abstract_I2C.cppm
         Abstract_IO_pin.cppm
         Abstract_pin_table.cppm
         Abstract_provider.cppm

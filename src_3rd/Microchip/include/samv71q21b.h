@@ -296,7 +296,7 @@ void USART2_Handler                ( void );
 void PIOD_Handler                  ( void );
 void PIOE_Handler                  ( void );
 void HSMCI_Handler                 ( void );
-void TWIHS0_Handler                ( void );
+void ISR_TWIHS0                ( void );
 void TWIHS1_Handler                ( void );
 void ISR_SPI0                  ( void );
 void SSC_Handler                   ( void );

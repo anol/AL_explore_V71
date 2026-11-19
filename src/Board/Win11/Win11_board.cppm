@@ -7,6 +7,7 @@ import Type.Abstract_board;
 import Board.Win11_pin_table;
 import Platform.Mockup_ADC;
 import Platform.Mockup_DAC;
+import Platform.Mockup_I2C;
 import Platform.Mockup_SPI;
 import Platform.Mockup_UART;
 
@@ -16,6 +17,7 @@ export namespace Board {
         Win11_pin_table the_pin_table{};
         Mockup::Mockup_UART the_UART{};
         Mockup::Mockup_SPI the_SPI{};
+        Mockup::Mockup_I2C the_I2C{};
         Mockup::Mockup_DAC the_DAC{};
         Mockup::Mockup_ADC the_ADC{the_DAC}; // Loopback: the ADC reads the DAC output
 
@@ -27,6 +29,8 @@ export namespace Board {
         Abstract::Abstract_UART &get_UART() override { return the_UART; }
 
         Abstract::Abstract_SPI &get_SPI() override { return the_SPI; }
+
+        Abstract::Abstract_I2C &get_I2C() override { return the_I2C; }
 
         Abstract::Abstract_ADC &get_ADC() override { return the_ADC; }
 

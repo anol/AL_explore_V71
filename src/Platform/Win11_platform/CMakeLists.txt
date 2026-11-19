@@ -14,6 +14,7 @@ target_link_libraries(${THE_TARGET_NAME} winmm)
 target_sources(${THE_TARGET_NAME} PUBLIC
         Mockup_host.cpp
         Mockup_host.h
+        Mockup_I2C.cpp
         Mockup_SPI.cpp
         Mockup_stdio.cpp
         Mockup_UART.cpp
@@ -23,6 +24,7 @@ target_sources(${THE_TARGET_NAME} PRIVATE
         Mockup_ADC.cppm
         Mockup_DAC.cppm
         Mockup_IO_pin.cppm
+        Mockup_I2C.cppm
         Mockup_SPI.cppm
         Mockup_UART.cppm
 )

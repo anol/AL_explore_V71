@@ -16,8 +16,8 @@ export namespace SamV71 {
         Pin the_pin_table[Tag::Number_of_pins]{
             // Pin name, Function, Phase, Port, Pin, Mode, Type, Default strength=0, Default state=low
             {Tag::Pin_not_used},
-            {Tag::Pin_SDA},
-            {Tag::Pin_SCL},
+            {Tag::Pin_I2C_SDA, "I2C_SDA", Pin::Start_up, Pin::Port_A, 3, Pin::Mode_A, Pin::Out_open_drain}, // TWD0
+            {Tag::Pin_I2C_SCL, "I2C_SCL", Pin::Start_up, Pin::Port_A, 4, Pin::Mode_A, Pin::Out_open_drain}, // TWCK0
             {Tag::Pin_ASIC_RESET_I},
             {Tag::Pin_ASIC_HOLD_I},
             {Tag::Pin_ASIC_CLKENEXT},

@@ -11,6 +11,7 @@ module Board.V71_EK_board;
 import Type.Abstract_board;
 import Board.V71_EK_pin_table;
 import Platform.SamV71_clock;
+import Platform.SamV71_I2C;
 import Platform.SamV71_SPI;
 import Platform.SamV71_USART;
 import Platform.SamV71_platform;
@@ -23,6 +24,7 @@ namespace Board {
         SamV71_platform::initialize();
         the_pin_table.initialize();
         the_SPI.initialize();
+        the_I2C.initialize();
         the_UART.initialize();
         the_ADC.initialize();
         the_DAC.initialize();
@@ -30,6 +32,7 @@ namespace Board {
 
     void V71_EK_board::print_diagnostics() {
         the_SPI.print_diagnostics();
+        the_I2C.print_diagnostics();
         the_pin_table.print_diagnostics();
     }
 } // Board

@@ -31,7 +31,7 @@ namespace SpectraNode_interface{
         return (p1 << 24 ) | (s2 << 16 ) | (t3 << 8) | q4;
         }
 
-        static inline constexpr uint32_t default_is(uint8_t index, uint32_t default_value) {
+        static inline constexpr uint32_t default_is(uint8_t /*index*/, uint32_t default_value) {
         return default_value;
         }
 

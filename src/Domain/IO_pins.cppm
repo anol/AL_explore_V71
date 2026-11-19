@@ -5,8 +5,8 @@ export namespace Domain {
     enum Pin_id : Abstract::Abstract_pin_id {
         Pin_not_used,
 
-        Pin_SDA,
-        Pin_SCL,
+        Pin_I2C_SDA,
+        Pin_I2C_SCL,
         Pin_ASIC_RESET_I,
         Pin_ASIC_HOLD_I,
         Pin_ASIC_CLKENEXT,

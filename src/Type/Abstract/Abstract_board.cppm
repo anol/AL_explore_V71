@@ -1,6 +1,7 @@
 module;
 
 export module Type.Abstract_board;
+export import Type.Abstract_I2C;
 export import Type.Abstract_IO_pin;
 export import Type.Abstract_SPI;
 export import Type.Abstract_UART;
@@ -19,6 +20,8 @@ namespace Abstract {
         virtual Abstract_UART &get_UART() = 0;
 
         virtual Abstract_SPI &get_SPI() = 0;
+
+        virtual Abstract_I2C &get_I2C() = 0;
 
         virtual Abstract_ADC &get_ADC() = 0;
 

@@ -101,7 +101,7 @@ extern "C" void PIOE_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
 
 extern "C" void HSMCI_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
 
-extern "C" void TWIHS0_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
+// extern "C" void TWIHS0_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
 
 extern "C" void TWIHS1_Handler() __attribute__ ((weak, alias("Dummy_Handler")));
 
@@ -249,7 +249,7 @@ const DeviceVectors exception_table = {
     .pfnPIOD_Handler       = (void *) PIOD_Handler,        /* 16 Parallel Input/Output Controller */
     .pfnPIOE_Handler       = (void *) PIOE_Handler,        /* 17 Parallel Input/Output Controller */
     .pfnHSMCI_Handler      = (void *) HSMCI_Handler,       /* 18 High Speed MultiMedia Card Interface */
-    .pfnTWIHS0_Handler     = (void *) TWIHS0_Handler,      /* 19 Two-wire Interface High Speed */
+    .pfnTWIHS0_Handler     = (void *) ISR_TWIHS0,          /* 19 Two-wire Interface High Speed */
     .pfnTWIHS1_Handler     = (void *) TWIHS1_Handler,      /* 20 Two-wire Interface High Speed */
     .pfnSPI0_Handler       = (void *) ISR_SPI0,            /* 21 Serial Peripheral Interface */
     .pfnSSC_Handler        = (void *) SSC_Handler,         /* 22 Synchronous Serial Controller */

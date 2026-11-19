@@ -15,6 +15,7 @@ target_sources(${THE_TARGET_NAME} PRIVATE
 )
 
 add_subdirectory(SamV71_ADC ${CMAKE_BINARY_DIR}/SamV71_ADC)
+add_subdirectory(SamV71_I2C ${CMAKE_BINARY_DIR}/SamV71_I2C)
 add_subdirectory(SamV71_SPI ${CMAKE_BINARY_DIR}/SamV71_SPI)
 add_subdirectory(SAMV71Q21B ${CMAKE_BINARY_DIR}/SAMV71Q21B)
 add_subdirectory(${SOURCE_ROOT_DIR}/Platform/Common_platform ${CMAKE_BINARY_DIR}/Common_platform)
