@@ -27,34 +27,52 @@ module;
 
 module Component.Temperature_sensor;
 
-namespace Temperature_sensor {
-    void Temperature_task::initialize() {
+namespace Temperature_sensor
+{
+    void Temperature_task::initialize()
+    {
     }
 
-    void Temperature_task::task_loop() {
+    void Temperature_task::task_loop()
+    {
         enum { Delay_millis = 2000 };
-        while (true) {
+        while (true)
+        {
             delay_until(Delay_millis);
             read_all_temperatures();
         }
     }
 
-    void Temperature_task::print_temperatures() const {
+    void Temperature_task::print_temperatures() const
+    {
         printf("Temperature: %d.%d\r\n", the_temperature / 10, the_temperature % 10);
-        for (auto &sensor: the_sensor_table) {
-            printf("  %s: addr=%d, temp=%d\r\n", sensor.get_name(), sensor.get_address(), sensor.get_temperature());
+        for (auto& sensor : the_sensor_table)
+        {
+            if (sensor.is_good())
+            {
+                auto temp = sensor.get_temperature();
+                printf("  %s: addr=%d, temp=%d.%d\r\n", sensor.get_name(), sensor.get_address(), temp / 100, temp % 100);
+            }
+            else
+            {
+                printf("  %s: addr=%d <> NO DATA <>\r\n", sensor.get_name(), sensor.get_address());
+            }
         }
     }
 
-    void Temperature_task::read_all_temperatures() {
-        int32_t accumelator{};
+    void Temperature_task::read_all_temperatures()
+    {
+        int32_t accum{};
         int32_t counter{};
-        for (auto &sensor: the_sensor_table) {
-            if (sensor.read(use_I2C)) {
-                accumelator += sensor.get_temperature();
+        printf("\r\n");
+        for (auto& sensor : the_sensor_table)
+        {
+            if (sensor.read(use_I2C))
+            {
+                accum += sensor.get_temperature();
                 counter++;
             }
         }
-        the_temperature = accumelator / counter;
+        the_temperature = accum / counter;
     }
 }

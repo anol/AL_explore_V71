@@ -28,32 +28,44 @@ module;
 module Component.Temperature_sensor:Sensor_TMP1075;
 import Type.Abstract_I2C;
 
-namespace Temperature_sensor {
-    class Sensor_TMP1075 {
-        const char *the_name;
+namespace Temperature_sensor
+{
+    class Sensor_TMP1075
+    {
+        const char* the_name;
         const uint8_t the_address;
-        int32_t the_temperature{200};
+        bool the_data_good_flag{};
+        int32_t the_temperature{2000};
 
     public:
-        Sensor_TMP1075(const char *name, uint8_t address)
-            : the_name(name), the_address(address) {
+        Sensor_TMP1075(const char* name, uint8_t address)
+            : the_name(name), the_address(address)
+        {
         }
 
-        bool read(Abstract::Abstract_I2C &);
+        bool read(Abstract::Abstract_I2C&);
 
         [[nodiscard]] int32_t get_temperature() const { return the_temperature; }
 
         [[nodiscard]] uint8_t get_address() const { return the_address; }
 
-        [[nodiscard]] const char *get_name() const { return the_name; }
+        [[nodiscard]] const char* get_name() const { return the_name; }
+
+        [[nodiscard]] bool is_good() const { return the_data_good_flag; }
     };
 
-    bool Sensor_TMP1075::read(Abstract::Abstract_I2C &I2C) {
+    bool Sensor_TMP1075::read(Abstract::Abstract_I2C& I2C)
+    {
         uint32_t data{};
-        auto success = I2C.read(the_address, 2, data);
-        if (success) {
-            the_temperature = static_cast<int32_t>(data);
+        the_data_good_flag = I2C.read(the_address, 2, data);
+        if (the_data_good_flag)
+        {
+            const auto temp = static_cast<int32_t>(data);
+            const int32_t degrees = 100 * ((temp >> 8) & 0xFF);
+            const int32_t fraction = 100 * ((temp >> 4) & 0xF) / 16;
+            the_temperature = degrees + fraction;
+            printf("%d.%d ", the_temperature / 100, the_temperature % 100);
         }
-        return success;
+        return the_data_good_flag;
     }
 }
