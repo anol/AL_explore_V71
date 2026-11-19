@@ -12,8 +12,8 @@ namespace Abstract {
 
         virtual void initialize() = 0;
 
-        virtual bool read(uint8_t device_id, uint8_t data_width, uint32_t &data) = 0;
+        virtual bool read(uint8_t address, uint8_t data_width, uint32_t &data) = 0;
 
-        virtual bool write(uint8_t device_id, uint8_t data_width, uint32_t data) = 0;
+        virtual bool write(uint8_t address, uint8_t data_width, uint32_t data) = 0;
     };
 } // Abstract

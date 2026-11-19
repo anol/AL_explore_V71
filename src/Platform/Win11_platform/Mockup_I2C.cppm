@@ -25,7 +25,16 @@ export namespace Mockup {
             uint8_t the_register[Register_count]{};
         };
 
-        Device the_device[Max_devices]{};
+        Device the_device[Max_devices]{
+            {true, 72, 0, {20, 1, 0}},
+            {true, 73, 0, {20, 2, 0}},
+            {true, 74, 0, {20, 3, 0}},
+            {true, 75, 0, {20, 4, 0}},
+            {true, 76, 0, {20, 5, 0}},
+            {true, 77, 0, {20, 6, 0}},
+            {false, 0, 0, {20, 7, 0}},
+            {false, 0, 0, {20, 8, 0}}
+        };
         uint32_t the_read_count{};
         uint32_t the_write_count{};
         uint32_t the_failure_count{};
@@ -34,13 +43,13 @@ export namespace Mockup {
         void initialize() override {
         }
 
-        bool read(uint8_t device_id, uint8_t data_width, uint32_t &data) override;
+        bool read(uint8_t address, uint8_t data_width, uint32_t &data) override;
 
-        bool write(uint8_t device_id, uint8_t data_width, uint32_t data) override;
+        bool write(uint8_t address, uint8_t data_width, uint32_t data) override;
 
         void print_diagnostics() const;
 
     private:
-        Device *find_device(uint8_t device_id);
+        Device *find_device(uint8_t address);
     };
 } // Mockup
