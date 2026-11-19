@@ -8,8 +8,7 @@
 module;
 #include <cstdint>
 #include <cstdio>
-#include "../../Domain/Persistent_parameter_id.h"
-#include "../../Component/STTS22H/Sensor_STTS22H.h"
+#include "Persistent_parameter_id.h"
 
 module Component.Bias_calibration;
 import Component.Bias_ADC;

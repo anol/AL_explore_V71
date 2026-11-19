@@ -43,8 +43,6 @@ using namespace SpectraNode_interface;
 using namespace Application;
 using namespace Instruction;
 
-// #include "stm32u5xx_hal.h"
-
 using namespace Instruction;
 
 bool Housekeeping_provider::the_trace_flag{false};
