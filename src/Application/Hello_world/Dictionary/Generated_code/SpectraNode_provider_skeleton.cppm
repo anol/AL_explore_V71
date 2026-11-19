@@ -104,6 +104,7 @@ export namespace SpectraNode_interface {
         void v_DIAG(Transaction_major &) override;
         void v_ECHO(Transaction_major &) override;
         void v_HELP(Transaction_major &) override;
+        void v_HOUSE(Transaction_major &) override;
         void v_STATUS(Transaction_major &) override;
         void v_TEST(Transaction_major &) override;
         void v_TRACE(Transaction_major &) override;

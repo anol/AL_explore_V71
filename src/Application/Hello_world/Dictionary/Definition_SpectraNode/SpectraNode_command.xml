@@ -168,13 +168,14 @@ Copyright (C) 2026 Integrated Detector Electronics AS
             </arg>
         </provider>
         <provider key="Housekeeping">
-            <arg key="DIAG" brief="Send miscellaneous diagnostic information."/>
-            <arg key="ECHO" brief="Toggle console echo on/off."/>
-            <arg key="HELP" brief="Show commands."/>
-            <arg key="STATUS" brief="Send mode and other system data."/>
+            <arg key="DIAG" brief="Show miscellaneous diagnostic information."/>
+            <arg key="ECHO" brief="Toggle console echo ON/OFF."/>
+            <arg key="HELP" brief="Show the list of commands."/>
+            <arg key="HOUSE" brief="Show the housekeeping report."/>
+            <arg key="STATUS" brief="Show the system status report."/>
             <arg key="TEST" brief="Initiate a self-test sequence."/>
-            <arg key="TRACE" brief="Toggle trace on/off."/>
-            <arg key="VERSION" brief="Send version and other build information."/>
+            <arg key="TRACE" brief="Toggle the command trace ON/OFF."/>
+            <arg key="VERSION" brief="Show the version and build report."/>
         </provider>
     </commands>
 </command_definition>

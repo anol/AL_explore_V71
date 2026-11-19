@@ -481,6 +481,11 @@ namespace SpectraNode_interface{
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
+    const Instruction_token token_HOUSE[] = {
+        {help_HOUSE, Cmd_HOUSE, Key_Housekeeping},
+        {End_token, "", No_key, (uint32_t)0, nullptr}
+    };
+
     const Instruction_token token_STATUS[] = {
         {help_STATUS, Cmd_STATUS, Key_Housekeeping},
         {End_token, "", No_key, (uint32_t)0, nullptr}
@@ -516,6 +521,7 @@ namespace SpectraNode_interface{
         {Keyword_token, "DIAG", Key_DIAG, (uint32_t)0, token_DIAG},
         {Keyword_token, "ECHO", Key_ECHO, (uint32_t)0, token_ECHO},
         {Keyword_token, "HELP", Key_HELP, (uint32_t)0, token_HELP},
+        {Keyword_token, "HOUSE", Key_HOUSE, (uint32_t)0, token_HOUSE},
         {Keyword_token, "STATUS", Key_STATUS, (uint32_t)0, token_STATUS},
         {Keyword_token, "TEST", Key_TEST, (uint32_t)0, token_TEST},
         {Keyword_token, "TRACE", Key_TRACE, (uint32_t)0, token_TRACE},

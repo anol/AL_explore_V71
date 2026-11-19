@@ -32,10 +32,15 @@ export namespace Board {
         void print_diagnostics() override;
 
         Abstract_UART &get_UART() override { return the_UART; }
+
         Abstract_SPI &get_SPI() override { return the_SPI; }
+
         Abstract_I2C &get_I2C() override { return the_I2C; }
+
         Abstract_ADC &get_ADC() override { return the_ADC; }
+
         Abstract_DAC &get_DAC() override { return the_DAC; }
+
         Abstract_IO_pin &get_pin(const Abstract_pin_id id) override { return the_pin_table.get_pin(id); }
     };
 } // Board

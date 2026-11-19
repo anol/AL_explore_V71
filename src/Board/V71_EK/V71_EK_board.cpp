@@ -3,9 +3,12 @@
 //
 
 module;
+
 #include <cstdint>
-#include "sam.h"
-#include "cachel1_armv7.h"
+#include <cstdio>
+//
+// #include "sam.h"
+// #include "cachel1_armv7.h"
 
 module Board.V71_EK_board;
 import Type.Abstract_board;
@@ -35,4 +38,5 @@ namespace Board {
         the_I2C.print_diagnostics();
         the_pin_table.print_diagnostics();
     }
+
 } // Board

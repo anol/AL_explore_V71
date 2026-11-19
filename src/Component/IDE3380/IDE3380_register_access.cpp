@@ -37,7 +37,7 @@ namespace IDE3380
 
     void IDE3380_register_access::print_diagnostics()
     {
-        printf("ASIC%d:\r\n", the_ASIC + 1);
+        printf("ASIC%d", the_ASIC + 1);
         uint32_t value[IDE3380_register_count]{};
         for (uint8_t address = 0; address < IDE3380_register_count; address++)
         {

@@ -395,6 +395,7 @@ template<> const Abstract_Housekeeping_provider::Lookup_table::Instruction_entry
     {&Abstract_Housekeeping_provider::p_DIAG, Cmd_DIAG},
     {&Abstract_Housekeeping_provider::p_ECHO, Cmd_ECHO},
     {&Abstract_Housekeeping_provider::p_HELP, Cmd_HELP},
+    {&Abstract_Housekeeping_provider::p_HOUSE, Cmd_HOUSE},
     {&Abstract_Housekeeping_provider::p_STATUS, Cmd_STATUS},
     {&Abstract_Housekeeping_provider::p_TEST, Cmd_TEST},
     {&Abstract_Housekeeping_provider::p_TRACE, Cmd_TRACE},
@@ -417,6 +418,10 @@ namespace SpectraNode_interface{
             
     void Abstract_Housekeeping_provider::p_HELP(Instruction_major &transaction){
         v_HELP(transaction);
+    }
+            
+    void Abstract_Housekeeping_provider::p_HOUSE(Instruction_major &transaction){
+        v_HOUSE(transaction);
     }
             
     void Abstract_Housekeeping_provider::p_STATUS(Instruction_major &transaction){

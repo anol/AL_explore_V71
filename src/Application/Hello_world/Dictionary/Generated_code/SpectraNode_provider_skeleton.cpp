@@ -263,6 +263,10 @@ void Implement_Housekeeping_provider::v_HELP(Transaction_major &){
     std::cout << "Implement_Housekeeping_provider::v_HELP:" << std::endl;
 }
             
+void Implement_Housekeeping_provider::v_HOUSE(Transaction_major &){
+    std::cout << "Implement_Housekeeping_provider::v_HOUSE:" << std::endl;
+}
+            
 void Implement_Housekeeping_provider::v_STATUS(Transaction_major &){
     std::cout << "Implement_Housekeeping_provider::v_STATUS:" << std::endl;
 }

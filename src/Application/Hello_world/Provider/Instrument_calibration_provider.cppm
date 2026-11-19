@@ -73,6 +73,10 @@ public:
         return busy;
     }
 
+    void print_status() const {
+        use_bias.print_status();
+    }
+
 protected:
     void v_BIAS(Instruction_major &) override;
 

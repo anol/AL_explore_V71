@@ -74,19 +74,19 @@ namespace IDE3380 {
         if (count > IDE3380_channel_count) {
             count = IDE3380_channel_count;
         }
-        printf("            ");
+        printf("    ch.: ");
         for (uint32_t gpc = 0; gpc < count; gpc++) {
             printf(" %3d", gpc);
         }
         printf("\r\n");
-        dump_decoded("cmis_voffs", 18, 8, data, count);
-        dump_decoded("cmis_ioffs", 15, 3, data, count);
-        dump_decoded("cmis_im_re", 14, 1, data, count);
-        dump_decoded("cal_sel_ch", 13, 1, data, count);
-        dump_decoded("qc_threshl", 5, 8, data, count);
-        dump_decoded("qc_hystere", 2, 3, data, count);
-        dump_decoded("pu_channel", 1, 1, data, count);
-        dump_decoded("en_trigger", 0, 1, data, count);
+        dump_decoded("  cmis_voffs", 18, 8, data, count);
+        dump_decoded("  cmis_ioffs", 15, 3, data, count);
+        dump_decoded("  cmis_im_re", 14, 1, data, count);
+        dump_decoded("  cal_sel_ch", 13, 1, data, count);
+        dump_decoded("  qc_threshl", 5, 8, data, count);
+        dump_decoded("  qc_hystere", 2, 3, data, count);
+        dump_decoded("  pu_channel", 1, 1, data, count);
+        dump_decoded("  en_trigger", 0, 1, data, count);
     }
 
     void IDE3380_register_decoder::dump_decoded(const char *name, const int pos, const int width,

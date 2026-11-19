@@ -83,6 +83,7 @@ export namespace Domain_interface {
         Key_HELP,
         Key_HIGH,
         Key_HOLD,
+        Key_HOUSE,
         Key_Housekeeping,
         Key_idle,
         Key_IDLE,

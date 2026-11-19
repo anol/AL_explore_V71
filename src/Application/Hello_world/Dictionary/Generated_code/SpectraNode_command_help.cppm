@@ -83,12 +83,13 @@ export namespace SpectraNode_interface{
     constexpr auto* help_CONFIG_DUMP{"Dump the current configuration."};
     constexpr auto* help_CONFIG_LOAD{"Load the current configuration from the persistent storage."};
     constexpr auto* help_CONFIG_SAVE{"Save the current configuration to the persistent storage."};
-    constexpr auto* help_DIAG{"Send miscellaneous diagnostic information."};
+    constexpr auto* help_DIAG{"Show miscellaneous diagnostic information."};
     constexpr auto* help_ECHO{"Toggle console echo on/off."};
-    constexpr auto* help_HELP{"Show commands."};
-    constexpr auto* help_STATUS{"Send mode and other system data."};
+    constexpr auto* help_HELP{"Show the list of commands."};
+    constexpr auto* help_HOUSE{"Show the housekeeping report."};
+    constexpr auto* help_STATUS{"Show the system status report."};
     constexpr auto* help_TEST{"Initiate a self-test sequence."};
     constexpr auto* help_TRACE{"Toggle trace on/off."};
-    constexpr auto* help_VERSION{"Send version and other build information."};
+    constexpr auto* help_VERSION{"Show the version and build information."};
     
 }

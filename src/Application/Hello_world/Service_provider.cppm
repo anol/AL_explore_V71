@@ -17,10 +17,8 @@ import Type.Abstract_board;
 import Application.Primary_task;
 
 
-export namespace Application
-{
-    class Service_provider : public Abstract::Abstract_provider<Instruction_major>
-    {
+export namespace Application {
+    class Service_provider : public Abstract::Abstract_provider<Instruction_major> {
         Configuration_store the_configuration_store{};
         Cadence_control the_cadence_control{};
         Instrument_calibration_provider the_instrument_calibration;
@@ -35,7 +33,7 @@ export namespace Application
         int deepsleep_enable{};
 
     public:
-        Service_provider(Abstract::Abstract_UART& UART, Detector& detector)
+        Service_provider(Abstract::Abstract_board &board, Detector &detector)
             : Abstract_provider(0),
               the_instrument_calibration(detector.get_bias(), the_configuration_store.get_repository(),
                                          detector.get_IDE3380(), detector.get_histogram(), detector.get_event_counter()),
@@ -44,51 +42,43 @@ export namespace Application
               the_data_provider(detector.get_histogram(), the_configuration_store.get_repository(),
                                 the_cadence_control, detector.get_IDE3380()),
               the_configuration_manager(the_configuration_store.get_repository(), detector.get_IDE3380()),
-              the_housekeeper(UART, detector.get_histogram(), detector.get_IDE3380(), detector.get_bias(),
+              the_housekeeper(board, detector.get_histogram(), detector.get_IDE3380(), detector.get_bias(),
                               the_configuration_store.get_repository(), the_cadence_control, this,
-                              [](void* user) { static_cast<Service_provider*>(user)->print_status(); }),
-              the_primary_task(detector, the_configuration_store.get_repository(), the_mode_control)
-        {
+                              [](void *user) { static_cast<Service_provider *>(user)->print_status(); }),
+              the_primary_task(detector, the_configuration_store.get_repository(), the_mode_control) {
         }
 
-        void print_status() const
-        {
+        void print_status() const {
             the_mode_control.print_status();
             the_data_provider.print_status();
+            the_instrument_calibration.print_status();
         }
 
-        void initialize()
-        {
+        void initialize() {
             the_primary_task.initialize();
             the_cadence_control.initialize();
         }
 
-        bool on_indication(Instruction_major& instruction) override;
+        bool on_indication(Instruction_major &instruction) override;
 
-        bool background_process()
-        {
+        bool background_process() {
             return the_instrument_calibration.background_process();
         }
 
-        void set_output_channel(const uint8_t channel)
-        {
+        void set_output_channel(const uint8_t channel) {
             the_data_provider.set_channel(channel);
         }
 
-        void set_output_format(uint8_t data)
-        {
+        void set_output_format(uint8_t data) {
             the_data_provider.set_format(static_cast<Data_format>(data));
         }
 
-        void set_operation_mode(Operation_mode mode)
-        {
+        void set_operation_mode(Operation_mode mode) {
             the_mode_control.set_operation_mode(mode);
         }
 
-        void send_science_data() const
-        {
-            if (the_mode_control.is_nominal_mode() || the_mode_control.is_demo_mode())
-            {
+        void send_science_data() const {
+            if (the_mode_control.is_nominal_mode() || the_mode_control.is_demo_mode()) {
                 const auto cadence = the_cadence_control.get_cadence();
                 the_data_provider.send_science_data(cadence);
             }

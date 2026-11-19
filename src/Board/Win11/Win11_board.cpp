@@ -23,4 +23,5 @@ namespace Board {
         the_I2C.print_diagnostics();
         the_pin_table.print_diagnostics();
     }
+
 } // Board

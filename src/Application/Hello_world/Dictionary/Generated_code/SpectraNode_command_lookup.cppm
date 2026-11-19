@@ -92,6 +92,7 @@ export namespace SpectraNode_interface{
         Cmd_DIAG,
         Cmd_ECHO,
         Cmd_HELP,
+        Cmd_HOUSE,
         Cmd_STATUS,
         Cmd_TEST,
         Cmd_TRACE,

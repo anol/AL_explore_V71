@@ -48,6 +48,67 @@ using namespace Instruction;
 using namespace Instruction;
 
 bool Housekeeping_provider::the_trace_flag{false};
+/// @brief Show miscellaneous diagnostic information.
+void Housekeeping_provider::v_DIAG(Instruction_major &instruction) {
+    printf("Diagnostic info\r\n");
+    use_histogram.print_diag();
+    use_bias.print_diag();
+    use_IDE3380.print_diag();
+    use_repository.print_diag();
+    use_board.print_diagnostics();
+    instruction.print_ack();
+}
+
+/// @brief Toggle console echo ON/OFF.
+void Housekeeping_provider::v_ECHO(Instruction_major &) {
+    const auto echo = use_UART.toggle_echo();
+    printf("The console echo is %s\r\n", echo ? "ON" : "OFF");
+}
+
+/// @brief Show the list of commands.
+void Housekeeping_provider::v_HELP(Instruction_major &instruction) {
+    the_help.set_mode(instruction.is_AT_mode());
+    if (the_help.is_help_command(instruction.get_token_id(0)) ||
+        instruction.get_token_type(0) == Question_mark) {
+        the_help.print(instruction.get_token_type(1) == Question_mark, Domain_interface::number_of_keys);
+    } else if (instruction.get_token_type(1) == Question_mark) {
+        the_help.print(static_cast<uint32_t>(instruction.get_token_id(0)));
+    } else {
+        the_help.print(false, Domain_interface::number_of_keys);
+    }
+    instruction.print_ack();
+}
+
+void Housekeeping_provider::print_housekeeping() {
+    printf("Housekeeping\r\n");
+}
+
+/// @brief Show the housekeeping report.
+void Housekeeping_provider::v_HOUSE(Instruction_major &instruction) {
+    print_housekeeping();
+    instruction.print_ack();
+}
+
+/// @brief Show the system status report.
+void Housekeeping_provider::v_STATUS(Instruction_major &instruction) {
+    printf("Status:");
+    use_status_func(use_status_user);
+    printf("\r\n");
+    instruction.print_ack();
+}
+
+/// @brief Initiate a self-test sequence.
+void Housekeeping_provider::v_TEST(Instruction_major &instruction) {
+    printf("<> Sorry, not implemented. <>\r\n");
+    instruction.print_nack(1);
+}
+
+/// @brief Toggle the command trace ON/OFF.
+void Housekeeping_provider::v_TRACE(Instruction_major &) {
+    the_trace_flag = !the_trace_flag;
+    IDE3380::IDE3380_service::set_trace(the_trace_flag);
+    printf("The command trace is %s\r\n", the_trace_flag ? "ON" : "OFF");
+}
 
 void Housekeeping_provider::print_version() {
     printf("----------------------------\r\n");
@@ -63,53 +124,8 @@ void Housekeeping_provider::print_version() {
     // }
 }
 
+/// @brief Show the version and build report.
 void Housekeeping_provider::v_VERSION(Instruction_major &instruction) {
     print_version();
     instruction.print_ack();
-}
-
-void Housekeeping_provider::v_STATUS(Instruction_major &instruction) {
-    printf("Status:");
-    use_status_func(use_status_user);
-    use_bias.print_status();
-    // printf(", tick=%d\r\n", HAL_GetTick());
-    instruction.print_ack();
-}
-
-void Housekeeping_provider::v_DIAG(Instruction_major &instruction) {
-    printf("Diagnostic info\r\n");
-    use_histogram.print_diag();
-    use_bias.print_diag();
-    use_IDE3380.print_diag();
-    use_repository.print_diag();
-    instruction.print_ack();
-}
-
-void Housekeeping_provider::v_ECHO(Instruction_major &) {
-    const auto echo = use_UART.toggle_echo();
-    printf("The console echo is %s\r\n", echo ? "ON" : "OFF");
-}
-
-void Housekeeping_provider::v_TEST(Instruction_major &) {
-    printf("Test_utility_provider::v_TEST:\r\n");
-    use_IDE3380.get_board().print_diagnostics();
-}
-
-void Housekeeping_provider::v_HELP(Instruction_major &instruction) {
-    the_help.set_mode(instruction.is_AT_mode());
-    if (the_help.is_help_command(instruction.get_token_id(0)) ||
-        instruction.get_token_type(0) == Question_mark) {
-        the_help.print(instruction.get_token_type(1) == Question_mark, Domain_interface::number_of_keys);
-    } else if (instruction.get_token_type(1) == Question_mark) {
-        the_help.print(static_cast<uint32_t>(instruction.get_token_id(0)));
-    } else {
-        the_help.print(false, Domain_interface::number_of_keys);
-    }
-    instruction.print_ack();
-}
-
-void Housekeeping_provider::v_TRACE(Instruction_major &) {
-    the_trace_flag = !the_trace_flag;
-    IDE3380::IDE3380_service::set_trace(the_trace_flag);
-    printf("The command trace is %s\r\n", the_trace_flag ? "ON" : "OFF");
 }

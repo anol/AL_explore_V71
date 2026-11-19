@@ -204,6 +204,7 @@ export namespace SpectraNode_interface {
         virtual void v_DIAG(Instruction_major &) = 0;
         virtual void v_ECHO(Instruction_major &) = 0;
         virtual void v_HELP(Instruction_major &) = 0;
+        virtual void v_HOUSE(Instruction_major &) = 0;
         virtual void v_STATUS(Instruction_major &) = 0;
         virtual void v_TEST(Instruction_major &) = 0;
         virtual void v_TRACE(Instruction_major &) = 0;
@@ -212,6 +213,7 @@ export namespace SpectraNode_interface {
         void p_DIAG(Instruction_major &);
         void p_ECHO(Instruction_major &);
         void p_HELP(Instruction_major &);
+        void p_HOUSE(Instruction_major &);
         void p_STATUS(Instruction_major &);
         void p_TEST(Instruction_major &);
         void p_TRACE(Instruction_major &);

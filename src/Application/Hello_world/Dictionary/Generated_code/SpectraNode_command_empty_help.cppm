@@ -86,6 +86,7 @@ export namespace SpectraNode_interface{
     constexpr auto* help_DIAG{""};
     constexpr auto* help_ECHO{""};
     constexpr auto* help_HELP{""};
+    constexpr auto* help_HOUSE{""};
     constexpr auto* help_STATUS{""};
     constexpr auto* help_TEST{""};
     constexpr auto* help_TRACE{""};

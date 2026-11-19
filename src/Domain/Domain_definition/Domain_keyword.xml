@@ -44,6 +44,7 @@ Copyright (C) 2023 Integrated Detector Electronics AS
         <key name="HELP"/>
         <key name="HIGH"/>
         <key name="HOLD"/>
+        <key name="HOUSE"/>
         <key name="IDLE"/>
         <key name="INPUT"/>
         <key name="LOAD"/>

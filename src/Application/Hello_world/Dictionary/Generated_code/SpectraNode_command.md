@@ -30,7 +30,7 @@
 
 # FW1038 SpectraNode command version 5
 
-Date: 17.11.2026
+Date: 19.11.2026
 
 ## Provider: Mode_control
 
@@ -111,10 +111,11 @@ Date: 17.11.2026
 
 | Command | Description |
 |---|---|
-| `AT+DIAG` | Send miscellaneous diagnostic information. |
+| `AT+DIAG` | Show miscellaneous diagnostic information. |
 | `AT+ECHO` | Toggle console echo on/off. |
-| `AT+HELP` | Show commands. |
-| `AT+STATUS` | Send mode and other system data. |
+| `AT+HELP` | Show the list of commands. |
+| `AT+HOUSE` | Show the housekeeping report. |
+| `AT+STATUS` | Show the system status report. |
 | `AT+TEST` | Initiate a self-test sequence. |
 | `AT+TRACE` | Toggle trace on/off. |
-| `AT+VERSION` | Send version and other build information. |
+| `AT+VERSION` | Show the version and build information. |

@@ -76,6 +76,7 @@ namespace Domain_interface {
         "HELP", // Key_HELP
         "HIGH", // Key_HIGH
         "HOLD", // Key_HOLD
+        "HOUSE", // Key_HOUSE
         "Housekeeping", // Key_Housekeeping
         "idle", // Key_idle
         "IDLE", // Key_IDLE
