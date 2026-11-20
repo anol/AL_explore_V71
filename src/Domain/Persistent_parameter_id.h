@@ -71,7 +71,7 @@ namespace Application {
 
         Cadence_demo,
         Cadence_nominal,
-        Cadence_idle,
+        Cadence_reserved_1,
         Cadence_reserved,
 
         Channel_demo,

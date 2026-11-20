@@ -40,6 +40,7 @@ import Application.SpectraNode_provider_indication;
 import Support.Configuration_repository;
 import Support.Instruction_major;
 import Utility.Unit_converter;
+import Platform.Diagnostic;
 
 using namespace IDE3380;
 using namespace SpectraNode_interface;
@@ -100,21 +101,11 @@ void Instrument_calibration_provider::v_BIAS_C25_bias_mV(Instruction_major &inst
             // Trigger setpoint update by temperature
             use_bias.bias_temperature_control();
         } else {
-            // Override the internal bias setpoint.
-            v_BIAS_SET_bias_mV(instruction, bias_mV_2);
+            // Override the internal bias setpoint (allowed in any mode as part of setting C25).
+            override_setpoint(instruction, bias_mV_2);
         }
     } else {
         instruction.print_nack(use_repository.get_diag_code());
-    }
-}
-
-/// @brief Toggle calibration mode ON/OFF.
-void Instrument_calibration_provider::v_BIAS_CAL(Instruction_major &instruction) {
-    if (use_mode_control.toggle_calibration_mode().success()) {
-        printf("The bias calibration mode is %s\r\n", use_mode_control.is_calibration_mode() ? "ON" : "OFF");
-        instruction.print_ack();
-    } else {
-        instruction.print_nack("IN STARTUP MODE");
     }
 }
 
@@ -138,6 +129,12 @@ void Instrument_calibration_provider::v_BIAS_SET(Instruction_major &instruction)
 
 /// @brief Override the temp. compensated bias setpoint.
 void Instrument_calibration_provider::v_BIAS_SET_bias_mV(Instruction_major &instruction, const int bias_mV_2) {
+    if (require_calibration_mode(instruction)) {
+        override_setpoint(instruction, bias_mV_2);
+    }
+}
+
+void Instrument_calibration_provider::override_setpoint(Instruction_major &instruction, const int bias_mV_2) {
     if (use_bias.set_setpoint(bias_mV_2)) {
         instruction.print_ack(bias_mV_2);
     } else {
@@ -155,15 +152,15 @@ void Instrument_calibration_provider::v_BIAS_TEMP(Instruction_major &instruction
 void Instrument_calibration_provider::v_BIAS_TEMP_SET(Instruction_major &instruction) {
     int32_t a{};
     int32_t b{};
-    int32_t c{};
-    use_bias.get_temperature_factors(a, b, c);
-    instruction.print_ack(a, b, c);
+    use_bias.get_temperature_factors(a, b);
+    instruction.print_ack(a, b);
 }
 
 /// @brief Set the temperature correction factors.
-void Instrument_calibration_provider::v_BIAS_TEMP_SET_a_b_c(Instruction_major &instruction, int a_3, int b_4, int c_5) {
-    use_bias.set_temperature_factors(a_3, b_4, c_5);
-    instruction.print_ack(a_3, b_4, c_5);
+void Instrument_calibration_provider::v_BIAS_TEMP_SET_a_b(Instruction_major &instruction, const int a_3,
+                                                          const int b_4) {
+    use_bias.set_temperature_factors(a_3, b_4);
+    instruction.print_ack(a_3, b_4);
 }
 
 /// @brief Get the bias voltage.
@@ -180,7 +177,9 @@ void Instrument_calibration_provider::v_BIAS_DAC(Instruction_major &instruction)
 /// @brief Override the DAC setting.
 void Instrument_calibration_provider::v_BIAS_DAC_data12(Instruction_major &instruction, const int data12_2) {
     enum { DAC_min = 0, DAC_max = 4095 }; // 12-bit DAC; out-of-range values would wrap on hardware
-    if (data12_2 < DAC_min || data12_2 > DAC_max) {
+    if (!require_calibration_mode(instruction)) {
+        // NACK'ed
+    } else if (data12_2 < DAC_min || data12_2 > DAC_max) {
         instruction.print_nack(923);
     } else if (use_bias.get_DAC().set_raw_DAC(static_cast<uint32_t>(data12_2))) {
         instruction.print_ack(data12_2);
@@ -210,38 +209,38 @@ void Instrument_calibration_provider::v_BIAS_DAC_SET_v30_v40(Instruction_major &
 
 /// @brief Find common bias voltage using dark count rate.
 void Instrument_calibration_provider::v_CAL_DUMP(Instruction_major &instruction) {
-    the_test_pedestal.print_pedestals();
-    instruction.print_ack();
+    if (require_calibration_mode(instruction)) {
+        the_test_pedestal.print_pedestals();
+        instruction.print_ack();
+    }
 }
 
 /// @brief Find common bias voltage using dark count rate.
 void Instrument_calibration_provider::v_CAL_DIAG(Instruction_major &instruction) {
-    the_test_pedestal.print_diag();
-    the_test_noise_floor.print_diag();
-    instruction.print_ack();
+    if (require_calibration_mode(instruction)) {
+        the_test_pedestal.print_diag();
+        the_test_noise_floor.print_diag();
+        instruction.print_ack();
+    }
 }
 
 /// @brief Find common bias voltage using dark count rate.
 void Instrument_calibration_provider::v_CAL_TEST_BIAS(Instruction_major &instruction) {
-    if (int32_t value; use_repository.get(Active_mode, value).success() && Mode_idle == value) {
+    if (require_calibration_mode(instruction)) {
         instruction.print_nack("NOT IMPLEMENTED");
-    } else {
-        instruction.print_nack("NOT IN IDLE MODE");
     }
 }
 
 /// @brief Find channel offset voltage using fixed source.
 void Instrument_calibration_provider::v_CAL_TEST_OFFSET(Instruction_major &instruction) {
-    if (int32_t value; use_repository.get(Active_mode, value).success() && Mode_idle == value) {
+    if (require_calibration_mode(instruction)) {
         instruction.print_nack("NOT IMPLEMENTED");
-    } else {
-        instruction.print_nack("NOT IN IDLE MODE");
     }
 }
 
 /// @brief Find channel noise floor using threshold scan.
 void Instrument_calibration_provider::v_CAL_TEST_NOISE(Instruction_major &instruction) {
-    if (int32_t value; use_repository.get(Active_mode, value).success() && Mode_idle == value) {
+    if (require_calibration_mode(instruction)) {
         int32_t integration_time{};
         int32_t start_threshold{};
         int32_t stop_count{};
@@ -256,27 +255,34 @@ void Instrument_calibration_provider::v_CAL_TEST_NOISE(Instruction_major &instru
         } else {
             instruction.print_nack(the_test_pedestal.get_diag_code());
         }
-    } else {
-        instruction.print_nack("NOT IN IDLE MODE");
     }
 }
 
 /// @brief Find channel pedestal using forced readout.
 void Instrument_calibration_provider::v_CAL_TEST_PEDESTAL(Instruction_major &instruction) {
-    if (int32_t value; use_repository.get(Active_mode, value).success() && Mode_idle == value) {
+    if (require_calibration_mode(instruction)) {
         the_test_pedestal.set_trace(the_trace_flag);
         if (the_test_pedestal.start_test(&instruction).success()) {
             instruction.print_pending();
         } else {
             instruction.print_nack(the_test_pedestal.get_diag_code());
         }
-    } else {
-        instruction.print_nack("NOT IN IDLE MODE");
     }
 }
 
 /// @brief Toggle diagnostic trace on/off.
-void Instrument_calibration_provider::v_CAL_TRACE(Instruction_major &) {
-    the_trace_flag = !the_trace_flag;
-    printf("The calibration trace is %s\r\n", the_trace_flag ? "ON" : "OFF");
+void Instrument_calibration_provider::v_CAL_TRACE(Instruction_major &instruction) {
+    if (require_calibration_mode(instruction)) {
+        the_trace_flag = !the_trace_flag;
+        printf("The calibration trace is %s\r\n", the_trace_flag ? "ON" : "OFF");
+        instruction.print_ack();
+    }
+}
+
+bool Instrument_calibration_provider::require_calibration_mode(Instruction_major &instruction) const {
+    if (use_mode_control.is_calibration_mode()) {
+        return true;
+    }
+    instruction.print_nack("NOT IN CALIBRATION MODE");
+    return false;
 }

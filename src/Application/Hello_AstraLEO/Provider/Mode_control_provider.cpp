@@ -36,6 +36,7 @@ import Support.Configuration_repository;
 import Support.Instruction_major;
 import Application.Cadence_control;
 import Application.Science_data_provider;
+import Platform.Diagnostic;
 
 using namespace IDE3380;
 
@@ -72,9 +73,13 @@ Status_code Mode_control_provider::set_mode(const Operation_mode mode, const Par
     use_data_provider.set_channel(value);
     success = get_parameter(format, value, success).success();
     use_data_provider.set_format(static_cast<Data_format>(value));
-    success = get_parameter(cadence, value, success).success();
-    the_cadence_control.set_cadence(value);
-    the_cadence_control.set_next_wakeup();
+    if (cadence == Not_a_legal_id) {
+        the_cadence_control.halt_cadence();
+    } else {
+        success = get_parameter(cadence, value, success).success();
+        the_cadence_control.set_cadence(value);
+        the_cadence_control.set_next_wakeup();
+    }
     return Status_code(success);
 }
 
@@ -86,7 +91,7 @@ Status_code Mode_control_provider::update_mode() {
             mode = Mode_idle;
             [[fallthrough]];
         case Mode_idle:
-            set_mode(mode, Channel_idle, Format_idle, Cadence_idle);
+            set_mode(mode, Channel_idle, Format_idle, Not_a_legal_id);
             break;
         case Mode_nominal:
             set_mode(mode, Channel_nominal, Format_nominal, Cadence_nominal);
@@ -106,20 +111,41 @@ void Mode_control_provider::end_startup() {
     the_start_semaphore.give(); // the bias regulation may run
 }
 
-Status_code Mode_control_provider::toggle_calibration_mode() {
+void Mode_control_provider::set_operation_mode(const Operation_mode mode) {
+    the_operational_mode = mode;
+    switch (the_mode) {
+        case Mode_startup:
+            break;
+        case Mode_calibration:
+            the_mode = mode;
+            the_start_semaphore.give();
+            break;
+        default:
+            the_mode = mode;
+            break;
+    }
+}
+
+Status_code Mode_control_provider::enter_calibration_mode() {
     switch (the_mode) {
         case Mode_startup:
             return Status_code::Failure();
         case Mode_calibration:
-            the_mode = the_operational_mode;
-            the_start_semaphore.give(); // resume the bias regulation
             break;
         default:
-            the_start_semaphore.take(); // waits for a regulation pass in progress, then halts the loop
+            the_start_semaphore.take();
             the_mode = Mode_calibration;
             break;
     }
     return Status_code::Success();
+}
+
+void Mode_control_provider::v_MODE_CAL(Instruction_major &instruction) {
+    if (enter_calibration_mode().success()) {
+        instruction.print_ack();
+    } else {
+        instruction.print_nack("IN STARTUP MODE");
+    }
 }
 
 void Mode_control_provider::v_MODE_DEMO(Instruction_major &instruction) {
@@ -131,7 +157,7 @@ void Mode_control_provider::v_MODE_DEMO(Instruction_major &instruction) {
 }
 
 void Mode_control_provider::v_MODE_IDLE(Instruction_major &instruction) {
-    if (set_mode(Mode_idle, Channel_idle, Format_idle, Cadence_idle).success()) {
+    if (set_mode(Mode_idle, Channel_idle, Format_idle, Not_a_legal_id).success()) {
         instruction.print_ack();
     } else {
         instruction.print_nack(use_repository.get_diag_code());
@@ -141,15 +167,6 @@ void Mode_control_provider::v_MODE_IDLE(Instruction_major &instruction) {
 void Mode_control_provider::v_MODE_NOMINAL(Instruction_major &instruction) {
     if (set_mode(Mode_nominal, Channel_nominal, Format_nominal, Cadence_nominal).success()) {
         instruction.print_ack();
-    } else {
-        instruction.print_nack(use_repository.get_diag_code());
-    }
-}
-
-void Mode_control_provider::v_IDLE_CADENCE_seconds(Instruction_major &instruction, int seconds_2) {
-    the_cadence_control.set_cadence(seconds_2);
-    if (use_repository.set(Cadence_idle, seconds_2).success()) {
-        instruction.print_ack(seconds_2);
     } else {
         instruction.print_nack(use_repository.get_diag_code());
     }

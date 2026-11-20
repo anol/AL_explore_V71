@@ -46,7 +46,7 @@ using namespace SpectraNode_interface;
 export class Instrument_calibration_provider : public Abstract_Instrument_calibration_provider {
     Calibration::Bias_calibration &use_bias;
     Repository::Configuration_repository &use_repository;
-    Mode_control_provider &use_mode_control; // AT+BIAS_CAL switches calibration mode there
+    Mode_control_provider &use_mode_control;
     Calibration::IDE3380_test_pedestal the_test_pedestal;
     Calibration::IDE3380_test_noise_floor the_test_noise_floor;
     bool the_trace_flag{};
@@ -92,8 +92,6 @@ protected:
 
     void v_BIAS_C25_bias_mV(Instruction_major &, int bias_mV_2) override;
 
-    void v_BIAS_CAL(Instruction_major &) override;
-
     void v_BIAS_DAC(Instruction_major &) override;
 
     void v_BIAS_DAC_data12(Instruction_major &, int data12_2) override;
@@ -114,7 +112,7 @@ protected:
 
     void v_BIAS_TEMP_SET(Instruction_major &) override;
 
-    void v_BIAS_TEMP_SET_a_b_c(Instruction_major &, int a_3, int b_4, int c_5) override;
+    void v_BIAS_TEMP_SET_a_b(Instruction_major &, int a_3, int b_4) override;
 
     void v_BIAS_VOLT(Instruction_major &) override;
 
@@ -131,4 +129,9 @@ protected:
     void v_CAL_TEST_PEDESTAL(Instruction_major &) override;
 
     void v_CAL_TRACE(Instruction_major &) override;
+
+private:
+    [[nodiscard]] bool require_calibration_mode(Instruction_major &instruction) const;
+
+    void override_setpoint(Instruction_major &instruction, int bias_mV);
 };

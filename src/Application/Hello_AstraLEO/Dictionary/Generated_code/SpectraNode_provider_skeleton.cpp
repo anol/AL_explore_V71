@@ -39,8 +39,8 @@ void Implement_Mode_control_provider::v_DEMO_CHANNEL_channel(Transaction_major &
     std::cout << "Implement_Mode_control_provider::v_DEMO_CHANNEL_channel:" << "channel_2=" << channel_2 << std::endl;
 }
             
-void Implement_Mode_control_provider::v_IDLE_CADENCE_seconds(Transaction_major &, int seconds_2){
-    std::cout << "Implement_Mode_control_provider::v_IDLE_CADENCE_seconds:" << "seconds_2=" << seconds_2 << std::endl;
+void Implement_Mode_control_provider::v_MODE_CAL(Transaction_major &){
+    std::cout << "Implement_Mode_control_provider::v_MODE_CAL:" << std::endl;
 }
             
 void Implement_Mode_control_provider::v_MODE_DEMO(Transaction_major &){
@@ -107,10 +107,6 @@ void Implement_Instrument_calibration_provider::v_BIAS_C25(Transaction_major &){
     std::cout << "Implement_Instrument_calibration_provider::v_BIAS_C25:" << std::endl;
 }
             
-void Implement_Instrument_calibration_provider::v_BIAS_CAL(Transaction_major &){
-    std::cout << "Implement_Instrument_calibration_provider::v_BIAS_CAL:" << std::endl;
-}
-            
 void Implement_Instrument_calibration_provider::v_BIAS_DAC_data12(Transaction_major &, int data12_2){
     std::cout << "Implement_Instrument_calibration_provider::v_BIAS_DAC_data12:" << "data12_2=" << data12_2 << std::endl;
 }
@@ -143,8 +139,8 @@ void Implement_Instrument_calibration_provider::v_BIAS_SET(Transaction_major &){
     std::cout << "Implement_Instrument_calibration_provider::v_BIAS_SET:" << std::endl;
 }
             
-void Implement_Instrument_calibration_provider::v_BIAS_TEMP_SET_a_b_c(Transaction_major &, int a_3, int b_4, int c_5){
-    std::cout << "Implement_Instrument_calibration_provider::v_BIAS_TEMP_SET_a_b_c:" << "a_3=" << a_3 << ",b_4=" << b_4 << ",c_5=" << c_5 << std::endl;
+void Implement_Instrument_calibration_provider::v_BIAS_TEMP_SET_a_b(Transaction_major &, int a_3, int b_4){
+    std::cout << "Implement_Instrument_calibration_provider::v_BIAS_TEMP_SET_a_b:" << "a_3=" << a_3 << ",b_4=" << b_4 << std::endl;
 }
             
 void Implement_Instrument_calibration_provider::v_BIAS_TEMP_SET(Transaction_major &){

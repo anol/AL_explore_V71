@@ -51,10 +51,10 @@ export namespace SpectraNode_interface {
         Abstract_Mode_control_provider() : Abstract_provider(Key_Mode_control){}
         bool on_indication(Instruction_major &) override;
     protected:
+        virtual void v_MODE_CAL(Instruction_major &) = 0;
         virtual void v_MODE_DEMO(Instruction_major &) = 0;
         virtual void v_MODE_IDLE(Instruction_major &) = 0;
         virtual void v_MODE_NOMINAL(Instruction_major &) = 0;
-        virtual void v_IDLE_CADENCE_seconds(Instruction_major &, int seconds_2) = 0;
         virtual void v_DEMO_CADENCE_seconds(Instruction_major &, int seconds_2) = 0;
         virtual void v_DEMO_CHANNEL_channel(Instruction_major &, int channel_2) = 0;
         virtual void v_NOMINAL_ALARM_micro_sievert(Instruction_major &, int micro_sievert_2) = 0;
@@ -62,7 +62,7 @@ export namespace SpectraNode_interface {
     public:
         void p_DEMO_CADENCE_seconds(Instruction_major &);
         void p_DEMO_CHANNEL_channel(Instruction_major &);
-        void p_IDLE_CADENCE_seconds(Instruction_major &);
+        void p_MODE_CAL(Instruction_major &);
         void p_MODE_DEMO(Instruction_major &);
         void p_MODE_IDLE(Instruction_major &);
         void p_MODE_NOMINAL(Instruction_major &);
@@ -104,7 +104,6 @@ export namespace SpectraNode_interface {
         virtual void v_BIAS_ADC(Instruction_major &) = 0;
         virtual void v_BIAS_C25_bias_mV(Instruction_major &, int bias_mV_2) = 0;
         virtual void v_BIAS_C25(Instruction_major &) = 0;
-        virtual void v_BIAS_CAL(Instruction_major &) = 0;
         virtual void v_BIAS_DAC_data12(Instruction_major &, int data12_2) = 0;
         virtual void v_BIAS_DAC_SET_v30_v40(Instruction_major &, int v30_3, int v40_4) = 0;
         virtual void v_BIAS_DAC_SET(Instruction_major &) = 0;
@@ -113,7 +112,7 @@ export namespace SpectraNode_interface {
         virtual void v_BIAS_ERROR(Instruction_major &) = 0;
         virtual void v_BIAS_SET_bias_mV(Instruction_major &, int bias_mV_2) = 0;
         virtual void v_BIAS_SET(Instruction_major &) = 0;
-        virtual void v_BIAS_TEMP_SET_a_b_c(Instruction_major &, int a_3, int b_4, int c_5) = 0;
+        virtual void v_BIAS_TEMP_SET_a_b(Instruction_major &, int a_3, int b_4) = 0;
         virtual void v_BIAS_TEMP_SET(Instruction_major &) = 0;
         virtual void v_BIAS_TEMP(Instruction_major &) = 0;
         virtual void v_BIAS_VOLT(Instruction_major &) = 0;
@@ -131,7 +130,6 @@ export namespace SpectraNode_interface {
         void p_BIAS_ADC(Instruction_major &);
         void p_BIAS_C25_bias_mV(Instruction_major &);
         void p_BIAS_C25(Instruction_major &);
-        void p_BIAS_CAL(Instruction_major &);
         void p_BIAS_DAC_data12(Instruction_major &);
         void p_BIAS_DAC_SET_v30_v40(Instruction_major &);
         void p_BIAS_DAC_SET(Instruction_major &);
@@ -140,7 +138,7 @@ export namespace SpectraNode_interface {
         void p_BIAS_ERROR(Instruction_major &);
         void p_BIAS_SET_bias_mV(Instruction_major &);
         void p_BIAS_SET(Instruction_major &);
-        void p_BIAS_TEMP_SET_a_b_c(Instruction_major &);
+        void p_BIAS_TEMP_SET_a_b(Instruction_major &);
         void p_BIAS_TEMP_SET(Instruction_major &);
         void p_BIAS_TEMP(Instruction_major &);
         void p_BIAS_VOLT(Instruction_major &);

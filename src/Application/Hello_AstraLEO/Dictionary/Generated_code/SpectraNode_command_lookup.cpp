@@ -63,18 +63,8 @@ namespace SpectraNode_interface{
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
-    const Instruction_token token_IDLE_CADENCE_seconds[] = {
-        {help_IDLE_CADENCE_seconds, Cmd_IDLE_CADENCE_seconds, Key_Mode_control},
-        {End_token, "", No_key, (uint32_t)0, nullptr}
-    };
-
-    const Instruction_token token_IDLE_CADENCE[] = {
-        {Integer_token, Key_seconds, token_IDLE_CADENCE_seconds, 0, static_cast<int32_t>(1000000)},
-        {End_token, "", No_key, (uint32_t)0, nullptr}
-    };
-
-    const Instruction_token token_IDLE[] = {
-        {Keyword_token, "CADENCE", Key_CADENCE, (uint32_t)0, token_IDLE_CADENCE},
+    const Instruction_token token_MODE_CAL[] = {
+        {help_MODE_CAL, Cmd_MODE_CAL, Key_Mode_control},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
@@ -94,6 +84,7 @@ namespace SpectraNode_interface{
     };
 
     const Instruction_token token_MODE[] = {
+        {Keyword_token, "CAL", Key_CAL, (uint32_t)0, token_MODE_CAL},
         {Keyword_token, "DEMO", Key_DEMO, (uint32_t)0, token_MODE_DEMO},
         {Keyword_token, "IDLE", Key_IDLE, (uint32_t)0, token_MODE_IDLE},
         {Keyword_token, "NOMINAL", Key_NOMINAL, (uint32_t)0, token_MODE_NOMINAL},
@@ -207,11 +198,6 @@ namespace SpectraNode_interface{
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
-    const Instruction_token token_BIAS_CAL[] = {
-        {help_BIAS_CAL, Cmd_BIAS_CAL, Key_Instrument_calibration},
-        {End_token, "", No_key, (uint32_t)0, nullptr}
-    };
-
     const Instruction_token token_BIAS_DAC_data12[] = {
         {help_BIAS_DAC_data12, Cmd_BIAS_DAC_data12, Key_Instrument_calibration},
         {End_token, "", No_key, (uint32_t)0, nullptr}
@@ -261,13 +247,8 @@ namespace SpectraNode_interface{
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
-    const Instruction_token token_BIAS_TEMP_SET_a_b_c[] = {
-        {help_BIAS_TEMP_SET_a_b_c, Cmd_BIAS_TEMP_SET_a_b_c, Key_Instrument_calibration},
-        {End_token, "", No_key, (uint32_t)0, nullptr}
-    };
-
     const Instruction_token token_BIAS_TEMP_SET_a_b[] = {
-        {Integer_token, Key_c, token_BIAS_TEMP_SET_a_b_c, -1000000, static_cast<int32_t>(1000000)},
+        {help_BIAS_TEMP_SET_a_b, Cmd_BIAS_TEMP_SET_a_b, Key_Instrument_calibration},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
@@ -296,7 +277,6 @@ namespace SpectraNode_interface{
     const Instruction_token token_BIAS[] = {
         {Keyword_token, "ADC", Key_ADC, (uint32_t)0, token_BIAS_ADC},
         {Keyword_token, "C25", Key_C25, (uint32_t)0, token_BIAS_C25},
-        {Keyword_token, "CAL", Key_CAL, (uint32_t)0, token_BIAS_CAL},
         {Keyword_token, "DAC", Key_DAC, (uint32_t)0, token_BIAS_DAC},
         {Keyword_token, "DIAG", Key_DIAG, (uint32_t)0, token_BIAS_DIAG},
         {Keyword_token, "ERROR", Key_ERROR, (uint32_t)0, token_BIAS_ERROR},
@@ -508,7 +488,6 @@ namespace SpectraNode_interface{
 
     const Instruction_token t_main[] = {
         {Keyword_token, "DEMO", Key_DEMO, (uint32_t)0, token_DEMO},
-        {Keyword_token, "IDLE", Key_IDLE, (uint32_t)0, token_IDLE},
         {Keyword_token, "MODE", Key_MODE, (uint32_t)0, token_MODE},
         {Keyword_token, "NOMINAL", Key_NOMINAL, (uint32_t)0, token_NOMINAL},
         {Keyword_token, "FORMAT", Key_FORMAT, (uint32_t)0, token_FORMAT},

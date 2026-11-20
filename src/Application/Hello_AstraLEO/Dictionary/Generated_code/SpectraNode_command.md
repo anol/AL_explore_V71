@@ -37,8 +37,8 @@ Date: 20.11.2026
 | Command | Description |
 |---|---|
 | `AT+DEMO_CADENCE=<seconds(int 0..1000000)>` | Set telemetry interval (s) in Demonstration Mode. |
-| `AT+DEMO_CHANNEL=<channel(int 0..18)>` | Set channel to be used in live view demo. 0=inhibit readout, 1..16=input channel, 17=analog summing, 18=digital summing. |
-| `AT+IDLE_CADENCE=<seconds(int 0..1000000)>` | Set telemetry interval (s) in Idle Mode. |
+| `AT+DEMO_CHANNEL=<channel(int 0..18)>` | Set channel. 0=inhibit, 1..16=input, 17=analog sum, 18=digital sum. |
+| `AT+MODE_CAL` | Set calibration mode. |
 | `AT+MODE_DEMO` | Set demonstration mode. |
 | `AT+MODE_IDLE` | Set idle mode. |
 | `AT+MODE_NOMINAL` | Set nominal mode. |
@@ -65,7 +65,6 @@ Date: 20.11.2026
 | `AT+BIAS_ADC` | Get the raw ADC reading. |
 | `AT+BIAS_C25=<bias_mV(int -50000..0)>` | Set the 25C bias setpoint. 0=use temperature. |
 | `AT+BIAS_C25` | Get the 25C bias setpoint. |
-| `AT+BIAS_CAL` | Toggle calibration mode ON/OFF. |
 | `AT+BIAS_DAC=<data12(int 0..4095)>` | Override the DAC setting. |
 | `AT+BIAS_DAC_SET=<v30(int 0..4095)>,<v40(int 0..4095)>` | Set the DAC -30V and -40V calibration points. |
 | `AT+BIAS_DAC_SET` | Get the DAC -30V and -40V calibration points. |
@@ -74,7 +73,7 @@ Date: 20.11.2026
 | `AT+BIAS_ERROR` | Get the bias voltage error. |
 | `AT+BIAS_SET=<bias_mV(int -50000..0)>` | Override the temp. compensated bias setpoint. |
 | `AT+BIAS_SET` | Get the temp. compensated bias setpoint. |
-| `AT+BIAS_TEMP_SET=<a(int -1000000..1000000)>,<b(int -1000000..1000000)>,<c(int -1000000..1000000)>` | Set the temperature correction factors. |
+| `AT+BIAS_TEMP_SET=<a(int -1000000..1000000)>,<b(int -1000000..1000000)>` | Set the temperature correction factors. |
 | `AT+BIAS_TEMP_SET` | Get the temperature correction. |
 | `AT+BIAS_TEMP` | Get the temperature. |
 | `AT+BIAS_VOLT` | Get the bias voltage. |

@@ -30,10 +30,10 @@ export namespace SpectraNode_interface {
     
     class Implement_Mode_control_provider : public Abstract_Mode_control_provider{
     protected:
+        void v_MODE_CAL(Transaction_major &) override;
         void v_MODE_DEMO(Transaction_major &) override;
         void v_MODE_IDLE(Transaction_major &) override;
         void v_MODE_NOMINAL(Transaction_major &) override;
-        void v_IDLE_CADENCE_seconds(Transaction_major &, int seconds_2) override;
         void v_DEMO_CADENCE_seconds(Transaction_major &, int seconds_2) override;
         void v_DEMO_CHANNEL_channel(Transaction_major &, int channel_2) override;
         void v_NOMINAL_ALARM_micro_sievert(Transaction_major &, int micro_sievert_2) override;
@@ -57,7 +57,6 @@ export namespace SpectraNode_interface {
         void v_BIAS_ADC(Transaction_major &) override;
         void v_BIAS_C25_bias_mV(Transaction_major &, int bias_mV_2) override;
         void v_BIAS_C25(Transaction_major &) override;
-        void v_BIAS_CAL(Transaction_major &) override;
         void v_BIAS_DAC_data12(Transaction_major &, int data12_2) override;
         void v_BIAS_DAC_SET_v30_v40(Transaction_major &, int v30_3, int v40_4) override;
         void v_BIAS_DAC_SET(Transaction_major &) override;
@@ -66,7 +65,7 @@ export namespace SpectraNode_interface {
         void v_BIAS_ERROR(Transaction_major &) override;
         void v_BIAS_SET_bias_mV(Transaction_major &, int bias_mV_2) override;
         void v_BIAS_SET(Transaction_major &) override;
-        void v_BIAS_TEMP_SET_a_b_c(Transaction_major &, int a_3, int b_4, int c_5) override;
+        void v_BIAS_TEMP_SET_a_b(Transaction_major &, int a_3, int b_4) override;
         void v_BIAS_TEMP_SET(Transaction_major &) override;
         void v_BIAS_TEMP(Transaction_major &) override;
         void v_BIAS_VOLT(Transaction_major &) override;

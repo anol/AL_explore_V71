@@ -30,7 +30,7 @@ export namespace SpectraNode_interface{
 
     constexpr auto* help_DEMO_CADENCE_seconds{""};
     constexpr auto* help_DEMO_CHANNEL_channel{""};
-    constexpr auto* help_IDLE_CADENCE_seconds{""};
+    constexpr auto* help_MODE_CAL{""};
     constexpr auto* help_MODE_DEMO{""};
     constexpr auto* help_MODE_IDLE{""};
     constexpr auto* help_MODE_NOMINAL{""};
@@ -47,7 +47,6 @@ export namespace SpectraNode_interface{
     constexpr auto* help_BIAS_ADC{""};
     constexpr auto* help_BIAS_C25_bias_mV{""};
     constexpr auto* help_BIAS_C25{""};
-    constexpr auto* help_BIAS_CAL{""};
     constexpr auto* help_BIAS_DAC_data12{""};
     constexpr auto* help_BIAS_DAC_SET_v30_v40{""};
     constexpr auto* help_BIAS_DAC_SET{""};
@@ -56,7 +55,7 @@ export namespace SpectraNode_interface{
     constexpr auto* help_BIAS_ERROR{""};
     constexpr auto* help_BIAS_SET_bias_mV{""};
     constexpr auto* help_BIAS_SET{""};
-    constexpr auto* help_BIAS_TEMP_SET_a_b_c{""};
+    constexpr auto* help_BIAS_TEMP_SET_a_b{""};
     constexpr auto* help_BIAS_TEMP_SET{""};
     constexpr auto* help_BIAS_TEMP{""};
     constexpr auto* help_BIAS_VOLT{""};

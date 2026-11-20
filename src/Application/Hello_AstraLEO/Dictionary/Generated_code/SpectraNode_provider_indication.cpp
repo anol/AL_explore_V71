@@ -38,7 +38,7 @@ template<> const Abstract_Mode_control_provider::Lookup_table::Instruction_entry
     Abstract_Mode_control_provider::Lookup_table::instruction_table[] = {
     {&Abstract_Mode_control_provider::p_DEMO_CADENCE_seconds, Cmd_DEMO_CADENCE_seconds},
     {&Abstract_Mode_control_provider::p_DEMO_CHANNEL_channel, Cmd_DEMO_CHANNEL_channel},
-    {&Abstract_Mode_control_provider::p_IDLE_CADENCE_seconds, Cmd_IDLE_CADENCE_seconds},
+    {&Abstract_Mode_control_provider::p_MODE_CAL, Cmd_MODE_CAL},
     {&Abstract_Mode_control_provider::p_MODE_DEMO, Cmd_MODE_DEMO},
     {&Abstract_Mode_control_provider::p_MODE_IDLE, Cmd_MODE_IDLE},
     {&Abstract_Mode_control_provider::p_MODE_NOMINAL, Cmd_MODE_NOMINAL},
@@ -52,6 +52,10 @@ namespace SpectraNode_interface{
         return Abstract_Mode_control_provider::Lookup_table::lookup(this, transaction);
     }
 
+    void Abstract_Mode_control_provider::p_MODE_CAL(Instruction_major &transaction){
+        v_MODE_CAL(transaction);
+    }
+            
     void Abstract_Mode_control_provider::p_MODE_DEMO(Instruction_major &transaction){
         v_MODE_DEMO(transaction);
     }
@@ -62,11 +66,6 @@ namespace SpectraNode_interface{
             
     void Abstract_Mode_control_provider::p_MODE_NOMINAL(Instruction_major &transaction){
         v_MODE_NOMINAL(transaction);
-    }
-            
-    void Abstract_Mode_control_provider::p_IDLE_CADENCE_seconds(Instruction_major &transaction){
-        int seconds_2{transaction.get_token_integer(2)};
-        v_IDLE_CADENCE_seconds(transaction, seconds_2);
     }
             
     void Abstract_Mode_control_provider::p_DEMO_CADENCE_seconds(Instruction_major &transaction){
@@ -144,7 +143,6 @@ template<> const Abstract_Instrument_calibration_provider::Lookup_table::Instruc
     {&Abstract_Instrument_calibration_provider::p_BIAS_ADC, Cmd_BIAS_ADC},
     {&Abstract_Instrument_calibration_provider::p_BIAS_C25_bias_mV, Cmd_BIAS_C25_bias_mV},
     {&Abstract_Instrument_calibration_provider::p_BIAS_C25, Cmd_BIAS_C25},
-    {&Abstract_Instrument_calibration_provider::p_BIAS_CAL, Cmd_BIAS_CAL},
     {&Abstract_Instrument_calibration_provider::p_BIAS_DAC_data12, Cmd_BIAS_DAC_data12},
     {&Abstract_Instrument_calibration_provider::p_BIAS_DAC_SET_v30_v40, Cmd_BIAS_DAC_SET_v30_v40},
     {&Abstract_Instrument_calibration_provider::p_BIAS_DAC_SET, Cmd_BIAS_DAC_SET},
@@ -153,7 +151,7 @@ template<> const Abstract_Instrument_calibration_provider::Lookup_table::Instruc
     {&Abstract_Instrument_calibration_provider::p_BIAS_ERROR, Cmd_BIAS_ERROR},
     {&Abstract_Instrument_calibration_provider::p_BIAS_SET_bias_mV, Cmd_BIAS_SET_bias_mV},
     {&Abstract_Instrument_calibration_provider::p_BIAS_SET, Cmd_BIAS_SET},
-    {&Abstract_Instrument_calibration_provider::p_BIAS_TEMP_SET_a_b_c, Cmd_BIAS_TEMP_SET_a_b_c},
+    {&Abstract_Instrument_calibration_provider::p_BIAS_TEMP_SET_a_b, Cmd_BIAS_TEMP_SET_a_b},
     {&Abstract_Instrument_calibration_provider::p_BIAS_TEMP_SET, Cmd_BIAS_TEMP_SET},
     {&Abstract_Instrument_calibration_provider::p_BIAS_TEMP, Cmd_BIAS_TEMP},
     {&Abstract_Instrument_calibration_provider::p_BIAS_VOLT, Cmd_BIAS_VOLT},
@@ -196,10 +194,6 @@ namespace SpectraNode_interface{
         v_BIAS_C25(transaction);
     }
             
-    void Abstract_Instrument_calibration_provider::p_BIAS_CAL(Instruction_major &transaction){
-        v_BIAS_CAL(transaction);
-    }
-            
     void Abstract_Instrument_calibration_provider::p_BIAS_DAC_data12(Instruction_major &transaction){
         int data12_2{transaction.get_token_integer(2)};
         v_BIAS_DAC_data12(transaction, data12_2);
@@ -236,11 +230,10 @@ namespace SpectraNode_interface{
         v_BIAS_SET(transaction);
     }
             
-    void Abstract_Instrument_calibration_provider::p_BIAS_TEMP_SET_a_b_c(Instruction_major &transaction){
+    void Abstract_Instrument_calibration_provider::p_BIAS_TEMP_SET_a_b(Instruction_major &transaction){
         int a_3{transaction.get_token_integer(3)};
         int b_4{transaction.get_token_integer(4)};
-        int c_5{transaction.get_token_integer(5)};
-        v_BIAS_TEMP_SET_a_b_c(transaction, a_3, b_4, c_5);
+        v_BIAS_TEMP_SET_a_b(transaction, a_3, b_4);
     }
             
     void Abstract_Instrument_calibration_provider::p_BIAS_TEMP_SET(Instruction_major &transaction){

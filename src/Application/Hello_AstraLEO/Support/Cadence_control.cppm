@@ -50,6 +50,8 @@ export namespace Application {
             optional_func = func;
         }
 
+        void halt_cadence() { cnt_wakeup = 0; }
+
         void set_cadence(const uint32_t cadence) { the_cadence = cadence; }
 
         [[nodiscard]] uint32_t get_cadence() const { return the_cadence; }

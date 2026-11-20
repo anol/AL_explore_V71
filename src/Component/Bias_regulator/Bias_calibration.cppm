@@ -20,9 +20,8 @@ export namespace Calibration {
         int32_t the_25C_setpoint{};
         int32_t the_setpoint{};
         int32_t the_bias_error{};
-        int32_t the_temp_a{};
-        int32_t the_temp_b{};
-        int32_t the_temp_c{};
+        int32_t the_temp_a{34};
+        int32_t the_temp_b{40700};
         volatile int16_t the_temperature{};
         volatile int32_t the_bias_volt{};
         float gamma_param_A = 1;
@@ -52,16 +51,14 @@ export namespace Calibration {
 
         Bias_ADC &get_ADC() { return the_ADC; }
 
-        void set_temperature_factors(const int32_t a, const int32_t b, const int32_t c) {
+        void set_temperature_factors(const int32_t a, const int32_t b) {
             the_temp_a = a;
             the_temp_b = b;
-            the_temp_c = c;
         }
 
-        void get_temperature_factors(int32_t &a, int32_t &b, int32_t &c) const {
+        void get_temperature_factors(int32_t &a, int32_t &b) const {
             a = the_temp_a;
             b = the_temp_b;
-            c = the_temp_c;
         }
 
         void set_C25_setpoint(const int32_t cal) { the_25C_setpoint = cal; }

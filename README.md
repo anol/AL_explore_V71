@@ -66,10 +66,15 @@ cmake --build build/Hello_AstraLEO_EM
   - `STARTUP`, from power-on until its `Startup_task` has loaded the configuration and applied it
     to the IDE3380 registers and the bias setpoints; it then switches to the stored operational
     mode and releases the semaphore.
-  - `CALIBRATION`, toggled by `AT+BIAS_CAL` (refused with `ERROR=IN STARTUP MODE` during startup).
-    Entering it waits for a regulation pass in progress, so manual `AT+BIAS_DAC` settings stick;
-    leaving it returns to the operational mode. `AT+MODE_*` during startup or calibration changes
-    the operational mode, which takes effect when the transient mode ends.
+  - `CALIBRATION`, entered by `AT+MODE_CAL` (refused with `ERROR=IN STARTUP MODE` during startup).
+    It is not a toggle: it is left by `AT+MODE_IDLE`, `AT+MODE_NOMINAL` or `AT+MODE_DEMO`, which
+    resumes the bias regulation in that mode. Entering it waits for a regulation pass in progress,
+    so manual `AT+BIAS_DAC` settings stick. `AT+MODE_*` during startup changes the operational
+    mode, which takes effect when startup ends.
+  - Only legal in calibration mode (otherwise NACK'ed with `ERROR=NOT IN CALIBRATION MODE`,
+    preceded by e.g. `<< ERROR: ILLEGAL IN IDLE MODE, USE AT+MODE_CAL. >>`):
+    `AT+CAL_DIAG`, `AT+CAL_DUMP`, `AT+CAL_TEST_BIAS`, `AT+CAL_TEST_NOISE`, `AT+CAL_TEST_OFFSET`,
+    `AT+CAL_TEST_PEDESTAL`, `AT+CAL_TRACE`, `AT+BIAS_SET=<bias_mV>` and `AT+BIAS_DAC=<data12>`.
 
 ## I2C and temperature sensors (V1.6)
 
@@ -226,6 +231,7 @@ with the triangle if you don't need them).
 | `AT+DEMO_CADENCE=<seconds(int 0..1000000)>` | Set telemetry interval (s) in Demonstration Mode. |
 | `AT+DEMO_CHANNEL=<channel(int 0..18)>` | Set channel to be used in live view demo. 0=inhibit readout, 1..16=input channel, 17=analog summing, 18=digital summing. |
 | `AT+IDLE_CADENCE=<seconds(int 0..1000000)>` | Set telemetry interval (s) in Idle Mode. |
+| `AT+MODE_CAL` | Set calibration mode (halts the bias regulation). |
 | `AT+MODE_DEMO` | Set demonstration mode. |
 | `AT+MODE_IDLE` | Set idle mode. |
 | `AT+MODE_NOMINAL` | Set nominal mode. |
@@ -252,7 +258,6 @@ with the triangle if you don't need them).
 | `AT+BIAS_ADC` | Get the raw ADC reading. |
 | `AT+BIAS_C25=<bias_mV(int -50000..0)>` | Set the 25C bias setpoint. 0=use temperature. |
 | `AT+BIAS_C25` | Get the 25C bias setpoint. |
-| `AT+BIAS_CAL` | Toggle calibration mode ON/OFF. |
 | `AT+BIAS_DAC=<data12(int 0..4095)>` | Override the DAC setting. |
 | `AT+BIAS_DAC_SET=<v30(int 0..4095)>,<v40(int 0..4095)>` | Set the DAC -30V and -40V calibration points. |
 | `AT+BIAS_DAC_SET` | Get the DAC -30V and -40V calibration points. |

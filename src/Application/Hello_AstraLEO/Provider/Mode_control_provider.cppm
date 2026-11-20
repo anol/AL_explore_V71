@@ -44,7 +44,6 @@ using namespace IDE3380;
 using namespace SpectraNode_interface;
 
 
-
 using namespace Application;
 
 export class Mode_control_provider : public Abstract_Mode_control_provider {
@@ -67,8 +66,7 @@ public:
           use_repository(repository),
           use_data_provider(data_provider),
           the_startup_task(ASIC, repository, this,
-                           [](void *user) { static_cast<Mode_control_provider *>(user)->end_startup(); }) {
-    }
+                           [](void *user) { static_cast<Mode_control_provider *>(user)->end_startup(); }) {}
 
     /// The bias regulator (owned by the housekeeper, which is built after this). Attach once, before the
     /// scheduler starts. The semaphore starts out empty, i.e. held here: no regulation until end_startup().
@@ -100,31 +98,26 @@ public:
         return the_mode == Mode_calibration;
     }
 
-    /// Sets the operational mode (idle, nominal or demo). During startup or calibration it takes effect
-    /// once that transient mode ends.
-    void set_operation_mode(const Operation_mode mode) {
-        the_operational_mode = mode;
-        if (!is_transient_mode()) {
-            the_mode = mode;
-        }
-    };
+    [[nodiscard]] const char *get_mode_text() const {
+        return Operation_mode_to_text(the_mode);
+    }
 
-    /// Enter calibration mode, halting the bias regulation (after a pass in progress has finished), or
-    /// leave it again for the operational mode. Fails during startup.
-    [[nodiscard]] Status_code toggle_calibration_mode();
+    void set_operation_mode(Operation_mode mode);
+
+    [[nodiscard]] Status_code enter_calibration_mode();
 
     Status_code set_mode(Operation_mode mode, Parameter_id channel, Parameter_id format, Parameter_id cadence);
 
     [[nodiscard]] Status_code update_mode();
 
 protected:
+    void v_MODE_CAL(Instruction_major &) override;
+
     void v_MODE_DEMO(Instruction_major &) override;
 
     void v_MODE_IDLE(Instruction_major &) override;
 
     void v_MODE_NOMINAL(Instruction_major &) override;
-
-    void v_IDLE_CADENCE_seconds(Instruction_major &, int seconds_2) override;
 
     void v_DEMO_CADENCE_seconds(Instruction_major &, int seconds_2) override;
 
@@ -135,11 +128,6 @@ protected:
     void v_NOMINAL_CADENCE_seconds(Instruction_major &, int seconds_2) override;
 
 private:
-    [[nodiscard]] bool is_transient_mode() const {
-        return the_mode == Mode_startup || the_mode == Mode_calibration;
-    }
-
-    /// Called by the startup task once the configuration is loaded: leave startup mode.
     void end_startup();
 
     [[nodiscard]] Status_code set_parameter(Parameter_id param, int32_t value, bool success) const {

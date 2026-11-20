@@ -49,17 +49,13 @@ Copyright (C) 2026 Integrated Detector Electronics AS
             <arg key="MODE">
                 <arg key="IDLE" brief="Set idle mode."/>
                 <arg key="NOMINAL" brief="Set nominal mode."/>
+                <arg key="CAL" brief="Set calibration mode."/>
                 <arg key="DEMO" brief="Set demonstration mode."/>
-            </arg>
-            <arg key="IDLE">
-                <arg key="CADENCE">
-                    <arg integer="seconds" brief="Set telemetry interval (s) in Idle Mode."/>
-                </arg>
             </arg>
             <arg key="DEMO">
                 <arg key="CHANNEL">
                     <arg integer="channel"
-                         brief="Set channel to be used in live view demo. 0=inhibit readout, 1..16=input channel, 17=analog summing, 18=digital summing."/>
+                         brief="Set channel. 0=inhibit, 1..16=input, 17=analog sum, 18=digital sum."/>
                 </arg>
                 <arg key="CADENCE">
                     <arg integer="seconds" brief="Set telemetry interval (s) in Demonstration Mode."/>
@@ -101,7 +97,6 @@ Copyright (C) 2026 Integrated Detector Electronics AS
                 <arg key="C25" brief="Get the 25C bias setpoint.">
                     <arg integer="bias_mV" brief="Set the 25C bias setpoint. 0=use temperature."/>
                 </arg>
-                <arg key="CAL" brief="Toggle calibration mode ON/OFF."/>
                 <arg key="DAC" brief="Get the raw DAC setting.">
                     <arg integer="data12" brief="Override the DAC setting."/>
                     <arg key="SET" brief="Get the DAC -30V and -40V calibration points.">
@@ -118,9 +113,7 @@ Copyright (C) 2026 Integrated Detector Electronics AS
                 <arg key="TEMP" brief="Get the temperature.">
                     <arg key="SET" brief="Get the temperature correction.">
                         <arg integer="a">
-                            <arg integer="b">
-                                <arg integer="c" brief="Set the temperature correction factors."/>
-                            </arg>
+                            <arg integer="b" brief="Set the temperature correction factors."/>
                         </arg>
                     </arg>
                 </arg>

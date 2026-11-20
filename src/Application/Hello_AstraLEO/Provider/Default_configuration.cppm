@@ -110,7 +110,7 @@ export namespace Application {
 
             {Cadence_demo, State_void, 4, Default_cadence, "Cadence_demo"},
             {Cadence_nominal, State_void, 4, Default_cadence, "Cadence_nominal"},
-            {Cadence_idle, State_void, 4, Default_cadence, "Cadence_idle"},
+            {Cadence_reserved_1, State_void, 4, Default_reserved, nullptr},
             {Cadence_reserved, State_void, 4, Default_reserved, nullptr},
 
             {Channel_demo, State_void, 4, Default_channel, "Channel_demo"},

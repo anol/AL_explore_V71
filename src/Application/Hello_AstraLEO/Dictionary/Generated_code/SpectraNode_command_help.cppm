@@ -29,8 +29,8 @@ export module Application.SpectraNode_command_help;
 export namespace SpectraNode_interface{
 
     constexpr auto* help_DEMO_CADENCE_seconds{"Set telemetry interval (s) in Demonstration Mode."};
-    constexpr auto* help_DEMO_CHANNEL_channel{"Set channel to be used in live view demo. 0=inhibit readout, 1..16=input channel, 17=analog summing, 18=digital summing."};
-    constexpr auto* help_IDLE_CADENCE_seconds{"Set telemetry interval (s) in Idle Mode."};
+    constexpr auto* help_DEMO_CHANNEL_channel{"Set channel. 0=inhibit, 1..16=input, 17=analog sum, 18=digital sum."};
+    constexpr auto* help_MODE_CAL{"Set calibration mode."};
     constexpr auto* help_MODE_DEMO{"Set demonstration mode."};
     constexpr auto* help_MODE_IDLE{"Set idle mode."};
     constexpr auto* help_MODE_NOMINAL{"Set nominal mode."};
@@ -47,7 +47,6 @@ export namespace SpectraNode_interface{
     constexpr auto* help_BIAS_ADC{"Get the raw ADC reading."};
     constexpr auto* help_BIAS_C25_bias_mV{"Set the 25C bias setpoint. 0=use temperature."};
     constexpr auto* help_BIAS_C25{"Get the 25C bias setpoint."};
-    constexpr auto* help_BIAS_CAL{"Toggle calibration mode ON/OFF."};
     constexpr auto* help_BIAS_DAC_data12{"Override the DAC setting."};
     constexpr auto* help_BIAS_DAC_SET_v30_v40{"Set the DAC -30V and -40V calibration points."};
     constexpr auto* help_BIAS_DAC_SET{"Get the DAC -30V and -40V calibration points."};
@@ -56,7 +55,7 @@ export namespace SpectraNode_interface{
     constexpr auto* help_BIAS_ERROR{"Get the bias voltage error."};
     constexpr auto* help_BIAS_SET_bias_mV{"Override the temp. compensated bias setpoint."};
     constexpr auto* help_BIAS_SET{"Get the temp. compensated bias setpoint."};
-    constexpr auto* help_BIAS_TEMP_SET_a_b_c{"Set the temperature correction factors."};
+    constexpr auto* help_BIAS_TEMP_SET_a_b{"Set the temperature correction factors."};
     constexpr auto* help_BIAS_TEMP_SET{"Get the temperature correction."};
     constexpr auto* help_BIAS_TEMP{"Get the temperature."};
     constexpr auto* help_BIAS_VOLT{"Get the bias voltage."};
