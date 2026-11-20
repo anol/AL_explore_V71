@@ -7,9 +7,9 @@ module;
 #include <cstdint>
 
 export module Platform.SamV71_ADC;
-import :Define;
+import :Config;
 import :Driver;
-import :Handler;
+import :ISR;
 
 import Type.Abstract_ADC;
 
@@ -38,7 +38,7 @@ export namespace SamV71
         const uint8_t the_id;
         const Channel_number the_channel;
         SamV71_ADC_driver the_driver;
-        SamV71_ADC_handler the_handler;
+        SamV71_ADC_ISR the_ISR;
 
     public:
         SamV71_ADC() : SamV71_ADC(0, AFEC_TEMPERATURE_SENSOR)
@@ -47,8 +47,8 @@ export namespace SamV71
 
         SamV71_ADC(const uint8_t id, const Channel_number channel)
             : the_id(id), the_channel(channel),
-              the_driver(SamV71_ADC_define::get_definition(id)),
-              the_handler(SamV71_ADC_define::get_definition(id), the_driver)
+              the_driver(SamV71_ADC_config::get_config(id)),
+              the_ISR(SamV71_ADC_config::get_config(id), the_driver)
         {
         }
 

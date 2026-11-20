@@ -9,27 +9,27 @@ module;
 #include "samv71q21b.h"
 #include "component/afec.h"
 
-module Platform.SamV71_ADC:Handler;
-import :Define;
+module Platform.SamV71_ADC:ISR;
+import :Config;
 import :Driver;
 
 namespace SamV71 {
-    class SamV71_ADC_handler {
+    class SamV71_ADC_ISR {
     public:
         enum { Number_of_ADC_peripherals = 1 };
 
-        static SamV71_ADC_handler *optional_handler[Number_of_ADC_peripherals];
+        static SamV71_ADC_ISR *optional_ISR[Number_of_ADC_peripherals];
 
     private:
-        const SamV71_ADC_define *optional_define;
+        const SamV71_ADC_config *optional_config;
         SamV71_ADC_driver &use_driver;
         SamV71_ADC_request *optional_request{};
 
     public:
-        explicit SamV71_ADC_handler(const SamV71_ADC_define *define, SamV71_ADC_driver &driver)
-            : optional_define(define), use_driver(driver) {
-            if (define && define->the_ID_number < Number_of_ADC_peripherals) {
-                optional_handler[define->the_ID_number] = this;
+        explicit SamV71_ADC_ISR(const SamV71_ADC_config *config, SamV71_ADC_driver &driver)
+            : optional_config(config), use_driver(driver) {
+            if (config && config->the_ID_number < Number_of_ADC_peripherals) {
+                optional_ISR[config->the_ID_number] = this;
             }
         }
 
@@ -45,12 +45,12 @@ namespace SamV71 {
         void ISR_pending_conversion(uint32_t &context_switch);
     };
 
-    SamV71_ADC_handler *SamV71_ADC_handler::optional_handler[Number_of_ADC_peripherals]{};
+    SamV71_ADC_ISR *SamV71_ADC_ISR::optional_ISR[Number_of_ADC_peripherals]{};
 
-    void SamV71_ADC_handler::ISR() {
-        if (optional_define) {
+    void SamV71_ADC_ISR::ISR() {
+        if (optional_config) {
             uint32_t context_switch{};
-            auto *base = optional_define->the_base;
+            auto *base = optional_config->the_base;
             const uint32_t interrupt_status = base->AFEC_ISR;
             if (is_busy() && (interrupt_status & SamV71_ADC_driver::channel_mask(optional_request->get_channel()))) {
                 ISR_end_of_conversion(base, context_switch);
@@ -62,7 +62,7 @@ namespace SamV71 {
         }
     }
 
-    void SamV71_ADC_handler::ISR_end_of_conversion(afec_registers_t *base, uint32_t &context_switch) {
+    void SamV71_ADC_ISR::ISR_end_of_conversion(afec_registers_t *base, uint32_t &context_switch) {
         auto *request = optional_request;
         const auto channel = request->get_channel();
         const auto mask = SamV71_ADC_driver::channel_mask(channel);
@@ -74,8 +74,8 @@ namespace SamV71 {
         request->get_semaphore().ISR_give(context_switch); // Request must not be touched after this
     }
 
-    void SamV71_ADC_handler::ISR_pending_conversion(uint32_t &context_switch) {
-        auto *base = optional_define->the_base;
+    void SamV71_ADC_ISR::ISR_pending_conversion(uint32_t &context_switch) {
+        auto *base = optional_config->the_base;
         if (auto *request = use_driver.ISR_get_request(context_switch)) {
             const auto channel = request->get_channel();
             const auto mask = SamV71_ADC_driver::channel_mask(channel);
@@ -92,7 +92,7 @@ namespace SamV71 {
 
 extern "C" {
 void ISR_AFEC0() {
-    if (auto *handler = SamV71::SamV71_ADC_handler::optional_handler[0]) {
+    if (auto *handler = SamV71::SamV71_ADC_ISR::optional_ISR[0]) {
         handler->ISR();
     } else {
         NVIC_DisableIRQ(AFEC0_IRQn);

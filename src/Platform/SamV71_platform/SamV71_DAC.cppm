@@ -6,9 +6,13 @@ export module Platform.SamV71_DAC;
 import Type.Abstract_DAC;
 import Type.Abstract_DAC;
 
+namespace SamV71_DAC_config {
+    struct Config; // defined in the implementation unit
+}
+
 export namespace SamV71 {
     class SamV71_DAC : public Abstract::Abstract_DAC {
-        void *optional_definition{};
+        const SamV71_DAC_config::Config *optional_config{};
         uint32_t the_DAC_setting{};
 
     public:

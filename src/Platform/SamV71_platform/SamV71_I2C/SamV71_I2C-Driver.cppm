@@ -10,7 +10,7 @@ module;
 #include "component/twihs.h"
 
 module Platform.SamV71_I2C:Driver;
-import :Define;
+import :Config;
 
 import Platform.FreeRTOS_queue;
 import Type.Abstract_request;
@@ -25,11 +25,11 @@ namespace SamV71 {
             Max_clock_scale = 7,
         };
 
-        const SamV71_I2C_define *optional_define;
+        const SamV71_I2C_config *optional_config;
         FreeRTOS::FreeRTOS_queue<Abstract::Abstract_request *, Queue_size> the_queue{};
 
     public:
-        explicit SamV71_I2C_driver(const SamV71_I2C_define *define) : optional_define(define) {
+        explicit SamV71_I2C_driver(const SamV71_I2C_config *config) : optional_config(config) {
         }
 
         void print_diagnostics() const;
@@ -49,10 +49,10 @@ namespace SamV71 {
     };
 
     void SamV71_I2C_driver::print_diagnostics() const {
-        if (optional_define) {
+        if (optional_config) {
             const auto waveform = get_clock_waveform();
             printf("I2C%d: pri=%d, bps=%d, cldiv=%d, ckdiv=%d\r\n",
-                   optional_define->the_ID_number, optional_define->the_IRQ_priority, I2C_bitrate,
+                   optional_config->the_ID_number, optional_config->the_IRQ_priority, I2C_bitrate,
                    static_cast<int>((waveform & TWIHS_CWGR_CLDIV_Msk) >> TWIHS_CWGR_CLDIV_Pos),
                    static_cast<int>((waveform & TWIHS_CWGR_CKDIV_Msk) >> TWIHS_CWGR_CKDIV_Pos));
         }
@@ -76,15 +76,15 @@ namespace SamV71 {
     }
 
     void SamV71_I2C_driver::setup_I2C_registers() const {
-        if (optional_define) {
-            auto *base = optional_define->the_base;
+        if (optional_config) {
+            auto *base = optional_config->the_base;
             base->TWIHS_CR = TWIHS_CR_SWRST(1);
             (void) base->TWIHS_RHR;
             base->TWIHS_CR = TWIHS_CR_MSDIS(1) | TWIHS_CR_SVDIS(1);
             base->TWIHS_CWGR = get_clock_waveform();
             base->TWIHS_CR = TWIHS_CR_MSEN(1);
-            const auto irq_number = optional_define->the_IRQ_number;
-            const auto priority = optional_define->the_IRQ_priority;
+            const auto irq_number = optional_config->the_IRQ_number;
+            const auto priority = optional_config->the_IRQ_priority;
             NVIC_DisableIRQ(irq_number);
             NVIC_SetPriority(irq_number, priority);
         }
@@ -93,9 +93,9 @@ namespace SamV71 {
     void SamV71_I2C_driver::enable_I2C() const {
         // Kick only: an idle host has TXCOMP set, so the ISR fires at once and picks up the queue.
         constexpr auto Interrupt_enable = TWIHS_IER_TXCOMP(1);
-        if (optional_define) {
-            auto *base = optional_define->the_base;
-            const auto irq_number = optional_define->the_IRQ_number;
+        if (optional_config) {
+            auto *base = optional_config->the_base;
+            const auto irq_number = optional_config->the_IRQ_number;
             // TWIHS_IER is write-1-to-set, so writing it unconditionally is safe and
             // avoids the check-then-act race with the ISR on TWIHS_IMR.
             base->TWIHS_IER = Interrupt_enable;
@@ -107,9 +107,9 @@ namespace SamV71 {
         constexpr auto Interrupt_disable =
                 TWIHS_IDR_TXCOMP(1) | TWIHS_IDR_RXRDY(1) | TWIHS_IDR_TXRDY(1) | TWIHS_IDR_OVRE(1) |
                 TWIHS_IDR_UNRE(1) | TWIHS_IDR_NACK(1) | TWIHS_IDR_ARBLST(1);
-        if (optional_define) {
-            auto *base = optional_define->the_base;
-            const auto irq_number = optional_define->the_IRQ_number;
+        if (optional_config) {
+            auto *base = optional_config->the_base;
+            const auto irq_number = optional_config->the_IRQ_number;
             NVIC_DisableIRQ(irq_number);
             base->TWIHS_IDR = Interrupt_disable;
             NVIC_ClearPendingIRQ(irq_number);

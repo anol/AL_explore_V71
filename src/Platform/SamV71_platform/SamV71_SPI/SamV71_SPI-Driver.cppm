@@ -9,7 +9,7 @@ module;
 #include "samv71q21b.h"
 
 module Platform.SamV71_SPI:Driver;
-import :Define;
+import :Config;
 
 import Platform.FreeRTOS_queue;
 import Type.Abstract_request;
@@ -26,11 +26,11 @@ namespace SamV71 {
             SPI_bitrate            = 2'000'000,
         };
 
-        const SamV71_SPI_define *optional_define;
+        const SamV71_SPI_config *optional_config;
         FreeRTOS::FreeRTOS_queue<Abstract::Abstract_request *, Queue_size> the_queue{};
 
     public:
-        explicit SamV71_SPI_driver(const SamV71_SPI_define *define) : optional_define(define) {
+        explicit SamV71_SPI_driver(const SamV71_SPI_config *config) : optional_config(config) {
         }
 
         void print_diagnostics() const;
@@ -47,22 +47,22 @@ namespace SamV71 {
     };
 
     void SamV71_SPI_driver::print_diagnostics() const {
-        if (optional_define) {
+        if (optional_config) {
             printf("SPI%d: pri=%d, bps=%d, cpol=%d, cpha=%d\r\n",
-                   optional_define->the_ID_number, optional_define->the_IRQ_priority, SPI_bitrate, SPI_CR_clock_polarity, SPI_CR_clock_phase);
+                   optional_config->the_ID_number, optional_config->the_IRQ_priority, SPI_bitrate, SPI_CR_clock_polarity, SPI_CR_clock_phase);
         }
     }
 
     void SamV71_SPI_driver::setup_SPI_registers() const {
         constexpr auto Control_enable = SPI_CR_SPIEN(1);
-        if (optional_define) {
-            auto *base = optional_define->the_base;
+        if (optional_config) {
+            auto *base = optional_config->the_base;
             const auto bitrate_divider = SPI_CSR_SCBR(SamV71_clock::get_frequency() / SPI_bitrate);
             base->SPI_CSR[0] = bitrate_divider | SPI_CR_clock_polarity | SPI_CR_clock_phase;
             base->SPI_MR = SPI_MR_host_mode | SPI_MR_fault_detection;
             base->SPI_CR |= Control_enable;
-            const auto irq_number = optional_define->the_IRQ_number;
-            const auto priority = optional_define->the_IRQ_priority;
+            const auto irq_number = optional_config->the_IRQ_number;
+            const auto priority = optional_config->the_IRQ_priority;
             NVIC_DisableIRQ(irq_number);
             NVIC_SetPriority(irq_number, priority);
         }
@@ -70,9 +70,9 @@ namespace SamV71 {
 
     void SamV71_SPI_driver::enable_SPI() const {
         constexpr auto Interrupt_enable = SPI_IER_TDRE(1); // kick only; the ISR arms RDRF per transfer
-        if (optional_define) {
-            auto *base = optional_define->the_base;
-            const auto irq_number = optional_define->the_IRQ_number;
+        if (optional_config) {
+            auto *base = optional_config->the_base;
+            const auto irq_number = optional_config->the_IRQ_number;
             // SPI_IER is write-1-to-set, so writing it unconditionally is safe and
             // avoids the check-then-act race with the ISR on SPI_IMR.
             base->SPI_IER = Interrupt_enable;
@@ -84,9 +84,9 @@ namespace SamV71 {
         constexpr auto Interrupt_disable =
                 SPI_IDR_RDRF(1) | SPI_IDR_TDRE(1) | SPI_IDR_MODF(1) | SPI_IDR_OVRES(1) |
                 SPI_IDR_NSSR(1) | SPI_IDR_TXEMPTY(1) | SPI_IDR_UNDES(1);
-        if (optional_define) {
-            auto *base = optional_define->the_base;
-            const auto irq_number = optional_define->the_IRQ_number;
+        if (optional_config) {
+            auto *base = optional_config->the_base;
+            const auto irq_number = optional_config->the_IRQ_number;
             NVIC_DisableIRQ(irq_number);
             base->SPI_IDR = Interrupt_disable;
             NVIC_ClearPendingIRQ(irq_number);

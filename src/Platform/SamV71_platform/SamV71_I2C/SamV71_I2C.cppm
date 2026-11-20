@@ -7,9 +7,9 @@ module;
 #include <cstdint>
 
 export module Platform.SamV71_I2C;
-import :Define;
+import :Config;
 import :Driver;
-import :Handler;
+import :ISR;
 
 import Type.Abstract_I2C;
 import Type.I2C_transfer_request;
@@ -28,13 +28,13 @@ export namespace SamV71
     {
         const uint8_t the_id;
         SamV71_I2C_driver the_driver;
-        SamV71_I2C_handler the_handler;
+        SamV71_I2C_ISR the_ISR;
 
     public:
         explicit SamV71_I2C(uint8_t id)
             : the_id(id),
-              the_driver(SamV71_I2C_define::get_definition(id)),
-              the_handler(SamV71_I2C_define::get_definition(id), the_driver)
+              the_driver(SamV71_I2C_config::get_config(id)),
+              the_ISR(SamV71_I2C_config::get_config(id), the_driver)
         {
         }
 
@@ -57,9 +57,9 @@ export namespace SamV71
 
     void SamV71_I2C::initialize()
     {
-        if (const auto* define = SamV71_I2C_define::get_definition(the_id))
+        if (const auto* config = SamV71_I2C_config::get_config(the_id))
         {
-            SamV71_clock::enable_peripheral_clock(define->the_peripheral_id);
+            SamV71_clock::enable_peripheral_clock(config->the_peripheral_id);
             the_driver.disable_I2C();
             the_driver.setup_I2C_registers();
             the_driver.enable_I2C();

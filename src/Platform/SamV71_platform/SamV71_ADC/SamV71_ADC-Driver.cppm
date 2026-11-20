@@ -10,7 +10,7 @@ module;
 #include "component/afec.h"
 
 module Platform.SamV71_ADC:Driver;
-import :Define;
+import :Config;
 
 import Platform.FreeRTOS_queue;
 import Platform.FreeRTOS_semaphore;
@@ -49,11 +49,11 @@ namespace SamV71 {
             Analog_offset   = 0x200,     // Mid-scale offset for single-ended input
         };
 
-        const SamV71_ADC_define *optional_define;
+        const SamV71_ADC_config *optional_config;
         FreeRTOS::FreeRTOS_queue<SamV71_ADC_request *, Queue_size> the_queue{};
 
     public:
-        explicit SamV71_ADC_driver(const SamV71_ADC_define *define) : optional_define(define) {
+        explicit SamV71_ADC_driver(const SamV71_ADC_config *config) : optional_config(config) {
         }
 
         static constexpr uint32_t channel_mask(const uint8_t channel) { return 1u << channel; }
@@ -76,23 +76,23 @@ namespace SamV71 {
     };
 
     void SamV71_ADC_driver::print_diagnostics() const {
-        if (optional_define) {
-            const auto *base = optional_define->the_base;
+        if (optional_config) {
+            const auto *base = optional_config->the_base;
             printf("AFEC%d: pri=%d, fAFE=%d, CHSR=0x%03x, IMR=0x%08x\r\n",
-                   optional_define->the_ID_number, static_cast<int>(optional_define->the_IRQ_priority),
+                   optional_config->the_ID_number, static_cast<int>(optional_config->the_IRQ_priority),
                    static_cast<int>(AFE_clock), static_cast<unsigned>(base->AFEC_CHSR), static_cast<unsigned>(base->AFEC_IMR));
         }
     }
 
     void SamV71_ADC_driver::enable_clock() const {
-        if (optional_define) {
-            SamV71_clock::enable_peripheral_clock(optional_define->the_peripheral_id);
+        if (optional_config) {
+            SamV71_clock::enable_peripheral_clock(optional_config->the_peripheral_id);
         }
     }
 
     void SamV71_ADC_driver::setup_ADC_registers() const {
-        if (optional_define) {
-            auto *base = optional_define->the_base;
+        if (optional_config) {
+            auto *base = optional_config->the_base;
             const auto prescaler = SamV71_clock::get_frequency() / AFE_clock - 1;
             base->AFEC_CR = AFEC_CR_SWRST_Msk;
             base->AFEC_MR = AFEC_MR_TRGEN_DIS |          // Software trigger only
@@ -108,16 +108,16 @@ namespace SamV71 {
             base->AFEC_TEMPMR = 0;                       // Temperature sensor converts on software trigger, not RTC
             base->AFEC_CHDR = AFEC_CHDR_Msk;             // configure_channel() enables the used channel
             base->AFEC_IDR = AFEC_IDR_Msk;
-            const auto irq_number = optional_define->the_IRQ_number;
-            const auto priority = optional_define->the_IRQ_priority;
+            const auto irq_number = optional_config->the_IRQ_number;
+            const auto priority = optional_config->the_IRQ_priority;
             NVIC_DisableIRQ(irq_number);
             NVIC_SetPriority(irq_number, priority);
         }
     }
 
     void SamV71_ADC_driver::configure_channel(const uint8_t channel) const {
-        if (optional_define) {
-            auto *base = optional_define->the_base;
+        if (optional_config) {
+            auto *base = optional_config->the_base;
             base->AFEC_DIFFR &= ~channel_mask(channel);       // Single-ended
             base->AFEC_CGR &= ~(0x03u << (2 * channel));      // Gain = 1
             base->AFEC_CSELR = channel;
@@ -129,8 +129,8 @@ namespace SamV71 {
     }
 
     void SamV71_ADC_driver::enable_ADC() const {
-        if (optional_define) {
-            const auto irq_number = optional_define->the_IRQ_number;
+        if (optional_config) {
+            const auto irq_number = optional_config->the_IRQ_number;
             // Kick the ISR; it picks up the queued request if the AFEC is idle,
             // and ignores the kick if a conversion is already in flight.
             NVIC_EnableIRQ(irq_number);
@@ -139,9 +139,9 @@ namespace SamV71 {
     }
 
     void SamV71_ADC_driver::disable_ADC() const {
-        if (optional_define) {
-            auto *base = optional_define->the_base;
-            const auto irq_number = optional_define->the_IRQ_number;
+        if (optional_config) {
+            auto *base = optional_config->the_base;
+            const auto irq_number = optional_config->the_IRQ_number;
             NVIC_DisableIRQ(irq_number);
             base->AFEC_IDR = AFEC_IDR_Msk;
             NVIC_ClearPendingIRQ(irq_number);
@@ -150,7 +150,7 @@ namespace SamV71 {
 
     bool SamV71_ADC_driver::convert(SamV71_ADC_request *request) {
         bool success{};
-        if (request && optional_define) {
+        if (request && optional_config) {
             if (the_queue.send(request)) {
                 enable_ADC();
                 request->get_semaphore().take();

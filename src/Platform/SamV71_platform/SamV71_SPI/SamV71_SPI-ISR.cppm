@@ -9,28 +9,28 @@ module;
 #include "samv71q21b.h"
 #include "component/spi.h"
 
-module Platform.SamV71_SPI:Handler;
-import :Define;
+module Platform.SamV71_SPI:ISR;
+import :Config;
 import :Driver;
 import Type.Transfer_request;
 
 namespace SamV71 {
-    class SamV71_SPI_handler {
+    class SamV71_SPI_ISR {
     public:
         enum { Number_of_SPI_peripherals = 1 };
 
-        static SamV71_SPI_handler *optional_handler[Number_of_SPI_peripherals];
+        static SamV71_SPI_ISR *optional_ISR[Number_of_SPI_peripherals];
 
     private:
-        const SamV71_SPI_define *optional_define;
+        const SamV71_SPI_config *optional_config;
         SamV71_SPI_driver &use_driver;
         Generic::SPI_transfer_request *optional_request{};
 
     public:
-        explicit SamV71_SPI_handler(const SamV71_SPI_define *define, SamV71_SPI_driver &driver)
-            : optional_define(define), use_driver(driver) {
-            if (define->the_ID_number < Number_of_SPI_peripherals) {
-                optional_handler[define->the_ID_number] = this;
+        explicit SamV71_SPI_ISR(const SamV71_SPI_config *config, SamV71_SPI_driver &driver)
+            : optional_config(config), use_driver(driver) {
+            if (config->the_ID_number < Number_of_SPI_peripherals) {
+                optional_ISR[config->the_ID_number] = this;
             }
         }
 
@@ -50,7 +50,7 @@ namespace SamV71 {
         void send_next_byte(spi_registers_t *base);
     };
 
-    SamV71_SPI_handler *SamV71_SPI_handler::optional_handler[Number_of_SPI_peripherals]{};
+    SamV71_SPI_ISR *SamV71_SPI_ISR::optional_ISR[Number_of_SPI_peripherals]{};
 
     /*
      * Lockstep transfer: exactly one byte is in flight at any time. The next byte is
@@ -59,10 +59,10 @@ namespace SamV71 {
      * TDRE is only used as a one-shot "kick" to start an idle peripheral; RDRF drives
      * the transfer.
      */
-    void SamV71_SPI_handler::ISR() {
-        if (optional_define) {
+    void SamV71_SPI_ISR::ISR() {
+        if (optional_config) {
             uint32_t context_switch{};
-            auto *base = optional_define->the_base;
+            auto *base = optional_config->the_base;
             const uint32_t interrupt_status = base->SPI_SR;
             base->SPI_IDR = SPI_IDR_TDRE(1);
             if (interrupt_status & SPI_SR_RDRF_Msk) {
@@ -78,7 +78,7 @@ namespace SamV71 {
         }
     }
 
-    void SamV71_SPI_handler::ISR_RX_ready(spi_registers_t *base) {
+    void SamV71_SPI_ISR::ISR_RX_ready(spi_registers_t *base) {
         const uint8_t data = 0xFF & base->SPI_RDR;
         if (optional_request && optional_request->is_more_to_receive()) {
             if (auto *buffer = optional_request->get_receive_buffer()) {
@@ -91,22 +91,22 @@ namespace SamV71 {
         }
     }
 
-    void SamV71_SPI_handler::send_next_byte(spi_registers_t *base) {
+    void SamV71_SPI_ISR::send_next_byte(spi_registers_t *base) {
         const auto *buffer = optional_request->get_transmit_buffer();
         const uint8_t data = buffer ? buffer[optional_request->get_send_count()] : 0xFF;
         optional_request->count_sent();
         base->SPI_TDR = SPI_TDR_TD(data);
     }
 
-    void SamV71_SPI_handler::ISR_transfer_complete(uint32_t &context_switch) {
+    void SamV71_SPI_ISR::ISR_transfer_complete(uint32_t &context_switch) {
         const auto *request = optional_request;
         optional_request = nullptr;
         request->get_chip_select().set();
         request->get_semaphore().ISR_give(context_switch);
     }
 
-    void SamV71_SPI_handler::ISR_pending_transaction(uint32_t &context_switch) {
-        auto *base = optional_define->the_base;
+    void SamV71_SPI_ISR::ISR_pending_transaction(uint32_t &context_switch) {
+        auto *base = optional_config->the_base;
         while (Abstract::Abstract_request *request = use_driver.ISR_get_request(context_switch)) {
             auto *spi_request = dynamic_cast<Generic::SPI_transfer_request *>(request);
             if (spi_request == nullptr) {
@@ -132,7 +132,7 @@ namespace SamV71 {
 
 extern "C" {
 void ISR_SPI0() {
-    if (auto *handler = SamV71::SamV71_SPI_handler::optional_handler[0]) {
+    if (auto *handler = SamV71::SamV71_SPI_ISR::optional_ISR[0]) {
         handler->ISR();
     } else {
         NVIC_DisableIRQ(IRQn::SPI0_IRQn);

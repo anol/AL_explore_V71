@@ -9,31 +9,31 @@ module;
 #include "samv71q21b.h"
 #include "component/twihs.h"
 
-module Platform.SamV71_I2C:Handler;
-import :Define;
+module Platform.SamV71_I2C:ISR;
+import :Config;
 import :Driver;
 import Type.I2C_transfer_request;
 
 namespace SamV71 {
-    class SamV71_I2C_handler {
+    class SamV71_I2C_ISR {
     public:
         enum { Number_of_I2C_peripherals = 1 };
 
-        static SamV71_I2C_handler *optional_handler[Number_of_I2C_peripherals];
+        static SamV71_I2C_ISR *optional_ISR[Number_of_I2C_peripherals];
 
     private:
         static constexpr uint32_t Error_mask = TWIHS_SR_NACK_Msk | TWIHS_SR_ARBLST_Msk;
 
-        const SamV71_I2C_define *optional_define;
+        const SamV71_I2C_config *optional_config;
         SamV71_I2C_driver &use_driver;
         Generic::I2C_transfer_request *optional_request{};
         bool the_stop_sent{};
 
     public:
-        explicit SamV71_I2C_handler(const SamV71_I2C_define *define, SamV71_I2C_driver &driver)
-            : optional_define(define), use_driver(driver) {
-            if (define && define->the_ID_number < Number_of_I2C_peripherals) {
-                optional_handler[define->the_ID_number] = this;
+        explicit SamV71_I2C_ISR(const SamV71_I2C_config *config, SamV71_I2C_driver &driver)
+            : optional_config(config), use_driver(driver) {
+            if (config && config->the_ID_number < Number_of_I2C_peripherals) {
+                optional_ISR[config->the_ID_number] = this;
             }
         }
 
@@ -57,7 +57,7 @@ namespace SamV71 {
         void start_transaction(twihs_registers_t *base);
     };
 
-    SamV71_I2C_handler *SamV71_I2C_handler::optional_handler[Number_of_I2C_peripherals]{};
+    SamV71_I2C_ISR *SamV71_I2C_ISR::optional_ISR[Number_of_I2C_peripherals]{};
 
     /*
      * One request is one START ... STOP frame, driven byte by byte from the ISR:
@@ -67,10 +67,10 @@ namespace SamV71 {
      * The frame is complete on TXCOMP (STOP sent); NACK / ARBLST abort it with failure.
      * TXCOMP is also used as the one-shot "kick" to start an idle peripheral.
      */
-    void SamV71_I2C_handler::ISR() {
-        if (optional_define) {
+    void SamV71_I2C_ISR::ISR() {
+        if (optional_config) {
             uint32_t context_switch{};
-            auto *base = optional_define->the_base;
+            auto *base = optional_config->the_base;
             const uint32_t status = base->TWIHS_SR; // read clears NACK / ARBLST / OVRE / UNRE
             const uint32_t active = status & base->TWIHS_IMR;
             if (is_busy()) {
@@ -104,11 +104,11 @@ namespace SamV71 {
      * Guards against a stale TXCOMP right after a frame was started: the frame is only done once
      * every byte was moved and STOP was requested.
      */
-    bool SamV71_I2C_handler::is_frame_done() const {
+    bool SamV71_I2C_ISR::is_frame_done() const {
         return optional_request && !optional_request->is_more_to_transfer() && the_stop_sent;
     }
 
-    void SamV71_I2C_handler::ISR_RX_ready(twihs_registers_t *base) {
+    void SamV71_I2C_ISR::ISR_RX_ready(twihs_registers_t *base) {
         const uint8_t data = 0xFF & base->TWIHS_RHR;
         if (optional_request->is_more_to_transfer()) {
             optional_request->put_next_byte(data);
@@ -124,7 +124,7 @@ namespace SamV71 {
         }
     }
 
-    void SamV71_I2C_handler::ISR_TX_ready(twihs_registers_t *base) {
+    void SamV71_I2C_ISR::ISR_TX_ready(twihs_registers_t *base) {
         if (optional_request->is_more_to_transfer()) {
             base->TWIHS_THR = TWIHS_THR_TXDATA(optional_request->get_next_byte());
             optional_request->count_transferred();
@@ -136,7 +136,7 @@ namespace SamV71 {
         }
     }
 
-    void SamV71_I2C_handler::ISR_transfer_complete(const bool success, uint32_t &context_switch) {
+    void SamV71_I2C_ISR::ISR_transfer_complete(const bool success, uint32_t &context_switch) {
         auto *request = optional_request;
         optional_request = nullptr;
         the_stop_sent = false;
@@ -144,7 +144,7 @@ namespace SamV71 {
         request->get_semaphore().ISR_give(context_switch);
     }
 
-    void SamV71_I2C_handler::ISR_pending_transaction(twihs_registers_t *base, uint32_t &context_switch) {
+    void SamV71_I2C_ISR::ISR_pending_transaction(twihs_registers_t *base, uint32_t &context_switch) {
         while (Abstract::Abstract_request *request = use_driver.ISR_get_request(context_switch)) {
             auto *i2c_request = dynamic_cast<Generic::I2C_transfer_request *>(request);
             if (i2c_request == nullptr) {
@@ -163,7 +163,7 @@ namespace SamV71 {
         use_driver.disable_I2C();
     }
 
-    void SamV71_I2C_handler::start_transaction(twihs_registers_t *base) {
+    void SamV71_I2C_ISR::start_transaction(twihs_registers_t *base) {
         const bool is_read = optional_request->is_read();
         the_stop_sent = false;
         base->TWIHS_IDR = TWIHS_IDR_TXCOMP(1) | TWIHS_IDR_RXRDY(1) | TWIHS_IDR_TXRDY(1);
@@ -192,7 +192,7 @@ namespace SamV71 {
 
 extern "C" {
 void ISR_TWIHS0() {
-    if (auto *handler = SamV71::SamV71_I2C_handler::optional_handler[0]) {
+    if (auto *handler = SamV71::SamV71_I2C_ISR::optional_ISR[0]) {
         handler->ISR();
     } else {
         NVIC_DisableIRQ(IRQn::TWIHS0_IRQn);

@@ -3,7 +3,7 @@
 Build using GCC and C++20.
 Using FreeRTOS (FreeRTOSv202604.01-LTS).
 
-Current firmware version: **1.4.7** (`IDE_SW_VERSION` in `CMakeLists.txt`).
+Current firmware version: **1.6.1** (`IDE_SW_VERSION` in `CMakeLists.txt`).
 
 ## Building
 
@@ -37,7 +37,7 @@ cmake --build build/V71_EK_hello_world
 
 ## ADC and DAC (SiPM bias, work in progress)
 
-`Bias_DAC` and `Bias_ADC` (`src/Component/SiPM_bias/`) reach the hardware through
+`Bias_DAC` and `Bias_ADC` (`src/Component/Bias_regulator/`) reach the hardware through
 `Abstract_board::get_DAC()` / `get_ADC()`, implemented on the V71 by `SamV71_DAC` and
 `SamV71_ADC` (`src/Platform/SamV71_platform/`). Both are owned by `V71_EK_board`, and
 `V71_EK_board::initialize()` initializes them along with the other peripherals:
@@ -49,9 +49,28 @@ cmake --build build/V71_EK_hello_world
   conversion: it queues a `SamV71_ADC_request`, waits on its semaphore, and returns the
   raw 12-bit count.
 - **Pins** (`V71_EK_pin_table.cppm`): `DAC0` on PB13, `ADC0_0` on PD30.
-- **Console**: `AT+CAL_DAC=<value>` sets the raw DAC value and `AT+CAL_DAC` reads it;
-  `AT+CAL_DAC_V35`, `AT+CAL_DAC_V40`, `AT+CAL_ADC_V35` and `AT+CAL_ADC_V40` set the
-  calibration setpoints (see the command table below).
+- **Console**: `AT+BIAS_DAC=<value>` overrides the raw DAC value and `AT+BIAS_DAC` reads
+  it; `AT+BIAS_ADC` reads the raw ADC; `AT+BIAS_DAC_SET` and `AT+BIAS_ADC_SET` set/get the
+  -30 V and -40 V calibration points; `AT+BIAS` shows setpoint, voltage and error (see the
+  command table below for the rest of the `AT+BIAS_*` family).
+- **`Bias_regulator_task`** (`src/Component/Bias_regulator/`) is a FreeRTOS task owned by
+  `Housekeeping_provider`; it holds the board's I2C bus but its loop is still a stub.
+
+## I2C and temperature sensors (V1.6)
+
+`SamV71_I2C` (`src/Platform/SamV71_platform/SamV71_I2C/`) is an I2C host on TWIHS0,
+reached through `Abstract_board::get_I2C()` and owned/initialized by `V71_EK_board`:
+
+- **Structure** matches `SamV71_SPI`: a driver with a request queue, a TWIHS interrupt
+  handler and a peripheral definition. `read()` / `write()` are blocking: each queues one
+  `I2C_transfer_request` (1–4 data bytes, MSB first, one START … STOP frame) and waits on
+  its semaphore.
+- **Bitrate** 100 kbps.
+- **Pins** (`V71_EK_pin_table.cppm`): SDA (TWD0) on PA3, SCL (TWCK0) on PA4, both open drain.
+- **`Temperature_task`** (`src/Component/Temperature_sensor/`), owned by
+  `Housekeeping_provider`, polls six TMP1075 sensors (addresses 0x48–0x4D) every 2 s and
+  keeps their average; `AT+HOUSE` prints it along with each sensor's reading.
+- `Win11` builds use `Mockup_I2C` (`src/Platform/Win11_platform/`) instead.
 
 ## Top-level modules
 
@@ -64,8 +83,9 @@ cmake --build build/V71_EK_hello_world
 - **`Board/`** — board support packages, one per board (`V71_EK` evaluation kit,
   `Win11` host simulation; `AL_EM` holds only a pin table/config so far), wiring together
   the platform, components and pin table for that board.
-- **`Component/`** — drivers for discrete hardware parts (`IDE3380`, `SiPM_bias`,
-  `STTS22H`), independent of any one board.
+- **`Component/`** — drivers for discrete hardware parts (`IDE3380`, `Bias_regulator`
+  for the SiPM bias DAC/ADC, `Temperature_sensor` for the TMP1075 sensors; the older
+  `Sensor_STTS22H` sits there but isn't compiled), independent of any one board.
 - **`Domain/`** — application-domain types (pin tags, persistent parameter ids) and the
   generated domain keyword dictionary (`Domain/Generated_code`) shared by the console/CLI
   layer and the application dictionary.
@@ -98,16 +118,16 @@ module is now a named C++20 module, so `import` dominates: the only remaining `#
 edges are:
 
 - the plain `Domain/Persistent_parameter_id.h` header (from `Application/Hello_world`,
-  `Application/Hello_world/Provider`, `Component/IDE3380`, `Component/SiPM_bias`)
-- `Component/SiPM_bias` → `Component/STTS22H` (`Sensor_STTS22H.h`)
-- `Platform/SamV71_platform/SamV71_ADC` and `Platform/SamV71_platform/SamV71_SPI` →
-  `Target/V71_EK_hello_world` (`FreeRTOSConfig.h`, from the `-Define` partitions)
+  `Application/Hello_world/Provider`, `Component/IDE3380`, `Component/Bias_regulator`)
+- `Platform/SamV71_platform/SamV71_ADC`, `Platform/SamV71_platform/SamV71_I2C`,
+  `Platform/SamV71_platform/SamV71_SPI` and `Platform/SamV71_platform/SamV71_USART` →
+  `Target/V71_EK_hello_world` (`FreeRTOSConfig.h`, from the `-Config` partitions)
 
 A module pair with edges in both directions would be drawn bold red; there are none. A
 dependency loop through three or more modules is drawn bold purple and listed in the
-graph's caption. There are currently two, both closed by the `FreeRTOSConfig.h` include:
+graph's caption. There are currently four, all closed by the `FreeRTOSConfig.h` include:
 `Board/V71_EK` → `Platform/SamV71_platform/SamV71_ADC` → `Target/V71_EK_hello_world` →
-`Board/V71_EK`, and the same loop through `SamV71_SPI`.
+`Board/V71_EK`, and the same loop through `SamV71_I2C`, `SamV71_SPI` and `SamV71_USART`.
 
 ![Module dependency graph](doc/module_dependencies.svg)
 
@@ -139,7 +159,11 @@ What `SamV71_SPI` (the SPI driver, interrupt handler and peripheral definition) 
 
 ![SamV71_SPI aggregation graph](doc/samv71_spi_aggregation.svg)
 
-What `SamV71_USART` (the UART with its RX/TX queues) owns and references:
+What `SamV71_I2C` (the TWIHS driver with its request queue, interrupt handler and peripheral definition) owns and references:
+
+![SamV71_I2C aggregation graph](doc/samv71_i2c_aggregation.svg)
+
+What `SamV71_USART` (the USART driver with its RX/TX queues, interrupt handler and peripheral definition) owns and references:
 
 ![SamV71_USART aggregation graph](doc/samv71_usart_aggregation.svg)
 
@@ -169,7 +193,7 @@ generators no longer update this section themselves. Shown open by default (coll
 with the triangle if you don't need them).
 
 <details open>
-<summary><strong>Commands</strong> (FW1038 SpectraNode command version 3)</summary>
+<summary><strong>Commands</strong> (FW1038 SpectraNode command version 5)</summary>
 
 <!-- BEGIN:SpectraNode_command -->
 #### Provider: Mode_control
@@ -200,14 +224,27 @@ with the triangle if you don't need them).
 
 | Command | Description |
 |---|---|
-| `AT+CAL_ADC_V35=<cal_35V(int -100000..-1)>` | Set bias ADC calibration 35V setpoint. |
-| `AT+CAL_ADC_V40=<cal_40V(int -100000..-1)>` | Set bias ADC calibration 40V setpoint. |
-| `AT+CAL_ADC` | Get the raw ADC reading. |
-| `AT+CAL_DAC=<data16(int 0..0xFFFF)>` | Set raw DAC value. |
-| `AT+CAL_DAC_V35=<cal_35V(int -100000..-1)>` | Set bias DAC calibration 35V setpoint. |
-| `AT+CAL_DAC_V40=<cal_40V(int -100000..-1)>` | Set bias DAC calibration 40V setpoint. |
-| `AT+CAL_DAC` | Get the raw DAC setting. |
+| `AT+BIAS_ADC_SET=<v30(int 0..4095)>,<v40(int 0..4095)>` | Set the ADC -30V and -40V calibration points. |
+| `AT+BIAS_ADC_SET` | Get the ADC -30V and -40V calibration points. |
+| `AT+BIAS_ADC` | Get the raw ADC reading. |
+| `AT+BIAS_C25=<bias_mV(int -50000..0)>` | Set the 25C bias setpoint. 0=use temperature. |
+| `AT+BIAS_C25` | Get the 25C bias setpoint. |
+| `AT+BIAS_CAL` | Toggle calibration mode ON/OFF. |
+| `AT+BIAS_DAC=<data12(int 0..4095)>` | Override the DAC setting. |
+| `AT+BIAS_DAC_SET=<v30(int 0..4095)>,<v40(int 0..4095)>` | Set the DAC -30V and -40V calibration points. |
+| `AT+BIAS_DAC_SET` | Get the DAC -30V and -40V calibration points. |
+| `AT+BIAS_DAC` | Get the raw DAC setting. |
+| `AT+BIAS_DIAG` | Misc. diagnostic information wrt. bias voltage. |
+| `AT+BIAS_ERROR` | Get the bias voltage error. |
+| `AT+BIAS_SET=<bias_mV(int -50000..0)>` | Override the temp. compensated bias setpoint. |
+| `AT+BIAS_SET` | Get the temp. compensated bias setpoint. |
+| `AT+BIAS_TEMP_SET=<a(int -1000000..1000000)>,<b(int -1000000..1000000)>,<c(int -1000000..1000000)>` | Set the temperature correction factors. |
+| `AT+BIAS_TEMP_SET` | Get the temperature correction. |
+| `AT+BIAS_TEMP` | Get the temperature. |
+| `AT+BIAS_VOLT` | Get the bias voltage. |
+| `AT+BIAS` | Show setpoint, voltage and error. |
 | `AT+CAL_DIAG` | Misc. diagnostic information wrt. calibration. |
+| `AT+CAL_DUMP` | Get calibration settings. |
 | `AT+CAL_TEST_BIAS` | Find common bias voltage using dark count rate. |
 | `AT+CAL_TEST_NOISE` | Find channel noise floor using threshold scan. |
 | `AT+CAL_TEST_OFFSET` | Find channel offset voltage using fixed source. |
@@ -238,19 +275,20 @@ with the triangle if you don't need them).
 
 | Command | Description |
 |---|---|
-| `AT+DIAG` | Send miscellaneous diagnostic information. |
+| `AT+DIAG` | Show miscellaneous diagnostic information. |
 | `AT+ECHO` | Toggle console echo on/off. |
-| `AT+HELP` | Show commands. |
-| `AT+STATUS` | Send mode and other system data. |
+| `AT+HELP` | Show the list of commands. |
+| `AT+HOUSE` | Show the housekeeping report. |
+| `AT+STATUS` | Show the system status report. |
 | `AT+TEST` | Initiate a self-test sequence. |
 | `AT+TRACE` | Toggle trace on/off. |
-| `AT+VERSION` | Send version and other build information. |
+| `AT+VERSION` | Show the version and build information. |
 <!-- END:SpectraNode_command -->
 
 </details>
 
 <details open>
-<summary><strong>Keywords</strong> (Domain version 4)</summary>
+<summary><strong>Keywords</strong> (Domain version 5)</summary>
 
 <!-- BEGIN:Domain_keyword -->
 | Id | Name | Description |
@@ -266,12 +304,12 @@ with the triangle if you don't need them).
 | 8 | `ASIC` |  |
 | 9 | `asic_nbr` |  |
 | 10 | `b` |  |
-| 11 | `bias` |  |
-| 12 | `BIAS` |  |
-| 13 | `CADENCE` |  |
-| 14 | `CAL` |  |
-| 15 | `cal_35V` |  |
-| 16 | `cal_40V` |  |
+| 11 | `BIAS` |  |
+| 12 | `bias_mV` |  |
+| 13 | `c` |  |
+| 14 | `C25` |  |
+| 15 | `CADENCE` |  |
+| 16 | `CAL` |  |
 | 17 | `calibration` |  |
 | 18 | `channel` |  |
 | 19 | `CHANNEL` |  |
@@ -282,69 +320,76 @@ with the triangle if you don't need them).
 | 24 | `CSV` |  |
 | 25 | `dac` |  |
 | 26 | `DAC` |  |
-| 27 | `data16` |  |
-| 28 | `data32` |  |
-| 29 | `data8` |  |
-| 30 | `date` |  |
-| 31 | `demo` |  |
-| 32 | `DEMO` |  |
-| 33 | `device` |  |
-| 34 | `DIAG` |  |
-| 35 | `DISABLE` |  |
-| 36 | `DUMP` |  |
-| 37 | `ECHO` |  |
-| 38 | `ENABLE` |  |
-| 39 | `format` |  |
-| 40 | `FORMAT` |  |
-| 41 | `gain` |  |
-| 42 | `GET` |  |
-| 43 | `HELP` |  |
-| 44 | `HOLD` |  |
-| 45 | `Housekeeping` |  |
-| 46 | `idle` |  |
-| 47 | `IDLE` |  |
-| 48 | `INPUT` |  |
-| 49 | `Instrument_calibration` |  |
-| 50 | `integration_time` |  |
-| 51 | `LOAD` |  |
-| 52 | `micro_sievert` |  |
-| 53 | `millis` |  |
-| 54 | `MODE` |  |
-| 55 | `Mode_control` |  |
-| 56 | `N42` |  |
-| 57 | `NOISE` |  |
-| 58 | `nominal` |  |
-| 59 | `NOMINAL` |  |
-| 60 | `offset` |  |
-| 61 | `OFFSET` |  |
-| 62 | `OVERRIDE` |  |
-| 63 | `parameter` |  |
-| 64 | `pedestal` |  |
-| 65 | `PEDESTAL` |  |
-| 66 | `R6` |  |
-| 67 | `readout_count` |  |
-| 68 | `REG` |  |
-| 69 | `reg_addr` |  |
-| 70 | `RESET` |  |
-| 71 | `RESTORE` |  |
-| 72 | `result` |  |
-| 73 | `SAVE` |  |
-| 74 | `seconds` |  |
-| 75 | `serial_number` |  |
-| 76 | `simple_R6` |  |
-| 77 | `Spectroscopic_data` |  |
-| 78 | `start_threshold` |  |
-| 79 | `STATUS` |  |
-| 80 | `stop_count` |  |
-| 81 | `TEST` |  |
-| 82 | `THRESHOLD` |  |
-| 83 | `time` |  |
-| 84 | `TIME` |  |
-| 85 | `TRACE` |  |
-| 86 | `V35` |  |
-| 87 | `V40` |  |
-| 88 | `VBIAS` |  |
-| 89 | `VERSION` |  |
+| 27 | `data12` |  |
+| 28 | `data16` |  |
+| 29 | `data32` |  |
+| 30 | `data8` |  |
+| 31 | `date` |  |
+| 32 | `demo` |  |
+| 33 | `DEMO` |  |
+| 34 | `device` |  |
+| 35 | `DIAG` |  |
+| 36 | `DISABLE` |  |
+| 37 | `DUMP` |  |
+| 38 | `ECHO` |  |
+| 39 | `ENABLE` |  |
+| 40 | `ERROR` |  |
+| 41 | `format` |  |
+| 42 | `FORMAT` |  |
+| 43 | `gain` |  |
+| 44 | `GET` |  |
+| 45 | `HELP` |  |
+| 46 | `HIGH` |  |
+| 47 | `HOLD` |  |
+| 48 | `HOUSE` |  |
+| 49 | `Housekeeping` |  |
+| 50 | `idle` |  |
+| 51 | `IDLE` |  |
+| 52 | `INPUT` |  |
+| 53 | `Instrument_calibration` |  |
+| 54 | `integration_time` |  |
+| 55 | `LOAD` |  |
+| 56 | `LOW` |  |
+| 57 | `micro_sievert` |  |
+| 58 | `millis` |  |
+| 59 | `MODE` |  |
+| 60 | `Mode_control` |  |
+| 61 | `N42` |  |
+| 62 | `NOISE` |  |
+| 63 | `nominal` |  |
+| 64 | `NOMINAL` |  |
+| 65 | `offset` |  |
+| 66 | `OFFSET` |  |
+| 67 | `OVERRIDE` |  |
+| 68 | `parameter` |  |
+| 69 | `pedestal` |  |
+| 70 | `PEDESTAL` |  |
+| 71 | `R6` |  |
+| 72 | `readout_count` |  |
+| 73 | `REG` |  |
+| 74 | `reg_addr` |  |
+| 75 | `RESET` |  |
+| 76 | `RESTORE` |  |
+| 77 | `result` |  |
+| 78 | `SAVE` |  |
+| 79 | `seconds` |  |
+| 80 | `serial_number` |  |
+| 81 | `SET` |  |
+| 82 | `simple_R6` |  |
+| 83 | `Spectroscopic_data` |  |
+| 84 | `start_threshold` |  |
+| 85 | `STATUS` |  |
+| 86 | `stop_count` |  |
+| 87 | `TEMP` |  |
+| 88 | `TEST` |  |
+| 89 | `THRESHOLD` |  |
+| 90 | `time` |  |
+| 91 | `TIME` |  |
+| 92 | `TRACE` |  |
+| 93 | `v30` |  |
+| 94 | `v40` |  |
+| 95 | `VERSION` |  |
+| 96 | `VOLT` |  |
 | 255 | `"Wildcard"` | Special purpose, used in search |
 <!-- END:Domain_keyword -->
 
@@ -371,10 +416,10 @@ with the triangle if you don't need them).
 | calibration.parameter.a | data32 | 100000 | Calibration parameter A. |
 | calibration.parameter.b | data32 | 10000 | Calibration parameter B. |
 | calibration.BIAS | data32 | 0 | Bias voltage at 25 degC reference. |
-| calibration.adc.V35 | mV | -35000 | ADC calibration setpoint at -35V. |
-| calibration.adc.V40 | mV | -40000 | ADC calibration setpoint at -40V. |
-| calibration.dac.V35 | mV | -35000 | DAC calibration setpoint at -35V. |
-| calibration.dac.V40 | mV | -40000 | DAC calibration setpoint at -40V. |
+| calibration.adc.v30 | data12 | 2028 | ADC calibration setpoint at -30V. |
+| calibration.adc.v40 | data12 | 1024 | ADC calibration setpoint at -40V. |
+| calibration.dac.v30 | data12 | 2028 | DAC calibration setpoint at -30V. |
+| calibration.dac.v40 | data12 | 1024 | DAC calibration setpoint at -40V. |
 | calibration.integration_time | number | 100 | Calibration pulse integration time. |
 | calibration.start_threshold | number | 100 | Calibration start threshold. |
 | calibration.stop_count | number | 100 | Calibration stop count. |

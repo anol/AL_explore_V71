@@ -9,9 +9,9 @@ module;
 
 
 export module Platform.SamV71_SPI;
-import :Define;
+import :Config;
 import :Driver;
-import :Handler;
+import :ISR;
 
 import Type.Abstract_SPI;
 import Type.Abstract_IO_pin;
@@ -26,13 +26,13 @@ export namespace SamV71
         const uint8_t the_id;
         Abstract::Abstract_IO_pin& use_chip_select;
         SamV71_SPI_driver the_driver;
-        SamV71_SPI_handler the_handler;
+        SamV71_SPI_ISR the_ISR;
 
     public:
         SamV71_SPI(uint8_t id, Abstract::Abstract_IO_pin& chip_select)
             : the_id(id), use_chip_select(chip_select),
-              the_driver(SamV71_SPI_define::get_definition(id)),
-              the_handler(SamV71_SPI_define::get_definition(id), the_driver)
+              the_driver(SamV71_SPI_config::get_config(id)),
+              the_ISR(SamV71_SPI_config::get_config(id), the_driver)
         {
         }
 

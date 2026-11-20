@@ -10,19 +10,17 @@ module Platform.SamV71_DAC;
 import Type.Abstract_DAC;
 import Platform.SamV71_clock;
 
-namespace SamV71_DAC_definition {
+namespace SamV71_DAC_config {
     static SamV71::SamV71_DAC *optional_DAC{};
 
-    namespace {
-        struct Definition {
-            dacc_registers_t *the_base;
-            IRQn_Type the_IRQ_number;
-            uint32_t the_IRQ_priority;
-            uint32_t the_channel;
-        };
-    }
+    struct Config {
+        dacc_registers_t *the_base;
+        IRQn_Type the_IRQ_number;
+        uint32_t the_IRQ_priority;
+        uint32_t the_channel;
+    };
 
-    static Definition Definition_DACC{
+    static const Config Config_DACC{
             .the_base = DACC_REGS,
             .the_IRQ_number = DACC_IRQn,
             .the_IRQ_priority = configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY,
@@ -34,7 +32,7 @@ namespace SamV71_DAC_definition {
         Analog_control = (DACC_ACR_IBCTLCH0(0x02) | DACC_ACR_IBCTLCH1(0x02)),
     };
 
-    static void *get_definition(const uint8_t id) { return id == 0 ? static_cast<void *>(&Definition_DACC) : nullptr; }
+    static const Config *get_config(const uint8_t id) { return id == 0 ? &Config_DACC : nullptr; }
 }
 
 namespace SamV71_DACC_test_data {
@@ -83,7 +81,7 @@ namespace SamV71_DACC_test_data {
 
 extern "C" {
 void ISR_DACC() {
-    if (auto *driver = SamV71_DAC_definition::optional_DAC) {
+    if (auto *driver = SamV71_DAC_config::optional_DAC) {
         driver->ISR();
     } else {
         NVIC_DisableIRQ(DACC_IRQn);
@@ -93,17 +91,17 @@ void ISR_DACC() {
 }
 
 namespace SamV71 {
-    using namespace SamV71_DAC_definition;
+    using namespace SamV71_DAC_config;
 
-    SamV71_DAC::SamV71_DAC() : optional_definition(get_definition(0)) {
-        configASSERT(optional_definition != nullptr);
+    SamV71_DAC::SamV71_DAC() : optional_config(get_config(0)) {
+        configASSERT(optional_config != nullptr);
     }
 
     void SamV71_DAC::initialize() {
-        if (optional_definition) {
-            auto *base = static_cast<Definition *>(optional_definition)->the_base;
-            const auto channel = static_cast<Definition *>(optional_definition)->the_channel;
-            const auto peripheral_id = static_cast<Definition *>(optional_definition)->the_IRQ_number;
+        if (optional_config) {
+            auto *base = optional_config->the_base;
+            const auto channel = optional_config->the_channel;
+            const auto peripheral_id = optional_config->the_IRQ_number;
             SamV71_clock::enable_peripheral_clock(peripheral_id);
             base->DACC_CR = DACC_CR_SWRST(1); // Reset
             base->DACC_MR = 0; // Transfer mode
@@ -115,9 +113,9 @@ namespace SamV71 {
     bool SamV71_DAC::set(const uint32_t value) {
         enum : uint32_t { Max_value = (1u << 12) - 1 }; // 12-bit DAC
         auto success{false};
-        if (optional_definition && value <= Max_value) {
-            auto *base = static_cast<Definition *>(optional_definition)->the_base;
-            const auto channel = static_cast<Definition *>(optional_definition)->the_channel;
+        if (optional_config && value <= Max_value) {
+            auto *base = optional_config->the_base;
+            const auto channel = optional_config->the_channel;
             const uint32_t enabled = 1u << (DACC_CHSR_CH_Pos + channel);
             const uint32_t ready = 1u << (DACC_CHSR_DACRDY_Pos + channel);
             const uint32_t fifo_ready = 1u << (DACC_ISR_TXRDY0_Pos + channel);
@@ -136,8 +134,8 @@ namespace SamV71 {
     }
 
     void SamV71_DAC::ISR() {
-        if (optional_definition) {
-            const auto *base = static_cast<Definition *>(optional_definition)->the_base;
+        if (optional_config) {
+            const auto *base = optional_config->the_base;
             if (const auto status = base->DACC_ISR; (status & DACC_ISR_TXRDY0_Msk) == DACC_ISR_TXRDY0(1)) {
                 ISR_ready();
             }
