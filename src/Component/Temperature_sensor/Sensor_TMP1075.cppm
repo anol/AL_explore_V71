@@ -64,7 +64,6 @@ namespace Temperature_sensor
             const auto degrees = static_cast<int8_t>((data >> 8) & 0xFF);
             const auto fraction = static_cast<int8_t>((data >> 4) & 0xF);
             the_temperature = 100 * degrees + 100 * fraction / 16;
-            printf("%d.%d ", the_temperature / 100, abs(the_temperature) % 100);
         }
         return the_data_good_flag;
     }

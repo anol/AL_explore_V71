@@ -36,3 +36,17 @@ TEST(Unit_converter_unit_test, test_nanoseconds_overrun_uint16) {
     uint32_t puls_count = (pulse_width_ns / 1000) * (clock_frequency / 1'000'000);
     EXPECT_NE(puls_count, (uint16_t) (0xFFFF & puls_count));
 }
+
+TEST(Unit_converter_unit_test, test_centidegrees_to_parts) {
+    auto check = [](int32_t centidegrees, const char *sign, int32_t degrees, int32_t hundredths) {
+        const auto parts = Unit_converter::centidegrees_to_parts(centidegrees);
+        EXPECT_STREQ(parts.sign, sign);
+        EXPECT_EQ(parts.degrees, degrees);
+        EXPECT_EQ(parts.hundredths, hundredths);
+    };
+    check(2537, "", 25, 37);
+    check(2005, "", 20, 5);
+    check(0, "", 0, 0);
+    check(-50, "-", 0, 50);
+    check(-1234, "-", 12, 34);
+}

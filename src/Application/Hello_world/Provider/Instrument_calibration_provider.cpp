@@ -21,9 +21,11 @@
 */
 
 module;
-#include "Persistent_parameter_id.h"
+
 #include <cstdint>
 #include <cstdio>
+
+#include "Persistent_parameter_id.h"
 
 module Application.Instrument_calibration_provider;
 import Component.IDE3380_test_pedestal;
@@ -37,16 +39,21 @@ import Application.SpectraNode_command_lookup;
 import Application.SpectraNode_provider_indication;
 import Support.Configuration_repository;
 import Support.Instruction_major;
+import Utility.Unit_converter;
 
 using namespace IDE3380;
-
 using namespace SpectraNode_interface;
 using namespace Application;
 
 /// @brief Show setpoint, voltage and error.
 void Instrument_calibration_provider::v_BIAS(Instruction_major &instruction) {
-    printf("Bias: setpoint=%d, voltage==%d, error=%d\r\n",
-           use_bias.get_C25_setpoint(), use_bias.get_voltage(), use_bias.get_error());
+    const auto temperature = Unit_converter::centidegrees_to_parts(use_bias.get_temperature());
+    printf("Bias: C25=%dmV, temperature=%s%d.%02dC, setpoint=%dmV, voltage=%dmV, error=%dmV\r\n",
+           use_bias.get_C25_setpoint(),
+           temperature.sign, temperature.degrees, temperature.hundredths,
+           use_bias.get_setpoint(),
+           use_bias.get_voltage(),
+           use_bias.get_error());
     instruction.print_ack();
 }
 

@@ -14,8 +14,7 @@ module Component.Bias_calibration;
 import Component.Bias_ADC;
 import Component.Bias_DAC;
 import Support.Configuration_repository;
-
-// #include "usart.h"
+import Utility.Unit_converter;
 
 namespace Calibration {
     uint32_t cnt_bias_cal{};
@@ -34,7 +33,8 @@ namespace Calibration {
     }
 
     void Bias_calibration::set_calibration(
-        int32_t DAC_35V, const int32_t DAC_45V, const int32_t ADC_35V, const int32_t ADC_45V, const int32_t bias_25C) {
+            int32_t DAC_35V, const int32_t DAC_45V, const int32_t ADC_35V, const int32_t ADC_45V,
+            const int32_t bias_25C) {
         the_DAC.set_setpoints(DAC_35V, DAC_45V);
         the_ADC.set_setpoints(ADC_35V, ADC_45V);
         the_25C_setpoint = bias_25C;
@@ -69,8 +69,9 @@ namespace Calibration {
     }
 
     void Bias_calibration::print_status() const {
-        printf(", temp=%d.%d, bias=%d",
-               get_temperature() / 100, get_temperature() % 100, the_bias_volt);
+        const auto temperature = Unit_converter::centidegrees_to_parts(get_temperature());
+        printf(", temp=%s%d.%02d, bias=%d",
+               temperature.sign, temperature.degrees, temperature.hundredths, the_bias_volt);
     }
 
     void Bias_calibration::print_diag() {
@@ -78,9 +79,10 @@ namespace Calibration {
         if (!the_ADC.read_raw_ADC(raw_ADC)) {
             raw_ADC = 0xFFFF;
         }
-        int32_t cal_ADC{the_ADC.read_ADC()};
-        printf("Temp: temp=%d.%d, bias=%d, DAC(raw)=%d, DAC(cal)=%d, ADC(raw)=%d, ADC(cal)=%d, cal=%d, fail=%d\r\n",
-               get_temperature() / 100, get_temperature() % 100, the_bias_volt,
+        const int32_t cal_ADC{the_ADC.read_ADC()};
+        const auto temperature = Unit_converter::centidegrees_to_parts(get_temperature());
+        printf("Temp: temp=%s%d.%02d, bias=%d, DAC(raw)=%d, DAC(cal)=%d, ADC(raw)=%d, ADC(cal)=%d, cal=%d, fail=%d\r\n",
+               temperature.sign, temperature.degrees, temperature.hundredths, the_bias_volt,
                get_DAC().get_raw_DAC(), get_DAC_setting(), raw_ADC, cal_ADC, cnt_bias_cal, cnt_bias_failed);
         the_DAC.print_diag();
         the_ADC.print_diag();
@@ -88,9 +90,9 @@ namespace Calibration {
 
     int32_t Bias_calibration::calibrateADC(int32_t raw, int32_t BIAScal35, int32_t BIAScal45, int32_t ADC_cal35,
                                            int32_t ADC_cal45) {
-        double m = ((double) (BIAScal45 - BIAScal35)) / ((double) (ADC_cal45 - ADC_cal35));
+        double m = ((double)(BIAScal45 - BIAScal35)) / ((double)(ADC_cal45 - ADC_cal35));
         // slope: 10000/9970 ≈ 1.00301
-        return (int32_t) (BIAScal45 + m * (raw - ADC_cal45));
+        return (int32_t)(BIAScal45 + m * (raw - ADC_cal45));
     }
 
     int32_t the_bias_offset = 0;

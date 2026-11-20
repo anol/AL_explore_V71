@@ -26,53 +26,44 @@ module;
 #include <cstdio>
 
 module Component.Temperature_sensor;
+import Utility.Unit_converter;
 
-namespace Temperature_sensor
-{
-    void Temperature_task::initialize()
-    {
-    }
+namespace Temperature_sensor {
+    void Temperature_task::initialize() {}
 
-    void Temperature_task::task_loop()
-    {
+    void Temperature_task::task_loop() {
         enum { Delay_millis = 2000 };
-        while (true)
-        {
+        while (true) {
             delay_until(Delay_millis);
             read_all_temperatures();
         }
     }
 
-    void Temperature_task::print_temperatures() const
-    {
-        printf("Temperature: %d.%d\r\n", the_temperature / 10, the_temperature % 10);
-        for (auto& sensor : the_sensor_table)
-        {
-            if (sensor.is_good())
-            {
-                auto temp = sensor.get_temperature();
-                printf("  %s: addr=%d, temp=%d.%d\r\n", sensor.get_name(), sensor.get_address(), temp / 100, temp % 100);
-            }
-            else
-            {
+    void Temperature_task::print_temperatures() const {
+        const auto average = Unit_converter::centidegrees_to_parts(the_temperature);
+        printf("Temperature: %s%d.%02d\r\n", average.sign, average.degrees, average.hundredths);
+        for (auto &sensor: the_sensor_table) {
+            if (sensor.is_good()) {
+                const auto [sign, degrees, hundredths] = Unit_converter::centidegrees_to_parts(sensor.get_temperature());
+                printf("  %s: addr=%d, temp=%s%d.%02d\r\n", sensor.get_name(), sensor.get_address(),
+                       sign, degrees, hundredths);
+            } else {
                 printf("  %s: addr=%d <> NO DATA <>\r\n", sensor.get_name(), sensor.get_address());
             }
         }
     }
 
-    void Temperature_task::read_all_temperatures()
-    {
+    void Temperature_task::read_all_temperatures() {
         int32_t accum{};
         int32_t counter{};
-        for (auto& sensor : the_sensor_table)
-        {
-            if (sensor.read(use_I2C))
-            {
+        for (auto &sensor: the_sensor_table) {
+            if (sensor.read(use_I2C)) {
                 accum += sensor.get_temperature();
                 counter++;
             }
         }
         the_temperature = accum / counter;
-        printf("  temp=%d.%d\r\n", the_temperature / 100, the_temperature % 100);
+        // const auto average = Unit_converter::centidegrees_to_parts(the_temperature);
+        // printf("  temp=%s%d.%02d\r\n", average.sign, average.degrees, average.hundredths);
     }
 }
