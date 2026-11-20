@@ -25,6 +25,8 @@ export namespace Application
 
         void initialize()
         {
+            the_bias_regulator.get_calibration().initialize();
+            initialize_readout();
             the_event_counter.initialize();
         }
 

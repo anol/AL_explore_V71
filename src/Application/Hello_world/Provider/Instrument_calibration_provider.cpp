@@ -110,9 +110,12 @@ void Instrument_calibration_provider::v_BIAS_C25_bias_mV(Instruction_major &inst
 
 /// @brief Toggle calibration mode ON/OFF.
 void Instrument_calibration_provider::v_BIAS_CAL(Instruction_major &instruction) {
-    the_calibration_flag = !the_calibration_flag;
-    printf("The bias calibration mode is %s\r\n", the_calibration_flag ? "ON" : "OFF");
-    instruction.print_ack();
+    if (use_mode_control.toggle_calibration_mode().success()) {
+        printf("The bias calibration mode is %s\r\n", use_mode_control.is_calibration_mode() ? "ON" : "OFF");
+        instruction.print_ack();
+    } else {
+        instruction.print_nack("IN STARTUP MODE");
+    }
 }
 
 /// @brief Misc. diagnostic information wrt. bias voltage.

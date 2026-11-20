@@ -28,6 +28,7 @@ export module Component.Bias_regulator;
 import Type.Abstract_I2C;
 import Type.Abstract_board;
 import Platform.FreeRTOS_task;
+import Type.Abstract_semaphore;
 import Component.Bias_calibration;
 
 namespace Bias_regulator {
@@ -39,6 +40,7 @@ namespace Bias_regulator {
 
         Abstract::Abstract_I2C &use_I2C;
         Calibration::Bias_calibration the_calibration;
+        Abstract::Abstract_semaphore *optional_start_semaphore{}; // owned by the mode controller
         int32_t the_temperature{200};
 
     public:
@@ -51,6 +53,10 @@ namespace Bias_regulator {
         void initialize() override;
 
         void task_loop() override;
+
+        /// Each regulation pass holds this semaphore; whoever else holds it (the mode controller, during
+        /// startup and calibration mode) halts the loop.
+        void attach_start_semaphore(Abstract::Abstract_semaphore &semaphore) { optional_start_semaphore = &semaphore; }
 
         [[nodiscard]] int32_t get_temperature() const { return the_temperature; }
 

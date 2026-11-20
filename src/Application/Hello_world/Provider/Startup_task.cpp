@@ -14,7 +14,7 @@
 */
 
 /**
-* @file   Primary_task.cpp
+* @file   Startup_task.cpp
 * @author AndersEmilOlsen, IDEAS
 * @date   25.09.2026
 * @brief  
@@ -26,39 +26,35 @@ module;
 
 #include "Persistent_parameter_id.h"
 
-module Application.Primary_task;
+module Application.Startup_task;
 import Platform.FreeRTOS_task;
 import Application.Housekeeping_provider;
 import Component.IDE3380_interface;
 
 namespace Application {
-    void Primary_task::initialize() {
-        use_detector.get_bias().initialize();
-        use_detector.initialize_readout();
-        use_detector.get_IDE3380().attach_repository(use_repository);
+    void Startup_task::initialize() {
+        use_IDE3380.attach_repository(use_repository);
     }
 
-    void Primary_task::task_loop() {
+    void Startup_task::task_loop() {
         enum { Start_delay_millis = 100, Delay_millis = 1000 };
         delay_until(Start_delay_millis);
         Housekeeping_provider::print_version();
         use_repository.initialize();
         auto success = use_repository.load();
-        success = use_mode_control.update_mode();
-        if (success.failed()) {
-            printf("<> Failed to update mode controller <>\r\n");
-        }
-        success = use_detector.get_IDE3380().update_registers(IDE3380_0);
+        success = use_IDE3380.update_registers(IDE3380_0);
         if (success.failed()) {
             printf("<> Failed to update IDE3380 registers <>\r\n");
         }
-        success = use_detector.get_bias().update_setpoints(use_repository);
+        success = use_bias.update_setpoints(use_repository);
         if (success.failed()) {
             printf("<> Failed to update bias setpoints <>\r\n");
         }
+        if (use_done_func) {
+            use_done_func(use_done_user); // the mode controller leaves startup mode
+        }
         while (true) {
             delay_until(Delay_millis);
-            use_detector.get_bias().bias_temperature_control();
         }
     }
 }

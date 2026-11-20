@@ -25,6 +25,10 @@ export namespace FreeRTOS {
 
         void delay_until(const uint32_t millis) override { vTaskDelayUntil(&last_wake_time, pdMS_TO_TICKS(millis)); }
 
+        /// Measure the next delay_until() period from now, e.g. after the task was blocked for a while
+        /// (otherwise delay_until() would return at once until it has caught up with the missed periods).
+        void restart_period() { last_wake_time = xTaskGetTickCount(); }
+
         virtual void task_loop() = 0;
 
         static void start_scheduler() {

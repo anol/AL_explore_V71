@@ -55,8 +55,20 @@ cmake --build build/V71_EK_hello_world
   command table below for the rest of the `AT+BIAS_*` family).
 - **`Bias_regulator_task`** (`src/Component/Bias_regulator/`) is a FreeRTOS task owned by
   `Detector`. It owns the `Bias_calibration` (and through it `Bias_DAC` / `Bias_ADC`), which
-  `Detector::get_bias()` hands to the providers; it holds the board's I2C bus but its loop is
-  still a stub.
+  `Detector::get_bias()` hands to the providers. Every second it runs one pass of the
+  temperature-compensated bias regulation, holding the mode controller's start semaphore for the
+  duration of the pass. It holds the board's I2C bus, but the temperature it regulates against
+  is still a fixed 20.00 °C.
+- **Operating modes** (`Mode_control_provider`): the operational modes `IDLE`, `NOMINAL` and
+  `DEMO` (stored in the configuration as `Active_mode`), plus two transient ones that are never
+  stored. The mode controller holds the start semaphore in both, which halts the bias regulation:
+  - `STARTUP`, from power-on until its `Startup_task` has loaded the configuration and applied it
+    to the IDE3380 registers and the bias setpoints; it then switches to the stored operational
+    mode and releases the semaphore.
+  - `CALIBRATION`, toggled by `AT+BIAS_CAL` (refused with `ERROR=IN STARTUP MODE` during startup).
+    Entering it waits for a regulation pass in progress, so manual `AT+BIAS_DAC` settings stick;
+    leaving it returns to the operational mode. `AT+MODE_*` during startup or calibration changes
+    the operational mode, which takes effect when the transient mode ends.
 
 ## I2C and temperature sensors (V1.6)
 

@@ -13,7 +13,6 @@ import Application.Mode_control_provider;
 import Application.Spectroscopic_data_provider;
 import Support.Instruction_major;
 import Type.Abstract_board;
-import Application.Primary_task;
 import Support.Console_support;
 
 
@@ -25,7 +24,6 @@ export namespace Application {
         Mode_control_provider the_mode_control;
         Spectroscopic_data_provider the_data_provider;
         Housekeeping_provider the_housekeeper;
-        Primary_task the_primary_task;
         int deepsleep_active{};
         int prevent_sleep{};
         int send_debug_data{};
@@ -37,15 +35,14 @@ export namespace Application {
               the_configuration_manager(detector.get_IDE3380()),
               the_instrument_calibration(detector.get_bias(), the_configuration_manager.get_repository(),
                                          detector.get_IDE3380(), detector.get_histogram(),
-                                         detector.get_event_counter()),
-              the_mode_control(detector.get_histogram(), detector.get_IDE3380(), detector.get_bias(),
+                                         detector.get_event_counter(), the_mode_control), // reference only
+              the_mode_control(detector.get_histogram(), detector.get_IDE3380(), detector.get_bias_regulator(),
                                the_configuration_manager.get_repository(), the_data_provider),
               the_data_provider(detector.get_histogram(), the_configuration_manager.get_repository(),
                                 the_mode_control.get_cadence_control(), detector.get_IDE3380()),
               the_housekeeper(board, console, detector.get_histogram(), detector.get_IDE3380(), detector.get_bias(),
                               the_configuration_manager.get_repository(), the_mode_control.get_cadence_control(), this,
-                              [](void *user) { static_cast<Service_provider *>(user)->print_status(); }),
-              the_primary_task(detector, the_configuration_manager.get_repository(), the_mode_control) {}
+                              [](void *user) { static_cast<Service_provider *>(user)->print_status(); }) {}
 
         void print_status() const {
             the_mode_control.print_status();
@@ -54,8 +51,7 @@ export namespace Application {
         }
 
         void initialize() {
-            the_primary_task.initialize();
-            the_mode_control.get_cadence_control().initialize();
+            the_mode_control.initialize();
         }
 
         bool on_indication(Instruction_major &instruction) override;

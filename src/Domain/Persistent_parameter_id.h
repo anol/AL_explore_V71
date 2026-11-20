@@ -27,6 +27,9 @@ namespace Application {
         Mode_idle,
         Mode_nominal,
         Mode_demo,
+        // Transient modes, never stored as Active_mode:
+        Mode_calibration, ///< bias regulation halted
+        Mode_startup,     ///< until the startup task has loaded the configuration
     };
 
     enum Data_format {

@@ -36,6 +36,7 @@ import Application.SpectraNode_command_lookup;
 import Application.SpectraNode_provider_indication;
 import Support.Configuration_repository;
 import Support.Instruction_major;
+import Application.Mode_control_provider;
 
 using namespace IDE3380;
 
@@ -45,18 +46,19 @@ using namespace SpectraNode_interface;
 export class Instrument_calibration_provider : public Abstract_Instrument_calibration_provider {
     Calibration::Bias_calibration &use_bias;
     Repository::Configuration_repository &use_repository;
+    Mode_control_provider &use_mode_control; // AT+BIAS_CAL switches calibration mode there
     Calibration::IDE3380_test_pedestal the_test_pedestal;
     Calibration::IDE3380_test_noise_floor the_test_noise_floor;
     bool the_trace_flag{};
-    bool the_calibration_flag{};
 
 public:
     Instrument_calibration_provider(Calibration::Bias_calibration &bias,
                                     Repository::Configuration_repository &repository,
                                     IDE3380_interface &IDE3380,
                                     Application::Histogram_storage &histogram,
-                                    Application::Event_counter &event_counter)
-        : use_bias(bias), use_repository(repository),
+                                    Application::Event_counter &event_counter,
+                                    Mode_control_provider &mode_control)
+        : use_bias(bias), use_repository(repository), use_mode_control(mode_control),
           the_test_pedestal(IDE3380, histogram, repository),
           the_test_noise_floor(IDE3380, event_counter, repository) {
     }

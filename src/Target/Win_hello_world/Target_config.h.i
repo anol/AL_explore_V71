@@ -25,8 +25,8 @@ namespace Target_config{
         Console_receive_task_queue_size = 16,
         Console_receive_task_buffer_size = 128,
         //
-        Primary_task_priority = Default_priority,
-        Primary_task_stack_size = Default_stack_size,
+        Startup_task_priority = Default_priority,
+        Startup_task_stack_size = Default_stack_size,
         //
         Temperature_task_priority = Default_priority,
         Temperature_task_stack_size = Default_stack_size,

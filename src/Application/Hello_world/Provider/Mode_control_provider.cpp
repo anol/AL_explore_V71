@@ -50,6 +50,10 @@ const char *Mode_control_provider::Operation_mode_to_text(const Operation_mode m
             return "NOMINAL";
         case Mode_demo:
             return "DEMO";
+        case Mode_calibration:
+            return "CALIBRATION";
+        case Mode_startup:
+            return "STARTUP";
         default:
             return "?";
     }
@@ -92,6 +96,30 @@ Status_code Mode_control_provider::update_mode() {
             break;
     }
     return success;
+}
+
+void Mode_control_provider::end_startup() {
+    if (update_mode().failed()) {
+        printf("<> Failed to update mode controller <>\r\n");
+    }
+    the_mode = the_operational_mode;
+    the_start_semaphore.give(); // the bias regulation may run
+}
+
+Status_code Mode_control_provider::toggle_calibration_mode() {
+    switch (the_mode) {
+        case Mode_startup:
+            return Status_code::Failure();
+        case Mode_calibration:
+            the_mode = the_operational_mode;
+            the_start_semaphore.give(); // resume the bias regulation
+            break;
+        default:
+            the_start_semaphore.take(); // waits for a regulation pass in progress, then halts the loop
+            the_mode = Mode_calibration;
+            break;
+    }
+    return Status_code::Success();
 }
 
 void Mode_control_provider::v_MODE_DEMO(Instruction_major &instruction) {
