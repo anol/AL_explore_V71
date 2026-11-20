@@ -70,11 +70,11 @@ export namespace SpectraNode_interface {
         void p_NOMINAL_CADENCE_seconds(Instruction_major &);
     };
             
-    class Abstract_Spectroscopic_data_provider : public Abstract_provider<Instruction_major> {
+    class Abstract_Science_data_provider : public Abstract_provider<Instruction_major> {
     public:
-       using Lookup_table = Instruction_lookup<Abstract_Spectroscopic_data_provider>;
+       using Lookup_table = Instruction_lookup<Abstract_Science_data_provider>;
     public:
-        Abstract_Spectroscopic_data_provider() : Abstract_provider(Key_Spectroscopic_data){}
+        Abstract_Science_data_provider() : Abstract_provider(Key_Science_data){}
         bool on_indication(Instruction_major &) override;
     protected:
         virtual void v_GET_RESET(Instruction_major &) = 0;

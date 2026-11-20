@@ -92,43 +92,43 @@ namespace SpectraNode_interface{
 }
 
 
-template<> const Abstract_Spectroscopic_data_provider::Lookup_table::Instruction_entry
-    Abstract_Spectroscopic_data_provider::Lookup_table::instruction_table[] = {
-    {&Abstract_Spectroscopic_data_provider::p_FORMAT_CPS, Cmd_FORMAT_CPS},
-    {&Abstract_Spectroscopic_data_provider::p_FORMAT_N42, Cmd_FORMAT_N42},
-    {&Abstract_Spectroscopic_data_provider::p_FORMAT_R6, Cmd_FORMAT_R6},
-    {&Abstract_Spectroscopic_data_provider::p_GET_RESET, Cmd_GET_RESET},
-    {&Abstract_Spectroscopic_data_provider::p_GET, Cmd_GET},
-    {&Abstract_Spectroscopic_data_provider::p_TIME_date_time, Cmd_TIME_date_time},
+template<> const Abstract_Science_data_provider::Lookup_table::Instruction_entry
+    Abstract_Science_data_provider::Lookup_table::instruction_table[] = {
+    {&Abstract_Science_data_provider::p_FORMAT_CPS, Cmd_FORMAT_CPS},
+    {&Abstract_Science_data_provider::p_FORMAT_N42, Cmd_FORMAT_N42},
+    {&Abstract_Science_data_provider::p_FORMAT_R6, Cmd_FORMAT_R6},
+    {&Abstract_Science_data_provider::p_GET_RESET, Cmd_GET_RESET},
+    {&Abstract_Science_data_provider::p_GET, Cmd_GET},
+    {&Abstract_Science_data_provider::p_TIME_date_time, Cmd_TIME_date_time},
 };
 
 namespace SpectraNode_interface{
 
-    bool Abstract_Spectroscopic_data_provider::on_indication(Instruction_major &transaction) {
-        return Abstract_Spectroscopic_data_provider::Lookup_table::lookup(this, transaction);
+    bool Abstract_Science_data_provider::on_indication(Instruction_major &transaction) {
+        return Abstract_Science_data_provider::Lookup_table::lookup(this, transaction);
     }
 
-    void Abstract_Spectroscopic_data_provider::p_GET_RESET(Instruction_major &transaction){
+    void Abstract_Science_data_provider::p_GET_RESET(Instruction_major &transaction){
         v_GET_RESET(transaction);
     }
             
-    void Abstract_Spectroscopic_data_provider::p_GET(Instruction_major &transaction){
+    void Abstract_Science_data_provider::p_GET(Instruction_major &transaction){
         v_GET(transaction);
     }
             
-    void Abstract_Spectroscopic_data_provider::p_FORMAT_CPS(Instruction_major &transaction){
+    void Abstract_Science_data_provider::p_FORMAT_CPS(Instruction_major &transaction){
         v_FORMAT_CPS(transaction);
     }
             
-    void Abstract_Spectroscopic_data_provider::p_FORMAT_N42(Instruction_major &transaction){
+    void Abstract_Science_data_provider::p_FORMAT_N42(Instruction_major &transaction){
         v_FORMAT_N42(transaction);
     }
             
-    void Abstract_Spectroscopic_data_provider::p_FORMAT_R6(Instruction_major &transaction){
+    void Abstract_Science_data_provider::p_FORMAT_R6(Instruction_major &transaction){
         v_FORMAT_R6(transaction);
     }
             
-    void Abstract_Spectroscopic_data_provider::p_TIME_date_time(Instruction_major &transaction){
+    void Abstract_Science_data_provider::p_TIME_date_time(Instruction_major &transaction){
         int date_1{transaction.get_token_integer(1)};
         int time_2{transaction.get_token_integer(2)};
         v_TIME_date_time(transaction, date_1, time_2);

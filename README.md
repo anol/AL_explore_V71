@@ -226,7 +226,7 @@ with the triangle if you don't need them).
 | `AT+NOMINAL_ALARM=<micro_sievert(int 0..1000000)>` | Set alarm threshold (uSv/h). |
 | `AT+NOMINAL_CADENCE=<seconds(int 0..1000000)>` | Set telemetry interval (s) in Nominal Mode. |
 
-#### Provider: Spectroscopic_data
+#### Provider: Science_data
 
 | Command | Description |
 |---|---|
@@ -293,13 +293,13 @@ with the triangle if you don't need them).
 | Command | Description |
 |---|---|
 | `AT+DIAG` | Show miscellaneous diagnostic information. |
-| `AT+ECHO` | Toggle console echo on/off. |
+| `AT+ECHO` | Toggle console echo ON/OFF. |
 | `AT+HELP` | Show the list of commands. |
 | `AT+HOUSE` | Show the housekeeping report. |
 | `AT+STATUS` | Show the system status report. |
 | `AT+TEST` | Initiate a self-test sequence. |
-| `AT+TRACE` | Toggle trace on/off. |
-| `AT+VERSION` | Show the version and build information. |
+| `AT+TRACE` | Toggle the command trace ON/OFF. |
+| `AT+VERSION` | Show the version and build report. |
 <!-- END:SpectraNode_command -->
 
 </details>
@@ -389,11 +389,11 @@ with the triangle if you don't need them).
 | 76 | `RESTORE` |  |
 | 77 | `result` |  |
 | 78 | `SAVE` |  |
-| 79 | `seconds` |  |
-| 80 | `serial_number` |  |
-| 81 | `SET` |  |
-| 82 | `simple_R6` |  |
-| 83 | `Spectroscopic_data` |  |
+| 79 | `Science_data` |  |
+| 80 | `seconds` |  |
+| 81 | `serial_number` |  |
+| 82 | `SET` |  |
+| 83 | `simple_R6` |  |
 | 84 | `start_threshold` |  |
 | 85 | `STATUS` |  |
 | 86 | `stop_count` |  |

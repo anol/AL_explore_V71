@@ -30,7 +30,7 @@
 
 # FW1038 SpectraNode command version 5
 
-Date: 19.11.2026
+Date: 20.11.2026
 
 ## Provider: Mode_control
 
@@ -45,7 +45,7 @@ Date: 19.11.2026
 | `AT+NOMINAL_ALARM=<micro_sievert(int 0..1000000)>` | Set alarm threshold (uSv/h). |
 | `AT+NOMINAL_CADENCE=<seconds(int 0..1000000)>` | Set telemetry interval (s) in Nominal Mode. |
 
-## Provider: Spectroscopic_data
+## Provider: Science_data
 
 | Command | Description |
 |---|---|
@@ -112,10 +112,10 @@ Date: 19.11.2026
 | Command | Description |
 |---|---|
 | `AT+DIAG` | Show miscellaneous diagnostic information. |
-| `AT+ECHO` | Toggle console echo on/off. |
+| `AT+ECHO` | Toggle console echo ON/OFF. |
 | `AT+HELP` | Show the list of commands. |
 | `AT+HOUSE` | Show the housekeeping report. |
 | `AT+STATUS` | Show the system status report. |
 | `AT+TEST` | Initiate a self-test sequence. |
-| `AT+TRACE` | Toggle trace on/off. |
-| `AT+VERSION` | Show the version and build information. |
+| `AT+TRACE` | Toggle the command trace ON/OFF. |
+| `AT+VERSION` | Show the version and build report. |

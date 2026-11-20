@@ -14,16 +14,6 @@
 <text text-anchor="middle" x="837" y="-35.6" font-family="Consolas" font-size="13.00">solid = #include dependency &#160;&#160;&#160;&#160;dashed = C++20 module import &#160;&#160;&#160;&#160;bold red = two&#45;way (circular) dependency between the pair</text>
 <text text-anchor="middle" x="837" y="-21.6" font-family="Consolas" font-size="13.00">bold purple = part of a dependency loop through 3 or more modules</text>
 <text text-anchor="middle" x="837" y="-7.6" font-family="Consolas" font-size="13.00">Loops found: none</text>
-<g id="clust4" class="cluster">
-<title>cluster_3</title>
-<polygon fill="none" stroke="#c4cdc3" stroke-dasharray="5,2" points="1109.5,-1038.46 1109.5,-1167.46 1283.5,-1167.46 1283.5,-1038.46 1109.5,-1038.46"/>
-<text text-anchor="middle" x="1196.5" y="-1152.26" font-family="Consolas" font-size="14.00">Domain</text>
-</g>
-<g id="clust5" class="cluster">
-<title>cluster_4</title>
-<polygon fill="none" stroke="#c4cdc3" stroke-dasharray="5,2" points="746.5,-350.46 746.5,-695.46 1300.5,-695.46 1300.5,-350.46 746.5,-350.46"/>
-<text text-anchor="middle" x="1023.5" y="-680.26" font-family="Consolas" font-size="14.00">Platform</text>
-</g>
 <g id="clust2" class="cluster">
 <title>cluster_1</title>
 <polygon fill="none" stroke="#c4cdc3" stroke-dasharray="5,2" points="504.5,-512.46 504.5,-587.46 618.5,-587.46 618.5,-512.46 504.5,-512.46"/>
@@ -39,10 +29,20 @@
 <polygon fill="none" stroke="#c4cdc3" stroke-dasharray="5,2" points="810.5,-1596.46 810.5,-1779.46 1546,-1779.46 1546,-1596.46 810.5,-1596.46"/>
 <text text-anchor="middle" x="1178.25" y="-1764.26" font-family="Consolas" font-size="14.00">Support</text>
 </g>
+<g id="clust5" class="cluster">
+<title>cluster_4</title>
+<polygon fill="none" stroke="#c4cdc3" stroke-dasharray="5,2" points="746.5,-350.46 746.5,-695.46 1300.5,-695.46 1300.5,-350.46 746.5,-350.46"/>
+<text text-anchor="middle" x="1023.5" y="-680.26" font-family="Consolas" font-size="14.00">Platform</text>
+</g>
 <g id="clust1" class="cluster">
 <title>cluster_0</title>
 <polygon fill="none" stroke="#c4cdc3" stroke-dasharray="5,2" points="229,-1412.46 229,-1541.46 1069,-1541.46 1069,-1412.46 229,-1412.46"/>
 <text text-anchor="middle" x="649" y="-1526.26" font-family="Consolas" font-size="14.00">Application</text>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_3</title>
+<polygon fill="none" stroke="#c4cdc3" stroke-dasharray="5,2" points="1109.5,-1038.46 1109.5,-1167.46 1283.5,-1167.46 1283.5,-1038.46 1109.5,-1038.46"/>
+<text text-anchor="middle" x="1196.5" y="-1152.26" font-family="Consolas" font-size="14.00">Domain</text>
 </g>
 <g id="clust9" class="cluster">
 <title>cluster_8</title>

@@ -34,7 +34,7 @@ import Domain.Keyword_lookup;
 import Application.SpectraNode_command_lookup;
 import Application.SpectraNode_provider_indication;
 import Application.Cadence_control;
-import Application.Spectroscopic_data_provider;
+import Application.Science_data_provider;
 import Application.Startup_task;
 import Support.Configuration_repository;
 import Support.Instruction_major;
@@ -49,25 +49,22 @@ using namespace Application;
 
 export class Mode_control_provider : public Abstract_Mode_control_provider {
 private:
-    Histogram_storage &use_histogram;
     IDE3380::IDE3380_interface &use_IDE3380;
     Bias_regulator::Bias_regulator_task &use_bias_regulator;
     Repository::Configuration_repository &use_repository;
     Cadence_control the_cadence_control{};
     // The only provider-to-provider link: a mode change sets the channel and format of the data provider.
-    Spectroscopic_data_provider &use_data_provider;
+    Science_data_provider &use_data_provider;
     Operation_mode the_mode{Mode_startup};
     Operation_mode the_operational_mode{Mode_idle}; ///< idle, nominal or demo; resumed after startup and calibration
     FreeRTOS::FreeRTOS_semaphore the_start_semaphore{}; ///< held by this controller in startup and calibration mode
     Startup_task the_startup_task;
 
 public:
-    Mode_control_provider(Histogram_storage &histogram,
-                          IDE3380::IDE3380_interface &ASIC, Bias_regulator::Bias_regulator_task &bias_regulator,
+    Mode_control_provider(IDE3380::IDE3380_interface &ASIC, Bias_regulator::Bias_regulator_task &bias_regulator,
                           Repository::Configuration_repository &repository,
-                          Spectroscopic_data_provider &data_provider)
-        : use_histogram(histogram),
-          use_IDE3380(ASIC), use_bias_regulator(bias_regulator),
+                          Science_data_provider &data_provider)
+        : use_IDE3380(ASIC), use_bias_regulator(bias_regulator),
           use_repository(repository),
           use_data_provider(data_provider),
           the_startup_task(ASIC, bias_regulator.get_calibration(), repository, this,

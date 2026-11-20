@@ -30,7 +30,7 @@
 
 # Domain version 5
 
-Date: 19.11.2026
+Date: 20.11.2026
 
 | Id | Name | Description |
 |---|---|---|
@@ -113,11 +113,11 @@ Date: 19.11.2026
 | 76 | `RESTORE` |  |
 | 77 | `result` |  |
 | 78 | `SAVE` |  |
-| 79 | `seconds` |  |
-| 80 | `serial_number` |  |
-| 81 | `SET` |  |
-| 82 | `simple_R6` |  |
-| 83 | `Spectroscopic_data` |  |
+| 79 | `Science_data` |  |
+| 80 | `seconds` |  |
+| 81 | `serial_number` |  |
+| 82 | `SET` |  |
+| 83 | `simple_R6` |  |
 | 84 | `start_threshold` |  |
 | 85 | `STATUS` |  |
 | 86 | `stop_count` |  |

@@ -127,17 +127,17 @@ namespace SpectraNode_interface{
     };
 
     const Instruction_token token_FORMAT_CPS[] = {
-        {help_FORMAT_CPS, Cmd_FORMAT_CPS, Key_Spectroscopic_data},
+        {help_FORMAT_CPS, Cmd_FORMAT_CPS, Key_Science_data},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
     const Instruction_token token_FORMAT_N42[] = {
-        {help_FORMAT_N42, Cmd_FORMAT_N42, Key_Spectroscopic_data},
+        {help_FORMAT_N42, Cmd_FORMAT_N42, Key_Science_data},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
     const Instruction_token token_FORMAT_R6[] = {
-        {help_FORMAT_R6, Cmd_FORMAT_R6, Key_Spectroscopic_data},
+        {help_FORMAT_R6, Cmd_FORMAT_R6, Key_Science_data},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
@@ -149,18 +149,18 @@ namespace SpectraNode_interface{
     };
 
     const Instruction_token token_GET_RESET[] = {
-        {help_GET_RESET, Cmd_GET_RESET, Key_Spectroscopic_data},
+        {help_GET_RESET, Cmd_GET_RESET, Key_Science_data},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
     const Instruction_token token_GET[] = {
         {Keyword_token, "RESET", Key_RESET, (uint32_t)0, token_GET_RESET},
-        {help_GET, Cmd_GET, Key_Spectroscopic_data},
+        {help_GET, Cmd_GET, Key_Science_data},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
     const Instruction_token token_TIME_date_time[] = {
-        {help_TIME_date_time, Cmd_TIME_date_time, Key_Spectroscopic_data},
+        {help_TIME_date_time, Cmd_TIME_date_time, Key_Science_data},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 

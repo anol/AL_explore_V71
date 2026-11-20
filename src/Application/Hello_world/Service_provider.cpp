@@ -30,7 +30,7 @@ import Application.Cadence_control;
 import Application.Configuration_manager_provider;
 import Application.Housekeeping_provider;
 import Application.Instrument_calibration_provider;
-import Application.Spectroscopic_data_provider;
+import Application.Science_data_provider;
 import Domain.Keyword_lookup;
 import Application.SpectraNode_command_lookup;
 import Application.SpectraNode_provider_indication;

@@ -14,7 +14,7 @@
 */
 
 /**
-* @file   Spectroscopic_data_provider.cpp
+* @file   Science_data_provider.cpp
 * @author AndersEmilOlsen, IDEAS
 * @date   21.05.2026
 * @brief  
@@ -25,7 +25,7 @@ module;
 #include <cstdio>
 #include "Persistent_parameter_id.h"
 
-module Application.Spectroscopic_data_provider;
+module Application.Science_data_provider;
 import Component.IDE3380_interface;
 import Component.IDE3380_readout_control;
 import Component.Histogram_storage;
@@ -41,7 +41,7 @@ using namespace IDE3380;
 using namespace SpectraNode_interface;
 using namespace Application;
 
-void Spectroscopic_data_provider::v_FORMAT_R6(Instruction_major &instruction) {
+void Science_data_provider::v_FORMAT_R6(Instruction_major &instruction) {
     the_format = Application::Format_simple_R6;
     if (use_repository.set(Application::Format_demo, the_format).success()) {
         instruction.print_ack();
@@ -50,7 +50,7 @@ void Spectroscopic_data_provider::v_FORMAT_R6(Instruction_major &instruction) {
     }
 }
 
-void Spectroscopic_data_provider::v_FORMAT_CPS(Instruction_major &instruction) {
+void Science_data_provider::v_FORMAT_CPS(Instruction_major &instruction) {
     the_format = Application::Format_only_CPS;
     if (use_repository.set(Application::Format_demo, the_format).success()) {
         instruction.print_ack();
@@ -59,7 +59,7 @@ void Spectroscopic_data_provider::v_FORMAT_CPS(Instruction_major &instruction) {
     }
 }
 
-void Spectroscopic_data_provider::v_FORMAT_N42(Instruction_major &instruction) {
+void Science_data_provider::v_FORMAT_N42(Instruction_major &instruction) {
     the_format = Application::Format_complex_N42;
     if (use_repository.set(Application::Format_demo, the_format).success()) {
         instruction.print_ack();
@@ -68,13 +68,13 @@ void Spectroscopic_data_provider::v_FORMAT_N42(Instruction_major &instruction) {
     }
 }
 
-void Spectroscopic_data_provider::v_TIME_date_time(Instruction_major &, const int date_1, const int time_2) {
-    printf("%s %s=%d, %s=%d\r\n", "Spectroscopic_data_provider::v_TIME_date_time:",
+void Science_data_provider::v_TIME_date_time(Instruction_major &, const int date_1, const int time_2) {
+    printf("%s %s=%d, %s=%d\r\n", "Science_data_provider::v_TIME_date_time:",
            "date_1=", date_1, "time_2=", time_2);
 }
 
-void Spectroscopic_data_provider::v_GET(Instruction_major &instruction) {
-    if (use_histogram.send_data(the_format, the_channel).success()) {
+void Science_data_provider::v_GET(Instruction_major &instruction) {
+    if (the_histogram.send_data(the_format, the_channel).success()) {
         instruction.print_ack();
     } else {
         printf("Failed to send data: format=%d, channel=%d\r\n", the_format, the_channel);
@@ -82,9 +82,9 @@ void Spectroscopic_data_provider::v_GET(Instruction_major &instruction) {
     }
 }
 
-void Spectroscopic_data_provider::v_GET_RESET(Instruction_major &instruction) {
-    if (use_histogram.send_data(the_format, the_channel).success()) {
-        use_histogram.clear_histogram_buffer();
+void Science_data_provider::v_GET_RESET(Instruction_major &instruction) {
+    if (the_histogram.send_data(the_format, the_channel).success()) {
+        the_histogram.clear_histogram_buffer();
         instruction.print_ack();
     } else {
         printf("Failed to send data: format=%d, channel=%d\r\n", the_format, the_channel);
@@ -92,15 +92,15 @@ void Spectroscopic_data_provider::v_GET_RESET(Instruction_major &instruction) {
     }
 }
 
-void Spectroscopic_data_provider::send_science_data(const uint32_t cadence) const {
-    if (use_histogram.send_data(the_format, the_channel, cadence).success()) {
-        use_histogram.clear_histogram_buffer();
+void Science_data_provider::send_science_data(const uint32_t cadence) {
+    if (the_histogram.send_data(the_format, the_channel, cadence).success()) {
+        the_histogram.clear_histogram_buffer();
     } else {
         printf("!");
     }
 }
 
-const char *Spectroscopic_data_provider::format_to_text(const Application::Data_format format) {
+const char *Science_data_provider::format_to_text(const Application::Data_format format) {
     switch (format) {
         case Application::Format_no_data: return "NON";
         case Application::Format_legacy_live_view: return "LEGACY";
@@ -111,7 +111,7 @@ const char *Spectroscopic_data_provider::format_to_text(const Application::Data_
     }
 }
 
-void Spectroscopic_data_provider::print_status() const {
+void Science_data_provider::print_status() const {
     switch (the_channel) {
         case 0:
             printf(", channel=%d (inhibit), format=%s", the_channel, format_to_text(the_format));

@@ -107,11 +107,11 @@ namespace Domain_interface {
         "RESTORE", // Key_RESTORE
         "result", // Key_result
         "SAVE", // Key_SAVE
+        "Science_data", // Key_Science_data
         "seconds", // Key_seconds
         "serial_number", // Key_serial_number
         "SET", // Key_SET
         "simple_R6", // Key_simple_R6
-        "Spectroscopic_data", // Key_Spectroscopic_data
         "start_threshold", // Key_start_threshold
         "STATUS", // Key_STATUS
         "stop_count", // Key_stop_count

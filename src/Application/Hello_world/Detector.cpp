@@ -21,7 +21,10 @@ namespace Application
             {
                 if (user)
                 {
-                    static_cast<Detector*>(user)->the_histogram.update_histogram(data);
+                    if (auto* histogram = static_cast<Detector*>(user)->optional_histogram)
+                    {
+                        histogram->update_histogram(data);
+                    }
                 }
             });
     }

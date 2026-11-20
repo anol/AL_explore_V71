@@ -3,11 +3,6 @@
 //
 
 module;
-#include "Persistent_parameter_id.h"
-#include <cstdint>
-#include "FreeRTOS.h"
-#include "portmacro.h"
-#include "task.h"
 
 export module Application.Hello_world;
 import Type.Abstract_application;
@@ -20,19 +15,13 @@ import Domain.IO_pins;
 
 export namespace Application {
     class Hello_world : public Abstract::Abstract_application {
-        bool the_toggle_flag{};
-
         Abstract::Abstract_UART &use_UART;
         Abstract::Abstract_IO_pin &use_LED0;
         Abstract::Abstract_IO_pin &use_LED1;
-
-        Detector the_detector;
-        // The console is built before the service provider, which hands it to the housekeeper;
-        // the console's router (the service provider) is attached in the constructor body.
-        SpectraNode_console the_console{use_UART};
-        Service_provider the_service_provider;
         Support::Heartbeat_task the_heartbeat_task{use_LED0, use_LED1};
-        uint32_t the_background_count{};
+        SpectraNode_console the_console{use_UART};
+        Detector the_detector;
+        Service_provider the_service_provider;
 
     public:
         explicit Hello_world(Abstract::Abstract_board &board)

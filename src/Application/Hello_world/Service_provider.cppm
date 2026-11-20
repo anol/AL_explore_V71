@@ -10,7 +10,7 @@ import Application.Detector;
 import Application.Housekeeping_provider;
 import Application.Instrument_calibration_provider;
 import Application.Mode_control_provider;
-import Application.Spectroscopic_data_provider;
+import Application.Science_data_provider;
 import Support.Instruction_major;
 import Type.Abstract_board;
 import Support.Console_support;
@@ -20,9 +20,9 @@ export namespace Application {
     class Service_provider : public Abstract::Abstract_provider<Instruction_major> {
         // Declared first: it owns the configuration store whose repository the others use.
         Configuration_manager_provider the_configuration_manager;
-        Instrument_calibration_provider the_instrument_calibration;
         Mode_control_provider the_mode_control;
-        Spectroscopic_data_provider the_data_provider;
+        Science_data_provider the_data_provider; // owns the histogram and event counter used below
+        Instrument_calibration_provider the_instrument_calibration;
         Housekeeping_provider the_housekeeper;
         int deepsleep_active{};
         int prevent_sleep{};
@@ -33,16 +33,18 @@ export namespace Application {
         Service_provider(Abstract::Abstract_board &board, Detector &detector, Support::Console_support &console)
             : Abstract_provider(0),
               the_configuration_manager(detector.get_IDE3380()),
-              the_instrument_calibration(detector.get_bias(), the_configuration_manager.get_repository(),
-                                         detector.get_IDE3380(), detector.get_histogram(),
-                                         detector.get_event_counter(), the_mode_control), // reference only
-              the_mode_control(detector.get_histogram(), detector.get_IDE3380(), detector.get_bias_regulator(),
-                               the_configuration_manager.get_repository(), the_data_provider),
-              the_data_provider(detector.get_histogram(), the_configuration_manager.get_repository(),
+              the_mode_control(detector.get_IDE3380(), detector.get_bias_regulator(),
+                               the_configuration_manager.get_repository(), the_data_provider), // reference only
+              the_data_provider(the_configuration_manager.get_repository(),
                                 the_mode_control.get_cadence_control(), detector.get_IDE3380()),
-              the_housekeeper(board, console, detector.get_histogram(), detector.get_IDE3380(), detector.get_bias(),
+              the_instrument_calibration(detector.get_bias(), the_configuration_manager.get_repository(),
+                                         detector.get_IDE3380(), the_data_provider.get_histogram(),
+                                         the_data_provider.get_event_counter(), the_mode_control),
+              the_housekeeper(board, console, the_data_provider.get_histogram(), detector.get_IDE3380(), detector.get_bias(),
                               the_configuration_manager.get_repository(), the_mode_control.get_cadence_control(), this,
-                              [](void *user) { static_cast<Service_provider *>(user)->print_status(); }) {}
+                              [](void *user) { static_cast<Service_provider *>(user)->print_status(); }) {
+            detector.attach_histogram(the_data_provider.get_histogram()); // the readout fills it
+        }
 
         void print_status() const {
             the_mode_control.print_status();
@@ -52,6 +54,7 @@ export namespace Application {
 
         void initialize() {
             the_mode_control.initialize();
+            the_data_provider.initialize();
         }
 
         bool on_indication(Instruction_major &instruction) override;
@@ -72,7 +75,7 @@ export namespace Application {
             the_mode_control.set_operation_mode(mode);
         }
 
-        void send_science_data() const {
+        void send_science_data() {
             if (the_mode_control.is_nominal_mode() || the_mode_control.is_demo_mode()) {
                 const auto cadence = the_mode_control.get_cadence_control().get_cadence();
                 the_data_provider.send_science_data(cadence);

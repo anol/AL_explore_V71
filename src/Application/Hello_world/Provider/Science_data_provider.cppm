@@ -14,7 +14,7 @@
 */
 
 /**
-* @file   Spectroscopic_data_provider.h
+* @file   Science_data_provider.cppm
 * @author AndersEmilOlsen, IDEAS
 * @date   21.05.2026
 * @brief
@@ -24,8 +24,9 @@ module;
 #include <cstdint>
 #include "Persistent_parameter_id.h"
 
-export module Application.Spectroscopic_data_provider;
+export module Application.Science_data_provider;
 import Component.IDE3380_interface;
+import Component.Event_counter;
 import Component.Histogram_storage;
 import Domain.Keyword_lookup;
 import Application.SpectraNode_command_lookup;
@@ -40,20 +41,29 @@ using namespace SpectraNode_interface;
 
 
 
-export class Spectroscopic_data_provider : public Abstract_Spectroscopic_data_provider {
-    Application::Histogram_storage &use_histogram;
+export class Science_data_provider : public Abstract_Science_data_provider {
     Repository::Configuration_repository &use_repository;
     Application::Cadence_control &use_cadence;
     IDE3380::IDE3380_interface &use_IDE3380;
+    Application::Event_counter the_event_counter{};
+    Application::Histogram_storage the_histogram{the_event_counter, use_IDE3380};
     Application::Data_format the_format{};
     int the_channel{};
 
 public:
-    Spectroscopic_data_provider(Application::Histogram_storage &histogram, Repository::Configuration_repository &repository,
-                                Application::Cadence_control &cadence, IDE3380::IDE3380_interface &ASIC)
-        : use_histogram(histogram), use_repository(repository), use_cadence(cadence),
+    Science_data_provider(Repository::Configuration_repository &repository,
+                          Application::Cadence_control &cadence, IDE3380::IDE3380_interface &ASIC)
+        : use_repository(repository), use_cadence(cadence),
           use_IDE3380(ASIC) {
     }
+
+    void initialize() {
+        the_event_counter.initialize();
+    }
+
+    Application::Histogram_storage &get_histogram() { return the_histogram; }
+
+    Application::Event_counter &get_event_counter() { return the_event_counter; }
 
     void set_format(const Application::Data_format format) {
         the_format = format;
@@ -64,7 +74,7 @@ public:
         use_IDE3380.set_ignore_trigger(channel == 0);
     }
 
-    void send_science_data(uint32_t cadence) const;
+    void send_science_data(uint32_t cadence);
 
     void print_status() const;
 

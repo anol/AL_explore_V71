@@ -1,7 +1,6 @@
 export module Application.Detector;
 import Component.Bias_calibration;
 import Component.Bias_regulator;
-import Component.Event_counter;
 import Component.Histogram_storage;
 import Component.IDE3380_interface;
 import Type.Abstract_board;
@@ -14,8 +13,7 @@ export namespace Application
     {
         IDE3380_interface the_IDE3380;
         Bias_regulator::Bias_regulator_task the_bias_regulator;
-        Event_counter the_event_counter{};
-        Histogram_storage the_histogram{the_event_counter, the_IDE3380};
+        Histogram_storage* optional_histogram{}; // owned by the science data provider; filled by the readout
 
     public:
         explicit Detector(Abstract::Abstract_board& board)
@@ -27,7 +25,6 @@ export namespace Application
         {
             the_bias_regulator.get_calibration().initialize();
             initialize_readout();
-            the_event_counter.initialize();
         }
 
         void initialize_readout();
@@ -42,8 +39,7 @@ export namespace Application
 
         Calibration::Bias_calibration& get_bias() { return the_bias_regulator.get_calibration(); }
 
-        Event_counter& get_event_counter() { return the_event_counter; }
 
-        Histogram_storage& get_histogram() { return the_histogram; }
+        void attach_histogram(Histogram_storage& histogram) { optional_histogram = &histogram; }
     };
 } // Application

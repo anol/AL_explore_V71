@@ -3,7 +3,7 @@ target_sources(${THE_TARGET_NAME} PUBLIC
         Housekeeping_provider.cpp
         Instrument_calibration_provider.cpp
         Mode_control_provider.cpp
-        Spectroscopic_data_provider.cpp
+        Science_data_provider.cpp
         Startup_task.cpp
 )
 target_sources(${THE_TARGET_NAME} PRIVATE
@@ -14,6 +14,6 @@ target_sources(${THE_TARGET_NAME} PRIVATE
         Housekeeping_provider.cppm
         Instrument_calibration_provider.cppm
         Mode_control_provider.cppm
-        Spectroscopic_data_provider.cppm
+        Science_data_provider.cppm
         Startup_task.cppm
 )

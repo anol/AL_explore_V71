@@ -40,7 +40,7 @@ export namespace SpectraNode_interface {
         void v_NOMINAL_CADENCE_seconds(Transaction_major &, int seconds_2) override;
     };
             
-    class Implement_Spectroscopic_data_provider : public Abstract_Spectroscopic_data_provider{
+    class Implement_Science_data_provider : public Abstract_Science_data_provider{
     protected:
         void v_GET_RESET(Transaction_major &) override;
         void v_GET(Transaction_major &) override;

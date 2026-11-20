@@ -63,28 +63,28 @@ void Implement_Mode_control_provider::v_NOMINAL_CADENCE_seconds(Transaction_majo
     std::cout << "Implement_Mode_control_provider::v_NOMINAL_CADENCE_seconds:" << "seconds_2=" << seconds_2 << std::endl;
 }
             
-void Implement_Spectroscopic_data_provider::v_FORMAT_CPS(Transaction_major &){
-    std::cout << "Implement_Spectroscopic_data_provider::v_FORMAT_CPS:" << std::endl;
+void Implement_Science_data_provider::v_FORMAT_CPS(Transaction_major &){
+    std::cout << "Implement_Science_data_provider::v_FORMAT_CPS:" << std::endl;
 }
             
-void Implement_Spectroscopic_data_provider::v_FORMAT_N42(Transaction_major &){
-    std::cout << "Implement_Spectroscopic_data_provider::v_FORMAT_N42:" << std::endl;
+void Implement_Science_data_provider::v_FORMAT_N42(Transaction_major &){
+    std::cout << "Implement_Science_data_provider::v_FORMAT_N42:" << std::endl;
 }
             
-void Implement_Spectroscopic_data_provider::v_FORMAT_R6(Transaction_major &){
-    std::cout << "Implement_Spectroscopic_data_provider::v_FORMAT_R6:" << std::endl;
+void Implement_Science_data_provider::v_FORMAT_R6(Transaction_major &){
+    std::cout << "Implement_Science_data_provider::v_FORMAT_R6:" << std::endl;
 }
             
-void Implement_Spectroscopic_data_provider::v_GET_RESET(Transaction_major &){
-    std::cout << "Implement_Spectroscopic_data_provider::v_GET_RESET:" << std::endl;
+void Implement_Science_data_provider::v_GET_RESET(Transaction_major &){
+    std::cout << "Implement_Science_data_provider::v_GET_RESET:" << std::endl;
 }
             
-void Implement_Spectroscopic_data_provider::v_GET(Transaction_major &){
-    std::cout << "Implement_Spectroscopic_data_provider::v_GET:" << std::endl;
+void Implement_Science_data_provider::v_GET(Transaction_major &){
+    std::cout << "Implement_Science_data_provider::v_GET:" << std::endl;
 }
             
-void Implement_Spectroscopic_data_provider::v_TIME_date_time(Transaction_major &, int date_1, int time_2){
-    std::cout << "Implement_Spectroscopic_data_provider::v_TIME_date_time:" << "date_1=" << date_1 << ",time_2=" << time_2 << std::endl;
+void Implement_Science_data_provider::v_TIME_date_time(Transaction_major &, int date_1, int time_2){
+    std::cout << "Implement_Science_data_provider::v_TIME_date_time:" << "date_1=" << date_1 << ",time_2=" << time_2 << std::endl;
 }
             
 void Implement_Instrument_calibration_provider::v_BIAS_ADC_SET_v30_v40(Transaction_major &, int v30_3, int v40_4){

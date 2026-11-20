@@ -35,7 +35,7 @@ import Application.SpectraNode_provider_indication;
 import Support.Configuration_repository;
 import Support.Instruction_major;
 import Application.Cadence_control;
-import Application.Spectroscopic_data_provider;
+import Application.Science_data_provider;
 
 using namespace IDE3380;
 

@@ -115,7 +115,7 @@ Copyright (C) 2023 Integrated Detector Electronics AS
         <key name="Housekeeping"/>
         <key name="Instrument_calibration"/>
         <key name="Mode_control"/>
-        <key name="Spectroscopic_data"/>
+        <key name="Science_data"/>
 
     </keywords>
 </keyword_definition>

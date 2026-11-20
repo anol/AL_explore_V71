@@ -74,7 +74,7 @@ Copyright (C) 2026 Integrated Detector Electronics AS
                 </arg>
             </arg>
         </provider>
-        <provider key="Spectroscopic_data">
+        <provider key="Science_data">
             <arg key="GET" brief="Send the histogram.">
                 <arg key="RESET" brief="Send the histogram and clear the buffers."/>
             </arg>
