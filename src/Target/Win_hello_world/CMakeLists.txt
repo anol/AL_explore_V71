@@ -4,7 +4,6 @@ target_include_directories(${THE_TARGET_NAME} PUBLIC
 
 target_sources(${THE_TARGET_NAME} PUBLIC
         FreeRTOS_hooks.cpp
-        FreeRTOSConfig.h
         Win_hello_world.cpp
         Win_hello_world.h
 )

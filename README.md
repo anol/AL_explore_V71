@@ -121,13 +121,16 @@ edges are:
   `Application/Hello_world/Provider`, `Component/IDE3380`, `Component/Bias_regulator`)
 - `Platform/SamV71_platform/SamV71_ADC`, `Platform/SamV71_platform/SamV71_I2C`,
   `Platform/SamV71_platform/SamV71_SPI` and `Platform/SamV71_platform/SamV71_USART` →
-  `Target/V71_EK_hello_world` (`FreeRTOSConfig.h`, from the `-Config` partitions)
+  `Platform/SamV71_platform` (`FreeRTOSConfig.h`, from the `-Config` partitions, for the
+  interrupt priority)
 
-A module pair with edges in both directions would be drawn bold red; there are none. A
-dependency loop through three or more modules is drawn bold purple and listed in the
-graph's caption. There are currently four, all closed by the `FreeRTOSConfig.h` include:
-`Board/V71_EK` → `Platform/SamV71_platform/SamV71_ADC` → `Target/V71_EK_hello_world` →
-`Board/V71_EK`, and the same loop through `SamV71_I2C`, `SamV71_SPI` and `SamV71_USART`.
+`FreeRTOSConfig.h` is the RTOS port configuration, so it lives with the platform
+(`Platform/SamV71_platform/`, and `Platform/Win11_platform/` for host builds), not with the
+target. Platform code never depends on `Target/`.
+
+A module pair with edges in both directions would be drawn bold red, and a dependency loop
+through three or more modules bold purple (listed in the graph's caption). There are
+currently none of either.
 
 ![Module dependency graph](doc/module_dependencies.svg)
 

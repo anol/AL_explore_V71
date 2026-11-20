@@ -1,4 +1,10 @@
+# FreeRTOSConfig.h lives here: the RTOS port configuration belongs to the platform.
+target_include_directories(${THE_TARGET_NAME} PUBLIC
+        .
+)
+
 target_sources(${THE_TARGET_NAME} PUBLIC
+        FreeRTOSConfig.h
         SamV71_clock.cpp
         SamV71_DAC.cpp
         SamV71_IO_pin.cpp

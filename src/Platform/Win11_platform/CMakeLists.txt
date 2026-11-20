@@ -1,3 +1,4 @@
+# FreeRTOSConfig.h lives here: the RTOS port configuration belongs to the platform.
 target_include_directories(${THE_TARGET_NAME} PUBLIC
         .
         ${CMAKE_SOURCE_DIR}/src_3rd/FreeRTOS/portable/MSVC-MingW
@@ -7,6 +8,7 @@ target_include_directories(${THE_TARGET_NAME} PUBLIC
 target_sources(${THE_TARGET_NAME} PUBLIC
         ${CMAKE_SOURCE_DIR}/src_3rd/FreeRTOS/portable/MSVC-MingW/port.c
         ${CMAKE_SOURCE_DIR}/src_3rd/FreeRTOS/portable/MSVC-MingW/portmacro.h
+        FreeRTOSConfig.h
 )
 target_link_libraries(${THE_TARGET_NAME} winmm)
 
