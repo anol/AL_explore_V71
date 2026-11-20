@@ -1,7 +1,7 @@
 target_sources(${THE_TARGET_NAME} PUBLIC
         Event_counter.cpp
         Histogram_storage.cpp
-        IDE3380_interface.cpp
+        IDE3380_provider.cpp
         IDE3380_readout_control.cpp
         IDE3380_register_access.cpp
         IDE3380_register_decoder.cpp
@@ -14,7 +14,7 @@ target_sources(${THE_TARGET_NAME} PRIVATE
         Event_counter.cppm
         Histogram_storage.cppm
         IDE3380_definitions.cppm
-        IDE3380_interface.cppm
+        IDE3380_provider.cppm
         IDE3380_readout_control.cppm
         IDE3380_register_access.cppm
         IDE3380_register_decoder.cppm

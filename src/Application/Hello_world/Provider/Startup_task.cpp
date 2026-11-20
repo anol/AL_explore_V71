@@ -29,7 +29,7 @@ module;
 module Application.Startup_task;
 import Platform.FreeRTOS_task;
 import Application.Housekeeping_provider;
-import Component.IDE3380_interface;
+import Component.IDE3380_provider;
 
 namespace Application {
     void Startup_task::initialize() {
@@ -46,7 +46,7 @@ namespace Application {
         if (success.failed()) {
             printf("<> Failed to update IDE3380 registers <>\r\n");
         }
-        success = use_bias.update_setpoints(use_repository);
+        success = optional_bias ? optional_bias->update_setpoints(use_repository) : Status_code::Failure();
         if (success.failed()) {
             printf("<> Failed to update bias setpoints <>\r\n");
         }

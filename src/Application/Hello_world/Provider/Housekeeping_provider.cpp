@@ -27,7 +27,7 @@ module;
 
 module Application.Housekeeping_provider;
 import Component.Histogram_storage;
-import Component.IDE3380_interface;
+import Component.IDE3380_provider;
 import Component.Bias_calibration;
 import Domain.Keyword_lookup;
 import Application.SpectraNode_command_lookup;
@@ -50,7 +50,7 @@ bool Housekeeping_provider::the_trace_flag{false};
 void Housekeeping_provider::v_DIAG(Instruction_major &instruction) {
     printf("Diagnostic info\r\n");
     use_histogram.print_diag();
-    use_bias.print_diag();
+    the_bias_regulator_task.get_calibration().print_diag();
     use_IDE3380.print_diag();
     use_repository.print_diag();
     use_board.print_diagnostics();

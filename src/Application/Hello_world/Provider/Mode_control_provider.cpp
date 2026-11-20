@@ -27,7 +27,7 @@ module;
 
 module Application.Mode_control_provider;
 import Component.Histogram_storage;
-import Component.IDE3380_interface;
+import Component.IDE3380_provider;
 import Component.Bias_calibration;
 import Domain.Keyword_lookup;
 import Application.SpectraNode_command_lookup;

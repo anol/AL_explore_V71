@@ -25,7 +25,7 @@ module;
 #include "Persistent_parameter_id.h"
 
 module Application.Configuration_manager_provider;
-import Component.IDE3380_interface;
+import Component.IDE3380_provider;
 import Domain.Keyword_lookup;
 import Application.SpectraNode_command_lookup;
 import Application.SpectraNode_provider_indication;

@@ -26,7 +26,7 @@ module;
 
 export module Application.Mode_control_provider;
 import Component.Histogram_storage;
-import Component.IDE3380_interface;
+import Component.IDE3380_provider;
 import Component.Bias_calibration;
 import Component.Bias_regulator;
 import Platform.FreeRTOS_semaphore;
@@ -49,8 +49,7 @@ using namespace Application;
 
 export class Mode_control_provider : public Abstract_Mode_control_provider {
 private:
-    IDE3380::IDE3380_interface &use_IDE3380;
-    Bias_regulator::Bias_regulator_task &use_bias_regulator;
+    IDE3380::IDE3380_provider &use_IDE3380;
     Repository::Configuration_repository &use_repository;
     Cadence_control the_cadence_control{};
     // The only provider-to-provider link: a mode change sets the channel and format of the data provider.
@@ -61,16 +60,21 @@ private:
     Startup_task the_startup_task;
 
 public:
-    Mode_control_provider(IDE3380::IDE3380_interface &ASIC, Bias_regulator::Bias_regulator_task &bias_regulator,
+    Mode_control_provider(IDE3380::IDE3380_provider &ASIC,
                           Repository::Configuration_repository &repository,
                           Science_data_provider &data_provider)
-        : use_IDE3380(ASIC), use_bias_regulator(bias_regulator),
+        : use_IDE3380(ASIC),
           use_repository(repository),
           use_data_provider(data_provider),
-          the_startup_task(ASIC, bias_regulator.get_calibration(), repository, this,
+          the_startup_task(ASIC, repository, this,
                            [](void *user) { static_cast<Mode_control_provider *>(user)->end_startup(); }) {
-        // The semaphore starts out empty, i.e. held here: the bias regulation waits until end_startup().
-        use_bias_regulator.attach_start_semaphore(the_start_semaphore);
+    }
+
+    /// The bias regulator (owned by the housekeeper, which is built after this). Attach once, before the
+    /// scheduler starts. The semaphore starts out empty, i.e. held here: no regulation until end_startup().
+    void attach_bias_regulator(Bias_regulator::Bias_regulator_task &bias_regulator) {
+        bias_regulator.attach_start_semaphore(the_start_semaphore);
+        the_startup_task.attach_bias(bias_regulator.get_calibration());
     }
 
     void initialize() {

@@ -26,7 +26,7 @@ module;
 #include "Persistent_parameter_id.h"
 
 module Application.Science_data_provider;
-import Component.IDE3380_interface;
+import Component.IDE3380_provider;
 import Component.IDE3380_readout_control;
 import Component.Histogram_storage;
 import Domain.Keyword_lookup;

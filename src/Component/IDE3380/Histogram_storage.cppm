@@ -26,7 +26,7 @@ module;
 #include "Persistent_parameter_id.h"
 
 export module Component.Histogram_storage;
-import Component.IDE3380_interface;
+import Component.IDE3380_readout_control;
 import Component.Event_counter;
 import Type.Status_code;
 import Support.Configuration_repository;
@@ -53,7 +53,7 @@ export namespace Application {
 
     private:
         Event_counter &use_event_counter;
-        IDE3380_interface &use_IDE3380;
+        IDE3380_readout_control &use_readout_control;
         volatile uint32_t the_histogram_buffer[Number_of_specters][Histogram_width]{};
         uint32_t the_transit_buffer[Histogram_width]{};
         uint32_t cnt_channel_hits[Number_of_channels]{};
@@ -72,8 +72,8 @@ export namespace Application {
         static volatile uint32_t the_event_count;
 
     public:
-        Histogram_storage(Event_counter &counter, IDE3380_interface &ASIC)
-            : use_event_counter(counter), use_IDE3380(ASIC) {
+        Histogram_storage(Event_counter &counter, IDE3380_readout_control &readout_control)
+            : use_event_counter(counter), use_readout_control(readout_control) {
         }
 
         void update_histogram(const TXD_data_t &data);

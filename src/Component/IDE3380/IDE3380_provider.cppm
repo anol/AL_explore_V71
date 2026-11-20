@@ -8,7 +8,7 @@
 module;
 #include <cstdint>
 
-export module Component.IDE3380_interface;
+export module Component.IDE3380_provider;
 export import Component.IDE3380_definitions;
 export import Component.IDE3380_readout_control;
 export import Component.IDE3380_register_access;
@@ -18,6 +18,7 @@ import Type.Abstract_provider;
 import Type.Status_code;
 import Support.Configuration_repository;
 import Support.Instruction_major;
+import Component.Histogram_storage;
 
 
 export extern volatile uint8_t software_reset;
@@ -45,12 +46,13 @@ export namespace IDE3380 {
      *   ASIC CHANNEL DISABLE channel=<i>               disable channel i
      *   ASIC CHANNEL THRESHOLD channel=<i> data8=<t>   set channel i threshold -> result (register value)
      */
-    class IDE3380_interface : public Abstract::Abstract_provider<Instruction_major> {
+    class IDE3380_provider : public Abstract::Abstract_provider<Instruction_major> {
         Abstract::Abstract_board &use_board;
         IDE3380_register_access the_register_access;
         IDE3380_readout_control the_readout_control{};
         IDE3380_service_task the_service_task{*this};
         Repository::Configuration_repository *optional_repository{};
+        Application::Histogram_storage *optional_histogram{}; // owned by the science data provider
         uint32_t the_readback_error{};
         uint32_t the_repository_error{};
         bool the_enable_external_hold{};
@@ -60,15 +62,18 @@ export namespace IDE3380 {
         static IDE3380_readout_control *optional_readout_controller;
 
         static void *optional_IDE3380_user;
-        static wakeup_func optional_user_wakeup_func;
 
-        explicit IDE3380_interface(Abstract::Abstract_board &board)
+        explicit IDE3380_provider(Abstract::Abstract_board &board)
             : Abstract_provider(0), use_board(board), the_register_access(board) {}
 
-        void initialize(void *user, wakeup_func wakeup, readout_func readout);
+        /// Starts the register access and the readout; every readout goes to the attached histogram.
+        void initialize();
 
         /// The repository that ASIC LOAD / update_registers() reads. Attach once, before the scheduler starts.
         void attach_repository(Repository::Configuration_repository &repository) { optional_repository = &repository; }
+
+        /// The histogram that the readout fills. Attach once, before the scheduler starts.
+        void attach_histogram(Application::Histogram_storage &histogram) { optional_histogram = &histogram; }
 
         IDE3380_readout_control &get_readout_control() { return the_readout_control; }
 

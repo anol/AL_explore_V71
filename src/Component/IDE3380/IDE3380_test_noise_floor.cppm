@@ -25,7 +25,7 @@ module;
 
 export module Component.IDE3380_test_noise_floor;
 import Type.Abstract_scenario;
-import Component.IDE3380_interface;
+import Component.IDE3380_provider;
 import Component.Event_counter;
 import Support.Instruction_major;
 import Support.Configuration_repository;
@@ -50,7 +50,7 @@ export namespace Calibration {
             Channels_done, Completed, Error_state,
         };
 
-        IDE3380_interface &use_IDE3380;
+        IDE3380_provider &use_IDE3380;
         Application::Event_counter &use_event_counter;
         Repository::Configuration_repository &use_repository;
         Iteration_state the_iteration{};
@@ -65,7 +65,7 @@ export namespace Calibration {
         Instruction_major *optional_instruction{};
 
     public:
-        IDE3380_test_noise_floor(IDE3380_interface &IDE3380, Application::Event_counter &event_counter,
+        IDE3380_test_noise_floor(IDE3380_provider &IDE3380, Application::Event_counter &event_counter,
                                  Repository::Configuration_repository &repository)
             : use_IDE3380(IDE3380), use_event_counter(event_counter), use_repository(repository) {
         }

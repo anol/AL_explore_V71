@@ -9,7 +9,7 @@ module;
 #include <cstdint>
 #include <cstdio>
 
-module Component.IDE3380_interface;
+module Component.IDE3380_provider;
 import Component.IDE3380_definitions;
 import Component.IDE3380_readout_control;
 import Component.IDE3380_register_access;
@@ -26,8 +26,8 @@ volatile uint8_t software_reset = 0;
 
 // extern "C" void HAL_GPIO_EXTI_Rising_Callback(const uint16_t GPIO_Pin) {
 //     using namespace IDE3380;
-//     if (IDE3380_interface::optional_readout_controller) {
-//         IDE3380_interface::optional_readout_controller->on_GPIO_interrupt(GPIO_Pin);
+//     if (IDE3380_provider::optional_readout_controller) {
+//         IDE3380_provider::optional_readout_controller->on_GPIO_interrupt(GPIO_Pin);
 //     }
 //     if (GPIO_Pin == BOOT0_Pin || GPIO_Pin == EXT_WAKEUP_Pin) //GPIO_Pin == EXT_WAKEUP_Pin ||
 //     {
@@ -36,8 +36,8 @@ volatile uint8_t software_reset = 0;
 //         HAL_PWR_DisableSleepOnExit();
 //         SystemClock_Config();
 //         HAL_ResumeTick();
-//         if (IDE3380_interface::optional_user_wakeup_func) {
-//             IDE3380_interface::optional_user_wakeup_func(IDE3380_interface::optional_IDE3380_user);
+//         if (IDE3380_provider::optional_user_wakeup_func) {
+//             IDE3380_provider::optional_user_wakeup_func(IDE3380_provider::optional_IDE3380_user);
 //         }
 //         HAL_RTCEx_DeactivateWakeUpTimer(&hrtc);
 //         //When entering STOP2 mode the UART is clocked off so after the Wake-up you need to re-clock the UART, then will work well
@@ -47,49 +47,51 @@ volatile uint8_t software_reset = 0;
 // }
 
 namespace IDE3380 {
-    void *IDE3380_interface::optional_IDE3380_user{};
-    wakeup_func IDE3380_interface::optional_user_wakeup_func{};
-    IDE3380_readout_control *IDE3380_interface::optional_readout_controller{};
+    void *IDE3380_provider::optional_IDE3380_user{};
+    IDE3380_readout_control *IDE3380_provider::optional_readout_controller{};
 
-    void IDE3380_interface::initialize(void *user, const wakeup_func wakeup, const readout_func readout) {
-        optional_IDE3380_user = user;
-        optional_user_wakeup_func = wakeup;
+    void IDE3380_provider::initialize() {
+        optional_IDE3380_user = this;
         optional_readout_controller = &the_readout_control;
-        the_readout_control.initialize(user, readout);
+        the_readout_control.initialize(this, [](void *user, const TXD_data_t &data) {
+            if (auto *histogram = static_cast<IDE3380_provider *>(user)->optional_histogram) {
+                histogram->update_histogram(data);
+            }
+        });
         the_register_access.initialize();
     }
 
-    void IDE3380_interface::do_dump() {
+    void IDE3380_provider::do_dump() {
         the_register_access.dump();
     }
 
-    void IDE3380_interface::do_print_diag() {
+    void IDE3380_provider::do_print_diag() {
         printf("ASIC: get_err=%d, load_err=%d\r\n", the_repository_error, the_readback_error);
         the_readout_control.print_diag();
         the_register_access.print_diagnostics();
     }
 
-    void IDE3380_interface::do_enable_external_hold() {
+    void IDE3380_provider::do_enable_external_hold() {
         the_register_access.SPI_update_register(IDE3380_readout_mode_reg, IDE3380_write_read, Enable_external_hold);
         the_enable_external_hold = true;
     }
 
-    void IDE3380_interface::do_disable_external_hold() {
+    void IDE3380_provider::do_disable_external_hold() {
         the_register_access.SPI_update_register(IDE3380_readout_mode_reg, IDE3380_write_read, Disable_external_hold);
         the_enable_external_hold = false;
     }
 
-    void IDE3380_interface::raise_external_hold() {
+    void IDE3380_provider::raise_external_hold() {
         // HAL_GPIO_WritePin(IDE3380_HOLD_GPIO_Port, IDE3380_HOLD_Pin, GPIO_PIN_SET);
         the_raise_external_hold = true;
     }
 
-    void IDE3380_interface::cease_external_hold() {
+    void IDE3380_provider::cease_external_hold() {
         // HAL_GPIO_WritePin(IDE3380_HOLD_GPIO_Port, IDE3380_HOLD_Pin, GPIO_PIN_RESET);
         the_raise_external_hold = false;
     }
 
-    Status_code IDE3380_interface::do_update_registers(const uint32_t base_id) {
+    Status_code IDE3380_provider::do_update_registers(const uint32_t base_id) {
         if (optional_repository == nullptr) {
             printf("<> IDE3380 update registers failed: no repository attached <>\r\n");
             return Status_code::Failure();
@@ -152,7 +154,7 @@ namespace IDE3380 {
 
     // ---- Client side: build the instruction and hand it to the service task ----
 
-    Instruction_major IDE3380_interface::make_request(const uint8_t operation, const uint8_t sub_operation) {
+    Instruction_major IDE3380_provider::make_request(const uint8_t operation, const uint8_t sub_operation) {
         Instruction_major instruction{};
         instruction.set_request(Key_ASIC);
         if (operation) { instruction.add_command(operation); }
@@ -160,36 +162,36 @@ namespace IDE3380 {
         return instruction;
     }
 
-    bool IDE3380_interface::send(const uint8_t operation, const uint8_t sub_operation) {
+    bool IDE3380_provider::send(const uint8_t operation, const uint8_t sub_operation) {
         auto instruction = make_request(operation, sub_operation);
         return the_service_task.execute(instruction);
     }
 
-    uint32_t IDE3380_interface::send_for_result(Instruction_major &instruction) {
+    uint32_t IDE3380_provider::send_for_result(Instruction_major &instruction) {
         the_service_task.execute(instruction);
         return value_of(instruction, Key_result);
     }
 
-    bool IDE3380_interface::set_ASIC(const uint8_t ASIC) {
+    bool IDE3380_provider::set_ASIC(const uint8_t ASIC) {
         auto instruction = make_request(0);
         instruction.add_value(Key_asic_nbr, ASIC);
         return the_service_task.execute(instruction);
     }
 
-    void IDE3380_interface::dump(const char *title) {
+    void IDE3380_provider::dump(const char *title) {
         if (title) { printf("%s\r\n", title); }
         send(Key_DUMP);
     }
 
-    void IDE3380_interface::print_diag() { send(Key_DIAG); }
+    void IDE3380_provider::print_diag() { send(Key_DIAG); }
 
-    uint32_t IDE3380_interface::SPI_read_register(const uint8_t register_address) {
+    uint32_t IDE3380_provider::SPI_read_register(const uint8_t register_address) {
         auto instruction = make_request(Key_REG);
         instruction.add_value(Key_reg_addr, register_address);
         return send_for_result(instruction);
     }
 
-    uint32_t IDE3380_interface::SPI_update_register(const uint8_t register_address, const uint8_t nRead_Write,
+    uint32_t IDE3380_provider::SPI_update_register(const uint8_t register_address, const uint8_t nRead_Write,
                                                     const uint32_t data) {
         auto instruction = make_request(Key_REG);
         instruction.add_value(Key_reg_addr, register_address);
@@ -198,35 +200,35 @@ namespace IDE3380 {
         return send_for_result(instruction);
     }
 
-    Status_code IDE3380_interface::update_registers(const uint32_t base_id) {
+    Status_code IDE3380_provider::update_registers(const uint32_t base_id) {
         auto instruction = make_request(Key_LOAD);
         instruction.add_value(Key_offset, base_id);
         return Status_code(the_service_task.execute(instruction));
     }
 
-    void IDE3380_interface::enable_external_hold() { send(Key_HOLD, Key_ENABLE); }
+    void IDE3380_provider::enable_external_hold() { send(Key_HOLD, Key_ENABLE); }
 
-    void IDE3380_interface::disable_external_hold() { send(Key_HOLD, Key_DISABLE); }
+    void IDE3380_provider::disable_external_hold() { send(Key_HOLD, Key_DISABLE); }
 
-    void IDE3380_interface::override_all_thresholds() { send(Key_THRESHOLD, Key_OVERRIDE); }
+    void IDE3380_provider::override_all_thresholds() { send(Key_THRESHOLD, Key_OVERRIDE); }
 
-    void IDE3380_interface::disable_all_channels() { send(Key_CHANNEL, Key_DISABLE); }
+    void IDE3380_provider::disable_all_channels() { send(Key_CHANNEL, Key_DISABLE); }
 
-    void IDE3380_interface::restore_all_channels() { send(Key_CHANNEL, Key_RESTORE); }
+    void IDE3380_provider::restore_all_channels() { send(Key_CHANNEL, Key_RESTORE); }
 
-    void IDE3380_interface::enable_channel(const uint8_t index) {
+    void IDE3380_provider::enable_channel(const uint8_t index) {
         auto instruction = make_request(Key_CHANNEL, Key_ENABLE);
         instruction.add_value(Key_channel, index);
         the_service_task.execute(instruction);
     }
 
-    void IDE3380_interface::disable_channel(const uint8_t index) {
+    void IDE3380_provider::disable_channel(const uint8_t index) {
         auto instruction = make_request(Key_CHANNEL, Key_DISABLE);
         instruction.add_value(Key_channel, index);
         the_service_task.execute(instruction);
     }
 
-    uint32_t IDE3380_interface::set_channel_threshold(const uint8_t index, const uint8_t threshold) {
+    uint32_t IDE3380_provider::set_channel_threshold(const uint8_t index, const uint8_t threshold) {
         auto instruction = make_request(Key_CHANNEL, Key_THRESHOLD);
         instruction.add_value(Key_channel, index);
         instruction.add_value(Key_data8, threshold);
@@ -235,7 +237,7 @@ namespace IDE3380 {
 
     // ---- Service side: runs in the IDE3380 service task only ----
 
-    bool IDE3380_interface::on_indication(Instruction_major &instruction) {
+    bool IDE3380_provider::on_indication(Instruction_major &instruction) {
         if (instruction.get_token_id(0) != Key_ASIC) { return false; }
         switch (instruction.get_token_id(1)) {
             case Key_asic_nbr:
@@ -273,7 +275,7 @@ namespace IDE3380 {
         }
     }
 
-    bool IDE3380_interface::on_register(Instruction_major &instruction) {
+    bool IDE3380_provider::on_register(Instruction_major &instruction) {
         if (!has_key(instruction, Key_reg_addr)) { return false; }
         const auto address = static_cast<uint8_t>(value_of(instruction, Key_reg_addr));
         uint32_t result;
@@ -287,7 +289,7 @@ namespace IDE3380 {
         return true;
     }
 
-    bool IDE3380_interface::on_channel(Instruction_major &instruction) {
+    bool IDE3380_provider::on_channel(Instruction_major &instruction) {
         auto &access = the_register_access;
         const bool has_channel = has_key(instruction, Key_channel);
         const auto index = static_cast<uint8_t>(value_of(instruction, Key_channel));

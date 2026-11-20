@@ -16,7 +16,7 @@ export namespace IDE3380 {
      * The only task that talks to the IDE3380 ASICs over SPI.
      *
      * Any task (primary, console, ...) calls execute() with an Instruction_major built from Domain keywords
-     * (see IDE3380_interface for the grammar). The instruction is queued and executed here one at a time by
+     * (see IDE3380_provider for the grammar). The instruction is queued and executed here one at a time by
      * the provider, and the caller blocks until it is done. Results are added to the instruction as tokens.
      */
     class IDE3380_service_task : public FreeRTOS::FreeRTOS_task {

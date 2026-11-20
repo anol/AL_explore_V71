@@ -31,7 +31,7 @@ module Application.Instrument_calibration_provider;
 import Component.IDE3380_test_pedestal;
 import Component.IDE3380_test_noise_floor;
 import Component.Histogram_storage;
-import Component.IDE3380_interface;
+import Component.IDE3380_provider;
 import Component.Bias_calibration;
 import Component.Event_counter;
 import Domain.Keyword_lookup;

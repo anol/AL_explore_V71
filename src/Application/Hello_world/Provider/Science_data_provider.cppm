@@ -25,7 +25,7 @@ module;
 #include "Persistent_parameter_id.h"
 
 export module Application.Science_data_provider;
-import Component.IDE3380_interface;
+import Component.IDE3380_provider;
 import Component.Event_counter;
 import Component.Histogram_storage;
 import Domain.Keyword_lookup;
@@ -44,15 +44,15 @@ using namespace SpectraNode_interface;
 export class Science_data_provider : public Abstract_Science_data_provider {
     Repository::Configuration_repository &use_repository;
     Application::Cadence_control &use_cadence;
-    IDE3380::IDE3380_interface &use_IDE3380;
+    IDE3380::IDE3380_provider &use_IDE3380;
     Application::Event_counter the_event_counter{};
-    Application::Histogram_storage the_histogram{the_event_counter, use_IDE3380};
+    Application::Histogram_storage the_histogram{the_event_counter, use_IDE3380.get_readout_control()};
     Application::Data_format the_format{};
     int the_channel{};
 
 public:
     Science_data_provider(Repository::Configuration_repository &repository,
-                          Application::Cadence_control &cadence, IDE3380::IDE3380_interface &ASIC)
+                          Application::Cadence_control &cadence, IDE3380::IDE3380_provider &ASIC)
         : use_repository(repository), use_cadence(cadence),
           use_IDE3380(ASIC) {
     }

@@ -27,7 +27,6 @@ module;
 #include <cstdio>
 
 module Component.Histogram_storage;
-import Component.IDE3380_interface;
 import Component.Event_counter;
 import Type.Status_code;
 import Support.Configuration_repository;
@@ -209,7 +208,7 @@ namespace Application
                 {
                     auto soft = reset_event_count();
                     auto hard = use_event_counter.reset_event_count();
-                    auto TORO = use_IDE3380.get_readout_control().reset_TORO_count();
+                    auto TORO = use_readout_control.reset_TORO_count();
                     auto sense = Calibration::Bias_ADC::get_last_sense();
                     auto bias = Calibration::Bias_DAC::get_last_bias();
                     if (cadence == 0)

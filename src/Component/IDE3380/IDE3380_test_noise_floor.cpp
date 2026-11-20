@@ -31,7 +31,7 @@ module;
 
 module Component.IDE3380_test_noise_floor;
 import Type.Abstract_scenario;
-import Component.IDE3380_interface;
+import Component.IDE3380_provider;
 import Component.Event_counter;
 import Support.Instruction_major;
 import Support.Configuration_repository;

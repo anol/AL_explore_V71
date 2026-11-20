@@ -54,8 +54,9 @@ cmake --build build/V71_EK_hello_world
   -30 V and -40 V calibration points; `AT+BIAS` shows setpoint, voltage and error (see the
   command table below for the rest of the `AT+BIAS_*` family).
 - **`Bias_regulator_task`** (`src/Component/Bias_regulator/`) is a FreeRTOS task owned by
-  `Detector`. It owns the `Bias_calibration` (and through it `Bias_DAC` / `Bias_ADC`), which
-  `Detector::get_bias()` hands to the providers. Every second it runs one pass of the
+  `Housekeeping_provider`. It owns the `Bias_calibration` (and through it `Bias_DAC` /
+  `Bias_ADC`), which `Service_provider` also hands to the instrument calibration provider and
+  the mode controller's `Startup_task`. Every second it runs one pass of the
   temperature-compensated bias regulation, holding the mode controller's start semaphore for the
   duration of the pass. It holds the board's I2C bus, but the temperature it regulates against
   is still a fixed 20.00 °C.
@@ -89,8 +90,9 @@ reached through `Abstract_board::get_I2C()` and owned/initialized by `V71_EK_boa
 ## Top-level modules
 
 - **`Application/`** — the app itself: `Hello_world` (composition root, wired up in
-  `main()`, owning `Detector`, `Service_provider`, `SpectraNode_console` and the heartbeat
-  task). Its subdirectories are `Hello_world/Provider` (the data providers its
+  `main()`, owning `Service_provider`, `SpectraNode_console` and the heartbeat task;
+  `Service_provider` also owns the `IDE3380_provider`, whose readout fills the science data
+  provider's histogram). Its subdirectories are `Hello_world/Provider` (the data providers its
   `Service_provider` routes requests to), `Hello_world/Support` (cadence control plus C
   helper code, e.g. the gamma peak detector and isotope table) and `Hello_world/Dictionary`
   (the generated SpectraNode command and structure dictionary).

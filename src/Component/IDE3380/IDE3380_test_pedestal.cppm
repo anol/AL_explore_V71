@@ -25,7 +25,7 @@ module;
 
 export module Component.IDE3380_test_pedestal;
 import Type.Abstract_scenario;
-import Component.IDE3380_interface;
+import Component.IDE3380_provider;
 import Component.Histogram_storage;
 import Support.Instruction_major;
 import Support.Configuration_repository;
@@ -40,7 +40,7 @@ export namespace Calibration {
             Readout_count     = 100'000,
         };
 
-        IDE3380_interface &use_IDE3380;
+        IDE3380_provider &use_IDE3380;
         IDE3380_readout_control &use_readout_control;
         Application::Histogram_storage &use_histogram;
         Repository::Configuration_repository &use_repository;
@@ -50,7 +50,7 @@ export namespace Calibration {
         uint32_t the_diag_code{Default_diag_code};
 
     public:
-        IDE3380_test_pedestal(IDE3380_interface &ASIC, Application::Histogram_storage &histogram,
+        IDE3380_test_pedestal(IDE3380_provider &ASIC, Application::Histogram_storage &histogram,
                               Repository::Configuration_repository &repository)
             : use_IDE3380(ASIC),
               use_readout_control(ASIC.get_readout_control()),

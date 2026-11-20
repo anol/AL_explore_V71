@@ -24,6 +24,7 @@ module Component.Bias_regulator;
 
 namespace Bias_regulator {
     void Bias_regulator_task::initialize() {
+        the_calibration.initialize();
     }
 
     void Bias_regulator_task::task_loop() {

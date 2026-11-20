@@ -26,8 +26,9 @@ module;
 
 export module Application.Housekeeping_provider;
 import Component.Histogram_storage;
-import Component.IDE3380_interface;
+import Component.IDE3380_provider;
 import Component.Bias_calibration;
+import Component.Bias_regulator;
 import Component.Temperature_sensor;
 import Domain.Keyword_lookup;
 import Application.SpectraNode_command_lookup;
@@ -52,10 +53,10 @@ private:
     Abstract::Abstract_board &use_board;
     Support::Console_support &use_console;
     Application::Histogram_storage &use_histogram;
-    IDE3380_interface &use_IDE3380;
-    Calibration::Bias_calibration &use_bias;
+    IDE3380_provider &use_IDE3380;
     Repository::Configuration_repository &use_repository;
     Application::Cadence_control &use_cadence;
+    Bias_regulator::Bias_regulator_task the_bias_regulator_task;
     Temperature_sensor::Temperature_task the_temperature_task;
     void *use_status_user;
     Status_func use_status_func;
@@ -65,8 +66,7 @@ public:
     Housekeeping_provider(Abstract::Abstract_board &board,
                           Support::Console_support &console,
                           Application::Histogram_storage &histogram,
-                          IDE3380::IDE3380_interface &ASIC,
-                          Calibration::Bias_calibration &bias,
+                          IDE3380::IDE3380_provider &ASIC,
                           Repository::Configuration_repository &repository,
                           Application::Cadence_control &cadence,
                           void *status_user, const Status_func status_func)
@@ -74,12 +74,16 @@ public:
           use_console(console),
           use_histogram(histogram),
           use_IDE3380(ASIC),
-          use_bias(bias),
           use_repository(repository),
           use_cadence(cadence),
+          the_bias_regulator_task(board),
           the_temperature_task(board),
           use_status_user(status_user),
           use_status_func(status_func) {}
+
+    void initialize() { the_bias_regulator_task.initialize(); }
+
+    Bias_regulator::Bias_regulator_task &get_bias_regulator() { return the_bias_regulator_task; }
 
     static bool is_trace() { return the_trace_flag; }
 

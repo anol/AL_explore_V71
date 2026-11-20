@@ -6,7 +6,7 @@ export module Application.Service_provider;
 import Type.Abstract_provider;
 import Application.Cadence_control;
 import Application.Configuration_manager_provider;
-import Application.Detector;
+import Component.IDE3380_provider;
 import Application.Housekeeping_provider;
 import Application.Instrument_calibration_provider;
 import Application.Mode_control_provider;
@@ -18,32 +18,37 @@ import Support.Console_support;
 
 export namespace Application {
     class Service_provider : public Abstract::Abstract_provider<Instruction_major> {
-        // Declared first: it owns the configuration store whose repository the others use.
-        Configuration_manager_provider the_configuration_manager;
-        Mode_control_provider the_mode_control;
-        Science_data_provider the_data_provider; // owns the histogram and event counter used below
+        // Declaration order is construction order: each one only takes what the ones above it own.
+        IDE3380::IDE3380_provider the_IDE3380;
+        Configuration_manager_provider the_configuration_manager; // owns the configuration store
+        Mode_control_provider the_mode_control;                   // owns the cadence control
+        Science_data_provider the_data_provider;                  // owns the histogram and event counter
+        Housekeeping_provider the_housekeeper;                    // owns the bias regulator
         Instrument_calibration_provider the_instrument_calibration;
-        Housekeeping_provider the_housekeeper;
         int deepsleep_active{};
         int prevent_sleep{};
         int send_debug_data{};
         int deepsleep_enable{};
 
     public:
-        Service_provider(Abstract::Abstract_board &board, Detector &detector, Support::Console_support &console)
+        Service_provider(Abstract::Abstract_board &board, Support::Console_support &console)
             : Abstract_provider(0),
-              the_configuration_manager(detector.get_IDE3380()),
-              the_mode_control(detector.get_IDE3380(), detector.get_bias_regulator(),
-                               the_configuration_manager.get_repository(), the_data_provider), // reference only
+              the_IDE3380(board),
+              the_configuration_manager(the_IDE3380),
+              the_mode_control(the_IDE3380, the_configuration_manager.get_repository(),
+                               the_data_provider), // reference only
               the_data_provider(the_configuration_manager.get_repository(),
-                                the_mode_control.get_cadence_control(), detector.get_IDE3380()),
-              the_instrument_calibration(detector.get_bias(), the_configuration_manager.get_repository(),
-                                         detector.get_IDE3380(), the_data_provider.get_histogram(),
-                                         the_data_provider.get_event_counter(), the_mode_control),
-              the_housekeeper(board, console, the_data_provider.get_histogram(), detector.get_IDE3380(), detector.get_bias(),
+                                the_mode_control.get_cadence_control(), the_IDE3380),
+              the_housekeeper(board, console, the_data_provider.get_histogram(), the_IDE3380,
                               the_configuration_manager.get_repository(), the_mode_control.get_cadence_control(), this,
-                              [](void *user) { static_cast<Service_provider *>(user)->print_status(); }) {
-            detector.attach_histogram(the_data_provider.get_histogram()); // the readout fills it
+                              [](void *user) { static_cast<Service_provider *>(user)->print_status(); }),
+              the_instrument_calibration(the_housekeeper.get_bias_regulator().get_calibration(),
+                                         the_configuration_manager.get_repository(), the_IDE3380,
+                                         the_data_provider.get_histogram(), the_data_provider.get_event_counter(),
+                                         the_mode_control) {
+            // Links that point "up" the declaration order, made once everything exists:
+            the_IDE3380.attach_histogram(the_data_provider.get_histogram()); // the readout fills it
+            the_mode_control.attach_bias_regulator(the_housekeeper.get_bias_regulator());
         }
 
         void print_status() const {
@@ -55,6 +60,8 @@ export namespace Application {
         void initialize() {
             the_mode_control.initialize();
             the_data_provider.initialize();
+            the_housekeeper.initialize(); // the bias hardware
+            the_IDE3380.initialize();     // then the readout
         }
 
         bool on_indication(Instruction_major &instruction) override;

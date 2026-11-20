@@ -28,7 +28,7 @@ export module Application.Instrument_calibration_provider;
 import Component.IDE3380_test_pedestal;
 import Component.IDE3380_test_noise_floor;
 import Component.Histogram_storage;
-import Component.IDE3380_interface;
+import Component.IDE3380_provider;
 import Component.Bias_calibration;
 import Component.Event_counter;
 import Domain.Keyword_lookup;
@@ -54,7 +54,7 @@ export class Instrument_calibration_provider : public Abstract_Instrument_calibr
 public:
     Instrument_calibration_provider(Calibration::Bias_calibration &bias,
                                     Repository::Configuration_repository &repository,
-                                    IDE3380_interface &IDE3380,
+                                    IDE3380_provider &IDE3380,
                                     Application::Histogram_storage &histogram,
                                     Application::Event_counter &event_counter,
                                     Mode_control_provider &mode_control)

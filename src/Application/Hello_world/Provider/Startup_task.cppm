@@ -27,7 +27,7 @@ export module Application.Startup_task;
 import Platform.FreeRTOS_task;
 import Support.Configuration_repository;
 import Component.Bias_calibration;
-import Component.IDE3380_interface;
+import Component.IDE3380_provider;
 
 namespace Application
 {
@@ -47,27 +47,27 @@ namespace Application
             Stack_size = Target_config::Startup_task_stack_size
         };
 
-        IDE3380::IDE3380_interface& use_IDE3380;
-        Calibration::Bias_calibration& use_bias;
+        IDE3380::IDE3380_provider& use_IDE3380;
+        Calibration::Bias_calibration* optional_bias{}; // attached by the mode controller
         Repository::Configuration_repository& use_repository;
         void* use_done_user;
         Done_func use_done_func;
 
     public:
         Startup_task(
-            IDE3380::IDE3380_interface& IDE3380,
-            Calibration::Bias_calibration& bias,
+            IDE3380::IDE3380_provider& IDE3380,
             Repository::Configuration_repository& repository,
             void* done_user, const Done_func done_func
         )
             : FreeRTOS_task("Startup task", Priority, Stack_size),
               use_IDE3380(IDE3380),
-              use_bias(bias),
               use_repository(repository),
               use_done_user(done_user),
               use_done_func(done_func)
         {
         };
+
+        void attach_bias(Calibration::Bias_calibration& bias) { optional_bias = &bias; }
 
         void initialize() override;
 

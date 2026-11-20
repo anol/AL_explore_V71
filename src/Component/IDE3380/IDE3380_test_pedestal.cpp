@@ -27,7 +27,7 @@ module;
 
 module Component.IDE3380_test_pedestal;
 import Type.Abstract_scenario;
-import Component.IDE3380_interface;
+import Component.IDE3380_provider;
 import Component.Histogram_storage;
 import Support.Instruction_major;
 import Support.Configuration_repository;

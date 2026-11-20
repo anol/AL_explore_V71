@@ -12,7 +12,6 @@ namespace Application
     void Hello_world::initialize()
     {
         the_service_provider.initialize();
-        the_detector.initialize();
         the_console.initialize();
         // the_histogram.disable_trigger_flag(true);
         // the_cadence_control.set_cadence_callback(nullptr, nullptr);
