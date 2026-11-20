@@ -56,7 +56,7 @@ const char *Mode_control_provider::Operation_mode_to_text(const Operation_mode m
 }
 
 void Mode_control_provider::print_status() const {
-    printf(" mode=%s, cadence=%d", Operation_mode_to_text(the_mode), use_cadence.get_cadence());
+    printf(" mode=%s, cadence=%d", Operation_mode_to_text(the_mode), the_cadence_control.get_cadence());
 }
 
 Status_code Mode_control_provider::set_mode(const Operation_mode mode, const Parameter_id channel,
@@ -69,8 +69,8 @@ Status_code Mode_control_provider::set_mode(const Operation_mode mode, const Par
     success = get_parameter(format, value, success).success();
     use_data_provider.set_format(static_cast<Data_format>(value));
     success = get_parameter(cadence, value, success).success();
-    use_cadence.set_cadence(value);
-    use_cadence.set_next_wakeup();
+    the_cadence_control.set_cadence(value);
+    the_cadence_control.set_next_wakeup();
     return Status_code(success);
 }
 
@@ -119,7 +119,7 @@ void Mode_control_provider::v_MODE_NOMINAL(Instruction_major &instruction) {
 }
 
 void Mode_control_provider::v_IDLE_CADENCE_seconds(Instruction_major &instruction, int seconds_2) {
-    use_cadence.set_cadence(seconds_2);
+    the_cadence_control.set_cadence(seconds_2);
     if (use_repository.set(Cadence_idle, seconds_2).success()) {
         instruction.print_ack(seconds_2);
     } else {
@@ -128,7 +128,7 @@ void Mode_control_provider::v_IDLE_CADENCE_seconds(Instruction_major &instructio
 }
 
 void Mode_control_provider::v_DEMO_CADENCE_seconds(Instruction_major &instruction, int seconds_2) {
-    use_cadence.set_cadence(seconds_2);
+    the_cadence_control.set_cadence(seconds_2);
     if (use_repository.set(Cadence_demo, seconds_2).success()) {
         instruction.print_ack(seconds_2);
     } else {
@@ -151,7 +151,7 @@ void Mode_control_provider::v_NOMINAL_ALARM_micro_sievert(Instruction_major &, i
 }
 
 void Mode_control_provider::v_NOMINAL_CADENCE_seconds(Instruction_major &instruction, int seconds_2) {
-    use_cadence.set_cadence(seconds_2);
+    the_cadence_control.set_cadence(seconds_2);
     if (use_repository.set(Cadence_nominal, seconds_2).success()) {
         instruction.print_ack(seconds_2);
     } else {

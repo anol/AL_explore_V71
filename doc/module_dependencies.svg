@@ -44,6 +44,11 @@
 <polygon fill="none" stroke="#c4cdc3" stroke-dasharray="5,2" points="746.5,-1306.96 746.5,-1651.96 1300.5,-1651.96 1300.5,-1306.96 746.5,-1306.96"/>
 <text text-anchor="middle" x="1023.5" y="-1636.76" font-family="Consolas" font-size="14.00">Platform</text>
 </g>
+<g id="clust8" class="cluster">
+<title>cluster_7</title>
+<polygon fill="none" stroke="#c4cdc3" stroke-dasharray="5,2" points="1139.5,-1659.96 1139.5,-1734.96 1666,-1734.96 1666,-1659.96 1139.5,-1659.96"/>
+<text text-anchor="middle" x="1402.75" y="-1719.76" font-family="Consolas" font-size="14.00">Type</text>
+</g>
 <g id="clust7" class="cluster">
 <title>cluster_6</title>
 <polygon fill="none" stroke="#c4cdc3" stroke-dasharray="5,2" points="8,-1360.96 8,-1435.96 209,-1435.96 209,-1360.96 8,-1360.96"/>
@@ -53,11 +58,6 @@
 <title>cluster_8</title>
 <polygon fill="none" stroke="#c4cdc3" stroke-dasharray="5,2" points="1395,-662.96 1395,-737.96 1475,-737.96 1475,-662.96 1395,-662.96"/>
 <text text-anchor="middle" x="1435" y="-722.76" font-family="Consolas" font-size="14.00">Utility</text>
-</g>
-<g id="clust8" class="cluster">
-<title>cluster_7</title>
-<polygon fill="none" stroke="#c4cdc3" stroke-dasharray="5,2" points="1139.5,-1659.96 1139.5,-1734.96 1666,-1734.96 1666,-1659.96 1139.5,-1659.96"/>
-<text text-anchor="middle" x="1402.75" y="-1719.76" font-family="Consolas" font-size="14.00">Type</text>
 </g>
 <!-- Application/Hello_world -->
 <g id="node1" class="node">

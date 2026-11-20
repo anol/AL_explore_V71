@@ -6,7 +6,6 @@ export module Application.Service_provider;
 import Type.Abstract_provider;
 import Application.Cadence_control;
 import Application.Configuration_manager_provider;
-import Application.Configuration_store;
 import Application.Detector;
 import Application.Housekeeping_provider;
 import Application.Instrument_calibration_provider;
@@ -20,12 +19,11 @@ import Support.Console_support;
 
 export namespace Application {
     class Service_provider : public Abstract::Abstract_provider<Instruction_major> {
-        Configuration_store the_configuration_store{};
-        Cadence_control the_cadence_control{};
+        // Declared first: it owns the configuration store whose repository the others use.
+        Configuration_manager_provider the_configuration_manager;
         Instrument_calibration_provider the_instrument_calibration;
         Mode_control_provider the_mode_control;
         Spectroscopic_data_provider the_data_provider;
-        Configuration_manager_provider the_configuration_manager;
         Housekeeping_provider the_housekeeper;
         Primary_task the_primary_task;
         int deepsleep_active{};
@@ -36,18 +34,18 @@ export namespace Application {
     public:
         Service_provider(Abstract::Abstract_board &board, Detector &detector, Support::Console_support &console)
             : Abstract_provider(0),
-              the_instrument_calibration(detector.get_bias(), the_configuration_store.get_repository(),
+              the_configuration_manager(detector.get_IDE3380()),
+              the_instrument_calibration(detector.get_bias(), the_configuration_manager.get_repository(),
                                          detector.get_IDE3380(), detector.get_histogram(),
                                          detector.get_event_counter()),
               the_mode_control(detector.get_histogram(), detector.get_IDE3380(), detector.get_bias(),
-                               the_configuration_store.get_repository(), the_cadence_control, the_data_provider),
-              the_data_provider(detector.get_histogram(), the_configuration_store.get_repository(),
-                                the_cadence_control, detector.get_IDE3380()),
-              the_configuration_manager(the_configuration_store.get_repository(), detector.get_IDE3380()),
+                               the_configuration_manager.get_repository(), the_data_provider),
+              the_data_provider(detector.get_histogram(), the_configuration_manager.get_repository(),
+                                the_mode_control.get_cadence_control(), detector.get_IDE3380()),
               the_housekeeper(board, console, detector.get_histogram(), detector.get_IDE3380(), detector.get_bias(),
-                              the_configuration_store.get_repository(), the_cadence_control, this,
+                              the_configuration_manager.get_repository(), the_mode_control.get_cadence_control(), this,
                               [](void *user) { static_cast<Service_provider *>(user)->print_status(); }),
-              the_primary_task(detector, the_configuration_store.get_repository(), the_mode_control) {}
+              the_primary_task(detector, the_configuration_manager.get_repository(), the_mode_control) {}
 
         void print_status() const {
             the_mode_control.print_status();
@@ -57,7 +55,7 @@ export namespace Application {
 
         void initialize() {
             the_primary_task.initialize();
-            the_cadence_control.initialize();
+            the_mode_control.get_cadence_control().initialize();
         }
 
         bool on_indication(Instruction_major &instruction) override;
@@ -80,7 +78,7 @@ export namespace Application {
 
         void send_science_data() const {
             if (the_mode_control.is_nominal_mode() || the_mode_control.is_demo_mode()) {
-                const auto cadence = the_cadence_control.get_cadence();
+                const auto cadence = the_mode_control.get_cadence_control().get_cadence();
                 the_data_provider.send_science_data(cadence);
             }
         }

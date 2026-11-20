@@ -8,6 +8,8 @@ target_sources(${THE_TARGET_NAME} PUBLIC
 target_sources(${THE_TARGET_NAME} PRIVATE
         FILE_SET application_provider_modules TYPE CXX_MODULES BASE_DIRS . FILES
         Configuration_manager_provider.cppm
+        Configuration_store.cppm
+        Default_configuration.cppm
         Housekeeping_provider.cppm
         Instrument_calibration_provider.cppm
         Mode_control_provider.cppm

@@ -50,7 +50,7 @@ private:
     IDE3380::IDE3380_interface &use_IDE3380;
     Calibration::Bias_calibration &use_bias;
     Repository::Configuration_repository &use_repository;
-    Cadence_control &use_cadence;
+    Cadence_control the_cadence_control{};
     // The only provider-to-provider link: a mode change sets the channel and format of the data provider.
     Spectroscopic_data_provider &use_data_provider;
     Operation_mode the_mode{};
@@ -59,15 +59,18 @@ public:
     Mode_control_provider(Histogram_storage &histogram,
                           IDE3380::IDE3380_interface &ASIC, Calibration::Bias_calibration &bias,
                           Repository::Configuration_repository &repository,
-                          Cadence_control &cadence,
                           Spectroscopic_data_provider &data_provider)
         : use_histogram(histogram),
           use_IDE3380(ASIC), use_bias(bias),
-          use_repository(repository), use_cadence(cadence),
+          use_repository(repository),
           use_data_provider(data_provider) {
     }
 
     void print_status() const;
+
+    Cadence_control &get_cadence_control() { return the_cadence_control; }
+
+    [[nodiscard]] const Cadence_control &get_cadence_control() const { return the_cadence_control; }
 
     [[nodiscard]] bool is_demo_mode() const {
         return the_mode == Mode_demo;

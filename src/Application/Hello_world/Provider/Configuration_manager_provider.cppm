@@ -30,6 +30,7 @@ import Domain.Keyword_lookup;
 import Application.SpectraNode_command_lookup;
 import Application.SpectraNode_provider_indication;
 import Support.Configuration_repository;
+import Application.Configuration_store;
 import Support.Instruction_major;
 
 using namespace IDE3380;
@@ -38,14 +39,15 @@ using namespace SpectraNode_interface;
 
 
 export class Configuration_manager_provider : public Abstract_Configuration_manager_provider {
-    Repository::Configuration_repository &use_repository;
+    Application::Configuration_store the_configuration_store{};
     IDE3380::IDE3380_interface &use_IDE3380;
 
 public:
-    Configuration_manager_provider(Repository::Configuration_repository &repository,
-                                   IDE3380::IDE3380_interface &IDE3380)
-        : use_repository(repository), use_IDE3380(IDE3380) {
+    explicit Configuration_manager_provider(IDE3380::IDE3380_interface &IDE3380)
+        : use_IDE3380(IDE3380) {
     }
+
+    Repository::Configuration_repository &get_repository() { return the_configuration_store.get_repository(); }
 
 protected:
     void v_CONFIG_CLEAN(Instruction_major &) override;
