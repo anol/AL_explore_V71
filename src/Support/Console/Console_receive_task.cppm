@@ -27,8 +27,8 @@ namespace Support {
         };
 
         using Command_queue = Ringbuffer<Instruction_major, Queue_size>;
-        Abstract::Abstract_UART &use_console;
-        Abstract::Abstract_provider<Instruction_major> &use_router;
+        Abstract::Abstract_UART &use_UART;
+        Abstract::Abstract_provider<Instruction_major> *optional_router{}; // attached after construction
         Instruction::CLI_parser the_parser;
         Command_queue the_queue{};
         int escape_received{};
@@ -39,18 +39,21 @@ namespace Support {
         bool the_echo_flag{};
 
     public:
-        Console_receive_task(Abstract::Abstract_UART &UART, Abstract::Abstract_provider<Instruction_major> &router,
-                             const Instruction::Abstract_command_table &command_table)
-            : FreeRTOS_task("Console receiver", Priority, Stack_size), use_console(UART), use_router(router),
+        Console_receive_task(Abstract::Abstract_UART &UART, const Instruction::Abstract_command_table &command_table)
+            : FreeRTOS_task("Console receiver", Priority, Stack_size), use_UART(UART),
               the_parser(command_table.get_commands()) {
         }
+
+        void attach_router(Abstract::Abstract_provider<Instruction_major> &router) { optional_router = &router; }
 
         void initialize() override {
         }
 
-        void set_echo(bool echo) { the_echo_flag = echo; };
+        void set_echo(const bool echo) { the_echo_flag = echo; };
 
         void task_loop() override;
+
+        bool toggle_echo() const { return use_UART.toggle_echo(); }
 
     private:
         Status_code get_command(Instruction_major &instruction);

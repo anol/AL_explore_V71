@@ -21,13 +21,13 @@ namespace Support
         Instruction_major instruction;
         while (true)
         {
-            if (use_console.get(&data).success())
+            if (use_UART.get(&data).success())
             {
                 on_data(data);
             }
-            if (get_command(instruction).success())
+            if (get_command(instruction).success() && optional_router)
             {
-                use_router.on_indication(instruction);
+                optional_router->on_indication(instruction);
             }
         }
     }

@@ -58,23 +58,24 @@ void Housekeeping_provider::v_DIAG(Instruction_major &instruction) {
 }
 
 /// @brief Toggle console echo ON/OFF.
-void Housekeeping_provider::v_ECHO(Instruction_major &) {
-    const auto echo = use_UART.toggle_echo();
+void Housekeeping_provider::v_ECHO(Instruction_major &instruction) {
+    const auto echo = use_console.toggle_echo();
     printf("The console echo is %s\r\n", echo ? "ON" : "OFF");
+    instruction.print_ack();
 }
 
 /// @brief Show the list of commands.
 void Housekeeping_provider::v_HELP(Instruction_major &instruction) {
-    the_help.set_mode(instruction.is_AT_mode());
-    if (the_help.is_help_command(instruction.get_token_id(0)) ||
-        instruction.get_token_type(0) == Question_mark) {
-        the_help.print(instruction.get_token_type(1) == Question_mark, Domain_interface::number_of_keys);
-    } else if (instruction.get_token_type(1) == Question_mark) {
-        the_help.print(static_cast<uint32_t>(instruction.get_token_id(0)));
+    const auto is_AT_mode = instruction.is_AT_mode();
+    const auto is_question = Question_mark == instruction.get_token_type(0);
+    const auto is_sub_question = Question_mark == instruction.get_token_type(1);
+    const auto command = instruction.get_token_id(0);
+    const auto success = use_console.print_help(command, is_question, is_sub_question, is_AT_mode);
+    if (success) {
+        instruction.print_ack();
     } else {
-        the_help.print(false, Domain_interface::number_of_keys);
+        instruction.print_nack(command);
     }
-    instruction.print_ack();
 }
 
 void Housekeeping_provider::print_housekeeping() {

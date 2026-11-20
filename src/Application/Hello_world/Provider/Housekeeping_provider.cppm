@@ -32,11 +32,11 @@ import Component.Temperature_sensor;
 import Domain.Keyword_lookup;
 import Application.SpectraNode_command_lookup;
 import Application.SpectraNode_provider_indication;
-import Support.CLI_help;
 import Application.Cadence_control;
 import Support.Configuration_repository;
 import Support.Instruction_major;
 import Type.Abstract_board;
+import Support.Console_support;
 
 using namespace IDE3380;
 
@@ -49,9 +49,8 @@ public:
     using Status_func = void (*)(void *user);
 
 private:
-    Instruction::CLI_help the_help{Key_HELP, get_commands(), get_keyword};
     Abstract::Abstract_board &use_board;
-    Abstract::Abstract_UART &use_UART;
+    Support::Console_support &use_console;
     Application::Histogram_storage &use_histogram;
     IDE3380_interface &use_IDE3380;
     Calibration::Bias_calibration &use_bias;
@@ -63,13 +62,16 @@ private:
     static bool the_trace_flag;
 
 public:
-    Housekeeping_provider(Abstract::Abstract_board &board, Application::Histogram_storage &histogram,
-                          IDE3380::IDE3380_interface &ASIC, Calibration::Bias_calibration &bias,
+    Housekeeping_provider(Abstract::Abstract_board &board,
+                          Support::Console_support &console,
+                          Application::Histogram_storage &histogram,
+                          IDE3380::IDE3380_interface &ASIC,
+                          Calibration::Bias_calibration &bias,
                           Repository::Configuration_repository &repository,
                           Application::Cadence_control &cadence,
                           void *status_user, const Status_func status_func)
         : use_board(board),
-          use_UART(board.get_UART()),
+          use_console(console),
           use_histogram(histogram),
           use_IDE3380(ASIC),
           use_bias(bias),
@@ -77,8 +79,7 @@ public:
           use_cadence(cadence),
           the_temperature_task(board),
           use_status_user(status_user),
-          use_status_func(status_func) {
-    }
+          use_status_func(status_func) {}
 
     static bool is_trace() { return the_trace_flag; }
 

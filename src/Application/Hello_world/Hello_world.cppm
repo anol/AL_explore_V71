@@ -27,8 +27,10 @@ export namespace Application {
         Abstract::Abstract_IO_pin &use_LED1;
 
         Detector the_detector;
+        // The console is built before the service provider, which hands it to the housekeeper;
+        // the console's router (the service provider) is attached in the constructor body.
+        SpectraNode_console the_console{use_UART};
         Service_provider the_service_provider;
-        SpectraNode_console the_console{use_UART, the_service_provider};
         Support::Heartbeat_task the_heartbeat_task{use_LED0, use_LED1};
         uint32_t the_background_count{};
 
@@ -38,7 +40,8 @@ export namespace Application {
               use_LED0(board.get_pin(Domain::Pin_LED0)),
               use_LED1(board.get_pin(Domain::Pin_LED1)),
               the_detector(board),
-              the_service_provider(board, the_detector) {
+              the_service_provider(board, the_detector, the_console.get_console()) {
+            the_console.attach_router(the_service_provider);
         }
 
         void initialize() override;

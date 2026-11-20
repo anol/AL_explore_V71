@@ -15,6 +15,7 @@ import Application.Spectroscopic_data_provider;
 import Support.Instruction_major;
 import Type.Abstract_board;
 import Application.Primary_task;
+import Support.Console_support;
 
 
 export namespace Application {
@@ -33,20 +34,20 @@ export namespace Application {
         int deepsleep_enable{};
 
     public:
-        Service_provider(Abstract::Abstract_board &board, Detector &detector)
+        Service_provider(Abstract::Abstract_board &board, Detector &detector, Support::Console_support &console)
             : Abstract_provider(0),
               the_instrument_calibration(detector.get_bias(), the_configuration_store.get_repository(),
-                                         detector.get_IDE3380(), detector.get_histogram(), detector.get_event_counter()),
+                                         detector.get_IDE3380(), detector.get_histogram(),
+                                         detector.get_event_counter()),
               the_mode_control(detector.get_histogram(), detector.get_IDE3380(), detector.get_bias(),
                                the_configuration_store.get_repository(), the_cadence_control, the_data_provider),
               the_data_provider(detector.get_histogram(), the_configuration_store.get_repository(),
                                 the_cadence_control, detector.get_IDE3380()),
               the_configuration_manager(the_configuration_store.get_repository(), detector.get_IDE3380()),
-              the_housekeeper(board, detector.get_histogram(), detector.get_IDE3380(), detector.get_bias(),
+              the_housekeeper(board, console, detector.get_histogram(), detector.get_IDE3380(), detector.get_bias(),
                               the_configuration_store.get_repository(), the_cadence_control, this,
                               [](void *user) { static_cast<Service_provider *>(user)->print_status(); }),
-              the_primary_task(detector, the_configuration_store.get_repository(), the_mode_control) {
-        }
+              the_primary_task(detector, the_configuration_store.get_repository(), the_mode_control) {}
 
         void print_status() const {
             the_mode_control.print_status();
