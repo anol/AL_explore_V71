@@ -4,7 +4,7 @@ module;
 
 #include "Target_config.h"
 
-export module Component.IDE3380_service;
+export module Component.IDE3380_service_task;
 export import Support.Instruction_major;
 import Platform.FreeRTOS_task;
 import Platform.FreeRTOS_queue;
@@ -19,7 +19,7 @@ export namespace IDE3380 {
      * (see IDE3380_interface for the grammar). The instruction is queued and executed here one at a time by
      * the provider, and the caller blocks until it is done. Results are added to the instruction as tokens.
      */
-    class IDE3380_service : public FreeRTOS::FreeRTOS_task {
+    class IDE3380_service_task : public FreeRTOS::FreeRTOS_task {
         enum {
             Priority = Target_config::IDE3380_service_task_priority,
             Stack_size = Target_config::IDE3380_service_task_stack_size,
@@ -39,8 +39,8 @@ export namespace IDE3380 {
         FreeRTOS::FreeRTOS_queue<Transaction *, Queue_size> the_queue{};
 
     public:
-        explicit IDE3380_service(Abstract::Abstract_provider<Instruction_major> &provider)
-            : FreeRTOS_task("IDE3380 service", Priority, Stack_size), use_provider(provider) {}
+        explicit IDE3380_service_task(Abstract::Abstract_provider<Instruction_major> &provider)
+            : FreeRTOS_task("IDE3380 service task", Priority, Stack_size), use_provider(provider) {}
 
         void initialize() override {}
 

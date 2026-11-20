@@ -3,14 +3,14 @@ module;
 #include <cstdint>
 #include <cstdio>
 
-module Component.IDE3380_service;
+module Component.IDE3380_service_task;
 import Platform.FreeRTOS_semaphore;
 import Domain.Keyword_lookup;
 
 namespace IDE3380 {
-    std::atomic<bool> IDE3380_service::the_trace_flag{false};
+    std::atomic<bool> IDE3380_service_task::the_trace_flag{false};
 
-    bool IDE3380_service::run(Instruction_major &instruction) {
+    bool IDE3380_service_task::run(Instruction_major &instruction) {
         const bool trace = is_trace();
         if (trace) {
             printf(">>>> IDE3380 ");
@@ -24,7 +24,7 @@ namespace IDE3380 {
         return success;
     }
 
-    bool IDE3380_service::execute(Instruction_major &instruction) {
+    bool IDE3380_service_task::execute(Instruction_major &instruction) {
         if (!is_scheduler_running() || is_current_task()) {
             // Before the scheduler starts there is only one thread of execution, and from within the
             // service itself queueing would deadlock: execute directly in both cases.
@@ -39,7 +39,7 @@ namespace IDE3380 {
         return transaction.the_success;
     }
 
-    void IDE3380_service::task_loop() {
+    void IDE3380_service_task::task_loop() {
         while (true) {
             Transaction *transaction{};
             if (the_queue.wait_receive(&transaction) && transaction) {

@@ -32,7 +32,7 @@ extern uint32_t SystemCoreClock;   /* Updated in SamV71_clock.cpp */
 #define configTICK_RATE_HZ                     ( 1000 )
 #define configMAX_PRIORITIES                   ( 7 )
 #define configMINIMAL_STACK_SIZE                ( 128 )   /* words; idle/timer task stack */
-#define configMAX_TASK_NAME_LEN                 ( 16 )
+#define configMAX_TASK_NAME_LEN                 ( 24 )
 #define configUSE_16_BIT_TICKS                  0
 
 #define configIDLE_SHOULD_YIELD                 1

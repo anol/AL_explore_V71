@@ -37,7 +37,6 @@ import Application.Cadence_control;
 import Support.Configuration_repository;
 import Support.Instruction_major;
 import Type.Abstract_board;
-import Component.Bias_regulator;
 
 using namespace IDE3380;
 
@@ -58,7 +57,6 @@ private:
     Calibration::Bias_calibration &use_bias;
     Repository::Configuration_repository &use_repository;
     Application::Cadence_control &use_cadence;
-    Bias_regulator::Bias_regulator_task the_bias_regulator_task;
     Temperature_sensor::Temperature_task the_temperature_task;
     void *use_status_user;
     Status_func use_status_func;
@@ -77,7 +75,6 @@ public:
           use_bias(bias),
           use_repository(repository),
           use_cadence(cadence),
-          the_bias_regulator_task(board),
           the_temperature_task(board),
           use_status_user(status_user),
           use_status_func(status_func) {

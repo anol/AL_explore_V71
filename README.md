@@ -54,7 +54,9 @@ cmake --build build/V71_EK_hello_world
   -30 V and -40 V calibration points; `AT+BIAS` shows setpoint, voltage and error (see the
   command table below for the rest of the `AT+BIAS_*` family).
 - **`Bias_regulator_task`** (`src/Component/Bias_regulator/`) is a FreeRTOS task owned by
-  `Housekeeping_provider`; it holds the board's I2C bus but its loop is still a stub.
+  `Detector`. It owns the `Bias_calibration` (and through it `Bias_DAC` / `Bias_ADC`), which
+  `Detector::get_bias()` hands to the providers; it holds the board's I2C bus but its loop is
+  still a stub.
 
 ## I2C and temperature sensors (V1.6)
 

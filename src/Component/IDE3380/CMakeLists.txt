@@ -5,7 +5,7 @@ target_sources(${THE_TARGET_NAME} PUBLIC
         IDE3380_readout_control.cpp
         IDE3380_register_access.cpp
         IDE3380_register_decoder.cpp
-        IDE3380_service.cpp
+        IDE3380_service_task.cpp
         IDE3380_test_noise_floor.cpp
         IDE3380_test_pedestal.cpp
 )
@@ -18,7 +18,7 @@ target_sources(${THE_TARGET_NAME} PRIVATE
         IDE3380_readout_control.cppm
         IDE3380_register_access.cppm
         IDE3380_register_decoder.cppm
-        IDE3380_service.cppm
+        IDE3380_service_task.cppm
         IDE3380_test_noise_floor.cppm
         IDE3380_test_pedestal.cppm
 )

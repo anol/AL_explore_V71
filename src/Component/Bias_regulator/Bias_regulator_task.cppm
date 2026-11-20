@@ -28,6 +28,7 @@ export module Component.Bias_regulator;
 import Type.Abstract_I2C;
 import Type.Abstract_board;
 import Platform.FreeRTOS_task;
+import Component.Bias_calibration;
 
 namespace Bias_regulator {
     export class Bias_regulator_task : public FreeRTOS::FreeRTOS_task {
@@ -37,12 +38,14 @@ namespace Bias_regulator {
         };
 
         Abstract::Abstract_I2C &use_I2C;
+        Calibration::Bias_calibration the_calibration;
         int32_t the_temperature{200};
 
     public:
-        Bias_regulator_task(Abstract::Abstract_board &board)
+        explicit Bias_regulator_task(Abstract::Abstract_board &board)
             : FreeRTOS_task("Bias regulator", Priority, Stack_size),
-              use_I2C(board.get_I2C()) {
+              use_I2C(board.get_I2C()),
+              the_calibration(board) {
         }
 
         void initialize() override;
@@ -50,6 +53,8 @@ namespace Bias_regulator {
         void task_loop() override;
 
         [[nodiscard]] int32_t get_temperature() const { return the_temperature; }
+
+        Calibration::Bias_calibration &get_calibration() { return the_calibration; }
     };
 
 }

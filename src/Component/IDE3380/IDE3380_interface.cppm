@@ -12,7 +12,7 @@ export module Component.IDE3380_interface;
 export import Component.IDE3380_definitions;
 export import Component.IDE3380_readout_control;
 export import Component.IDE3380_register_access;
-export import Component.IDE3380_service;
+export import Component.IDE3380_service_task;
 import Type.Abstract_board;
 import Type.Abstract_provider;
 import Type.Status_code;
@@ -27,7 +27,7 @@ export namespace IDE3380 {
      * Facade for the IDE3380 ASICs, safe to call from any task.
      *
      * Every operation that touches SPI (or the shared register-access state) is sent as an Instruction_major
-     * to the_service task, and the calling task blocks until it is done. The service calls back into
+     * to the_service_task task, and the calling task blocks until it is done. The service calls back into
      * on_indication(), which is the only place register access happens. Instructions use Domain keywords:
      *
      *   ASIC asic_nbr=<n>                              select ASIC n (0-based)
@@ -49,7 +49,7 @@ export namespace IDE3380 {
         Abstract::Abstract_board &use_board;
         IDE3380_register_access the_register_access;
         IDE3380_readout_control the_readout_control{};
-        IDE3380_service the_service{*this};
+        IDE3380_service_task the_service_task{*this};
         Repository::Configuration_repository *optional_repository{};
         uint32_t the_readback_error{};
         uint32_t the_repository_error{};
@@ -93,7 +93,7 @@ export namespace IDE3380 {
         // ---- Operations executed by the IDE3380 service task ----
 
         /// Send a ready-made instruction (see the grammar above) to the service. Returns true if it executed.
-        bool execute(Instruction_major &instruction) { return the_service.execute(instruction); }
+        bool execute(Instruction_major &instruction) { return the_service_task.execute(instruction); }
 
         bool set_ASIC(uint8_t ASIC);
 
@@ -123,7 +123,7 @@ export namespace IDE3380 {
 
         uint32_t set_channel_threshold(uint8_t index, uint8_t threshold);
 
-        /// Called by the_service in its own task context; do not call directly.
+        /// Called by the_service_task in its own task context; do not call directly.
         bool on_indication(Instruction_major &instruction) override;
 
     private:

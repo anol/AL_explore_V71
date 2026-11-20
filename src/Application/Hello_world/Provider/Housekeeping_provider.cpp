@@ -105,7 +105,7 @@ void Housekeeping_provider::v_TEST(Instruction_major &instruction) {
 /// @brief Toggle the command trace ON/OFF.
 void Housekeeping_provider::v_TRACE(Instruction_major &) {
     the_trace_flag = !the_trace_flag;
-    IDE3380::IDE3380_service::set_trace(the_trace_flag);
+    IDE3380::IDE3380_service_task::set_trace(the_trace_flag);
     printf("The command trace is %s\r\n", the_trace_flag ? "ON" : "OFF");
 }
 

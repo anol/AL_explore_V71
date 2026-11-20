@@ -21,7 +21,7 @@
 #define configTICK_RATE_HZ                      ( 1000 )   /* Windows timer resolution is ~1 ms at best */
 #define configMAX_PRIORITIES                    ( 7 )
 #define configMINIMAL_STACK_SIZE                ( 128 )    /* words; the port runs each task on a Windows thread */
-#define configMAX_TASK_NAME_LEN                 ( 16 )
+#define configMAX_TASK_NAME_LEN                 ( 24 )
 #define configTICK_TYPE_WIDTH_IN_BITS           TICK_TYPE_WIDTH_32_BITS
 #define configIDLE_SHOULD_YIELD                 1
 

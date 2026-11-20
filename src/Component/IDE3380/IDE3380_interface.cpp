@@ -17,7 +17,7 @@ import Type.Abstract_board;
 import Type.Status_code;
 import Support.Configuration_repository;
 import Component.IDE3380_register_decoder;
-import Component.IDE3380_service;
+import Component.IDE3380_service_task;
 import Domain.Keyword_lookup;
 import Support.Instruction_major;
 import Support.Token_type;
@@ -162,18 +162,18 @@ namespace IDE3380 {
 
     bool IDE3380_interface::send(const uint8_t operation, const uint8_t sub_operation) {
         auto instruction = make_request(operation, sub_operation);
-        return the_service.execute(instruction);
+        return the_service_task.execute(instruction);
     }
 
     uint32_t IDE3380_interface::send_for_result(Instruction_major &instruction) {
-        the_service.execute(instruction);
+        the_service_task.execute(instruction);
         return value_of(instruction, Key_result);
     }
 
     bool IDE3380_interface::set_ASIC(const uint8_t ASIC) {
         auto instruction = make_request(0);
         instruction.add_value(Key_asic_nbr, ASIC);
-        return the_service.execute(instruction);
+        return the_service_task.execute(instruction);
     }
 
     void IDE3380_interface::dump(const char *title) {
@@ -201,7 +201,7 @@ namespace IDE3380 {
     Status_code IDE3380_interface::update_registers(const uint32_t base_id) {
         auto instruction = make_request(Key_LOAD);
         instruction.add_value(Key_offset, base_id);
-        return Status_code(the_service.execute(instruction));
+        return Status_code(the_service_task.execute(instruction));
     }
 
     void IDE3380_interface::enable_external_hold() { send(Key_HOLD, Key_ENABLE); }
@@ -217,13 +217,13 @@ namespace IDE3380 {
     void IDE3380_interface::enable_channel(const uint8_t index) {
         auto instruction = make_request(Key_CHANNEL, Key_ENABLE);
         instruction.add_value(Key_channel, index);
-        the_service.execute(instruction);
+        the_service_task.execute(instruction);
     }
 
     void IDE3380_interface::disable_channel(const uint8_t index) {
         auto instruction = make_request(Key_CHANNEL, Key_DISABLE);
         instruction.add_value(Key_channel, index);
-        the_service.execute(instruction);
+        the_service_task.execute(instruction);
     }
 
     uint32_t IDE3380_interface::set_channel_threshold(const uint8_t index, const uint8_t threshold) {
