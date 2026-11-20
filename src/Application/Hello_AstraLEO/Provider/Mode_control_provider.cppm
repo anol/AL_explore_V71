@@ -31,8 +31,8 @@ import Component.Bias_calibration;
 import Component.Bias_regulator;
 import Platform.FreeRTOS_semaphore;
 import Domain.Keyword_lookup;
-import Application.SpectraNode_command_lookup;
-import Application.SpectraNode_provider_indication;
+import Application.AstraLEO_command_lookup;
+import Application.AstraLEO_provider_indication;
 import Application.Cadence_control;
 import Application.Science_data_provider;
 import Application.Startup_task;
@@ -41,7 +41,7 @@ import Support.Instruction_major;
 
 using namespace IDE3380;
 
-using namespace SpectraNode_interface;
+using namespace AstraLEO_interface;
 
 
 using namespace Application;

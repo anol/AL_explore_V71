@@ -27,7 +27,7 @@
 module;
 #include <cstdint>
 
-export module Application.SpectraNode_provider_indication;
+export module Application.AstraLEO_provider_indication;
 import Domain.Keyword_lookup;
 export import Support.Instruction_lookup;
 import Type.Abstract_provider;
@@ -42,7 +42,7 @@ using namespace Transaction;
 
 using namespace Domain_interface;
 
-export namespace SpectraNode_interface {
+export namespace AstraLEO_interface {
     
     class Abstract_Mode_control_provider : public Abstract_provider<Instruction_major> {
     public:

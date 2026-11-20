@@ -23,10 +23,10 @@
 *                 D O   N O T   E D I T
 */
 
-export module Application.SpectraNode_provider_skeleton;
-import Application.SpectraNode_provider_indication;
+export module Application.AstraLEO_provider_skeleton;
+import Application.AstraLEO_provider_indication;
 
-export namespace SpectraNode_interface {
+export namespace AstraLEO_interface {
     
     class Implement_Mode_control_provider : public Abstract_Mode_control_provider{
     protected:

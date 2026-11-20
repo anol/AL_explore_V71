@@ -28,7 +28,7 @@
 
 -->
 
-# SpectraNode_structure_definition
+# AstraLEO_structure_definition
 
 | Identifier | Type | Default | Description |
 |---|---|---|---|

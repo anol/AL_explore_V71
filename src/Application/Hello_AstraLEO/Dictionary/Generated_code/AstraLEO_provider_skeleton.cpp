@@ -27,9 +27,9 @@
 module;
 #include <iostream>
 
-module Application.SpectraNode_provider_skeleton;
+module Application.AstraLEO_provider_skeleton;
 
-using namespace SpectraNode_interface;
+using namespace AstraLEO_interface;
         
 void Implement_Mode_control_provider::v_DEMO_CADENCE_seconds(Transaction_major &, int seconds_2){
     std::cout << "Implement_Mode_control_provider::v_DEMO_CADENCE_seconds:" << "seconds_2=" << seconds_2 << std::endl;

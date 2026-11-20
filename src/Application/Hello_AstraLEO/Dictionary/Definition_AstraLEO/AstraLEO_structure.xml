@@ -15,8 +15,8 @@
  -->
 
 <?xml-stylesheet type="text/xsl" href="Script/Structure_to_MD.xsl"?>
-<structure product_id="SpectraNode" name="SpectraNode_structure_definition" version="1" keywords="SpectraNode"
-           interface="SpectraNode_interface">
+<structure product_id="AstraLEO" name="AstraLEO_structure_definition" version="1" keywords="AstraLEO"
+           interface="AstraLEO_interface">
      <primary key="device">
         <secondary key="serial_number">
             <tertiary>

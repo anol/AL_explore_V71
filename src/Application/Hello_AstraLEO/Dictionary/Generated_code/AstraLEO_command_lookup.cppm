@@ -26,10 +26,10 @@
 module;
 #include <cstdint>
 
-export module Application.SpectraNode_command_lookup;
+export module Application.AstraLEO_command_lookup;
 export import Support.Instruction_token;
 
-export namespace SpectraNode_interface{
+export namespace AstraLEO_interface{
 
     enum Command : uint16_t {
         No_such_command,

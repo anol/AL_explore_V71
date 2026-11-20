@@ -24,9 +24,9 @@
 */
 
 
-export module Application.SpectraNode_command_empty_help;
+export module Application.AstraLEO_command_empty_help;
 
-export namespace SpectraNode_interface{
+export namespace AstraLEO_interface{
 
     constexpr auto* help_DEMO_CADENCE_seconds{""};
     constexpr auto* help_DEMO_CHANNEL_channel{""};

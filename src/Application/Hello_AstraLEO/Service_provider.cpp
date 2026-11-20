@@ -32,10 +32,10 @@ import Application.Housekeeping_provider;
 import Application.Instrument_calibration_provider;
 import Application.Science_data_provider;
 import Domain.Keyword_lookup;
-import Application.SpectraNode_command_lookup;
-import Application.SpectraNode_provider_indication;
+import Application.AstraLEO_command_lookup;
+import Application.AstraLEO_provider_indication;
 
-using namespace SpectraNode_interface;
+using namespace AstraLEO_interface;
 using namespace Instruction;
 
 namespace Application

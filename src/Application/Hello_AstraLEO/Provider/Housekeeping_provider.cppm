@@ -31,8 +31,8 @@ import Component.Bias_calibration;
 import Component.Bias_regulator;
 import Component.Temperature_sensor;
 import Domain.Keyword_lookup;
-import Application.SpectraNode_command_lookup;
-import Application.SpectraNode_provider_indication;
+import Application.AstraLEO_command_lookup;
+import Application.AstraLEO_provider_indication;
 import Application.Cadence_control;
 import Support.Configuration_repository;
 import Support.Instruction_major;
@@ -42,7 +42,7 @@ import Support.Console_support;
 using namespace IDE3380;
 
 using namespace Domain_interface;
-using namespace SpectraNode_interface;
+using namespace AstraLEO_interface;
 
 
 export class Housekeeping_provider : public Abstract_Housekeeping_provider {

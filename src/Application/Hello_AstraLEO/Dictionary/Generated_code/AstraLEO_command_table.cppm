@@ -24,16 +24,21 @@
 */
 
 module;
-#include <cstdint>
-#include <type_traits>
 
-export module Application.SpectraNode_structure_version;
+export module Application.AstraLEO_command_table;
+import Application.AstraLEO_command_lookup;
+import Support.Abstract_command_table;
 
-export namespace SpectraNode
-{
-    namespace version
-    {
-        using structure = std::integral_constant<uint8_t, 1>;
-        constexpr const char *structure_string = "1";
-    }
-}
+export namespace AstraLEO_interface {
+
+    // Adapts AstraLEO_interface::get_commands() to Instruction::Abstract_command_table,
+    // so callers can depend on that interface instead of on this generated module.
+    class AstraLEO_command_table : public Instruction::Abstract_command_table {
+    public:
+        [[nodiscard]] const Instruction::Instruction_token *get_commands() const override
+        {
+            return AstraLEO_interface::get_commands();
+        }
+    };
+
+} // AstraLEO_interface

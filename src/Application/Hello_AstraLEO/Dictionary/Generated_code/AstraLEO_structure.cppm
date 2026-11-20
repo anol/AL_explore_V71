@@ -20,9 +20,9 @@
 module;
 #include <cstdint>
 
-export module Application.SpectraNode_structure;
+export module Application.AstraLEO_structure;
 
-export namespace SpectraNode_interface
+export namespace AstraLEO_interface
 {
 
     enum { Form_null, Form_keyword, Form_array, Form_reserved };

@@ -27,13 +27,13 @@ module;
 #include <cstdint>
 #include <type_traits>
 
-export module Application.SpectraNode_command_version;
+export module Application.AstraLEO_structure_version;
 
-export namespace FW1038
+export namespace AstraLEO
 {
     namespace version
     {
-        using instruction = std::integral_constant<uint8_t, 5>;
-        constexpr const char *instruction_string = "5";
+        using structure = std::integral_constant<uint8_t, 1>;
+        constexpr const char *structure_string = "1";
     }
 }

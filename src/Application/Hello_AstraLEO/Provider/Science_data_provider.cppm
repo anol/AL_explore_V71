@@ -29,15 +29,15 @@ import Component.IDE3380_provider;
 import Component.Event_counter;
 import Component.Histogram_storage;
 import Domain.Keyword_lookup;
-import Application.SpectraNode_command_lookup;
-import Application.SpectraNode_provider_indication;
+import Application.AstraLEO_command_lookup;
+import Application.AstraLEO_provider_indication;
 import Application.Cadence_control;
 import Support.Configuration_repository;
 import Support.Instruction_major;
 
 using namespace IDE3380;
 
-using namespace SpectraNode_interface;
+using namespace AstraLEO_interface;
 
 
 

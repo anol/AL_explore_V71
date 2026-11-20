@@ -24,9 +24,9 @@
 */
 
 
-export module Application.SpectraNode_command_help;
+export module Application.AstraLEO_command_help;
 
-export namespace SpectraNode_interface{
+export namespace AstraLEO_interface{
 
     constexpr auto* help_DEMO_CADENCE_seconds{"Set telemetry interval (s) in Demonstration Mode."};
     constexpr auto* help_DEMO_CHANNEL_channel{"Set channel. 0=inhibit, 1..16=input, 17=analog sum, 18=digital sum."};

@@ -16,8 +16,8 @@ Copyright (C) 2026 Integrated Detector Electronics AS
  -->
 
 <?xml-stylesheet type="text/xsl" href="commands_to_html.xsl"?>
-<command_definition product_id="FW1038" name="SpectraNode" version="5" keywords="SpectraNode"
-                    interface="SpectraNode_interface">
+<command_definition product_id="FW1038" name="AstraLEO" version="5" keywords="AstraLEO"
+                    interface="AstraLEO_interface">
     <integers>
         <integer key="a" min="-1000000" max="1000000"/>
         <integer key="b" min="-1000000" max="1000000"/>

@@ -32,15 +32,15 @@ import Component.IDE3380_provider;
 import Component.Bias_calibration;
 import Component.Event_counter;
 import Domain.Keyword_lookup;
-import Application.SpectraNode_command_lookup;
-import Application.SpectraNode_provider_indication;
+import Application.AstraLEO_command_lookup;
+import Application.AstraLEO_provider_indication;
 import Support.Configuration_repository;
 import Support.Instruction_major;
 import Application.Mode_control_provider;
 
 using namespace IDE3380;
 
-using namespace SpectraNode_interface;
+using namespace AstraLEO_interface;
 
 
 export class Instrument_calibration_provider : public Abstract_Instrument_calibration_provider {

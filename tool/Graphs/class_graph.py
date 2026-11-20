@@ -25,7 +25,7 @@ GRAPHS = [
     ('hello_astraleo_composition', 'Hello_AstraLEO', False),
     ('astraleo_em_board_composition', 'AstraLEO_EM_board', False),
     ('service_provider_aggregation', 'Service_provider', True),
-    ('spectranode_console_aggregation', 'SpectraNode_console', True),
+    ('astraleo_console_aggregation', 'AstraLEO_console', True),
     ('samv71_spi_aggregation', 'SamV71_SPI', True),
     ('samv71_i2c_aggregation', 'SamV71_I2C', True),
     ('samv71_usart_aggregation', 'SamV71_USART', True),

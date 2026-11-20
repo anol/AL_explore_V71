@@ -27,11 +27,11 @@
 module;
 #include <cstdint>
 
-module Application.SpectraNode_provider_indication;
-import Application.SpectraNode_command_lookup;
+module Application.AstraLEO_provider_indication;
+import Application.AstraLEO_command_lookup;
 
 using namespace Instruction;
-using namespace SpectraNode_interface;
+using namespace AstraLEO_interface;
         
 
 template<> const Abstract_Mode_control_provider::Lookup_table::Instruction_entry
@@ -46,7 +46,7 @@ template<> const Abstract_Mode_control_provider::Lookup_table::Instruction_entry
     {&Abstract_Mode_control_provider::p_NOMINAL_CADENCE_seconds, Cmd_NOMINAL_CADENCE_seconds},
 };
 
-namespace SpectraNode_interface{
+namespace AstraLEO_interface{
 
     bool Abstract_Mode_control_provider::on_indication(Instruction_major &transaction) {
         return Abstract_Mode_control_provider::Lookup_table::lookup(this, transaction);
@@ -101,7 +101,7 @@ template<> const Abstract_Science_data_provider::Lookup_table::Instruction_entry
     {&Abstract_Science_data_provider::p_TIME_date_time, Cmd_TIME_date_time},
 };
 
-namespace SpectraNode_interface{
+namespace AstraLEO_interface{
 
     bool Abstract_Science_data_provider::on_indication(Instruction_major &transaction) {
         return Abstract_Science_data_provider::Lookup_table::lookup(this, transaction);
@@ -165,7 +165,7 @@ template<> const Abstract_Instrument_calibration_provider::Lookup_table::Instruc
     {&Abstract_Instrument_calibration_provider::p_CAL_TRACE, Cmd_CAL_TRACE},
 };
 
-namespace SpectraNode_interface{
+namespace AstraLEO_interface{
 
     bool Abstract_Instrument_calibration_provider::on_indication(Instruction_major &transaction) {
         return Abstract_Instrument_calibration_provider::Lookup_table::lookup(this, transaction);
@@ -302,7 +302,7 @@ template<> const Abstract_Configuration_manager_provider::Lookup_table::Instruct
     {&Abstract_Configuration_manager_provider::p_CONFIG_SAVE, Cmd_CONFIG_SAVE},
 };
 
-namespace SpectraNode_interface{
+namespace AstraLEO_interface{
 
     bool Abstract_Configuration_manager_provider::on_indication(Instruction_major &transaction) {
         return Abstract_Configuration_manager_provider::Lookup_table::lookup(this, transaction);
@@ -395,7 +395,7 @@ template<> const Abstract_Housekeeping_provider::Lookup_table::Instruction_entry
     {&Abstract_Housekeeping_provider::p_VERSION, Cmd_VERSION},
 };
 
-namespace SpectraNode_interface{
+namespace AstraLEO_interface{
 
     bool Abstract_Housekeeping_provider::on_indication(Instruction_major &transaction) {
         return Abstract_Housekeeping_provider::Lookup_table::lookup(this, transaction);

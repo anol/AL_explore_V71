@@ -30,8 +30,8 @@ import Component.Histogram_storage;
 import Component.IDE3380_provider;
 import Component.Bias_calibration;
 import Domain.Keyword_lookup;
-import Application.SpectraNode_command_lookup;
-import Application.SpectraNode_provider_indication;
+import Application.AstraLEO_command_lookup;
+import Application.AstraLEO_provider_indication;
 import Support.Configuration_repository;
 import Support.Instruction_major;
 import Support.CLI_help;
@@ -39,7 +39,7 @@ import Application.Cadence_control;
 
 using namespace IDE3380;
 
-using namespace SpectraNode_interface;
+using namespace AstraLEO_interface;
 using namespace Application;
 using namespace Instruction;
 

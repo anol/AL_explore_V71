@@ -20,12 +20,12 @@
 module;
 #include <cstdint>
 
-module Application.SpectraNode_structure;
+module Application.AstraLEO_structure;
 import Domain.Keyword_lookup;
 
 using namespace Domain_interface;
 
-namespace SpectraNode_interface{
+namespace AstraLEO_interface{
 
         static inline constexpr uint32_t key_is(uint8_t p1, uint8_t s2, uint8_t t3, uint8_t q4) {
         return (p1 << 24 ) | (s2 << 16 ) | (t3 << 8) | q4;

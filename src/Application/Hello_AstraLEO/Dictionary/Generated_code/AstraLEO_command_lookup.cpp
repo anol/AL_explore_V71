@@ -27,15 +27,15 @@
 module;
 #include <cstdint>
 
-module Application.SpectraNode_command_lookup;
+module Application.AstraLEO_command_lookup;
 import Domain.Keyword_lookup;
-import Application.SpectraNode_command_help;
+import Application.AstraLEO_command_help;
 
 using namespace Instruction;
 
 using namespace Domain_interface;
 
-namespace SpectraNode_interface{
+namespace AstraLEO_interface{
 
     const Instruction_token token_DEMO_CADENCE_seconds[] = {
         {help_DEMO_CADENCE_seconds, Cmd_DEMO_CADENCE_seconds, Key_Mode_control},

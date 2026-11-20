@@ -13,7 +13,7 @@
 :: from Integrated Detector Electronics AS.
 ::
 
-set SUBJECT=SpectraNode
+set SUBJECT=AstraLEO
 
 set TARGET_DIR=..\Generated_code
 set SCRIPT_DIR=..\Dictionary_scripts

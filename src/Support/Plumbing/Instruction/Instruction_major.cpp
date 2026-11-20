@@ -199,7 +199,7 @@ void Instruction_major::print_trace(const Keyword_lookup get_keyword) const {
 // void Instruction_major::report(Service_report *reporter) const {
 //     if (reporter) {
 //         reporter->begin_object();
-//         reporter->report(SpectraNode_interface::Key_STATUS, (uint32_t) reporter->get_transaction_id());
+//         reporter->report(AstraLEO_interface::Key_STATUS, (uint32_t) reporter->get_transaction_id());
 //         for (uint32_t index = 0; index < the_token_count; index++) {
 //             if (the_token_types[index] == Keyword_token) {
 //                 reporter->keyword(the_token_ids[index]);

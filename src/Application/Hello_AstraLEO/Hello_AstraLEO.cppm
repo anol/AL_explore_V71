@@ -8,7 +8,7 @@ export module Application.Hello_AstraLEO;
 import Type.Abstract_application;
 import Type.Abstract_board;
 import Application.Service_provider;
-import Application.SpectraNode_console;
+import Application.AstraLEO_console;
 import Support.Heartbeat_task;
 import Domain.IO_pins;
 
@@ -17,7 +17,7 @@ export namespace Application {
         Abstract::Abstract_UART &use_UART;
         Abstract::Abstract_IO_pin &use_LED0;
         Abstract::Abstract_IO_pin &use_LED1;
-        SpectraNode_console the_console{use_UART};
+        AstraLEO_console the_console{use_UART};
         Support::Heartbeat_task the_heartbeat_task{use_LED0, use_LED1};
         Service_provider the_service_provider;
 

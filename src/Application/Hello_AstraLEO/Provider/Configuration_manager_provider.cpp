@@ -27,14 +27,14 @@ module;
 module Application.Configuration_manager_provider;
 import Component.IDE3380_provider;
 import Domain.Keyword_lookup;
-import Application.SpectraNode_command_lookup;
-import Application.SpectraNode_provider_indication;
+import Application.AstraLEO_command_lookup;
+import Application.AstraLEO_provider_indication;
 import Support.Configuration_repository;
 import Support.Instruction_major;
 
 using namespace IDE3380;
 
-using namespace SpectraNode_interface;
+using namespace AstraLEO_interface;
 using namespace Application;
 
 void Configuration_manager_provider::v_CONFIG_CLEAN(Instruction_major &instruction) {

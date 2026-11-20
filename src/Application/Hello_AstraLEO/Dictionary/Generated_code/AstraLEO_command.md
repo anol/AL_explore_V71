@@ -28,7 +28,7 @@
 
 -->
 
-# FW1038 SpectraNode command version 5
+# FW1038 AstraLEO command version 5
 
 Date: 20.11.2026
 
