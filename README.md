@@ -126,7 +126,10 @@ The graph above collapses every source directory into its top-level `src/` area
 
 ## Dependencies
 
-Covers both `#include` edges (solid) and C++20 module `import` edges (dashed), for the
+All graphs in this README (except the hand-drawn bias diagram) are generated from the sources by
+`python tool/Graphs/update_graphs.py`; see [`tool/Graphs/README.md`](tool/Graphs/README.md).
+
+The module graph covers both `#include` edges (solid) and C++20 module `import` edges (dashed), for the
 directories CMake actually builds with the `V71_EK_hello_world` preset. Almost every
 module is now a named C++20 module, so `import` dominates: the only remaining `#include`
 edges are:

@@ -14,6 +14,11 @@
 <text text-anchor="middle" x="837" y="-35.6" font-family="Consolas" font-size="13.00">solid = #include dependency &#160;&#160;&#160;&#160;dashed = C++20 module import &#160;&#160;&#160;&#160;bold red = two&#45;way (circular) dependency between the pair</text>
 <text text-anchor="middle" x="837" y="-21.6" font-family="Consolas" font-size="13.00">bold purple = part of a dependency loop through 3 or more modules</text>
 <text text-anchor="middle" x="837" y="-7.6" font-family="Consolas" font-size="13.00">Loops found: none</text>
+<g id="clust1" class="cluster">
+<title>cluster_0</title>
+<polygon fill="none" stroke="#c4cdc3" stroke-dasharray="5,2" points="229,-1412.46 229,-1541.46 1069,-1541.46 1069,-1412.46 229,-1412.46"/>
+<text text-anchor="middle" x="649" y="-1526.26" font-family="Consolas" font-size="14.00">Application</text>
+</g>
 <g id="clust2" class="cluster">
 <title>cluster_1</title>
 <polygon fill="none" stroke="#c4cdc3" stroke-dasharray="5,2" points="504.5,-512.46 504.5,-587.46 618.5,-587.46 618.5,-512.46 504.5,-512.46"/>
@@ -23,6 +28,16 @@
 <title>cluster_2</title>
 <polygon fill="none" stroke="#c4cdc3" stroke-dasharray="5,2" points="450.5,-1076.46 450.5,-1205.46 985,-1205.46 985,-1076.46 450.5,-1076.46"/>
 <text text-anchor="middle" x="717.75" y="-1190.26" font-family="Consolas" font-size="14.00">Component</text>
+</g>
+<g id="clust9" class="cluster">
+<title>cluster_8</title>
+<polygon fill="none" stroke="#c4cdc3" stroke-dasharray="5,2" points="1395,-1379.46 1395,-1454.46 1475,-1454.46 1475,-1379.46 1395,-1379.46"/>
+<text text-anchor="middle" x="1435" y="-1439.26" font-family="Consolas" font-size="14.00">Utility</text>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_7</title>
+<polygon fill="none" stroke="#c4cdc3" stroke-dasharray="5,2" points="1139.5,-267.46 1139.5,-342.46 1666,-342.46 1666,-267.46 1139.5,-267.46"/>
+<text text-anchor="middle" x="1402.75" y="-327.26" font-family="Consolas" font-size="14.00">Type</text>
 </g>
 <g id="clust6" class="cluster">
 <title>cluster_5</title>
@@ -34,30 +49,15 @@
 <polygon fill="none" stroke="#c4cdc3" stroke-dasharray="5,2" points="746.5,-350.46 746.5,-695.46 1300.5,-695.46 1300.5,-350.46 746.5,-350.46"/>
 <text text-anchor="middle" x="1023.5" y="-680.26" font-family="Consolas" font-size="14.00">Platform</text>
 </g>
-<g id="clust1" class="cluster">
-<title>cluster_0</title>
-<polygon fill="none" stroke="#c4cdc3" stroke-dasharray="5,2" points="229,-1412.46 229,-1541.46 1069,-1541.46 1069,-1412.46 229,-1412.46"/>
-<text text-anchor="middle" x="649" y="-1526.26" font-family="Consolas" font-size="14.00">Application</text>
-</g>
-<g id="clust4" class="cluster">
-<title>cluster_3</title>
-<polygon fill="none" stroke="#c4cdc3" stroke-dasharray="5,2" points="1109.5,-1038.46 1109.5,-1167.46 1283.5,-1167.46 1283.5,-1038.46 1109.5,-1038.46"/>
-<text text-anchor="middle" x="1196.5" y="-1152.26" font-family="Consolas" font-size="14.00">Domain</text>
-</g>
-<g id="clust9" class="cluster">
-<title>cluster_8</title>
-<polygon fill="none" stroke="#c4cdc3" stroke-dasharray="5,2" points="1395,-1379.46 1395,-1454.46 1475,-1454.46 1475,-1379.46 1395,-1379.46"/>
-<text text-anchor="middle" x="1435" y="-1439.26" font-family="Consolas" font-size="14.00">Utility</text>
-</g>
 <g id="clust7" class="cluster">
 <title>cluster_6</title>
 <polygon fill="none" stroke="#c4cdc3" stroke-dasharray="5,2" points="8,-512.46 8,-587.46 209,-587.46 209,-512.46 8,-512.46"/>
 <text text-anchor="middle" x="108.5" y="-572.26" font-family="Consolas" font-size="14.00">Target</text>
 </g>
-<g id="clust8" class="cluster">
-<title>cluster_7</title>
-<polygon fill="none" stroke="#c4cdc3" stroke-dasharray="5,2" points="1139.5,-267.46 1139.5,-342.46 1666,-342.46 1666,-267.46 1139.5,-267.46"/>
-<text text-anchor="middle" x="1402.75" y="-327.26" font-family="Consolas" font-size="14.00">Type</text>
+<g id="clust4" class="cluster">
+<title>cluster_3</title>
+<polygon fill="none" stroke="#c4cdc3" stroke-dasharray="5,2" points="1109.5,-1038.46 1109.5,-1167.46 1283.5,-1167.46 1283.5,-1038.46 1109.5,-1038.46"/>
+<text text-anchor="middle" x="1196.5" y="-1152.26" font-family="Consolas" font-size="14.00">Domain</text>
 </g>
 <!-- Application/Hello_world -->
 <g id="node1" class="node">

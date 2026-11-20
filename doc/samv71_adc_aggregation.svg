@@ -17,83 +17,83 @@
 <text text-anchor="start" x="355" y="-297.2" font-family="Consolas" font-style="italic" font-size="11.00">Abstract_ADC</text>
 <text text-anchor="start" x="350" y="-283" font-family="Consolas" font-size="15.00">SamV71_ADC</text>
 </g>
-<!-- ADC_driver -->
+<!-- SamV71_ADC_driver -->
 <g id="node2" class="node">
-<title>ADC_driver</title>
+<title>SamV71_ADC_driver</title>
 <polygon fill="none" stroke="black" points="455,-142 298,-142 298,-106 455,-106 455,-142"/>
-<text text-anchor="start" x="306" y="-120.5" font-family="Consolas" font-size="15.00">SamV71_ADC_driver</text>
+<text text-anchor="middle" x="376.5" y="-120.5" font-family="Consolas" font-size="15.00">SamV71_ADC_driver</text>
 </g>
-<!-- SamV71_ADC&#45;&gt;ADC_driver -->
+<!-- SamV71_ADC&#45;&gt;SamV71_ADC_driver -->
 <g id="edge1" class="edge">
-<title>SamV71_ADC&#45;&gt;ADC_driver</title>
+<title>SamV71_ADC&#45;&gt;SamV71_ADC_driver</title>
 <path fill="none" stroke="#1b6f60" d="M388.17,-261.73C386.95,-250.56 385.59,-237.7 384.5,-226 381.75,-196.58 379.16,-162.27 377.71,-142.17"/>
 <polygon fill="#1b6f60" stroke="#1b6f60" points="388.2,-261.98 392.84,-267.5 389.53,-273.91 384.89,-268.39 388.2,-261.98"/>
 <text text-anchor="middle" x="418" y="-205.2" font-family="Consolas" font-size="11.00" fill="#155a4e"> the_driver</text>
 </g>
-<!-- ADC_handler -->
-<g id="node3" class="node">
-<title>ADC_handler</title>
+<!-- SamV71_ADC_ISR -->
+<g id="node4" class="node">
+<title>SamV71_ADC_ISR</title>
 <polygon fill="none" stroke="black" points="592.5,-226 460.5,-226 460.5,-190 592.5,-190 592.5,-226"/>
-<text text-anchor="start" x="468.5" y="-204.5" font-family="Consolas" font-size="15.00">SamV71_ADC_ISR</text>
+<text text-anchor="middle" x="526.5" y="-204.5" font-family="Consolas" font-size="15.00">SamV71_ADC_ISR</text>
 </g>
-<!-- SamV71_ADC&#45;&gt;ADC_handler -->
-<g id="edge2" class="edge">
-<title>SamV71_ADC&#45;&gt;ADC_handler</title>
+<!-- SamV71_ADC&#45;&gt;SamV71_ADC_ISR -->
+<g id="edge3" class="edge">
+<title>SamV71_ADC&#45;&gt;SamV71_ADC_ISR</title>
 <path fill="none" stroke="#1b6f60" d="M430.32,-267.42C452,-254.25 478.54,-238.13 498.24,-226.17"/>
 <polygon fill="#1b6f60" stroke="#1b6f60" points="430.06,-267.58 427.01,-274.11 419.8,-273.81 422.85,-267.28 430.06,-267.58"/>
 <text text-anchor="middle" x="492" y="-247.2" font-family="Consolas" font-size="11.00" fill="#155a4e"> the_ISR</text>
 </g>
-<!-- ADC_queue -->
-<g id="node4" class="node">
-<title>ADC_queue</title>
+<!-- FreeRTOS_queue&lt;SamV71_ADC_request *, Queue_size&gt; -->
+<g id="node3" class="node">
+<title>FreeRTOS_queue&lt;SamV71_ADC_request *, Queue_size&gt;</title>
 <polygon fill="none" stroke="black" points="413,-58 0,-58 0,-22 413,-22 413,-58"/>
 <text text-anchor="start" x="155" y="-45.2" font-family="Consolas" font-style="italic" font-size="11.00">Abstract_queue&lt;T&gt;</text>
 <text text-anchor="start" x="8" y="-31" font-family="Consolas" font-size="15.00">FreeRTOS_queue&lt;SamV71_ADC_request *, Queue_size&gt;</text>
 </g>
-<!-- ADC_driver&#45;&gt;ADC_queue -->
-<g id="edge3" class="edge">
-<title>ADC_driver&#45;&gt;ADC_queue</title>
+<!-- SamV71_ADC_driver&#45;&gt;FreeRTOS_queue&lt;SamV71_ADC_request *, Queue_size&gt; -->
+<g id="edge2" class="edge">
+<title>SamV71_ADC_driver&#45;&gt;FreeRTOS_queue&lt;SamV71_ADC_request *, Queue_size&gt;</title>
 <path fill="none" stroke="#1b6f60" d="M329.81,-100.48C302.01,-87.07 267.3,-70.33 241.8,-58.03"/>
 <polygon fill="#1b6f60" stroke="#1b6f60" points="330.05,-100.6 337.2,-99.6 340.86,-105.81 333.72,-106.81 330.05,-100.6"/>
 <text text-anchor="middle" x="333" y="-79.2" font-family="Consolas" font-size="11.00" fill="#155a4e"> the_queue</text>
 </g>
-<!-- ADC_define -->
+<!-- SamV71_ADC_config -->
 <g id="node5" class="node">
-<title>ADC_define</title>
+<title>SamV71_ADC_config</title>
 <polygon fill="none" stroke="black" points="588,-58 431,-58 431,-22 588,-22 588,-58"/>
-<text text-anchor="start" x="439" y="-36.5" font-family="Consolas" font-size="15.00">SamV71_ADC_config</text>
+<text text-anchor="middle" x="509.5" y="-36.5" font-family="Consolas" font-size="15.00">SamV71_ADC_config</text>
 </g>
-<!-- ADC_driver&#45;&gt;ADC_define -->
+<!-- SamV71_ADC_driver&#45;&gt;SamV71_ADC_config -->
 <g id="edge4" class="edge">
-<title>ADC_driver&#45;&gt;ADC_define</title>
+<title>SamV71_ADC_driver&#45;&gt;SamV71_ADC_config</title>
 <path fill="none" stroke="#b8631f" d="M385.32,-94.44C388.55,-87.64 392.86,-80.94 398.5,-76 407.85,-67.81 419.11,-61.54 430.83,-56.73"/>
 <polygon fill="none" stroke="#b8631f" points="385.29,-94.51 386.78,-101.57 380.84,-105.66 379.35,-98.6 385.29,-94.51"/>
 <text text-anchor="middle" x="447" y="-79.2" font-family="Consolas" font-size="11.00" fill="#8a4c18"> optional_config</text>
 </g>
-<!-- ADC_handler&#45;&gt;ADC_driver -->
-<g id="edge5" class="edge">
-<title>ADC_handler&#45;&gt;ADC_driver</title>
+<!-- SamV71_ADC_ISR&#45;&gt;SamV71_ADC_driver -->
+<g id="edge6" class="edge">
+<title>SamV71_ADC_ISR&#45;&gt;SamV71_ADC_driver</title>
 <path fill="none" stroke="#b8631f" d="M455.58,-185.45C446.21,-181.52 436.93,-177.04 428.5,-172 414.92,-163.88 401.73,-151.89 392.02,-142.05"/>
 <polygon fill="none" stroke="#b8631f" points="455.86,-185.56 462.91,-184.05 467.02,-189.97 459.97,-191.49 455.86,-185.56"/>
 <text text-anchor="middle" x="462" y="-163.2" font-family="Consolas" font-size="11.00" fill="#8a4c18"> use_driver</text>
 </g>
-<!-- ADC_handler&#45;&gt;ADC_define -->
-<g id="edge6" class="edge">
-<title>ADC_handler&#45;&gt;ADC_define</title>
+<!-- SamV71_ADC_ISR&#45;&gt;SamV71_ADC_config -->
+<g id="edge5" class="edge">
+<title>SamV71_ADC_ISR&#45;&gt;SamV71_ADC_config</title>
 <path fill="none" stroke="#b8631f" d="M522.69,-177.74C521.29,-166.57 519.74,-153.7 518.5,-142 515.38,-112.59 512.48,-78.28 510.85,-58.17"/>
 <polygon fill="none" stroke="#b8631f" points="522.72,-178.01 527.45,-183.45 524.24,-189.91 519.51,-184.46 522.72,-178.01"/>
 <text text-anchor="middle" x="567" y="-121.2" font-family="Consolas" font-size="11.00" fill="#8a4c18"> optional_config</text>
 </g>
-<!-- ADC_request -->
+<!-- SamV71_ADC_request -->
 <g id="node6" class="node">
-<title>ADC_request</title>
+<title>SamV71_ADC_request</title>
 <polygon fill="none" stroke="black" points="790,-142 625,-142 625,-106 790,-106 790,-142"/>
 <text text-anchor="start" x="659" y="-129.2" font-family="Consolas" font-style="italic" font-size="11.00">Abstract_request</text>
 <text text-anchor="start" x="633" y="-115" font-family="Consolas" font-size="15.00">SamV71_ADC_request</text>
 </g>
-<!-- ADC_handler&#45;&gt;ADC_request -->
-<g id="edge7" class="edge">
-<title>ADC_handler&#45;&gt;ADC_request</title>
+<!-- SamV71_ADC_ISR&#45;&gt;SamV71_ADC_request -->
+<g id="edge8" class="edge">
+<title>SamV71_ADC_ISR&#45;&gt;SamV71_ADC_request</title>
 <path fill="none" stroke="#b8631f" d="M575.42,-184.84C605.15,-171.37 642.52,-154.44 669.92,-142.03"/>
 <polygon fill="none" stroke="#b8631f" points="575.37,-184.86 571.56,-190.98 564.44,-189.81 568.26,-183.69 575.37,-184.86"/>
 <text text-anchor="middle" x="680" y="-163.2" font-family="Consolas" font-size="11.00" fill="#8a4c18"> optional_request</text>
@@ -105,9 +105,9 @@
 <text text-anchor="start" x="653" y="-45.2" font-family="Consolas" font-style="italic" font-size="11.00">Abstract_semaphore</text>
 <text text-anchor="start" x="633" y="-31" font-family="Consolas" font-size="15.00">FreeRTOS_semaphore</text>
 </g>
-<!-- ADC_request&#45;&gt;FreeRTOS_semaphore -->
-<g id="edge8" class="edge">
-<title>ADC_request&#45;&gt;FreeRTOS_semaphore</title>
+<!-- SamV71_ADC_request&#45;&gt;FreeRTOS_semaphore -->
+<g id="edge7" class="edge">
+<title>SamV71_ADC_request&#45;&gt;FreeRTOS_semaphore</title>
 <path fill="none" stroke="#1b6f60" d="M707.5,-93.48C707.5,-81.59 707.5,-68.31 707.5,-58.08"/>
 <polygon fill="#1b6f60" stroke="#1b6f60" points="707.5,-93.61 711.5,-99.61 707.5,-105.61 703.5,-99.61 707.5,-93.61"/>
 <text text-anchor="middle" x="750" y="-79.2" font-family="Consolas" font-size="11.00" fill="#155a4e"> the_semaphore</text>

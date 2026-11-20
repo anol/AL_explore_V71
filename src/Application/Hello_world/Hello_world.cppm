@@ -18,8 +18,8 @@ export namespace Application {
         Abstract::Abstract_UART &use_UART;
         Abstract::Abstract_IO_pin &use_LED0;
         Abstract::Abstract_IO_pin &use_LED1;
-        Support::Heartbeat_task the_heartbeat_task{use_LED0, use_LED1};
         SpectraNode_console the_console{use_UART};
+        Support::Heartbeat_task the_heartbeat_task{use_LED0, use_LED1};
         Detector the_detector;
         Service_provider the_service_provider;
 
