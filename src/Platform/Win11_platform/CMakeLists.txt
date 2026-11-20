@@ -31,7 +31,7 @@ target_sources(${THE_TARGET_NAME} PRIVATE
         Mockup_UART.cppm
 )
 
-# Not built by Win_hello_world (kept for the on-hold targets):
+# Not built by Hello_AstraLEO_Win11 (kept for the on-hold targets):
 #   Mockup_ethernet.*, Win11_ethernet.* (needs pcap), Win11_binary_file.*, Win11_embedded_flash.*,
 #   Win11_print_support.*
 

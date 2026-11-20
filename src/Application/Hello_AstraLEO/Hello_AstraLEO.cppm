@@ -4,7 +4,7 @@
 
 module;
 
-export module Application.Hello_world;
+export module Application.Hello_AstraLEO;
 import Type.Abstract_application;
 import Type.Abstract_board;
 import Application.Service_provider;
@@ -13,7 +13,7 @@ import Support.Heartbeat_task;
 import Domain.IO_pins;
 
 export namespace Application {
-    class Hello_world : public Abstract::Abstract_application {
+    class Hello_AstraLEO : public Abstract::Abstract_application {
         Abstract::Abstract_UART &use_UART;
         Abstract::Abstract_IO_pin &use_LED0;
         Abstract::Abstract_IO_pin &use_LED1;
@@ -22,7 +22,7 @@ export namespace Application {
         Service_provider the_service_provider;
 
     public:
-        explicit Hello_world(Abstract::Abstract_board &board)
+        explicit Hello_AstraLEO(Abstract::Abstract_board &board)
             : use_UART(board.get_UART()),
               use_LED0(board.get_pin(Domain::Pin_LED0)),
               use_LED1(board.get_pin(Domain::Pin_LED1)),

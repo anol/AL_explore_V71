@@ -3,7 +3,7 @@ A nix flake has been provided to manage all software dependancies (you can insta
 If you use direnv (or nix-direnv [https://github.com/nix-community/nix-direnv])then the included .envrc file will automatically start the nix shell 
 
 The hex file can be programmed onto the board with the following command
-    sudo openocd -f interface/cmsis-dap.cfg -f src/Board/V71_EK/atmel_samv71_xplained_ultra.cfg -c "adapter speed 5000" -c "program bin/V71_EK_hello_world.elf verify reset exit"
+    sudo openocd -f interface/cmsis-dap.cfg -f src/Board/AstraLEO_EM/atmel_samv71_xplained_ultra.cfg -c "adapter speed 5000" -c "program bin/Hello_AstraLEO_EM.elf verify reset exit"
 
 The board can be interfaced with over a serial monitor, for example:
     sudo tio -b 115200 /dev/ttyACM0 --local-echo

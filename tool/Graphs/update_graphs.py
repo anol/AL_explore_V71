@@ -1,10 +1,11 @@
 """Regenerate every generated graph in doc/ from the sources.
 
-    python tool/Graphs/update_graphs.py [--preset V71_EK_hello_world] [--dot PATH]
+    python tool/Graphs/update_graphs.py [--preset Hello_AstraLEO_EM] [--dot PATH] [--detailed]
 
 Writes doc/module_dependencies.svg, doc/top_level_dependencies.svg and the class graphs listed in
-class_graph.GRAPHS, for the files that CMake compiles with the given configure preset. Needs Graphviz
-(`dot` on PATH, or under Program Files).
+class_graph.GRAPHS, for the files that CMake compiles with the given configure preset. With --detailed the
+class graphs are written as doc/<name>_detailed.svg instead, with inheritance edges and dashed pointer
+aggregation. Needs Graphviz (`dot` on PATH, or under Program Files).
 """
 import argparse
 import glob
@@ -47,8 +48,10 @@ def render(dot, text, svg_path):
 def main():
     sys.stdout.reconfigure(encoding='utf-8')
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument('--preset', default='V71_EK_hello_world', help='CMake configure preset')
+    parser.add_argument('--preset', default='Hello_AstraLEO_EM', help='CMake configure preset')
     parser.add_argument('--dot', help='path to Graphviz dot')
+    parser.add_argument('--detailed', action='store_true',
+                        help='class graphs with inheritance edges and dashed pointers, as doc/<name>_detailed.svg')
     args = parser.parse_args()
 
     dot = find_dot(args.dot)
@@ -69,7 +72,7 @@ def main():
     for w in result['warnings']:
         print('  warning:', w)
 
-    for name, text, n_nodes, n_edges in class_graphs([f for fs in active.values() for f in fs]):
+    for name, text, n_nodes, n_edges in class_graphs([f for fs in active.values() for f in fs], args.detailed):
         render(dot, text, os.path.join(doc, name + '.svg'))
         print(f'{name}: {n_nodes} classes, {n_edges} edges')
 

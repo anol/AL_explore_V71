@@ -4,8 +4,8 @@ target_include_directories(${THE_TARGET_NAME} PUBLIC
 
 target_sources(${THE_TARGET_NAME} PUBLIC
         FreeRTOS_hooks.cpp
-        Win_hello_world.cpp
-        Win_hello_world.h
+        Hello_AstraLEO_Win11.cpp
+        Hello_AstraLEO_Win11.h
 )
 
 configure_file(Target_config.h.i ${PROJECT_BINARY_DIR}/Target_config.h)

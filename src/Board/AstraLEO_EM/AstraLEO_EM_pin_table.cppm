@@ -1,7 +1,7 @@
 module;
 #include <cstdint>
 
-export module Board.V71_EK_pin_table;
+export module Board.AstraLEO_EM_pin_table;
 import Platform.SamV71_IO_pin;
 import Domain.IO_pins;
 import Type.Abstract_IO_pin;
@@ -9,7 +9,7 @@ import Type.Abstract_pin_table;
 
 
 export namespace SamV71 {
-    class V71_EK_pin_table : public Abstract::Abstract_pin_table {
+    class AstraLEO_EM_pin_table : public Abstract::Abstract_pin_table {
         using Tag = Domain::Pin_id;
         using Pin = SamV71_IO_pin;
 

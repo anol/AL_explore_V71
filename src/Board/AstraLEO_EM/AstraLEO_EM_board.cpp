@@ -10,9 +10,9 @@ module;
 // #include "sam.h"
 // #include "cachel1_armv7.h"
 
-module Board.V71_EK_board;
+module Board.AstraLEO_EM_board;
 import Type.Abstract_board;
-import Board.V71_EK_pin_table;
+import Board.AstraLEO_EM_pin_table;
 import Platform.SamV71_clock;
 import Platform.SamV71_I2C;
 import Platform.SamV71_SPI;
@@ -22,7 +22,7 @@ import Platform.SamV71_platform;
 namespace Board {
     using namespace SamV71;
 
-    void V71_EK_board::initialize() {
+    void AstraLEO_EM_board::initialize() {
         the_clock.initialize();
         SamV71_platform::initialize();
         the_pin_table.initialize();
@@ -33,7 +33,7 @@ namespace Board {
         the_DAC.initialize();
     }
 
-    void V71_EK_board::print_diagnostics() {
+    void AstraLEO_EM_board::print_diagnostics() {
         the_SPI.print_diagnostics();
         the_I2C.print_diagnostics();
         the_pin_table.print_diagnostics();

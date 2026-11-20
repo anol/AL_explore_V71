@@ -8,6 +8,9 @@ From each root class, members are followed outward:
 - interfaces / abstract classes (classes with pure virtual functions) are leaves; their members are not
   followed, and a concrete class is never replaced by the class implementing an interface elsewhere
 - base classes are shown as the small italic line above the class name, «interface» / «abstract» above that
+- detailed=True (update_graphs.py --detailed): every base class gets a box of its own and a derived -> base
+  edge with a hollow triangle (bases of bases too; a base's own members are not followed, they belong to
+  the derived object); aggregation through a pointer is dashed, through a reference solid
 - static members, non-project types (SDK, RTOS handles, builtins) and EXCLUDED are left out;
   class-scope `using` aliases are resolved
 """
@@ -19,8 +22,8 @@ from graph_style import class_graph_dot
 
 # (output name, root class, aggregation?)
 GRAPHS = [
-    ('hello_world_composition', 'Hello_world', False),
-    ('v71_ek_board_composition', 'V71_EK_board', False),
+    ('hello_astraleo_composition', 'Hello_AstraLEO', False),
+    ('astraleo_em_board_composition', 'AstraLEO_EM_board', False),
     ('service_provider_aggregation', 'Service_provider', True),
     ('spectranode_console_aggregation', 'SpectraNode_console', True),
     ('samv71_spi_aggregation', 'SamV71_SPI', True),
@@ -34,6 +37,9 @@ EXCLUDED = {'Argument', 'Attribute_type', 'Instruction_token', 'Instruction_majo
 
 COMPOSITION_TITLE = '{} — composition graph   [ ◆ composition (owned member) ]'
 AGGREGATION_TITLE = '{} — aggregation graph   [ ◇ aggregation (non-owning ref)    ◆ composition (owned member) ]'
+DETAILED_COMPOSITION_TITLE = '{} — composition graph   [ ◆ composition (owned member)    △ inheritance (is-a) ]'
+DETAILED_AGGREGATION_TITLE = ('{} — aggregation graph   [ ◇ aggregation (non-owning ref/pointer, dashed)    '
+                              '◆ composition (owned member)    △ inheritance (is-a) ]')
 
 _HEADER = re.compile(r'(?<![\w:])(class|struct)\s+(?:\[\[[^\]]*\]\]\s*)?(\w+)\s*(?:final\s*)?(:\s*[^{;()]*?)?\s*\{')
 _ACCESS = re.compile(r'^\s*(public|private|protected)\s*:\s*')
@@ -182,23 +188,24 @@ def _resolve(classes, type_text, owner):
     return cands[0] if cands else None
 
 
-def _label(c, display):
+def _label(c, display, detailed=False):
     lines = []
     if c['pure']:
         lines.append('«interface»' if not c['members'] and not c['bases'] else '«abstract»')
-    if c['bases']:
+    if c['bases'] and not detailed:  # detailed graphs draw the bases as boxes of their own
         lines.append(', '.join(_unqualify(b) for b in c['bases']))
     lines.append(display)
     return lines
 
 
-def build(classes, root_name, aggregation):
-    """-> (nodes [[id, label lines]], edges [[from, to, member, 'comp' | 'aggr']])"""
+def build(classes, root_name, aggregation, detailed=False):
+    """-> (nodes [[id, label lines]], edges [[from, to, member, 'comp' | 'aggr' | 'ptr' | 'inherit']])"""
     root = _resolve(classes, root_name, None)
     if root is None:
         raise SystemExit(f'class {root_name} not found in the compiled sources')
     nodes, edges, pending = {}, [], []
     instances = defaultdict(list)  # displayed type -> node ids holding one instance of it
+    node_class = {}  # node id -> class info, for the inheritance pass
     expanded = set()
 
     def expand(c, node_id):
@@ -216,17 +223,19 @@ def build(classes, root_name, aggregation):
                 edges.append([node_id, child, name, 'comp'])
                 add(target, display, child)
             elif aggregation:
-                pending.append((node_id, target, display, name))
+                kind = 'ptr' if detailed and ptr == '*' else 'aggr'
+                pending.append((node_id, target, display, name, kind))
 
     def add(c, display, node_id):
         if node_id not in nodes:
-            nodes[node_id] = _label(c, display)
+            nodes[node_id] = _label(c, display, detailed)
             instances[display].append(node_id)
+            node_class[node_id] = c
             expand(c, node_id)
 
     add(root, _unqualify(root_name), root_name)
     while pending:
-        owner, target, display, name = pending.pop(0)
+        owner, target, display, name, kind = pending.pop(0)
         held = instances.get(display, [])
         if len(held) == 1:
             dst = held[0]
@@ -234,9 +243,29 @@ def build(classes, root_name, aggregation):
             dst = display
             if dst not in nodes:
                 add(target, display, dst)  # concrete classes are traced further; interfaces stop
-        edges.append([owner, dst, name, 'aggr'])
+        edges.append([owner, dst, name, kind])
 
-    rename = {}
+    base_ids = {}  # displayed base type -> node id, for bases that are not already in the graph
+    if detailed:
+        queue = list(node_class.items())
+        while queue:
+            node_id, c = queue.pop(0)
+            for base in c['bases']:
+                display = _unqualify(base)
+                held = instances.get(display, [])
+                if len(held) == 1:
+                    dst = held[0]  # the base is itself in the graph: point at it
+                else:
+                    dst = base_ids.get(display)
+                    if dst is None:
+                        dst = base_ids[display] = f'{display}@base'
+                        target = _resolve(classes, base, c)
+                        nodes[dst] = _label(target, display, True) if target else [display]
+                        if target:
+                            queue.append((dst, target))  # interfaces can derive from interfaces
+                edges.append([node_id, dst, '', 'inherit'])
+
+    rename = {display + '@base': display for display in base_ids}
     for display, ids in instances.items():
         for k, nid in enumerate(ids):
             rename[nid] = display if len(ids) == 1 else f'{display} #{k + 1}'
@@ -244,12 +273,18 @@ def build(classes, root_name, aggregation):
             [[rename[a], rename[b], member, kind] for a, b, member, kind in edges])
 
 
-def class_graphs(files):
-    """[(output name, .dot text, node count, edge count)] for every graph in GRAPHS"""
+def class_graphs(files, detailed=False):
+    """[(output name, .dot text, node count, edge count)] for every graph in GRAPHS;
+    detailed graphs are named <name>_detailed"""
     classes = parse_classes(files)
     out = []
     for name, root, aggregation in GRAPHS:
-        nodes, edges = build(classes, root, aggregation)
-        title = (AGGREGATION_TITLE if aggregation else COMPOSITION_TITLE).format(root)
-        out.append((name, class_graph_dot(re.sub(r'\W', '_', root), nodes, edges, title), len(nodes), len(edges)))
+        nodes, edges = build(classes, root, aggregation, detailed)
+        if detailed:
+            title = DETAILED_AGGREGATION_TITLE if aggregation else DETAILED_COMPOSITION_TITLE
+            name += '_detailed'
+        else:
+            title = AGGREGATION_TITLE if aggregation else COMPOSITION_TITLE
+        out.append((name, class_graph_dot(re.sub(r'\W', '_', root), nodes, edges, title.format(root)),
+                    len(nodes), len(edges)))
     return out

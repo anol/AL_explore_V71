@@ -13,14 +13,14 @@ directories are compiled in:
 
 | Preset | `APP` | `TARGET` | `BOARD` | `PLATFORM` |
 |---|---|---|---|---|
-| `V71_EK_hello_world` | `Hello_world` | `V71_EK_hello_world` | `V71_EK` | `SamV71` (produces `.elf`) |
-| `Win_hello_world` | `Hello_world` | `Win_hello_world` | `Win11` | `Win11` |
+| `Hello_AstraLEO_EM` | `Hello_AstraLEO` | `Hello_AstraLEO_EM` | `AstraLEO_EM` | `SamV71` (produces `.elf`) |
+| `Hello_AstraLEO_Win11` | `Hello_AstraLEO` | `Hello_AstraLEO_Win11` | `Win11` | `Win11` |
 | `Unit_test` | — | `Unit_test` | `Win11` | `Win11` |
-| `Win_ethernet_test` / `V71_ethernet_test` | — | (on hold) | `Win11` / `V71_EK` | `Win11` / `SamV71` |
+| `Win_ethernet_test` / `V71_ethernet_test` | — | (on hold) | `Win11` / `AstraLEO_EM` | `Win11` / `SamV71` |
 
 ```sh
-cmake --preset V71_EK_hello_world
-cmake --build build/V71_EK_hello_world
+cmake --preset Hello_AstraLEO_EM
+cmake --build build/Hello_AstraLEO_EM
 ```
 
 ## SPI (IDE3380 ASIC interface, V1.3)
@@ -31,7 +31,7 @@ cmake --build build/V71_EK_hello_world
 - **Mode** CPOL=0 (clock idles low), NCPHA=1 (data captured on the leading edge, changed
   on the trailing edge).
 - **Chip select** is asserted *before* the SPI peripheral is enabled for each transfer.
-- **Pins** (`V71_EK_pin_table.cppm`): MISO has a pull-down, MOSI a pull-up.
+- **Pins** (`AstraLEO_EM_pin_table.cppm`): MISO has a pull-down, MOSI a pull-up.
 - **ASIC selection** is 1-based on the console: `AT+ASIC=<1..5>` selects, `AT+ASIC`
   reports the current selection (both acknowledge with the 1-based number).
 
@@ -39,8 +39,8 @@ cmake --build build/V71_EK_hello_world
 
 `Bias_DAC` and `Bias_ADC` (`src/Component/Bias_regulator/`) reach the hardware through
 `Abstract_board::get_DAC()` / `get_ADC()`, implemented on the V71 by `SamV71_DAC` and
-`SamV71_ADC` (`src/Platform/SamV71_platform/`). Both are owned by `V71_EK_board`, and
-`V71_EK_board::initialize()` initializes them along with the other peripherals:
+`SamV71_ADC` (`src/Platform/SamV71_platform/`). Both are owned by `AstraLEO_EM_board`, and
+`AstraLEO_EM_board::initialize()` initializes them along with the other peripherals:
 
 - **`SamV71_DAC`** drives DACC channel 0 and keeps the most recent setting for read-back.
 - **`SamV71_ADC`** (`SamV71_platform/SamV71_ADC/`) is split the same way as `SamV71_SPI`:
@@ -48,7 +48,7 @@ cmake --build build/V71_EK_hello_world
   The board uses AFEC0 channel 0 with a software trigger. `get()` is a blocking single
   conversion: it queues a `SamV71_ADC_request`, waits on its semaphore, and returns the
   raw 12-bit count.
-- **Pins** (`V71_EK_pin_table.cppm`): `DAC0` on PB13, `ADC0_0` on PD30.
+- **Pins** (`AstraLEO_EM_pin_table.cppm`): `DAC0` on PB13, `ADC0_0` on PD30.
 - **Console**: `AT+BIAS_DAC=<value>` overrides the raw DAC value and `AT+BIAS_DAC` reads
   it; `AT+BIAS_ADC` reads the raw ADC; `AT+BIAS_DAC_SET` and `AT+BIAS_ADC_SET` set/get the
   -30 V and -40 V calibration points; `AT+BIAS` shows setpoint, voltage and error (see the
@@ -74,14 +74,14 @@ cmake --build build/V71_EK_hello_world
 ## I2C and temperature sensors (V1.6)
 
 `SamV71_I2C` (`src/Platform/SamV71_platform/SamV71_I2C/`) is an I2C host on TWIHS0,
-reached through `Abstract_board::get_I2C()` and owned/initialized by `V71_EK_board`:
+reached through `Abstract_board::get_I2C()` and owned/initialized by `AstraLEO_EM_board`:
 
 - **Structure** matches `SamV71_SPI`: a driver with a request queue, a TWIHS interrupt
   handler and a peripheral definition. `read()` / `write()` are blocking: each queues one
   `I2C_transfer_request` (1–4 data bytes, MSB first, one START … STOP frame) and waits on
   its semaphore.
 - **Bitrate** 100 kbps.
-- **Pins** (`V71_EK_pin_table.cppm`): SDA (TWD0) on PA3, SCL (TWCK0) on PA4, both open drain.
+- **Pins** (`AstraLEO_EM_pin_table.cppm`): SDA (TWD0) on PA3, SCL (TWCK0) on PA4, both open drain.
 - **`Temperature_task`** (`src/Component/Temperature_sensor/`), owned by
   `Housekeeping_provider`, polls six TMP1075 sensors (addresses 0x48–0x4D) every 2 s and
   keeps their average; `AT+HOUSE` prints it along with each sensor's reading.
@@ -89,15 +89,16 @@ reached through `Abstract_board::get_I2C()` and owned/initialized by `V71_EK_boa
 
 ## Top-level modules
 
-- **`Application/`** — the app itself: `Hello_world` (composition root, wired up in
+- **`Application/`** — the app itself: `Hello_AstraLEO` (composition root, wired up in
   `main()`, owning `Service_provider`, `SpectraNode_console` and the heartbeat task;
   `Service_provider` also owns the `IDE3380_provider`, whose readout fills the science data
-  provider's histogram). Its subdirectories are `Hello_world/Provider` (the data providers its
-  `Service_provider` routes requests to), `Hello_world/Support` (cadence control plus C
-  helper code, e.g. the gamma peak detector and isotope table) and `Hello_world/Dictionary`
+  provider's histogram). Its subdirectories are `Hello_AstraLEO/Provider` (the data providers its
+  `Service_provider` routes requests to), `Hello_AstraLEO/Support` (cadence control plus C
+  helper code, e.g. the gamma peak detector and isotope table) and `Hello_AstraLEO/Dictionary`
   (the generated SpectraNode command and structure dictionary).
-- **`Board/`** — board support packages, one per board (`V71_EK` evaluation kit,
-  `Win11` host simulation; `AL_EM` holds only a pin table/config so far), wiring together
+- **`Board/`** — board support packages, one per board (`AstraLEO_EM`, formerly `V71_EK`,
+  whose OpenOCD config is still the SAM V71 Xplained Ultra evaluation kit's; `Win11` host
+  simulation; `AL_EM` holds only a pin table/config so far and is not built), wiring together
   the platform, components and pin table for that board.
 - **`Component/`** — drivers for discrete hardware parts (`IDE3380`, `Bias_regulator`
   for the SiPM bias DAC/ADC, `Temperature_sensor` for the TMP1075 sensors; the older
@@ -113,7 +114,7 @@ reached through `Abstract_board::get_I2C()` and owned/initialized by `V71_EK_boa
   (`Hearbeat/`), the CLI parser and instruction dispatch (`Plumbing/`), and the
   configuration/attribute repository.
 - **`Target/`** — top-level build targets that assemble an application, board and platform
-  into one firmware image (`V71_EK_hello_world`, `Win_hello_world`; inactive targets live
+  into one firmware image (`Hello_AstraLEO_EM`, `Hello_AstraLEO_Win11`; inactive targets live
   in `Target/On_hold/`).
 - **`Type/`** — shared type definitions: abstract hardware interfaces (`Abstract/`), basic
   value/status types (`Basic/`) and generic transfer-request types (`Generic/`).
@@ -132,12 +133,12 @@ All graphs in this README (except the hand-drawn bias diagram) are generated fro
 `python tool/Graphs/update_graphs.py`; see [`tool/Graphs/README.md`](tool/Graphs/README.md).
 
 The module graph covers both `#include` edges (solid) and C++20 module `import` edges (dashed), for the
-directories CMake actually builds with the `V71_EK_hello_world` preset. Almost every
+directories CMake actually builds with the `Hello_AstraLEO_EM` preset. Almost every
 module is now a named C++20 module, so `import` dominates: the only remaining `#include`
 edges are:
 
-- the plain `Domain/Persistent_parameter_id.h` header (from `Application/Hello_world`,
-  `Application/Hello_world/Provider`, `Component/IDE3380`, `Component/Bias_regulator`)
+- the plain `Domain/Persistent_parameter_id.h` header (from `Application/Hello_AstraLEO`,
+  `Application/Hello_AstraLEO/Provider`, `Component/IDE3380`, `Component/Bias_regulator`)
 - `Platform/SamV71_platform/SamV71_ADC`, `Platform/SamV71_platform/SamV71_I2C`,
   `Platform/SamV71_platform/SamV71_SPI` and `Platform/SamV71_platform/SamV71_USART` →
   `Platform/SamV71_platform` (`FreeRTOSConfig.h`, from the `-Config` partitions, for the
@@ -155,19 +156,19 @@ currently none of either.
 
 ## Wiring
 
-The two concrete objects wired together in `main()` (`V71_EK_hello_world.cpp`), first as
+The two concrete objects wired together in `main()` (`Hello_AstraLEO_EM.cpp`), first as
 composition-only overviews showing just what each one owns, then as the detailed
-aggregation graphs that add the non-owning references. `Hello_world` is too large for one
+aggregation graphs that add the non-owning references. `Hello_AstraLEO` is too large for one
 readable aggregation graph, so it has one each for `Service_provider` and
 `SpectraNode_console`, two of the four objects it owns.
 
-What `Hello_world` (the application) owns:
+What `Hello_AstraLEO` (the application) owns:
 
-![Hello_world composition graph](doc/hello_world_composition.svg)
+![Hello_AstraLEO composition graph](doc/hello_astraleo_composition.svg)
 
-What `V71_EK_board` (the board) owns:
+What `AstraLEO_EM_board` (the board) owns:
 
-![V71_EK_board composition graph](doc/v71_ek_board_composition.svg)
+![AstraLEO_EM_board composition graph](doc/astraleo_em_board_composition.svg)
 
 What `Service_provider` (request routing and the data providers) owns and references:
 
@@ -198,7 +199,7 @@ What `SamV71_ADC` (the AFEC driver with its request queue, interrupt handler and
 The dictionary is split in two, each generated by XSLT:
 
 - **Application dictionary** (commands and structure):
-  `src/Application/Hello_world/Dictionary/Generated_code/` is generated from
+  `src/Application/Hello_AstraLEO/Dictionary/Generated_code/` is generated from
   `Dictionary/Definition_SpectraNode/` by `SpectraNode_generator.bat`, using the
   stylesheets in `Dictionary/Dictionary_scripts/`.
 - **Domain dictionary** (keywords): `src/Domain/Generated_code/` is generated from
@@ -206,9 +207,9 @@ The dictionary is split in two, each generated by XSLT:
   `src/Domain/Domain_scripts/`.
 
 The tables below are copied from
-[`SpectraNode_command.md`](src/Application/Hello_world/Dictionary/Generated_code/SpectraNode_command.md),
+[`SpectraNode_command.md`](src/Application/Hello_AstraLEO/Dictionary/Generated_code/SpectraNode_command.md),
 [`Domain_keyword.md`](src/Domain/Generated_code/Domain_keyword.md) and
-[`SpectraNode_structure.md`](src/Application/Hello_world/Dictionary/Generated_code/SpectraNode_structure.md).
+[`SpectraNode_structure.md`](src/Application/Hello_AstraLEO/Dictionary/Generated_code/SpectraNode_structure.md).
 The content between each `<!-- BEGIN:... --> <!-- END:... -->` marker is generated:
 edit the source XML, re-run the generator, then re-copy it. Don't edit it by hand. The
 generators no longer update this section themselves. Shown open by default (collapse
@@ -455,7 +456,7 @@ with the triangle if you don't need them).
 ## C++20 modules
 
 Several parts of `src/` (`Type/`, `Support/`, `Application/`, `Component/`,
-`Board/V71_EK`, the built `Platform/` directories, `Utility/` and
+`Board/AstraLEO_EM`, the built `Platform/` directories, `Utility/` and
 `Domain/Generated_code`) are built as named C++20 modules rather than traditional
 header/source pairs. A quick primer:
 

@@ -4,12 +4,12 @@
 
 module;
 
-module Application.Hello_world;
+module Application.Hello_AstraLEO;
 import Platform.FreeRTOS_task;
 
 namespace Application
 {
-    void Hello_world::initialize()
+    void Hello_AstraLEO::initialize()
     {
         the_service_provider.initialize();
         the_console.initialize();
@@ -18,7 +18,7 @@ namespace Application
 
     }
 
-    void Hello_world::run()
+    void Hello_AstraLEO::run()
     {
         FreeRTOS::FreeRTOS_task::start_scheduler();
     }

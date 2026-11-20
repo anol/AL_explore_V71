@@ -1,4 +1,4 @@
-# Project code style (K&R braces), modelled on src/Application/Hello_world/Provider/Mode_control_provider.cpp.
+# Project code style (K&R braces), modelled on src/Application/Hello_AstraLEO/Provider/Mode_control_provider.cpp.
 # CLion applies this automatically for Reformat Code (Settings | Editor | Code Style | "Enable ClangFormat").
 ---
 Language: Cpp

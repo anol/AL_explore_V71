@@ -1,6 +1,6 @@
 target_sources(${THE_TARGET_NAME} PUBLIC
-        V71_EK_hello_world.cpp
-        V71_EK_hello_world.h
+        Hello_AstraLEO_EM.cpp
+        Hello_AstraLEO_EM.h
         FreeRTOS_hooks.cpp
 )
 

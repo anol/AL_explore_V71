@@ -29,13 +29,13 @@
       }
     },
     {
-      "name": "Win_hello_world",
+      "name": "Hello_AstraLEO_Win11",
       "inherits": "base",
-      "displayName": "Win_hello_world",
-      "description": "Win_hello_world",
+      "displayName": "Hello_AstraLEO_Win11",
+      "description": "Hello_AstraLEO_Win11",
       "cacheVariables": {
-        "APP": "Hello_world",
-        "TARGET": "Win_hello_world",
+        "APP": "Hello_AstraLEO",
+        "TARGET": "Hello_AstraLEO_Win11",
         "BOARD": "Win11",
         "PLATFORM": "Win11"
       },
@@ -46,46 +46,17 @@
       }
     },
     {
-      "name": "Win_ethernet_test",
+      "name": "Hello_AstraLEO_EM",
       "inherits": "base",
-      "displayName": "Win_ethernet_test",
-      "description": "Win_ethernet_test",
+      "displayName": "Hello_AstraLEO_EM",
+      "description": "Hello_AstraLEO_EM",
       "cacheVariables": {
-        "TARGET": "Win_ethernet_test",
-        "BOARD": "Win11",
-        "PLATFORM": "Win11"
-      },
-      "vendor": {
-        "jetbrains.com/clion": {
-          "toolchain": "MinGW 32"
-        }
-      }
-    },
-    {
-      "name": "V71_EK_hello_world",
-      "inherits": "base",
-      "displayName": "V71_EK_hello_world",
-      "description": "V71_EK_hello_world",
-      "cacheVariables": {
-        "APP": "Hello_world",
-        "TARGET": "V71_EK_hello_world",
-        "BOARD": "V71_EK",
+        "APP": "Hello_AstraLEO",
+        "TARGET": "Hello_AstraLEO_EM",
+        "BOARD": "AstraLEO_EM",
         "PLATFORM": "SamV71",
         "GNU_VERSION": "GNU_ANY",
         "CMAKE_BUILD_TYPE": "Debug"
-      }
-    }
-  ,
-    {
-      "name": "V71_ethernet_test",
-      "inherits": "base",
-      "displayName": "V71_ethernet_test",
-      "description": "V71_ethernet_test",
-      "cacheVariables": {
-        "TARGET": "V71_ethernet_test",
-        "BOARD": "V71_EK",
-        "PLATFORM": "SamV71",
-        "GNU_VERSION": "GNU_ANY"
       }
     }
   ],
@@ -95,20 +66,12 @@
       "configurePreset": "Unit_test"
     },
     {
-      "name": "Win_hello_world",
-      "configurePreset": "Win_ethernet_test"
+      "name": "Hello_AstraLEO_Win11",
+      "configurePreset": "Hello_AstraLEO_Win11"
     },
     {
-      "name": "Win_ethernet_test",
-      "configurePreset": "Win_ethernet_test"
-    },
-    {
-      "name": "V71_EK_hello_world",
-      "configurePreset": "V71_EK_hello_world"
-    },
-    {
-      "name": "V71_ethernet_test",
-      "configurePreset": "V71_ethernet_test"
+      "name": "Hello_AstraLEO_EM",
+      "configurePreset": "Hello_AstraLEO_EM"
     }
   ]
 }

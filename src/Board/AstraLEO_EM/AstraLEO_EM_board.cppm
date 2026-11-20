@@ -1,9 +1,9 @@
 module;
 
-export module Board.V71_EK_board;
+export module Board.AstraLEO_EM_board;
 import Type.Abstract_board;
 import Domain.IO_pins;
-import Board.V71_EK_pin_table;
+import Board.AstraLEO_EM_pin_table;
 import Platform.SamV71_ADC;
 import Platform.SamV71_clock;
 import Platform.SamV71_DAC;
@@ -15,9 +15,9 @@ export namespace Board {
     using namespace SamV71;
     using namespace Abstract;
 
-    class V71_EK_board : public Abstract_board {
+    class AstraLEO_EM_board : public Abstract_board {
         SamV71_clock the_clock{};
-        V71_EK_pin_table the_pin_table{};
+        AstraLEO_EM_pin_table the_pin_table{};
         SamV71::SamV71_SPI the_SPI{0, the_pin_table.get_pin(Domain::Pin_SPI_CS_ASIC1)};
         SamV71_I2C the_I2C{0}; // TWIHS0 (PA3 = SDA, PA4 = SCL)
         SamV71_USART the_UART{1};
@@ -25,7 +25,7 @@ export namespace Board {
         SamV71_DAC the_DAC{};
 
     public:
-        V71_EK_board() = default;
+        AstraLEO_EM_board() = default;
 
         void initialize() override;
 
