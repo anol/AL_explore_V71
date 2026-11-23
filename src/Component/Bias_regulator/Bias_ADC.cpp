@@ -21,61 +21,38 @@
 */
 
 module;
+#include <cmath>
 #include <cstdint>
 #include <cstdio>
 
 module Component.Bias_ADC;
 
-// Define ADC and calibration parameters
-constexpr float ADC_FULL_SCALE = 16383.0f;    // 14-bit ADC max count
-constexpr float VREF = 3.3f;                  // Reference voltage in volts
-constexpr float CAL_SLOPE = 18018.02f;        // Slope in mV per volt (derived from calibration)
-constexpr float CAL_INTERCEPT = (-56126.13f); // Intercept in mV (derived from calibration)
-
 namespace Calibration {
-    constexpr static float constant_35{-35'000.0};
-    constexpr static float constant_40{-40'000.0}; // 2026-03-18/Aeo: why is this not -45'000?
-
     volatile int32_t Bias_ADC::the_last_sense{};
 
-    void Bias_ADC::initialize() {
-    }
-
     void Bias_ADC::print_diag() {
-        printf("ADC: range=%d, busy=%d\r\n", 0, 0);
+        const uint32_t ADC_raw{read_ADC_raw()};
+        const int32_t ADC_mV{to_mV(ADC_raw)};
+        printf("ADC: raw=%d, mV=%d, low-set=%d, high-set=%d, A=%f, B=%f\r\n",
+               ADC_raw, ADC_mV,
+               static_cast<uint32_t>(round(the_low_setpoint)),
+               static_cast<uint32_t>(round(the_high_setpoint)),
+               the_ADC_to_mV_A, the_ADC_to_mV_B);
     }
 
     void Bias_ADC::calibrate() {
-        ADC_to_mV_A = static_cast<double>(the_v30_setpoint - the_v40_setpoint) / (constant_35 - constant_40);
-        ADC_to_mV_B = (the_v40_setpoint - ADC_to_mV_A * (constant_40));
+        the_ADC_to_mV_A = (the_low_setpoint - the_high_setpoint) / (the_low_volt - the_high_volt);
+        the_ADC_to_mV_B = the_high_setpoint - the_ADC_to_mV_A * (the_high_volt);
     }
 
-    int32_t Bias_ADC::read_mV() {
-        auto value = read_ADC();
-        the_last_sense = to_mV(value);
-        return the_last_sense;
+    int32_t Bias_ADC::read_ADC_mV() {
+        uint32_t value;
+        use_ADC.get(value);
+        return to_mV(value);
     }
 
-    int32_t Bias_ADC::to_mV(const int32_t ADC) const {
-        auto bias_volt = ADC_to_mV_A * ADC + ADC_to_mV_B;
+    int32_t Bias_ADC::to_mV(const uint32_t ADC) const {
+        auto bias_volt = the_ADC_to_mV_A * ADC + the_ADC_to_mV_B;
         return static_cast<int32_t>(bias_volt);
-    }
-
-    int32_t Bias_ADC::convertADCtoSensorValue(uint16_t adc_value) {
-        // Calculate voltage ADC at 1.45V = -30000mV and 0.34V = -50000mV (VADC 14bit 3.3V = 16383)
-        // Calculate the voltage measured by the ADC (in volts)
-        float V_adc = ((float) adc_value / ADC_FULL_SCALE) * VREF;
-        // Calculate the sensor value using the linear calibration equation:
-        // sensor_value = (slope * V_adc) + intercept
-        float sensor_value = CAL_SLOPE * V_adc + CAL_INTERCEPT;
-        // Return the sensor value in mV (rounded)
-        return (int32_t) (sensor_value + 0.5f);
-    }
-
-    int32_t Bias_ADC::read_ADC() {
-        if (uint32_t value{}; use_ADC.get(value)) {
-            return convertADCtoSensorValue(value / 256);
-        }
-        return 0;
     }
 } // Temperature

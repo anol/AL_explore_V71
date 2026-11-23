@@ -31,29 +31,27 @@ export import Support.Abstract_configuration;
 using namespace IDE3380;
 
 
-
 export namespace Application {
     using namespace Repository ;
 
     class Default_configuration : public Abstract_configuration {
         enum : int32_t {
-            Default_mode = Mode_demo,
+            Default_mode     = Mode_idle,
             Default_reserved = 0,
-            Default_channel = 18,
-            Default_format = Format_simple_R6,
+            Default_channel  = 18,
+            Default_format   = Format_simple_R6,
             Default_pedestal = 50,
-            Default_gain = 1,
-            Default_cadence = 2,
+            Default_gain     = 1,
+            Default_cadence  = 2,
 
-            Default_ADC_30V = 2048,
-            Default_ADC_40V = 1024,
-            Default_DAC_30V = 2048,
-            Default_DAC_40V = 1024,
-
-            Default_temp_A = 1,
-            Default_temp_B = 10,
-            Default_temp_C = -40'000,
-            Default_bias_25C_mV = 0, // 0=use temperature control, otherwise use fixed.
+            Default_volt_low    = -35'000,
+            Default_volt_high   = -45'000,
+            Default_ADC_low     = 2048,
+            Default_ADC_high    = 1024,
+            Default_DAC_low     = 2048,
+            Default_DAC_high    = 1024,
+            Default_temp_coeff  = 34,
+            Default_bias_25C_mV = -40'700,
 
             // Default summing channel configuration:
             // cal_select_channel = 0 (13.1, Calibration Test Enable)
@@ -123,15 +121,15 @@ export namespace Application {
             {Format_nominal, State_void, 4, Default_format, "Format_nominal"},
             {Format_reserved, State_void, 4, Default_reserved, nullptr},
 
-            {Cal_parameter_A, State_void, 4, Default_temp_A, "A"},
-            {Cal_parameter_B, State_void, 4, Default_temp_B, "B"},
-            {Cal_bias_25C, State_void, 4, Default_bias_25C_mV, "Bias_25C"},
-            {Cal_reserved, State_void, 4, Default_reserved, nullptr},
+            {Cal_bias_voltage_25C, State_void, 4, Default_bias_25C_mV, "Bias_25C"},
+            {Cal_temperature_coefficient, State_void, 4, Default_temp_coeff, "Temp_coeff"},
+            {Cal_volt_low, State_void, 4, Default_volt_low, "Volt_low"},
+            {Cal_volt_high, State_void, 4, Default_volt_high, "Volt_high"},
 
-            {Cal_ADC_30V, State_void, 4, Default_ADC_30V, "Cal_ADC_30V"},
-            {Cal_ADC_40V, State_void, 4, Default_ADC_40V, "Cal_ADC_40V"},
-            {Cal_DAC_30V, State_void, 4, Default_DAC_30V, "Cal_DAC_30V"},
-            {Cal_DAC_40V, State_void, 4, Default_DAC_40V, "Cal_DAC_40V"},
+            {Cal_ADC_low, State_void, 4, Default_ADC_low, "ADC_low"},
+            {Cal_ADC_high, State_void, 4, Default_ADC_high, "ADC_high"},
+            {Cal_DAC_low, State_void, 4, Default_DAC_low, "DAC_low"},
+            {Cal_DAC_high, State_void, 4, Default_DAC_high, "DAC_high"},
 
             {Cal_integration_time, State_void, 4, 100, "Integration_time"},
             {Cal_start_threshold, State_void, 4, 100, "Start_threshold"},

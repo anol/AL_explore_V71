@@ -52,19 +52,22 @@ export namespace AstraLEO_interface {
             
     class Implement_Instrument_calibration_provider : public Abstract_Instrument_calibration_provider{
     protected:
-        void v_BIAS_ADC_SET_v30_v40(Transaction_major &, int v30_3, int v40_4) override;
+        void v_BIAS_ADC_SET_low_high(Transaction_major &, int low_3, int high_4) override;
         void v_BIAS_ADC_SET(Transaction_major &) override;
         void v_BIAS_ADC(Transaction_major &) override;
         void v_BIAS_C25_bias_mV(Transaction_major &, int bias_mV_2) override;
         void v_BIAS_C25(Transaction_major &) override;
+        void v_BIAS_CAL_low_mV_high_mV(Transaction_major &, int low_mV_2, int high_mV_3) override;
+        void v_BIAS_CAL(Transaction_major &) override;
         void v_BIAS_DAC_data12(Transaction_major &, int data12_2) override;
-        void v_BIAS_DAC_SET_v30_v40(Transaction_major &, int v30_3, int v40_4) override;
+        void v_BIAS_DAC_SET_low_high(Transaction_major &, int low_3, int high_4) override;
         void v_BIAS_DAC_SET(Transaction_major &) override;
         void v_BIAS_DAC(Transaction_major &) override;
         void v_BIAS_DIAG(Transaction_major &) override;
         void v_BIAS_ERROR(Transaction_major &) override;
         void v_BIAS_SET_bias_mV(Transaction_major &, int bias_mV_2) override;
         void v_BIAS_SET(Transaction_major &) override;
+        void v_BIAS_TEMP_temp(Transaction_major &, int temp_2) override;
         void v_BIAS_TEMP_SET_a_b(Transaction_major &, int a_3, int b_4) override;
         void v_BIAS_TEMP_SET(Transaction_major &) override;
         void v_BIAS_TEMP(Transaction_major &) override;

@@ -138,19 +138,22 @@ namespace AstraLEO_interface{
 
 template<> const Abstract_Instrument_calibration_provider::Lookup_table::Instruction_entry
     Abstract_Instrument_calibration_provider::Lookup_table::instruction_table[] = {
-    {&Abstract_Instrument_calibration_provider::p_BIAS_ADC_SET_v30_v40, Cmd_BIAS_ADC_SET_v30_v40},
+    {&Abstract_Instrument_calibration_provider::p_BIAS_ADC_SET_low_high, Cmd_BIAS_ADC_SET_low_high},
     {&Abstract_Instrument_calibration_provider::p_BIAS_ADC_SET, Cmd_BIAS_ADC_SET},
     {&Abstract_Instrument_calibration_provider::p_BIAS_ADC, Cmd_BIAS_ADC},
     {&Abstract_Instrument_calibration_provider::p_BIAS_C25_bias_mV, Cmd_BIAS_C25_bias_mV},
     {&Abstract_Instrument_calibration_provider::p_BIAS_C25, Cmd_BIAS_C25},
+    {&Abstract_Instrument_calibration_provider::p_BIAS_CAL_low_mV_high_mV, Cmd_BIAS_CAL_low_mV_high_mV},
+    {&Abstract_Instrument_calibration_provider::p_BIAS_CAL, Cmd_BIAS_CAL},
     {&Abstract_Instrument_calibration_provider::p_BIAS_DAC_data12, Cmd_BIAS_DAC_data12},
-    {&Abstract_Instrument_calibration_provider::p_BIAS_DAC_SET_v30_v40, Cmd_BIAS_DAC_SET_v30_v40},
+    {&Abstract_Instrument_calibration_provider::p_BIAS_DAC_SET_low_high, Cmd_BIAS_DAC_SET_low_high},
     {&Abstract_Instrument_calibration_provider::p_BIAS_DAC_SET, Cmd_BIAS_DAC_SET},
     {&Abstract_Instrument_calibration_provider::p_BIAS_DAC, Cmd_BIAS_DAC},
     {&Abstract_Instrument_calibration_provider::p_BIAS_DIAG, Cmd_BIAS_DIAG},
     {&Abstract_Instrument_calibration_provider::p_BIAS_ERROR, Cmd_BIAS_ERROR},
     {&Abstract_Instrument_calibration_provider::p_BIAS_SET_bias_mV, Cmd_BIAS_SET_bias_mV},
     {&Abstract_Instrument_calibration_provider::p_BIAS_SET, Cmd_BIAS_SET},
+    {&Abstract_Instrument_calibration_provider::p_BIAS_TEMP_temp, Cmd_BIAS_TEMP_temp},
     {&Abstract_Instrument_calibration_provider::p_BIAS_TEMP_SET_a_b, Cmd_BIAS_TEMP_SET_a_b},
     {&Abstract_Instrument_calibration_provider::p_BIAS_TEMP_SET, Cmd_BIAS_TEMP_SET},
     {&Abstract_Instrument_calibration_provider::p_BIAS_TEMP, Cmd_BIAS_TEMP},
@@ -171,10 +174,10 @@ namespace AstraLEO_interface{
         return Abstract_Instrument_calibration_provider::Lookup_table::lookup(this, transaction);
     }
 
-    void Abstract_Instrument_calibration_provider::p_BIAS_ADC_SET_v30_v40(Instruction_major &transaction){
-        int v30_3{transaction.get_token_integer(3)};
-        int v40_4{transaction.get_token_integer(4)};
-        v_BIAS_ADC_SET_v30_v40(transaction, v30_3, v40_4);
+    void Abstract_Instrument_calibration_provider::p_BIAS_ADC_SET_low_high(Instruction_major &transaction){
+        int low_3{transaction.get_token_integer(3)};
+        int high_4{transaction.get_token_integer(4)};
+        v_BIAS_ADC_SET_low_high(transaction, low_3, high_4);
     }
             
     void Abstract_Instrument_calibration_provider::p_BIAS_ADC_SET(Instruction_major &transaction){
@@ -194,15 +197,25 @@ namespace AstraLEO_interface{
         v_BIAS_C25(transaction);
     }
             
+    void Abstract_Instrument_calibration_provider::p_BIAS_CAL_low_mV_high_mV(Instruction_major &transaction){
+        int low_mV_2{transaction.get_token_integer(2)};
+        int high_mV_3{transaction.get_token_integer(3)};
+        v_BIAS_CAL_low_mV_high_mV(transaction, low_mV_2, high_mV_3);
+    }
+            
+    void Abstract_Instrument_calibration_provider::p_BIAS_CAL(Instruction_major &transaction){
+        v_BIAS_CAL(transaction);
+    }
+            
     void Abstract_Instrument_calibration_provider::p_BIAS_DAC_data12(Instruction_major &transaction){
         int data12_2{transaction.get_token_integer(2)};
         v_BIAS_DAC_data12(transaction, data12_2);
     }
             
-    void Abstract_Instrument_calibration_provider::p_BIAS_DAC_SET_v30_v40(Instruction_major &transaction){
-        int v30_3{transaction.get_token_integer(3)};
-        int v40_4{transaction.get_token_integer(4)};
-        v_BIAS_DAC_SET_v30_v40(transaction, v30_3, v40_4);
+    void Abstract_Instrument_calibration_provider::p_BIAS_DAC_SET_low_high(Instruction_major &transaction){
+        int low_3{transaction.get_token_integer(3)};
+        int high_4{transaction.get_token_integer(4)};
+        v_BIAS_DAC_SET_low_high(transaction, low_3, high_4);
     }
             
     void Abstract_Instrument_calibration_provider::p_BIAS_DAC_SET(Instruction_major &transaction){
@@ -228,6 +241,11 @@ namespace AstraLEO_interface{
             
     void Abstract_Instrument_calibration_provider::p_BIAS_SET(Instruction_major &transaction){
         v_BIAS_SET(transaction);
+    }
+            
+    void Abstract_Instrument_calibration_provider::p_BIAS_TEMP_temp(Instruction_major &transaction){
+        int temp_2{transaction.get_token_integer(2)};
+        v_BIAS_TEMP_temp(transaction, temp_2);
     }
             
     void Abstract_Instrument_calibration_provider::p_BIAS_TEMP_SET_a_b(Instruction_major &transaction){

@@ -84,15 +84,15 @@ namespace Application {
         Format_nominal,
         Format_reserved,
 
-        Cal_parameter_A,
-        Cal_parameter_B,
-        Cal_bias_25C,
-        Cal_reserved,
+        Cal_bias_voltage_25C,
+        Cal_temperature_coefficient,
+        Cal_volt_low,
+        Cal_volt_high,
 
-        Cal_ADC_30V,
-        Cal_ADC_40V,
-        Cal_DAC_30V,
-        Cal_DAC_40V,
+        Cal_ADC_low,
+        Cal_ADC_high,
+        Cal_DAC_low,
+        Cal_DAC_high,
 
         Cal_integration_time,
         Cal_start_threshold,

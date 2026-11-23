@@ -86,11 +86,15 @@ protected:
 
     void v_BIAS_ADC_SET(Instruction_major &) override;
 
-    void v_BIAS_ADC_SET_v30_v40(Instruction_major &, int v30_2, int v40_3) override;
+    void v_BIAS_ADC_SET_low_high(Instruction_major &, int low_2, int high_3) override;
 
     void v_BIAS_C25(Instruction_major &) override;
 
     void v_BIAS_C25_bias_mV(Instruction_major &, int bias_mV_2) override;
+
+    void v_BIAS_CAL_low_mV_high_mV(Instruction_major &, int low_mV_2, int high_mV_3) override;
+
+    void v_BIAS_CAL(Instruction_major &) override;
 
     void v_BIAS_DAC(Instruction_major &) override;
 
@@ -98,7 +102,7 @@ protected:
 
     void v_BIAS_DAC_SET(Instruction_major &) override;
 
-    void v_BIAS_DAC_SET_v30_v40(Instruction_major &, int v30_3, int v40_4) override;
+    void v_BIAS_DAC_SET_low_high(Instruction_major &, int low_3, int high_4) override;
 
     void v_BIAS_DIAG(Instruction_major &) override;
 
@@ -111,6 +115,8 @@ protected:
     void v_BIAS_TEMP(Instruction_major &) override;
 
     void v_BIAS_TEMP_SET(Instruction_major &) override;
+
+    void v_BIAS_TEMP_temp(Instruction_major &, int temp_2) override;
 
     void v_BIAS_TEMP_SET_a_b(Instruction_major &, int a_3, int b_4) override;
 

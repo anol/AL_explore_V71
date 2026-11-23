@@ -60,27 +60,24 @@ void Instrument_calibration_provider::v_BIAS(Instruction_major &instruction) {
 
 /// @brief Get the raw ADC reading.
 void Instrument_calibration_provider::v_BIAS_ADC(Instruction_major &instruction) {
-    if (uint32_t raw{}; use_bias.get_ADC().read_raw_ADC(raw)) {
-        instruction.print_ack(static_cast<int32_t>(raw));
-    } else {
-        instruction.print_nack(123);
-    }
+    auto ADC_raw = use_bias.get_ADC().read_ADC_raw();
+    instruction.print_ack(static_cast<int32_t>(ADC_raw));
 }
 
 /// @brief Get the ADC -30V and -40V calibration points.
 void Instrument_calibration_provider::v_BIAS_ADC_SET(Instruction_major &instruction) {
-    int32_t v30_2{};
-    int32_t v40_3{};
-    use_bias.get_ADC().get_setpoints(v30_2, v40_3);
-    instruction.print_ack(v30_2, v40_3);
+    int32_t low{};
+    int32_t high{};
+    use_bias.get_ADC().get_setpoints(low, high);
+    instruction.print_ack(low, high);
 }
 
 /// @brief Set the ADC -30V and -40V calibration points.
-void Instrument_calibration_provider::v_BIAS_ADC_SET_v30_v40(Instruction_major &instruction, const int v30_2,
-                                                             const int v40_3) {
-    use_bias.get_ADC().set_setpoints(v30_2, v40_3);
-    if (use_repository.set(Cal_ADC_30V, v30_2).success() && use_repository.set(Cal_ADC_40V, v40_3).success()) {
-        instruction.print_ack(v30_2, v40_3);
+void Instrument_calibration_provider::v_BIAS_ADC_SET_low_high(Instruction_major &instruction, const int low_2,
+                                                              const int high_3) {
+    use_bias.get_ADC().set_setpoints(low_2, high_3);
+    if (use_repository.set(Cal_ADC_low, low_2).success() && use_repository.set(Cal_ADC_high, high_3).success()) {
+        instruction.print_ack(low_2, high_3);
     } else {
         instruction.print_nack(use_repository.get_diag_code());
     }
@@ -95,7 +92,7 @@ void Instrument_calibration_provider::v_BIAS_C25(Instruction_major &instruction)
 /// @brief Set the 25C bias setpoint. 0=use temperature.
 void Instrument_calibration_provider::v_BIAS_C25_bias_mV(Instruction_major &instruction, const int bias_mV_2) {
     use_bias.set_C25_setpoint(bias_mV_2);
-    if (use_repository.set(Cal_bias_25C, bias_mV_2).success()) {
+    if (use_repository.set(Cal_bias_voltage_25C, bias_mV_2).success()) {
         if (bias_mV_2 == 0) {
             instruction.print_ack(bias_mV_2);
             // Trigger setpoint update by temperature
@@ -107,6 +104,24 @@ void Instrument_calibration_provider::v_BIAS_C25_bias_mV(Instruction_major &inst
     } else {
         instruction.print_nack(use_repository.get_diag_code());
     }
+}
+
+/// @brief Set the calibration point voltages (e.g. -35000mV and -45000mV).
+void Instrument_calibration_provider::v_BIAS_CAL_low_mV_high_mV(Instruction_major &instruction, int low_mV_2, int high_mV_3) {
+    use_bias.set_setpoint_volt(low_mV_2, high_mV_3);
+    if (use_repository.set(Cal_volt_low, low_mV_2).success() && use_repository.set(Cal_volt_high, high_mV_3).success()) {
+        instruction.print_ack(low_mV_2, high_mV_3);
+    } else {
+        instruction.print_nack(use_repository.get_diag_code());
+    }
+}
+
+/// @brief Get the calibration point voltages.
+void Instrument_calibration_provider::v_BIAS_CAL(Instruction_major &instruction) {
+    int32_t low_mV{};
+    int32_t high_mV{};
+    use_bias.get_setpoint_volt(low_mV, high_mV);
+    instruction.print_ack(low_mV, high_mV);
 }
 
 /// @brief Misc. diagnostic information wrt. bias voltage.
@@ -135,7 +150,7 @@ void Instrument_calibration_provider::v_BIAS_SET_bias_mV(Instruction_major &inst
 }
 
 void Instrument_calibration_provider::override_setpoint(Instruction_major &instruction, const int bias_mV_2) {
-    if (use_bias.set_setpoint(bias_mV_2)) {
+    if (use_bias.override_setpoint(bias_mV_2)) {
         instruction.print_ack(bias_mV_2);
     } else {
         instruction.print_nack(714);
@@ -156,6 +171,15 @@ void Instrument_calibration_provider::v_BIAS_TEMP_SET(Instruction_major &instruc
     instruction.print_ack(a, b);
 }
 
+/// @brief OVERRIDE the temperature reading (C/100)
+void Instrument_calibration_provider::v_BIAS_TEMP_temp(Instruction_major &instruction, int /*temp_2*/) {
+    if (require_calibration_mode(instruction)) {
+        // override_temperature(bias_mV_2);
+        // instruction.print_ack(temp_2);
+        instruction.print_nack("NOT IMPLEMENTED");
+    }
+}
+
 /// @brief Set the temperature correction factors.
 void Instrument_calibration_provider::v_BIAS_TEMP_SET_a_b(Instruction_major &instruction, const int a_3,
                                                           const int b_4) {
@@ -171,7 +195,7 @@ void Instrument_calibration_provider::v_BIAS_VOLT(Instruction_major &instruction
 
 /// @brief Get the raw DAC setting.
 void Instrument_calibration_provider::v_BIAS_DAC(Instruction_major &instruction) {
-    instruction.print_ack(static_cast<int32_t>(use_bias.get_DAC().get_raw_DAC()));
+    instruction.print_ack(static_cast<int32_t>(use_bias.get_DAC().get_DAC_raw()));
 }
 
 /// @brief Override the DAC setting.
@@ -181,7 +205,7 @@ void Instrument_calibration_provider::v_BIAS_DAC_data12(Instruction_major &instr
         // NACK'ed
     } else if (data12_2 < DAC_min || data12_2 > DAC_max) {
         instruction.print_nack(923);
-    } else if (use_bias.get_DAC().set_raw_DAC(static_cast<uint32_t>(data12_2))) {
+    } else if (use_bias.get_DAC().set_DAC_raw(static_cast<uint32_t>(data12_2))) {
         instruction.print_ack(data12_2);
     } else {
         instruction.print_nack(723);
@@ -190,18 +214,18 @@ void Instrument_calibration_provider::v_BIAS_DAC_data12(Instruction_major &instr
 
 /// @brief Get the DAC -30V and -40V calibration points.
 void Instrument_calibration_provider::v_BIAS_DAC_SET(Instruction_major &instruction) {
-    int32_t v30{};
-    int32_t v40{};
-    use_bias.get_DAC().get_setpoints(v30, v40);
-    instruction.print_ack(v30, v40);
+    int32_t low{};
+    int32_t high{};
+    use_bias.get_DAC().get_setpoints(low, high);
+    instruction.print_ack(low, high);
 }
 
 /// @brief Set the DAC -30V and -40V calibration points.
-void Instrument_calibration_provider::v_BIAS_DAC_SET_v30_v40(Instruction_major &instruction, const int v30_3,
-                                                             const int v40_4) {
-    use_bias.get_DAC().set_setpoints(v30_3, v40_4);
-    if (use_repository.set(Cal_DAC_30V, v30_3).success() && use_repository.set(Cal_DAC_40V, v40_4).success()) {
-        instruction.print_ack(v30_3, v40_4);
+void Instrument_calibration_provider::v_BIAS_DAC_SET_low_high(Instruction_major &instruction, const int low_3,
+                                                              const int high_4) {
+    use_bias.get_DAC().set_setpoints(low_3, high_4);
+    if (use_repository.set(Cal_DAC_low, low_3).success() && use_repository.set(Cal_DAC_high, high_4).success()) {
+        instruction.print_ack(low_3, high_4);
     } else {
         instruction.print_nack(use_repository.get_diag_code());
     }

@@ -32,35 +32,42 @@ namespace Calibration {
         hw_init_bias_regulator();
     }
 
-    void Bias_calibration::set_calibration(
-            int32_t DAC_35V, const int32_t DAC_45V, const int32_t ADC_35V, const int32_t ADC_45V,
-            const int32_t bias_25C) {
-        the_DAC.set_setpoints(DAC_35V, DAC_45V);
-        the_ADC.set_setpoints(ADC_35V, ADC_45V);
-        the_25C_setpoint = bias_25C;
-    }
-
     Status_code Bias_calibration::update_setpoints(Repository::Configuration_repository &repository) {
         auto success{true};
-        int32_t DAC_35V;
-        int32_t DAC_45V;
-        int32_t ADC_35V;
-        int32_t ADC_45V;
-        int32_t bias_25C;
-        success = repository.get(Application::Cal_DAC_30V, DAC_35V).success() ? success : false;
-        success = repository.get(Application::Cal_DAC_40V, DAC_45V).success() ? success : false;
-        success = repository.get(Application::Cal_ADC_30V, ADC_35V).success() ? success : false;
-        success = repository.get(Application::Cal_ADC_40V, ADC_45V).success() ? success : false;
-        success = repository.get(Application::Cal_bias_25C, bias_25C).success() ? success : false;
-        if (success) {
-            set_calibration(DAC_35V, DAC_45V, ADC_35V, ADC_45V, bias_25C);
+        int32_t DAC_low;
+        int32_t DAC_high;
+        if (repository.get(Application::Cal_DAC_low, DAC_low).success() &&
+            repository.get(Application::Cal_DAC_high, DAC_high).success()) {
+            the_DAC.set_setpoints(DAC_low, DAC_high);
+        } else {
+            success = false;
         }
-        int32_t param_A;
-        success = repository.get(Application::Cal_parameter_A, param_A).success() ? success : false;
-        set_gamma_param_A(static_cast<float>(param_A) / 1000000.0f);
-        int32_t param_B;
-        success = repository.get(Application::Cal_parameter_B, param_B).success() ? success : false;
-        set_gamma_param_B(static_cast<float>(param_B) / 1000.0f);
+        int32_t ADC_low;
+        int32_t ADC_high;
+        if (repository.get(Application::Cal_ADC_low, ADC_low).success() &&
+            repository.get(Application::Cal_ADC_high, ADC_high).success()) {
+            the_ADC.set_setpoints(ADC_low, ADC_high);
+        } else {
+            success = false;
+        }
+        int32_t volt_low;
+        int32_t volt_high;
+        if (repository.get(Application::Cal_volt_low, volt_low).success() &&
+            repository.get(Application::Cal_volt_high, volt_high).success()) {
+            the_DAC.set_setpoint_volt(volt_low, volt_high);
+            the_ADC.set_setpoint_volt(volt_low, volt_high);
+        } else {
+            success = false;
+        }
+        int32_t bias_25C;
+        int32_t temp_coeff;
+        if (repository.get(Application::Cal_bias_voltage_25C, bias_25C).success() &&
+            repository.get(Application::Cal_temperature_coefficient, temp_coeff).success()) {
+            the_bias_25C = bias_25C;
+            the_temp_coeff = temp_coeff;
+        } else {
+            success = false;
+        }
         return Status_code(success);
     }
 
@@ -75,24 +82,19 @@ namespace Calibration {
     }
 
     void Bias_calibration::print_diag() {
-        uint32_t raw_ADC{};
-        if (!the_ADC.read_raw_ADC(raw_ADC)) {
-            raw_ADC = 0xFFFF;
-        }
-        const int32_t cal_ADC{the_ADC.read_ADC()};
         const auto temperature = Unit_converter::centidegrees_to_parts(get_temperature());
-        printf("Temp: temp=%s%d.%02d, bias=%d, DAC(raw)=%d, DAC(cal)=%d, ADC(raw)=%d, ADC(cal)=%d, cal=%d, fail=%d\r\n",
-               temperature.sign, temperature.degrees, temperature.hundredths, the_bias_volt,
-               get_DAC().get_raw_DAC(), get_DAC_setting(), raw_ADC, cal_ADC, cnt_bias_cal, cnt_bias_failed);
+        printf("Bias: 25C=%d, coeff=%d, temp=%s%d.%02d, cal=%d, fail=%d\r\n",
+               the_bias_25C, the_temp_coeff, temperature.sign, temperature.degrees, temperature.hundredths,
+               cnt_bias_cal, cnt_bias_failed);
         the_DAC.print_diag();
         the_ADC.print_diag();
     }
 
     int32_t Bias_calibration::calibrateADC(int32_t raw, int32_t BIAScal35, int32_t BIAScal45, int32_t ADC_cal35,
                                            int32_t ADC_cal45) {
-        double m = ((double)(BIAScal45 - BIAScal35)) / ((double)(ADC_cal45 - ADC_cal35));
+        double m = ((double) (BIAScal45 - BIAScal35)) / ((double) (ADC_cal45 - ADC_cal35));
         // slope: 10000/9970 ≈ 1.00301
-        return (int32_t)(BIAScal45 + m * (raw - ADC_cal45));
+        return (int32_t) (BIAScal45 + m * (raw - ADC_cal45));
     }
 
     int32_t the_bias_offset = 0;
@@ -125,18 +127,17 @@ namespace Calibration {
 
     Status_code Bias_calibration::calibrate_bias(const float temperature) {
         enum { Volt_50mV = 5, Delay_10ms = 10, Iterations = 20, Max_offset = 6000, Min_offset = -3000 };
-        the_ADC.calibrate();
         int32_t wanted_bias = 0;
-        if (the_25C_setpoint != 0) {
-            wanted_bias = the_25C_setpoint + uart_offset;
+        if (the_bias_25C != 0) {
+            wanted_bias = the_bias_25C + uart_offset;
         } else {
             wanted_bias = temperature_to_bias(temperature);
         }
-        the_bias_volt = the_ADC.read_mV();
+        the_bias_volt = the_ADC.read_ADC_mV();
         for (int i = 0; i < Iterations; i++) {
-            auto success = the_DAC.set_dac_value_with_calibration(wanted_bias + the_bias_offset);
+            auto success = the_DAC.set_DAC_mV(wanted_bias + the_bias_offset);
             // HAL_Delay(Delay_10ms);
-            the_bias_volt = the_ADC.read_mV();
+            the_bias_volt = the_ADC.read_ADC_mV();
             // Compare VBias with wanted VBias
             if (the_bias_volt < wanted_bias - Volt_50mV && the_bias_offset <= Max_offset) {
                 // When VBias is lower increase VBias

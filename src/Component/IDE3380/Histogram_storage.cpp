@@ -209,8 +209,8 @@ namespace Application
                     auto soft = reset_event_count();
                     auto hard = use_event_counter.reset_event_count();
                     auto TORO = use_readout_control.reset_TORO_count();
-                    auto sense = Calibration::Bias_ADC::get_last_sense();
-                    auto bias = Calibration::Bias_DAC::get_last_bias();
+                    auto sense = 0; // Calibration::Bias_ADC::get_last_sense();
+                    auto bias = 0; // Calibration::Bias_DAC::get_last_bias();
                     if (cadence == 0)
                     {
                         if (update_seconds_past(cadence).success())

@@ -165,18 +165,18 @@ namespace AstraLEO_interface{
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
-    const Instruction_token token_BIAS_ADC_SET_v30_v40[] = {
-        {help_BIAS_ADC_SET_v30_v40, Cmd_BIAS_ADC_SET_v30_v40, Key_Instrument_calibration},
+    const Instruction_token token_BIAS_ADC_SET_low_high[] = {
+        {help_BIAS_ADC_SET_low_high, Cmd_BIAS_ADC_SET_low_high, Key_Instrument_calibration},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
-    const Instruction_token token_BIAS_ADC_SET_v30[] = {
-        {Integer_token, Key_v40, token_BIAS_ADC_SET_v30_v40, 0, static_cast<int32_t>(4095)},
+    const Instruction_token token_BIAS_ADC_SET_low[] = {
+        {Integer_token, Key_high, token_BIAS_ADC_SET_low_high, 0, static_cast<int32_t>(4095)},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
     const Instruction_token token_BIAS_ADC_SET[] = {
-        {Integer_token, Key_v30, token_BIAS_ADC_SET_v30, 0, static_cast<int32_t>(4095)},
+        {Integer_token, Key_low, token_BIAS_ADC_SET_low, 0, static_cast<int32_t>(4095)},
         {help_BIAS_ADC_SET, Cmd_BIAS_ADC_SET, Key_Instrument_calibration},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
@@ -198,23 +198,39 @@ namespace AstraLEO_interface{
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
+    const Instruction_token token_BIAS_CAL_low_mV_high_mV[] = {
+        {help_BIAS_CAL_low_mV_high_mV, Cmd_BIAS_CAL_low_mV_high_mV, Key_Instrument_calibration},
+        {End_token, "", No_key, (uint32_t)0, nullptr}
+    };
+
+    const Instruction_token token_BIAS_CAL_low_mV[] = {
+        {Integer_token, Key_high_mV, token_BIAS_CAL_low_mV_high_mV, -50000, static_cast<int32_t>(0)},
+        {End_token, "", No_key, (uint32_t)0, nullptr}
+    };
+
+    const Instruction_token token_BIAS_CAL[] = {
+        {Integer_token, Key_low_mV, token_BIAS_CAL_low_mV, -50000, static_cast<int32_t>(0)},
+        {help_BIAS_CAL, Cmd_BIAS_CAL, Key_Instrument_calibration},
+        {End_token, "", No_key, (uint32_t)0, nullptr}
+    };
+
     const Instruction_token token_BIAS_DAC_data12[] = {
         {help_BIAS_DAC_data12, Cmd_BIAS_DAC_data12, Key_Instrument_calibration},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
-    const Instruction_token token_BIAS_DAC_SET_v30_v40[] = {
-        {help_BIAS_DAC_SET_v30_v40, Cmd_BIAS_DAC_SET_v30_v40, Key_Instrument_calibration},
+    const Instruction_token token_BIAS_DAC_SET_low_high[] = {
+        {help_BIAS_DAC_SET_low_high, Cmd_BIAS_DAC_SET_low_high, Key_Instrument_calibration},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
-    const Instruction_token token_BIAS_DAC_SET_v30[] = {
-        {Integer_token, Key_v40, token_BIAS_DAC_SET_v30_v40, 0, static_cast<int32_t>(4095)},
+    const Instruction_token token_BIAS_DAC_SET_low[] = {
+        {Integer_token, Key_high, token_BIAS_DAC_SET_low_high, 0, static_cast<int32_t>(4095)},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
     const Instruction_token token_BIAS_DAC_SET[] = {
-        {Integer_token, Key_v30, token_BIAS_DAC_SET_v30, 0, static_cast<int32_t>(4095)},
+        {Integer_token, Key_low, token_BIAS_DAC_SET_low, 0, static_cast<int32_t>(4095)},
         {help_BIAS_DAC_SET, Cmd_BIAS_DAC_SET, Key_Instrument_calibration},
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
@@ -247,6 +263,11 @@ namespace AstraLEO_interface{
         {End_token, "", No_key, (uint32_t)0, nullptr}
     };
 
+    const Instruction_token token_BIAS_TEMP_temp[] = {
+        {help_BIAS_TEMP_temp, Cmd_BIAS_TEMP_temp, Key_Instrument_calibration},
+        {End_token, "", No_key, (uint32_t)0, nullptr}
+    };
+
     const Instruction_token token_BIAS_TEMP_SET_a_b[] = {
         {help_BIAS_TEMP_SET_a_b, Cmd_BIAS_TEMP_SET_a_b, Key_Instrument_calibration},
         {End_token, "", No_key, (uint32_t)0, nullptr}
@@ -264,6 +285,7 @@ namespace AstraLEO_interface{
     };
 
     const Instruction_token token_BIAS_TEMP[] = {
+        {Integer_token, Key_temp, token_BIAS_TEMP_temp, -10000, static_cast<int32_t>(+10000)},
         {Keyword_token, "SET", Key_SET, (uint32_t)0, token_BIAS_TEMP_SET},
         {help_BIAS_TEMP, Cmd_BIAS_TEMP, Key_Instrument_calibration},
         {End_token, "", No_key, (uint32_t)0, nullptr}
@@ -277,6 +299,7 @@ namespace AstraLEO_interface{
     const Instruction_token token_BIAS[] = {
         {Keyword_token, "ADC", Key_ADC, (uint32_t)0, token_BIAS_ADC},
         {Keyword_token, "C25", Key_C25, (uint32_t)0, token_BIAS_C25},
+        {Keyword_token, "CAL", Key_CAL, (uint32_t)0, token_BIAS_CAL},
         {Keyword_token, "DAC", Key_DAC, (uint32_t)0, token_BIAS_DAC},
         {Keyword_token, "DIAG", Key_DIAG, (uint32_t)0, token_BIAS_DIAG},
         {Keyword_token, "ERROR", Key_ERROR, (uint32_t)0, token_BIAS_ERROR},

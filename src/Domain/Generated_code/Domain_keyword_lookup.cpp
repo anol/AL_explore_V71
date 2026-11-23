@@ -74,7 +74,9 @@ namespace Domain_interface {
         "gain", // Key_gain
         "GET", // Key_GET
         "HELP", // Key_HELP
+        "high", // Key_high
         "HIGH", // Key_HIGH
+        "high_mV", // Key_high_mV
         "HOLD", // Key_HOLD
         "HOUSE", // Key_HOUSE
         "Housekeeping", // Key_Housekeeping
@@ -84,7 +86,9 @@ namespace Domain_interface {
         "Instrument_calibration", // Key_Instrument_calibration
         "integration_time", // Key_integration_time
         "LOAD", // Key_LOAD
+        "low", // Key_low
         "LOW", // Key_LOW
+        "low_mV", // Key_low_mV
         "micro_sievert", // Key_micro_sievert
         "millis", // Key_millis
         "MODE", // Key_MODE
@@ -115,6 +119,7 @@ namespace Domain_interface {
         "start_threshold", // Key_start_threshold
         "STATUS", // Key_STATUS
         "stop_count", // Key_stop_count
+        "temp", // Key_temp
         "TEMP", // Key_TEMP
         "TEST", // Key_TEST
         "THRESHOLD", // Key_THRESHOLD

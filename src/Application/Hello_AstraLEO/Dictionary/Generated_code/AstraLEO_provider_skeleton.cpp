@@ -87,8 +87,8 @@ void Implement_Science_data_provider::v_TIME_date_time(Transaction_major &, int 
     std::cout << "Implement_Science_data_provider::v_TIME_date_time:" << "date_1=" << date_1 << ",time_2=" << time_2 << std::endl;
 }
             
-void Implement_Instrument_calibration_provider::v_BIAS_ADC_SET_v30_v40(Transaction_major &, int v30_3, int v40_4){
-    std::cout << "Implement_Instrument_calibration_provider::v_BIAS_ADC_SET_v30_v40:" << "v30_3=" << v30_3 << ",v40_4=" << v40_4 << std::endl;
+void Implement_Instrument_calibration_provider::v_BIAS_ADC_SET_low_high(Transaction_major &, int low_3, int high_4){
+    std::cout << "Implement_Instrument_calibration_provider::v_BIAS_ADC_SET_low_high:" << "low_3=" << low_3 << ",high_4=" << high_4 << std::endl;
 }
             
 void Implement_Instrument_calibration_provider::v_BIAS_ADC_SET(Transaction_major &){
@@ -107,12 +107,20 @@ void Implement_Instrument_calibration_provider::v_BIAS_C25(Transaction_major &){
     std::cout << "Implement_Instrument_calibration_provider::v_BIAS_C25:" << std::endl;
 }
             
+void Implement_Instrument_calibration_provider::v_BIAS_CAL_low_mV_high_mV(Transaction_major &, int low_mV_2, int high_mV_3){
+    std::cout << "Implement_Instrument_calibration_provider::v_BIAS_CAL_low_mV_high_mV:" << "low_mV_2=" << low_mV_2 << ",high_mV_3=" << high_mV_3 << std::endl;
+}
+            
+void Implement_Instrument_calibration_provider::v_BIAS_CAL(Transaction_major &){
+    std::cout << "Implement_Instrument_calibration_provider::v_BIAS_CAL:" << std::endl;
+}
+            
 void Implement_Instrument_calibration_provider::v_BIAS_DAC_data12(Transaction_major &, int data12_2){
     std::cout << "Implement_Instrument_calibration_provider::v_BIAS_DAC_data12:" << "data12_2=" << data12_2 << std::endl;
 }
             
-void Implement_Instrument_calibration_provider::v_BIAS_DAC_SET_v30_v40(Transaction_major &, int v30_3, int v40_4){
-    std::cout << "Implement_Instrument_calibration_provider::v_BIAS_DAC_SET_v30_v40:" << "v30_3=" << v30_3 << ",v40_4=" << v40_4 << std::endl;
+void Implement_Instrument_calibration_provider::v_BIAS_DAC_SET_low_high(Transaction_major &, int low_3, int high_4){
+    std::cout << "Implement_Instrument_calibration_provider::v_BIAS_DAC_SET_low_high:" << "low_3=" << low_3 << ",high_4=" << high_4 << std::endl;
 }
             
 void Implement_Instrument_calibration_provider::v_BIAS_DAC_SET(Transaction_major &){
@@ -137,6 +145,10 @@ void Implement_Instrument_calibration_provider::v_BIAS_SET_bias_mV(Transaction_m
             
 void Implement_Instrument_calibration_provider::v_BIAS_SET(Transaction_major &){
     std::cout << "Implement_Instrument_calibration_provider::v_BIAS_SET:" << std::endl;
+}
+            
+void Implement_Instrument_calibration_provider::v_BIAS_TEMP_temp(Transaction_major &, int temp_2){
+    std::cout << "Implement_Instrument_calibration_provider::v_BIAS_TEMP_temp:" << "temp_2=" << temp_2 << std::endl;
 }
             
 void Implement_Instrument_calibration_provider::v_BIAS_TEMP_SET_a_b(Transaction_major &, int a_3, int b_4){

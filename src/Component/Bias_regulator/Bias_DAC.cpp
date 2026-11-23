@@ -21,6 +21,7 @@
 */
 
 module;
+#include <cmath>
 #include <cstdint>
 #include <cstdio>
 
@@ -34,15 +35,17 @@ namespace Calibration {
     static uint32_t cnt_busy_in_cal{};
     static uint8_t in_calibration = 0;
 
-    volatile uint32_t Bias_DAC::the_DAC_setting{};
-
     void Bias_DAC::initialize() {
         enum { Initial_DAC_setting = 0, };
         use_DAC.set(Initial_DAC_setting);
     }
 
     void Bias_DAC::print_diag() {
-        printf("DAC: out-of-range=%d, busy=%d\r\n", cnt_out_of_range, cnt_busy_in_cal);
+        auto DAC_raw = use_DAC.get();
+        printf("DAC: raw=%d, mV=%d, low-set=%d, high-set=%d \r\n",
+               DAC_raw, the_DAC_mV,
+               static_cast<uint32_t>(round(the_low_setpoint)),
+               static_cast<uint32_t>(round(the_high_setpoint)));
     }
 
     int32_t Bias_DAC::calibrate(const int32_t raw, const int32_t cal35, const int32_t cal45) {
@@ -50,50 +53,8 @@ namespace Calibration {
         return static_cast<int32_t>(-40700.0 + m * (raw - cal45));
     }
 
-    void Bias_DAC::set_dac_test(const int32_t value) {
-        //-30000 = 0V and -50000 = 3.3V
-        //convert -30000 to 0 and -50000 to 4095
-        //convert value to dac value
-        if (value > -35000 || value < -45000) {
-            in_calibration = 0;
-            return;
-        }
-        in_calibration = 1;
-        int temp = value * -1;
-        temp -= 30000;
-        temp = (temp * 4095) / 20000;
-        if (temp > 4095) {
-            temp = 4095;
-        }
-        if (temp < 0) {
-            temp = 0;
-        }
-        use_DAC.set(temp);
-    }
-
-    void Bias_DAC::set_dac_cal_test(const int32_t value) {
-        //-30000 = 0V and -50000 = 3.3V
-        //convert -30000 to 0 and -50000 to 4095
-        //convert value to dac value
-        if (value > -35000 || value < -45000) {
-            in_calibration = 0;
-            return;
-        }
-        in_calibration = 1;
-        int temp = calibrate(value, the_v30_setpoint, the_v40_setpoint) * -1;
-        temp -= 30000;
-        temp = (temp * 4095) / 20000;
-        if (temp > 4095) {
-            temp = 4095;
-        }
-        if (temp < 0) {
-            temp = 0;
-        }
-        use_DAC.set(temp);
-    }
-
-    Status_code Bias_DAC::set_dac_value_with_calibration(const int32_t value) {
-        the_DAC_pre_cal = value;
+    Status_code Bias_DAC::set_DAC_mV(const int32_t value) {
+        the_DAC_mV = value;
         //-30000 = 0V and -50000 = 3.3V
         //convert -30000 to 0 and -50000 to 4095
         //convert value to dac value
@@ -105,7 +66,7 @@ namespace Calibration {
             cnt_busy_in_cal++;
             return Status_code::Failure();
         }
-        float temp = calibrate(value, the_v30_setpoint, the_v40_setpoint);
+        float temp = calibrate(value, the_low_setpoint, the_high_setpoint);
         temp *= -1.0f;
         temp -= 30000.0f;
         temp = (temp * 4095.0f) / 20000.0f;
@@ -115,8 +76,8 @@ namespace Calibration {
         if (temp < 0.0f) {
             temp = 0.0f;
         }
-        the_DAC_setting = static_cast<uint32_t>(temp);
-        use_DAC.set(the_DAC_setting);
+        auto DAC_raw = static_cast<uint32_t>(temp);
+        use_DAC.set(DAC_raw);
         return Status_code::Success();
     }
 } // Calibration

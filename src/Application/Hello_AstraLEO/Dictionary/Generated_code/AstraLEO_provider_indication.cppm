@@ -99,19 +99,22 @@ export namespace AstraLEO_interface {
         Abstract_Instrument_calibration_provider() : Abstract_provider(Key_Instrument_calibration){}
         bool on_indication(Instruction_major &) override;
     protected:
-        virtual void v_BIAS_ADC_SET_v30_v40(Instruction_major &, int v30_3, int v40_4) = 0;
+        virtual void v_BIAS_ADC_SET_low_high(Instruction_major &, int low_3, int high_4) = 0;
         virtual void v_BIAS_ADC_SET(Instruction_major &) = 0;
         virtual void v_BIAS_ADC(Instruction_major &) = 0;
         virtual void v_BIAS_C25_bias_mV(Instruction_major &, int bias_mV_2) = 0;
         virtual void v_BIAS_C25(Instruction_major &) = 0;
+        virtual void v_BIAS_CAL_low_mV_high_mV(Instruction_major &, int low_mV_2, int high_mV_3) = 0;
+        virtual void v_BIAS_CAL(Instruction_major &) = 0;
         virtual void v_BIAS_DAC_data12(Instruction_major &, int data12_2) = 0;
-        virtual void v_BIAS_DAC_SET_v30_v40(Instruction_major &, int v30_3, int v40_4) = 0;
+        virtual void v_BIAS_DAC_SET_low_high(Instruction_major &, int low_3, int high_4) = 0;
         virtual void v_BIAS_DAC_SET(Instruction_major &) = 0;
         virtual void v_BIAS_DAC(Instruction_major &) = 0;
         virtual void v_BIAS_DIAG(Instruction_major &) = 0;
         virtual void v_BIAS_ERROR(Instruction_major &) = 0;
         virtual void v_BIAS_SET_bias_mV(Instruction_major &, int bias_mV_2) = 0;
         virtual void v_BIAS_SET(Instruction_major &) = 0;
+        virtual void v_BIAS_TEMP_temp(Instruction_major &, int temp_2) = 0;
         virtual void v_BIAS_TEMP_SET_a_b(Instruction_major &, int a_3, int b_4) = 0;
         virtual void v_BIAS_TEMP_SET(Instruction_major &) = 0;
         virtual void v_BIAS_TEMP(Instruction_major &) = 0;
@@ -125,19 +128,22 @@ export namespace AstraLEO_interface {
         virtual void v_CAL_TEST_PEDESTAL(Instruction_major &) = 0;
         virtual void v_CAL_TRACE(Instruction_major &) = 0;
     public:
-        void p_BIAS_ADC_SET_v30_v40(Instruction_major &);
+        void p_BIAS_ADC_SET_low_high(Instruction_major &);
         void p_BIAS_ADC_SET(Instruction_major &);
         void p_BIAS_ADC(Instruction_major &);
         void p_BIAS_C25_bias_mV(Instruction_major &);
         void p_BIAS_C25(Instruction_major &);
+        void p_BIAS_CAL_low_mV_high_mV(Instruction_major &);
+        void p_BIAS_CAL(Instruction_major &);
         void p_BIAS_DAC_data12(Instruction_major &);
-        void p_BIAS_DAC_SET_v30_v40(Instruction_major &);
+        void p_BIAS_DAC_SET_low_high(Instruction_major &);
         void p_BIAS_DAC_SET(Instruction_major &);
         void p_BIAS_DAC(Instruction_major &);
         void p_BIAS_DIAG(Instruction_major &);
         void p_BIAS_ERROR(Instruction_major &);
         void p_BIAS_SET_bias_mV(Instruction_major &);
         void p_BIAS_SET(Instruction_major &);
+        void p_BIAS_TEMP_temp(Instruction_major &);
         void p_BIAS_TEMP_SET_a_b(Instruction_major &);
         void p_BIAS_TEMP_SET(Instruction_major &);
         void p_BIAS_TEMP(Instruction_major &);
