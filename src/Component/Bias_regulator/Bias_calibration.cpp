@@ -97,19 +97,9 @@ namespace Calibration {
         return (int32_t) (BIAScal45 + m * (raw - ADC_cal45));
     }
 
-    int32_t the_bias_offset = 0;
-    int32_t uart_offset = 0;
-
-    void Bias_calibration::bias_temperature_control() {
-        //read temperature sensor (divide by 100 to get Celsius)
-        const int16_t temp = 2000;
-        // if (STTS22H_ReadTemperatureOneShot(&tempo) != HAL_OK) {
-        //     // Error handling (for example, blink an LED)
-        //     the_temperature = -200;
-        //     return;
-        // }
-        the_temperature = temp;
-        auto temp_float = static_cast<float>(the_temperature) / 100.0f;
+    void Bias_calibration::bias_temperature_control(const int32_t temperature) {
+        the_temperature = temperature;
+        auto temp_float = static_cast<double>(the_temperature) / 100.0f;
         if (calibrate_bias(temp_float).success()) {
             cnt_bias_cal++;
         } else {
@@ -117,32 +107,35 @@ namespace Calibration {
         }
     }
 
-    int32_t Bias_calibration::temperature_to_bias(const float temperature) {
-        constexpr double factor_A{0.0001582376};
-        constexpr double factor_B{0.0130634082};
-        constexpr double factor_C{40.2992234430};
-        auto bias = -1000.0 * (factor_A * temperature * temperature + factor_B * temperature + factor_C);
+    int32_t Bias_calibration::temperature_to_bias(const double temperature) {
+        auto bias = the_bias_25C + the_temp_coeff * (temperature - 25.0);
         return static_cast<int32_t>(bias);
     }
 
-    Status_code Bias_calibration::calibrate_bias(const float temperature) {
-        enum { Volt_50mV = 5, Delay_10ms = 10, Iterations = 20, Max_offset = 6000, Min_offset = -3000 };
-        int32_t wanted_bias = 0;
+    Status_code Bias_calibration::calibrate_bias(const double temperature) {
+        int32_t bias;
         if (the_bias_25C != 0) {
-            wanted_bias = the_bias_25C + uart_offset;
+            bias = the_bias_25C;
         } else {
-            wanted_bias = temperature_to_bias(temperature);
+            bias = temperature_to_bias(temperature);
         }
-        the_bias_volt = the_ADC.read_ADC_mV();
+        return the_DAC.set_DAC_mV(bias);
+        // return regulator_loop(bias);
+    }
+
+    Status_code Bias_calibration::regulator_loop(int32_t wanted_bias) {
+        int32_t the_bias_offset = 0;
+        enum { Volt_50mV = 5, Delay_10ms = 10, Iterations = 20, Max_offset = 6000, Min_offset = -3000 };
+        Bias_calibration::the_bias_volt = Bias_calibration::the_ADC.read_ADC_mV();
         for (int i = 0; i < Iterations; i++) {
-            auto success = the_DAC.set_DAC_mV(wanted_bias + the_bias_offset);
+            auto success = Bias_calibration::the_DAC.set_DAC_mV(wanted_bias + the_bias_offset);
             // HAL_Delay(Delay_10ms);
-            the_bias_volt = the_ADC.read_ADC_mV();
+            Bias_calibration::the_bias_volt = Bias_calibration::the_ADC.read_ADC_mV();
             // Compare VBias with wanted VBias
-            if (the_bias_volt < wanted_bias - Volt_50mV && the_bias_offset <= Max_offset) {
+            if (Bias_calibration::the_bias_volt < wanted_bias - Volt_50mV && the_bias_offset <= Max_offset) {
                 // When VBias is lower increase VBias
                 the_bias_offset += Volt_50mV;
-            } else if (the_bias_volt > wanted_bias + Volt_50mV && the_bias_offset >= Min_offset) {
+            } else if (Bias_calibration::the_bias_volt > wanted_bias + Volt_50mV && the_bias_offset >= Min_offset) {
                 // When VBias is higher decrease VBias
                 the_bias_offset -= Volt_50mV;
             } else {

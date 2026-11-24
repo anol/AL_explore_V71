@@ -50,7 +50,7 @@ using namespace Application;
 void Instrument_calibration_provider::v_BIAS(Instruction_major &instruction) {
     const auto temperature = Unit_converter::centidegrees_to_parts(use_bias.get_temperature());
     printf("Bias: C25=%dmV, temperature=%s%d.%02dC, setpoint=%dmV, voltage=%dmV, error=%dmV\r\n",
-           use_bias.get_C25_setpoint(),
+           use_bias.get_25C_setpoint(),
            temperature.sign, temperature.degrees, temperature.hundredths,
            use_bias.get_setpoint(),
            use_bias.get_voltage(),
@@ -85,20 +85,19 @@ void Instrument_calibration_provider::v_BIAS_ADC_SET_low_high(Instruction_major 
 
 /// @brief Get the 25C bias setpoint.
 void Instrument_calibration_provider::v_BIAS_C25(Instruction_major &instruction) {
-    const auto bias{use_bias.get_C25_setpoint()};
+    const auto bias{use_bias.get_25C_setpoint()};
     instruction.print_ack(bias);
 }
 
 /// @brief Set the 25C bias setpoint. 0=use temperature.
 void Instrument_calibration_provider::v_BIAS_C25_bias_mV(Instruction_major &instruction, const int bias_mV_2) {
-    use_bias.set_C25_setpoint(bias_mV_2);
+    use_bias.set_25C_setpoint(bias_mV_2);
     if (use_repository.set(Cal_bias_voltage_25C, bias_mV_2).success()) {
         if (bias_mV_2 == 0) {
             instruction.print_ack(bias_mV_2);
-            // Trigger setpoint update by temperature
-            use_bias.bias_temperature_control();
+            auto temperature = use_housekeeper.get_temperature_sensor().get_temperature();
+            use_bias.bias_temperature_control(temperature);
         } else {
-            // Override the internal bias setpoint (allowed in any mode as part of setting C25).
             override_setpoint(instruction, bias_mV_2);
         }
     } else {

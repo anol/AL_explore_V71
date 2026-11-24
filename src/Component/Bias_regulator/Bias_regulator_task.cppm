@@ -30,6 +30,7 @@ import Type.Abstract_board;
 import Platform.FreeRTOS_task;
 import Type.Abstract_semaphore;
 import Component.Bias_calibration;
+import Component.Temperature_sensor;
 
 namespace Bias_regulator {
     export class Bias_regulator_task : public FreeRTOS::FreeRTOS_task {
@@ -39,26 +40,45 @@ namespace Bias_regulator {
         };
 
         Abstract::Abstract_I2C &use_I2C;
+        Temperature_sensor::Temperature_task &use_temperature_sensor;
         Calibration::Bias_calibration the_calibration;
         Abstract::Abstract_semaphore *optional_start_semaphore{};
-        int32_t the_temperature{200};
 
     public:
-        explicit Bias_regulator_task(Abstract::Abstract_board &board)
+        explicit Bias_regulator_task(Abstract::Abstract_board &board, Temperature_sensor::Temperature_task &temperature_sensor)
             : FreeRTOS_task("Bias regulator", Priority, Stack_size),
               use_I2C(board.get_I2C()),
+              use_temperature_sensor(temperature_sensor),
               the_calibration(board) {
         }
 
-        void initialize() override;
+        void initialize() override {
+            the_calibration.initialize();
+        }
 
-        void task_loop() override;
+        void attach_start_semaphore(Abstract::Abstract_semaphore &semaphore) {
+            optional_start_semaphore = &semaphore;
+        }
 
-        void attach_start_semaphore(Abstract::Abstract_semaphore &semaphore) { optional_start_semaphore = &semaphore; }
+        Calibration::Bias_calibration &get_calibration() {
+            return the_calibration;
+        }
 
-        [[nodiscard]] int32_t get_temperature() const { return the_temperature; }
-
-        Calibration::Bias_calibration &get_calibration() { return the_calibration; }
+        void task_loop() override {
+            enum { Start_delay_millis = 300, Periodic_delay_millis = 1000 };
+            delay_until(Start_delay_millis);
+            while (true) {
+                delay_until(Periodic_delay_millis);
+                auto temperature = use_temperature_sensor.get_temperature();
+                if (optional_start_semaphore) {
+                    optional_start_semaphore->take(); // blocks during startup and calibration mode
+                    restart_period();                 // no catch-up burst after a long halt
+                    the_calibration.bias_temperature_control(temperature);
+                    optional_start_semaphore->give();
+                } else {
+                    the_calibration.bias_temperature_control(temperature);
+                }
+            }
+        }
     };
-
 }

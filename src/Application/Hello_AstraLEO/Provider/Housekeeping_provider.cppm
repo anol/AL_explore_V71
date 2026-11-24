@@ -56,8 +56,8 @@ private:
     IDE3380_provider &use_IDE3380;
     Repository::Configuration_repository &use_repository;
     Application::Cadence_control &use_cadence;
-    Bias_regulator::Bias_regulator_task the_bias_regulator_task;
     Temperature_sensor::Temperature_task the_temperature_task;
+    Bias_regulator::Bias_regulator_task the_bias_regulator_task;
     void *use_status_user;
     Status_func use_status_func;
     static bool the_trace_flag;
@@ -76,8 +76,8 @@ public:
           use_IDE3380(ASIC),
           use_repository(repository),
           use_cadence(cadence),
-          the_bias_regulator_task(board),
           the_temperature_task(board),
+          the_bias_regulator_task(board, the_temperature_task),
           use_status_user(status_user),
           use_status_func(status_func) {
     }

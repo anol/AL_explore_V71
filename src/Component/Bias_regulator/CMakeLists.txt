@@ -2,7 +2,6 @@ target_sources(${THE_TARGET_NAME} PUBLIC
         Bias_ADC.cpp
         Bias_calibration.cpp
         Bias_DAC.cpp
-        Bias_regulator_task.cpp
         Calibration_analyzer.cpp
 )
 target_sources(${THE_TARGET_NAME} PRIVATE
