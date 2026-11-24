@@ -45,10 +45,10 @@ export namespace Application {
               the_instrument_calibration(the_housekeeper.get_bias_regulator().get_calibration(),
                                          the_configuration_manager.get_repository(), the_IDE3380,
                                          the_data_provider.get_histogram(), the_data_provider.get_event_counter(),
-                                         the_mode_control) {
+                                         the_mode_control, the_housekeeper) {
             // Links that point "up" the declaration order, made once everything exists:
             the_IDE3380.attach_histogram(the_data_provider.get_histogram()); // the readout fills it
-            the_mode_control.attach_bias_regulator(the_housekeeper.get_bias_regulator());
+            the_mode_control.attach_housekeeper(the_housekeeper);
         }
 
         void print_status() const {

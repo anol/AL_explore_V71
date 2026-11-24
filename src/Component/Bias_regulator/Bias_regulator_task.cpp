@@ -28,15 +28,18 @@ namespace Bias_regulator {
     }
 
     void Bias_regulator_task::task_loop() {
-        enum { Delay_millis = 1000 };
+        enum { Start_delay_millis = 300, Periodic_delay_millis = 1000 };
+        delay_until(Start_delay_millis);
         while (true) {
+            delay_until(Periodic_delay_millis);
             if (optional_start_semaphore) {
                 optional_start_semaphore->take(); // blocks during startup and calibration mode
                 restart_period();                 // no catch-up burst after a long halt
                 the_calibration.bias_temperature_control();
                 optional_start_semaphore->give();
+            } else {
+                the_calibration.bias_temperature_control();
             }
-            delay_until(Delay_millis);
         }
     }
 }

@@ -37,6 +37,7 @@ import Application.AstraLEO_provider_indication;
 import Support.Configuration_repository;
 import Support.Instruction_major;
 import Application.Mode_control_provider;
+import Application.Housekeeping_provider;
 
 using namespace IDE3380;
 
@@ -47,6 +48,7 @@ export class Instrument_calibration_provider : public Abstract_Instrument_calibr
     Calibration::Bias_calibration &use_bias;
     Repository::Configuration_repository &use_repository;
     Mode_control_provider &use_mode_control;
+    Housekeeping_provider &use_housekeeper;
     Calibration::IDE3380_test_pedestal the_test_pedestal;
     Calibration::IDE3380_test_noise_floor the_test_noise_floor;
     bool the_trace_flag{};
@@ -57,8 +59,10 @@ public:
                                     IDE3380_provider &IDE3380,
                                     Application::Histogram_storage &histogram,
                                     Application::Event_counter &event_counter,
-                                    Mode_control_provider &mode_control)
-        : use_bias(bias), use_repository(repository), use_mode_control(mode_control),
+                                    Mode_control_provider &mode_control,
+                                    Housekeeping_provider &housekeeper)
+        : use_bias(bias), use_repository(repository),
+          use_mode_control(mode_control), use_housekeeper(housekeeper),
           the_test_pedestal(IDE3380, histogram, repository),
           the_test_noise_floor(IDE3380, event_counter, repository) {
     }

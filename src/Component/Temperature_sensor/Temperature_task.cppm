@@ -39,6 +39,7 @@ namespace Temperature_sensor {
         };
 
         Abstract::Abstract_I2C &use_I2C;
+        Abstract::Abstract_semaphore *optional_start_semaphore{};
         int32_t the_temperature{2000};
         Sensor_TMP1075 the_sensor_table[Number_of_sensors]{
             {"U07", 0b0100'1000},
@@ -55,11 +56,16 @@ namespace Temperature_sensor {
               use_I2C(board.get_I2C()) {
         }
 
-        void initialize() override;
+        void initialize() override {
+        };
 
         void task_loop() override;
 
+        void attach_start_semaphore(Abstract::Abstract_semaphore &semaphore) { optional_start_semaphore = &semaphore; }
+
         [[nodiscard]] int32_t get_temperature() const { return the_temperature; }
+
+        void override_temperature(int32_t temperature) { the_temperature = temperature; }
 
         void print_temperatures() const;
 

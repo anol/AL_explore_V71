@@ -172,11 +172,10 @@ void Instrument_calibration_provider::v_BIAS_TEMP_SET(Instruction_major &instruc
 }
 
 /// @brief OVERRIDE the temperature reading (C/100)
-void Instrument_calibration_provider::v_BIAS_TEMP_temp(Instruction_major &instruction, int /*temp_2*/) {
+void Instrument_calibration_provider::v_BIAS_TEMP_temp(Instruction_major &instruction, int temp_2) {
     if (require_calibration_mode(instruction)) {
-        // override_temperature(bias_mV_2);
-        // instruction.print_ack(temp_2);
-        instruction.print_nack("NOT IMPLEMENTED");
+        use_housekeeper.get_temperature_sensor().override_temperature(temp_2);
+        instruction.print_ack(temp_2);
     }
 }
 

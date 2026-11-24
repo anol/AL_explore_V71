@@ -38,6 +38,8 @@ import Application.Science_data_provider;
 import Application.Startup_task;
 import Support.Configuration_repository;
 import Support.Instruction_major;
+import Component.Temperature_sensor;
+import Application.Housekeeping_provider;
 
 using namespace IDE3380;
 
@@ -54,7 +56,7 @@ private:
     // The only provider-to-provider link: a mode change sets the channel and format of the data provider.
     Science_data_provider &use_data_provider;
     Operation_mode the_mode{Mode_startup};
-    Operation_mode the_operational_mode{Mode_idle}; ///< idle, nominal or demo; resumed after startup and calibration
+    Operation_mode the_operational_mode{Mode_idle};     ///< idle, nominal or demo; resumed after startup and calibration
     FreeRTOS::FreeRTOS_semaphore the_start_semaphore{}; ///< held by this controller in startup and calibration mode
     Startup_task the_startup_task;
 
@@ -66,12 +68,14 @@ public:
           use_repository(repository),
           use_data_provider(data_provider),
           the_startup_task(ASIC, repository, this,
-                           [](void *user) { static_cast<Mode_control_provider *>(user)->end_startup(); }) {}
+                           [](void *user) { static_cast<Mode_control_provider *>(user)->end_startup(); }) {
+    }
 
-    /// The bias regulator (owned by the housekeeper, which is built after this). Attach once, before the
-    /// scheduler starts. The semaphore starts out empty, i.e. held here: no regulation until end_startup().
-    void attach_bias_regulator(Bias_regulator::Bias_regulator_task &bias_regulator) {
+    void attach_housekeeper(Housekeeping_provider &housekeeper) {
+        auto &bias_regulator = housekeeper.get_bias_regulator();
+        auto &temperature_sensor = housekeeper.get_temperature_sensor();
         bias_regulator.attach_start_semaphore(the_start_semaphore);
+        temperature_sensor.attach_start_semaphore(the_start_semaphore);
         the_startup_task.attach_bias(bias_regulator.get_calibration());
     }
 

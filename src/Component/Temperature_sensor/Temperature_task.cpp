@@ -29,13 +29,19 @@ module Component.Temperature_sensor;
 import Utility.Unit_converter;
 
 namespace Temperature_sensor {
-    void Temperature_task::initialize() {}
-
     void Temperature_task::task_loop() {
-        enum { Delay_millis = 2000 };
+        enum { Start_delay_millis = 400, Periodic_delay_millis = 2000 };
+        delay_until(Start_delay_millis);
         while (true) {
-            delay_until(Delay_millis);
-            read_all_temperatures();
+            delay_until(Periodic_delay_millis);
+            if (optional_start_semaphore) {
+                optional_start_semaphore->take(); // blocks during startup and calibration mode
+                restart_period();                 // no catch-up burst after a long halt
+                read_all_temperatures();
+                optional_start_semaphore->give();
+            } else {
+                read_all_temperatures();
+            }
         }
     }
 
@@ -63,7 +69,5 @@ namespace Temperature_sensor {
             }
         }
         the_temperature = accum / counter;
-        // const auto average = Unit_converter::centidegrees_to_parts(the_temperature);
-        // printf("  temp=%s%d.%02d\r\n", average.sign, average.degrees, average.hundredths);
     }
 }

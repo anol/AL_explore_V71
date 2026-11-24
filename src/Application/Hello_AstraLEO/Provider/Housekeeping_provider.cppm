@@ -79,11 +79,14 @@ public:
           the_bias_regulator_task(board),
           the_temperature_task(board),
           use_status_user(status_user),
-          use_status_func(status_func) {}
+          use_status_func(status_func) {
+    }
 
     void initialize() { the_bias_regulator_task.initialize(); }
 
     Bias_regulator::Bias_regulator_task &get_bias_regulator() { return the_bias_regulator_task; }
+
+    Temperature_sensor::Temperature_task &get_temperature_sensor() { return the_temperature_task; }
 
     static bool is_trace() { return the_trace_flag; }
 
