@@ -83,8 +83,11 @@ namespace Calibration {
 
     void Bias_calibration::print_diag() {
         const auto temperature = Unit_converter::centidegrees_to_parts(get_temperature());
+        int32_t C25;
+        int32_t coeff;
+        get_temperature_factors(C25, coeff);
         printf("Bias: 25C=%d, coeff=%d, temp=%s%d.%02d, cal=%d, fail=%d\r\n",
-               the_bias_25C, the_temp_coeff, temperature.sign, temperature.degrees, temperature.hundredths,
+               C25, coeff, temperature.sign, temperature.degrees, temperature.hundredths,
                cnt_bias_cal, cnt_bias_failed);
         the_DAC.print_diag();
         the_ADC.print_diag();

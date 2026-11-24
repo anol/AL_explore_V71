@@ -55,9 +55,6 @@ namespace Calibration {
 
     Status_code Bias_DAC::set_DAC_mV(const int32_t value) {
         the_DAC_mV = value;
-        //-30000 = 0V and -50000 = 3.3V
-        //convert -30000 to 0 and -50000 to 4095
-        //convert value to dac value
         if (value > -30000 || value < -48000) {
             cnt_out_of_range++;
             return Status_code::Failure();
