@@ -41,15 +41,15 @@ export namespace Calibration {
         explicit Bias_DAC(Abstract::Abstract_DAC &DAC) : use_DAC(DAC) {
         }
 
-        void initialize();
+        void initialize() const;
 
-        void print_diag();
+        void print_diag() const;
 
         [[nodiscard]] uint32_t get_DAC_raw() const { return use_DAC.get(); }
 
         [[nodiscard]] bool set_DAC_raw(const uint32_t value) const { return use_DAC.set(value); }
 
-        [[nodiscard]] Status_code set_DAC_mV(int32_t value);
+        [[nodiscard]] Status_code set_DAC_mV(int32_t bias_mV);
 
         [[nodiscard]] int32_t get_DAC_mV() const { return the_DAC_mV; }
 
@@ -74,6 +74,6 @@ export namespace Calibration {
         }
 
     private:
-        int32_t calibrate(int32_t raw, int32_t cal35, int32_t cal45);
+        [[nodiscard]] uint32_t mV_to_DAC(double calibrated_mV) const;
     };
 } // Calibration

@@ -35,27 +35,33 @@ namespace Calibration {
     static uint32_t cnt_busy_in_cal{};
     static uint8_t in_calibration = 0;
 
-    void Bias_DAC::initialize() {
+    void Bias_DAC::initialize() const {
         enum { Initial_DAC_setting = 0, };
         use_DAC.set(Initial_DAC_setting);
     }
 
-    void Bias_DAC::print_diag() {
+    void Bias_DAC::print_diag() const {
         auto DAC_raw = use_DAC.get();
-        printf("DAC: raw=%d, mV=%d, low-set=%d, high-set=%d \r\n",
+        printf("DAC: raw=%d, mV=%d, low-set=%d, high-set=%d, low-volt=%d, high-volt=%d\r\n",
                DAC_raw, the_DAC_mV,
                static_cast<uint32_t>(round(the_low_setpoint)),
-               static_cast<uint32_t>(round(the_high_setpoint)));
+               static_cast<uint32_t>(round(the_high_setpoint)),
+               static_cast<uint32_t>(round(the_low_volt)),
+               static_cast<uint32_t>(round(the_high_volt)));
     }
 
-    int32_t Bias_DAC::calibrate(const int32_t raw, const int32_t cal35, const int32_t cal45) {
-        double m = (-40700.0 + 35000.0) / static_cast<double>(cal45 - cal35); // slope: 10000/9970 ≈ 1.00301
-        return static_cast<int32_t>(-40700.0 + m * (raw - cal45));
+    uint32_t Bias_DAC::mV_to_DAC(double bias_mV) const {
+        const auto bias_range = static_cast<double>(the_high_volt + the_low_volt);
+        const auto DAC_range = static_cast<double>(the_high_setpoint - the_low_setpoint);
+        const auto coeff = DAC_range / bias_range;
+        const auto offset = coeff * (the_high_volt - bias_mV);
+        const auto DAC_value = static_cast<uint32_t>(the_high_setpoint + offset);
+        return DAC_value;
     }
 
-    Status_code Bias_DAC::set_DAC_mV(const int32_t value) {
-        the_DAC_mV = value;
-        if (value > -30000 || value < -48000) {
+    Status_code Bias_DAC::set_DAC_mV(const int32_t bias_mV) {
+        the_DAC_mV = bias_mV;
+        if (bias_mV > -30000 || bias_mV < -48000) {
             cnt_out_of_range++;
             return Status_code::Failure();
         }
@@ -63,17 +69,7 @@ namespace Calibration {
             cnt_busy_in_cal++;
             return Status_code::Failure();
         }
-        float temp = calibrate(value, the_low_setpoint, the_high_setpoint);
-        temp *= -1.0f;
-        temp -= 30000.0f;
-        temp = (temp * 4095.0f) / 20000.0f;
-        if (temp > 4095.0f) {
-            temp = 4095.0f;
-        }
-        if (temp < 0.0f) {
-            temp = 0.0f;
-        }
-        auto DAC_raw = static_cast<uint32_t>(temp);
+        auto DAC_raw = mV_to_DAC(bias_mV);
         use_DAC.set(DAC_raw);
         return Status_code::Success();
     }
