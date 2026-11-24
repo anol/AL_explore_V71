@@ -48,8 +48,8 @@ export namespace Application {
             Default_volt_high   = -45'000,
             Default_ADC_low     = 2048,
             Default_ADC_high    = 1024,
-            Default_DAC_low     = 2048,
-            Default_DAC_high    = 1024,
+            Default_DAC_low     = 1105,
+            Default_DAC_high    = 1420,
             Default_temp_coeff  = 34,
             Default_bias_25C_mV = -40'700,
 
