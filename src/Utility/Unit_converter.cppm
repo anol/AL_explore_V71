@@ -22,8 +22,8 @@ export namespace Unit_converter {
 
     /// @brief A temperature split into parts suitable for printing with "%s%d.%02d".
     struct Celsius_parts {
-        const char *sign;   ///< "-" for negative temperatures, otherwise "".
-        int32_t degrees;    ///< Whole degrees, never negative.
+        const char *sign; ///< "-" for negative temperatures, otherwise "".
+        int32_t degrees; ///< Whole degrees, never negative.
         int32_t hundredths; ///< Hundredths of a degree, 0..99.
     };
 
@@ -33,5 +33,17 @@ export namespace Unit_converter {
         const bool negative = centidegrees < 0;
         const int32_t magnitude = negative ? -centidegrees : centidegrees;
         return {.sign = negative ? "-" : "", .degrees = magnitude / 100, .hundredths = magnitude % 100};
+    }
+
+    struct Volt_parts {
+        const char *sign;
+        int32_t volt;
+        int32_t millivolt;
+    };
+
+    inline Volt_parts millivolt_to_volt(const int32_t millivolt) {
+        const bool negative = millivolt < 0;
+        const int32_t magnitude = negative ? -millivolt : millivolt;
+        return {.sign = negative ? "-" : "", .volt = magnitude / 1000, .millivolt = magnitude % 1000};
     }
 }

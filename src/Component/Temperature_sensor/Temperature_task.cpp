@@ -47,7 +47,7 @@ namespace Temperature_sensor {
 
     void Temperature_task::print_temperatures() const {
         const auto average = Unit_converter::centidegrees_to_parts(the_temperature);
-        printf("Temperature: %s%d.%02d\r\n", average.sign, average.degrees, average.hundredths);
+        printf("  Temp: %s%d.%02d\r\n", average.sign, average.degrees, average.hundredths);
         for (auto &sensor: the_sensor_table) {
             if (sensor.is_good()) {
                 const auto [sign, degrees, hundredths] = Unit_converter::centidegrees_to_parts(sensor.get_temperature());

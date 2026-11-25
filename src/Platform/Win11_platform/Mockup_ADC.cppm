@@ -13,25 +13,26 @@ export namespace Mockup {
      */
     class Mockup_ADC : public Abstract::Abstract_ADC {
         enum : uint32_t { Max_value = (1u << 12) - 1, Default_value = (Max_value + 1) / 2 };
+
         const Abstract::Abstract_DAC *optional_source{};
         uint32_t the_value{Default_value};
 
     public:
         Mockup_ADC() = default;
 
-        explicit Mockup_ADC(const Abstract::Abstract_DAC &source) : optional_source(&source) {
-        }
+        explicit Mockup_ADC(const Abstract::Abstract_DAC &source) : optional_source(&source) {}
 
-        void initialize() override {
-        }
+        void initialize() override {}
 
-        bool get(uint32_t &value) override {
+        bool get(uint8_t /*channel*/, uint32_t &value) override {
             value = optional_source ? optional_source->get() : the_value;
             if (value > Max_value) {
                 value = Max_value;
             }
             return true;
         }
+
+        uint8_t get_number_of_channels() const override { return 24; }
 
         void set_value(const uint32_t value) { the_value = value; }
     };

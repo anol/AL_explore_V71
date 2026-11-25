@@ -79,8 +79,7 @@ public:
           the_temperature_task(board),
           the_bias_regulator_task(board, the_temperature_task),
           use_status_user(status_user),
-          use_status_func(status_func) {
-    }
+          use_status_func(status_func) {}
 
     void initialize() {
         the_bias_regulator_task.initialize();
@@ -96,7 +95,9 @@ public:
     static void print_version();
 
 private:
-    void print_housekeeping();
+    void print_housekeeping() const;
+
+    void print_ADC_channels() const;
 
 protected:
     void v_DIAG(Instruction_major &) override;

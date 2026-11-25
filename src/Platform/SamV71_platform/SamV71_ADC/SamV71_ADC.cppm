@@ -13,25 +13,35 @@ import :ISR;
 
 import Type.Abstract_ADC;
 
-export namespace SamV71
-{
-    class SamV71_ADC : public Abstract::Abstract_ADC
-    {
+export namespace SamV71 {
+    class SamV71_ADC : public Abstract::Abstract_ADC {
     public:
-        enum Channel_number : uint8_t
-        {
-            AFEC_CHANNEL_0 = 0,
-            AFEC_CHANNEL_1,
-            AFEC_CHANNEL_2,
-            AFEC_CHANNEL_3,
-            AFEC_CHANNEL_4,
-            AFEC_CHANNEL_5,
-            AFEC_CHANNEL_6,
-            AFEC_CHANNEL_7,
-            AFEC_CHANNEL_8,
-            AFEC_CHANNEL_9,
-            AFEC_CHANNEL_10,
-            AFEC_TEMPERATURE_SENSOR,
+        enum Channel_number : uint8_t {
+            AFEC0_CHANNEL_0 = 0,
+            AFEC0_CHANNEL_1,
+            AFEC0_CHANNEL_2,
+            AFEC0_CHANNEL_3,
+            AFEC0_CHANNEL_4,
+            AFEC0_CHANNEL_5,
+            AFEC0_CHANNEL_6,
+            AFEC0_CHANNEL_7,
+            AFEC0_CHANNEL_8,
+            AFEC0_CHANNEL_9,
+            AFEC0_CHANNEL_10,
+            AFEC0_TEMPERATURE_SENSOR,
+            AFEC1_CHANNEL_0,
+            AFEC1_CHANNEL_1,
+            AFEC1_CHANNEL_2,
+            AFEC1_CHANNEL_3,
+            AFEC1_CHANNEL_4,
+            AFEC1_CHANNEL_5,
+            AFEC1_CHANNEL_6,
+            AFEC1_CHANNEL_7,
+            AFEC1_CHANNEL_8,
+            AFEC1_CHANNEL_9,
+            AFEC1_CHANNEL_10,
+            AFEC1_CHANNEL_11,
+            Number_of_channels
         };
 
     private:
@@ -41,40 +51,34 @@ export namespace SamV71
         SamV71_ADC_ISR the_ISR;
 
     public:
-        SamV71_ADC() : SamV71_ADC(0, AFEC_TEMPERATURE_SENSOR)
-        {
-        }
+        SamV71_ADC() : SamV71_ADC(0, AFEC0_TEMPERATURE_SENSOR) {}
 
         SamV71_ADC(const uint8_t id, const Channel_number channel)
             : the_id(id), the_channel(channel),
               the_driver(SamV71_ADC_config::get_config(id)),
-              the_ISR(SamV71_ADC_config::get_config(id), the_driver)
-        {
-        }
+              the_ISR(SamV71_ADC_config::get_config(id), the_driver) {}
 
         void initialize() override;
 
-        /// Blocking single conversion of the configured channel; value is the raw 12-bit count.
-        bool get(uint32_t& value) override;
+        bool get(uint8_t channel, uint32_t &value) override;
+
+        [[nodiscard]] uint8_t get_number_of_channels() const override { return Number_of_channels; }
 
         void print_diagnostics() const { the_driver.print_diagnostics(); }
 
         [[nodiscard]] uint8_t get_id() const { return the_id; }
     };
 
-    void SamV71_ADC::initialize()
-    {
+    void SamV71_ADC::initialize() {
         the_driver.enable_clock();
         the_driver.disable_ADC();
         the_driver.setup_ADC_registers();
         the_driver.configure_channel(the_channel);
     }
 
-    bool SamV71_ADC::get(uint32_t& value)
-    {
+    bool SamV71_ADC::get(uint8_t channel, uint32_t &value) {
         SamV71_ADC_request request{the_channel};
-        if (the_driver.convert(&request))
-        {
+        if (the_driver.convert(&request)) {
             value = request.get_value();
             return true;
         }

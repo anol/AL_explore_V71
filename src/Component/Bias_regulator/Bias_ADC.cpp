@@ -46,7 +46,7 @@ namespace Calibration {
 
     int32_t Bias_ADC::read_ADC_mV() const {
         uint32_t value;
-        use_ADC.get(value);
+        use_ADC.get(0, value);
         return to_mV(value);
     }
 

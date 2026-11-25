@@ -36,6 +36,7 @@ import Support.Configuration_repository;
 import Support.Instruction_major;
 import Support.CLI_help;
 import Application.Cadence_control;
+import Utility.Unit_converter;
 
 using namespace IDE3380;
 
@@ -78,9 +79,27 @@ void Housekeeping_provider::v_HELP(Instruction_major &instruction) {
     }
 }
 
-void Housekeeping_provider::print_housekeeping() {
+int32_t ADC_to_mv(uint32_t value) {
+    const int32_t mV{static_cast<int32_t>(value) * 3300 / 4096};
+    return mV;
+}
+
+void Housekeeping_provider::print_ADC_channels() const {
+    auto &ADC{use_board.get_ADC()};
+    const auto number_of_channels = ADC.get_number_of_channels();
+    for (auto channel = 0; channel < number_of_channels; channel++) {
+        if (uint32_t value; ADC.get(channel, value)) {
+            const auto volt = Unit_converter::millivolt_to_volt(ADC_to_mv(value));
+            printf("  ADC: ch=%d, raw=%d, volt=%s%d.%02dmV\r\n",
+                   channel, value, volt.sign, volt.volt, volt.millivolt);
+        }
+    }
+}
+
+void Housekeeping_provider::print_housekeeping() const {
     printf("Housekeeping\r\n");
     the_temperature_task.print_temperatures();
+    print_ADC_channels();
 }
 
 /// @brief Show the housekeeping report.

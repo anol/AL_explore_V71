@@ -29,7 +29,7 @@ export namespace Calibration {
 
         [[nodiscard]] uint32_t read_ADC_raw() const {
             uint32_t value;
-            use_ADC.get(value);
+            use_ADC.get(0, value);
             return value;
         }
 

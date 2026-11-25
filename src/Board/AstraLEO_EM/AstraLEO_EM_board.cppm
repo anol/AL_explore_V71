@@ -21,7 +21,7 @@ export namespace Board {
         SamV71::SamV71_SPI the_SPI{0, the_pin_table.get_pin(Domain::Pin_SPI_CS_ASIC1)};
         SamV71_I2C the_I2C{0}; // TWIHS0 (PA3 = SDA, PA4 = SCL)
         SamV71_USART the_UART{1};
-        SamV71_ADC the_ADC{0, SamV71_ADC::AFEC_CHANNEL_0}; // AFEC0_AD0 (PD30)
+        SamV71_ADC the_ADC{0, SamV71_ADC::AFEC0_CHANNEL_0}; // AFEC0_AD0 (PD30)
         SamV71_DAC the_DAC{};
 
     public:
