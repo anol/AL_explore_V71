@@ -60,8 +60,8 @@ export namespace Application {
         void initialize() {
             the_mode_control.initialize();
             the_data_provider.initialize();
-            the_housekeeper.initialize(); // the bias hardware
-            the_IDE3380.initialize();     // then the readout
+            the_housekeeper.initialize();
+            the_IDE3380.initialize();
         }
 
         bool on_indication(Instruction_major &instruction) override;

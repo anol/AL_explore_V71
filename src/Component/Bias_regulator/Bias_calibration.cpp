@@ -8,6 +8,8 @@
 module;
 #include <cstdint>
 #include <cstdio>
+#include <cmath>
+
 #include "Persistent_parameter_id.h"
 
 module Component.Bias_calibration;
@@ -29,7 +31,6 @@ namespace Calibration {
     void Bias_calibration::initialize() {
         the_DAC.initialize();
         the_ADC.initialize();
-        hw_init_bias_regulator();
     }
 
     Status_code Bias_calibration::update_setpoints(Repository::Configuration_repository &repository) {
@@ -71,33 +72,42 @@ namespace Calibration {
         return Status_code(success);
     }
 
-    void Bias_calibration::hw_init_bias_regulator() {
-        // HAL_GPIO_WritePin(VBIAS_CTRL_GPIO_Port, VBIAS_CTRL_Pin, GPIO_PIN_SET); //turn on VBIAS
-    }
-
     void Bias_calibration::print_status() const {
         const auto temperature = Unit_converter::centidegrees_to_parts(get_temperature());
         printf(", temp=%s%d.%02d, bias=%d",
-               temperature.sign, temperature.degrees, temperature.hundredths, the_bias_volt);
+               temperature.sign, temperature.degrees, temperature.hundredths, the_bias_actual_volt);
     }
 
     void Bias_calibration::print_diag() {
-        const auto temperature = Unit_converter::centidegrees_to_parts(get_temperature());
-        int32_t C25;
-        int32_t coeff;
-        get_temperature_factors(C25, coeff);
-        printf("Bias: 25C=%d, coeff=%d, temp=%s%d.%02d, cal=%d, fail=%d\r\n",
-               C25, coeff, temperature.sign, temperature.degrees, temperature.hundredths,
-               cnt_bias_cal, cnt_bias_failed);
+        print_bias();
+        int32_t low_volt;
+        int32_t high_volt;
+        the_ADC.get_setpoint_volt(low_volt, high_volt);
+        printf("Cal: 25C=%dmV, coeff=%dmV/C, low-volt=%dmV, high-volt=%dmV\r\n",
+               static_cast<int32_t>(round(the_bias_25C)),
+               static_cast<int32_t>(round(the_temp_coeff)),
+               low_volt, high_volt);
         the_DAC.print_diag();
         the_ADC.print_diag();
+        printf("Cnt: cal=%d, fail=%d\r\n", cnt_bias_cal, cnt_bias_failed);
     }
 
-    int32_t Bias_calibration::calibrateADC(int32_t raw, int32_t BIAScal35, int32_t BIAScal45, int32_t ADC_cal35,
-                                           int32_t ADC_cal45) {
-        double m = ((double) (BIAScal45 - BIAScal35)) / ((double) (ADC_cal45 - ADC_cal35));
-        // slope: 10000/9970 ≈ 1.00301
-        return (int32_t) (BIAScal45 + m * (raw - ADC_cal45));
+    void Bias_calibration::print_bias() const {
+        const auto temperature = Unit_converter::centidegrees_to_parts(get_temperature());
+        printf("Bias: temp=%s%d.%02dC, set=%dmV, volt=%dmV, error=%dmV\r\n",
+               temperature.sign, temperature.degrees, temperature.hundredths,
+               get_setpoint(),
+               get_voltage(),
+               get_error());
+    }
+
+    void Bias_calibration::get_temperature_factors(int32_t &bias_25C, int32_t &coeff) const {
+        bias_25C = static_cast<int32_t>(round(the_bias_25C));
+        coeff = static_cast<int32_t>(round(the_temp_coeff));
+    }
+
+    int32_t Bias_calibration::get_25C_setpoint() const {
+        return static_cast<int32_t>(round(the_bias_25C));
     }
 
     void Bias_calibration::bias_temperature_control(const int32_t temperature) {
@@ -110,35 +120,35 @@ namespace Calibration {
         }
     }
 
-    int32_t Bias_calibration::temperature_to_bias(const double temperature) {
-        auto bias = the_bias_25C + the_temp_coeff * (temperature - 25.0);
+    int32_t Bias_calibration::temperature_to_bias(const double temperature) const {
+        const auto bias = the_bias_25C + the_temp_coeff * (temperature - 25.0);
         return static_cast<int32_t>(bias);
     }
 
     Status_code Bias_calibration::calibrate_bias(const double temperature) {
-        int32_t bias;
-        if (the_bias_25C != 0) {
-            bias = the_bias_25C;
-        } else {
-            bias = temperature_to_bias(temperature);
-        }
-        return the_DAC.set_DAC_mV(bias);
+        the_bias_set_volt = temperature_to_bias(temperature);
+        const auto status = the_DAC.set_DAC_mV(the_bias_set_volt);
+        the_bias_actual_volt = the_ADC.read_ADC_mV();
+        the_bias_error = the_bias_set_volt - the_bias_actual_volt;
+        return status;
         // return regulator_loop(bias);
     }
 
-    Status_code Bias_calibration::regulator_loop(int32_t wanted_bias) {
+    Status_code Bias_calibration::regulator_loop(const int32_t wanted_bias) {
         int32_t the_bias_offset = 0;
         enum { Volt_50mV = 5, Delay_10ms = 10, Iterations = 20, Max_offset = 6000, Min_offset = -3000 };
-        Bias_calibration::the_bias_volt = Bias_calibration::the_ADC.read_ADC_mV();
+        the_bias_actual_volt = Bias_calibration::the_ADC.read_ADC_mV();
         for (int i = 0; i < Iterations; i++) {
-            auto success = Bias_calibration::the_DAC.set_DAC_mV(wanted_bias + the_bias_offset);
+            the_bias_set_volt = wanted_bias + the_bias_offset;
+            const auto success = the_DAC.set_DAC_mV(the_bias_set_volt);
             // HAL_Delay(Delay_10ms);
-            Bias_calibration::the_bias_volt = Bias_calibration::the_ADC.read_ADC_mV();
+            the_bias_actual_volt = the_ADC.read_ADC_mV();
             // Compare VBias with wanted VBias
-            if (Bias_calibration::the_bias_volt < wanted_bias - Volt_50mV && the_bias_offset <= Max_offset) {
+            if (the_bias_actual_volt < wanted_bias - Volt_50mV && the_bias_offset <= Max_offset) {
                 // When VBias is lower increase VBias
                 the_bias_offset += Volt_50mV;
-            } else if (Bias_calibration::the_bias_volt > wanted_bias + Volt_50mV && the_bias_offset >= Min_offset) {
+            } else if (the_bias_actual_volt > wanted_bias + Volt_50mV && the_bias_offset >=
+                       Min_offset) {
                 // When VBias is higher decrease VBias
                 the_bias_offset -= Volt_50mV;
             } else {

@@ -82,7 +82,10 @@ public:
           use_status_func(status_func) {
     }
 
-    void initialize() { the_bias_regulator_task.initialize(); }
+    void initialize() {
+        the_bias_regulator_task.initialize();
+        the_temperature_task.initialize();
+    }
 
     Bias_regulator::Bias_regulator_task &get_bias_regulator() { return the_bias_regulator_task; }
 

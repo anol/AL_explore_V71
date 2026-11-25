@@ -41,13 +41,11 @@ namespace Calibration {
     }
 
     void Bias_DAC::print_diag() const {
-        auto DAC_raw = use_DAC.get();
-        printf("DAC: raw=%d, mV=%d, low-set=%d, high-set=%d, low-volt=%d, high-volt=%d\r\n",
+        const auto DAC_raw = use_DAC.get();
+        printf("DAC: raw=%d, mV=%d, low-set=%d, high-set=%d\r\n",
                DAC_raw, the_DAC_mV,
                static_cast<uint32_t>(round(the_low_setpoint)),
-               static_cast<uint32_t>(round(the_high_setpoint)),
-               static_cast<uint32_t>(round(the_low_volt)),
-               static_cast<uint32_t>(round(the_high_volt)));
+               static_cast<uint32_t>(round(the_high_setpoint)));
     }
 
     uint32_t Bias_DAC::mV_to_DAC(double bias_mV) const {

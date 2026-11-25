@@ -48,13 +48,7 @@ using namespace Application;
 
 /// @brief Show setpoint, voltage and error.
 void Instrument_calibration_provider::v_BIAS(Instruction_major &instruction) {
-    const auto temperature = Unit_converter::centidegrees_to_parts(use_bias.get_temperature());
-    printf("Bias: C25=%dmV, temperature=%s%d.%02dC, setpoint=%dmV, voltage=%dmV, error=%dmV\r\n",
-           use_bias.get_25C_setpoint(),
-           temperature.sign, temperature.degrees, temperature.hundredths,
-           use_bias.get_setpoint(),
-           use_bias.get_voltage(),
-           use_bias.get_error());
+    use_bias.print_bias();
     instruction.print_ack();
 }
 

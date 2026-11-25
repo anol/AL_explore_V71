@@ -23,9 +23,9 @@ export namespace Calibration {
         void initialize() {
         }
 
-        void print_diag();
+        void print_diag() const;
 
-        [[nodiscard]] int32_t read_ADC_mV();
+        [[nodiscard]] int32_t read_ADC_mV() const;
 
         [[nodiscard]] uint32_t read_ADC_raw() const {
             uint32_t value;

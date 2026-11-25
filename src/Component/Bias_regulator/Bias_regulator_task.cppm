@@ -69,7 +69,7 @@ namespace Bias_regulator {
             delay_until(Start_delay_millis);
             while (true) {
                 delay_until(Periodic_delay_millis);
-                auto temperature = use_temperature_sensor.get_temperature();
+                const auto temperature = use_temperature_sensor.get_temperature();
                 if (optional_start_semaphore) {
                     optional_start_semaphore->take(); // blocks during startup and calibration mode
                     restart_period();                 // no catch-up burst after a long halt
